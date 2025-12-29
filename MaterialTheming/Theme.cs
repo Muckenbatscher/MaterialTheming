@@ -1,11 +1,6 @@
-﻿using M2TWinForms.Themes.MaterialDesign;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MaterialTheming.MaterialDesign;
 
-namespace M2TWinForms.Themes
+namespace MaterialTheming
 {
     public partial class Theme
     {

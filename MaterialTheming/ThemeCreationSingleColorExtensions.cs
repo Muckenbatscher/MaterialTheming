@@ -1,17 +1,12 @@
-﻿using M2TWinForms.Themes.MaterialDesign;
-using System;
-using System.Collections.Generic;
+﻿using MaterialTheming.MaterialDesign;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace M2TWinForms.Themes
+namespace MaterialTheming
 {
     partial class Theme
     {
-        private const double SecondaryChromaFactor = (double)TargetChromas.Primary / TargetChromas.Secondary ;
-        private const double TertiaryChromaFactor = (double)TargetChromas.Primary / TargetChromas.Tertiary ;
+        private const double SecondaryChromaFactor = (double)TargetChromas.Primary / TargetChromas.Secondary;
+        private const double TertiaryChromaFactor = (double)TargetChromas.Primary / TargetChromas.Tertiary;
         private const double ErrorChromaFactor = (double)TargetChromas.Primary / TargetChromas.Error;
         private const double NeutralChromaFactor = (double)TargetChromas.Primary / TargetChromas.Neutral;
         private const double NeutralVariantChromaFactor = (double)TargetChromas.Primary / TargetChromas.NeutralVariant;

@@ -1,12 +1,7 @@
-﻿using M2TWinForms.Themes.Creation;
-using System;
-using System.Collections.Generic;
+﻿using MaterialTheming.Creation;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace M2TWinForms.Themes.MaterialDesign
+namespace MaterialTheming.MaterialDesign
 {
     public class ThemeColors : IThemeColors
     {

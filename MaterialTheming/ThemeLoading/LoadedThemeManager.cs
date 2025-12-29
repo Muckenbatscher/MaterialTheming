@@ -1,18 +1,13 @@
-﻿using M2TWinForms.Themes.MaterialDesign;
-using System;
-using System.Collections.Generic;
+﻿using MaterialTheming.MaterialDesign;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace M2TWinForms.Themes.ThemeLoading
+namespace MaterialTheming.ThemeLoading
 {
     public class LoadedThemeManager
     {
         public Theme? CurrentLoadedTheme { get; private set; }
-        public bool IsThemeLoaded 
-            => CurrentLoadedTheme != null; 
+        public bool IsThemeLoaded
+            => CurrentLoadedTheme != null;
 
         public void LoadTheme(Theme theme)
         {
@@ -57,7 +52,7 @@ namespace M2TWinForms.Themes.ThemeLoading
             };
         }
 
-        public bool IsDarkTheme() 
+        public bool IsDarkTheme()
             => CurrentLoadedTheme!.IsDark;
     }
 }

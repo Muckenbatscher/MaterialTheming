@@ -1,15 +1,7 @@
-﻿using M2TWinForms.Themes.Creation;
-using M2TWinForms.Themes.MaterialDesign;
-using M2TWinForms.Themes.ThemeBuilderConversion;
-using M2TWinForms.Themes.ThemeBuilderConversion.SerializationModels;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MaterialTheming.Creation;
+using MaterialTheming.MaterialDesign;
 
-namespace M2TWinForms.Themes
+namespace MaterialTheming
 {
     public partial class Theme
     {
@@ -42,8 +34,8 @@ namespace M2TWinForms.Themes
                 OnSurface = themeColors.OnSurface,
                 OnSurfaceVariant = themeColors.OnSurfaceVariant
             };
-            return new Theme() 
-            { 
+            return new Theme()
+            {
                 Colors = colors,
                 IsDark = isDark,
             };

@@ -1,11 +1,6 @@
-﻿using M2TWinForms.Themes.Creation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MaterialTheming.Creation;
 
-namespace M2TWinForms.Themes.MaterialDesign
+namespace MaterialTheming.MaterialDesign
 {
     public class HctTonalPalette
     {

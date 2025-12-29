@@ -1,13 +1,8 @@
-﻿using M2TWinForms.Themes.Creation;
-using M2TWinForms.Themes.MaterialDesign;
-using System;
-using System.Collections.Generic;
+﻿using MaterialTheming.Creation;
+using MaterialTheming.MaterialDesign;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace M2TWinForms.Themes.ThemeProviders
+namespace MaterialTheming.ThemeProviders
 {
     internal class DefaultLightThemeProvider : DefaultThemeProvider
     {

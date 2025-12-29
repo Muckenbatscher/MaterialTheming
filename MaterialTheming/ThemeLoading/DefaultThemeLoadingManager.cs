@@ -1,7 +1,7 @@
-﻿using M2TWinForms.Themes.ThemeProviders;
+﻿using MaterialTheming.ThemeProviders;
 using System.Reflection;
 
-namespace M2TWinForms.Themes.ThemeLoading
+namespace MaterialTheming.ThemeLoading
 {
     public class DefaultThemeLoadingManager
     {
@@ -49,7 +49,7 @@ namespace M2TWinForms.Themes.ThemeLoading
             if (nonRelevantPrefixes.Any(p => name.StartsWith($"{p}.")))
                 return false;
 
-            string[] nonRelevantNames = ["netstandard", "mscorlib", "Accessibility", 
+            string[] nonRelevantNames = ["netstandard", "mscorlib", "Accessibility",
                 "DesignToolsServer"]; //Visual Studio Winforms Designer
             if (nonRelevantNames.Contains(name))
                 return false;

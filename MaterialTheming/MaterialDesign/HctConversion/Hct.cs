@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 
-namespace M2TWinForms.Themes.MaterialDesign.HctConversion
+namespace MaterialTheming.MaterialDesign.HctConversion
 {
     internal sealed class Hct
     {

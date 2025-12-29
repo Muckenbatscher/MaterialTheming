@@ -1,12 +1,7 @@
-﻿using M2TWinForms.Themes.ThemeBuilderConversion.SerializationModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using MaterialTheming.ThemeBuilderConversion.SerializationModels;
 using System.Text.Json;
-using System.Threading.Tasks;
 
-namespace M2TWinForms.Themes.ThemeBuilderConversion
+namespace MaterialTheming.ThemeBuilderConversion
 {
     internal class MaterialThemeDeserializer
     {

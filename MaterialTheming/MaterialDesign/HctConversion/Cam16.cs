@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace M2TWinForms.Themes.MaterialDesign.HctConversion
+namespace MaterialTheming.MaterialDesign.HctConversion
 {
     internal class Cam16
     {
@@ -37,7 +37,7 @@ namespace M2TWinForms.Themes.MaterialDesign.HctConversion
         // Avoid allocations during conversion by pre-allocating an array.
         private readonly double[] tempArray = new double[] { 0.0, 0.0, 0.0 };
 
-       
+
         /** Hue in CAM16 */
         public double GetHue()
         {

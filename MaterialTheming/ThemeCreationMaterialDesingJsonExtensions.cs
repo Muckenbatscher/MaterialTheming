@@ -1,13 +1,8 @@
-﻿using M2TWinForms.Themes.MaterialDesign;
-using M2TWinForms.Themes.ThemeBuilderConversion.SerializationModels;
-using M2TWinForms.Themes.ThemeBuilderConversion;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MaterialTheming.MaterialDesign;
+using MaterialTheming.ThemeBuilderConversion;
+using MaterialTheming.ThemeBuilderConversion.SerializationModels;
 
-namespace M2TWinForms.Themes
+namespace MaterialTheming
 {
     public partial class Theme
     {
