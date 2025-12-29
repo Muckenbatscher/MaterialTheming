@@ -1,0 +1,92 @@
+name: Publish NuGet packages
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+' 
+      - 'v[0-9]+.[0-9]+.[0-9]+-*'
+      
+env:
+  PACKAGES_ARTIFACT: nuget-package-${{ github.ref_name }}
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.full_without_prefix }}
+      valid: ${{ steps.version.outputs.is_valid }}
+    steps:
+    - name: Check Version Format in Tag
+      uses: nowsprinting/check-version-format-action@v4.0.7
+      id: version
+      with:
+        prefix: 'v'
+        
+  build-package:
+    if: ${{ needs.version.outputs.valid == 'true' }}
+    needs: version 
+    runs-on: ubuntu-latest
+    
+    env:
+      VERSION: ${{ needs.version.outputs.version }} 
+      OUTDIR: 'PackageBuild'
+
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 10.0.x
+
+    - name: Restore project dependencies
+      run: dotnet restore -p:EnableWindowsTargeting=true
+
+    - name: Build package file
+      run: |
+        dotnet pack --no-restore \
+          -c Release -o ${{ env.OUTDIR }} -p:EnableWindowsTargeting=true \
+          -p:PackageVersion=$VERSION
+
+    - name: Upload built packages as artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.PACKAGES_ARTIFACT }}-${{ matrix.project.name }}
+        path: ${{ env.OUTDIR }}/*.nupkg
+        retention-days: 1
+        
+  publish-package:
+    if: ${{ needs.version.outputs.valid == 'true' }}
+    needs: 
+      - version
+      - build-package
+    runs-on: ubuntu-latest
+            
+    permissions:
+      packages: write
+
+    env:
+      GITHUB_USER: ${{ github.repository_owner }}
+      PACKAGE_DIR: 'packages'
+
+    steps:
+    - uses: actions/download-artifact@v4
+      with:
+        path: ${{ env.PACKAGE_DIR }}
+
+    - uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+        
+    - name: Add GitHub Packages source
+      run: |
+        dotnet nuget add source "https://nuget.pkg.github.com/${{ env.GITHUB_USER }}/index.json" \
+          --username ${{ env.GITHUB_USER }} \
+          --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text \
+          --name github
+          
+    - name: Push all to GitHub Packages
+      run: |
+        for f in ${{ env.PACKAGE_DIR }}/*/*.nupkg
+        do
+          echo "Pushing $f to GitHub Packages source..."
+          dotnet nuget push "$f" --source "github"
+        done
