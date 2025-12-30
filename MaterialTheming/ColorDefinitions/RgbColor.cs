@@ -46,4 +46,13 @@ public class RgbColor
     {
         return $"RGB({Red}, {Green}, {Blue})";
     }
+
+    public override bool Equals(object? obj)
+    {
+        return obj is RgbColor color
+            && Red == color.Red
+            && Green == color.Green
+            && Blue == color.Blue;
+    }
+    public override int GetHashCode() => HashCode.Combine(Red, Green, Blue);
 }
