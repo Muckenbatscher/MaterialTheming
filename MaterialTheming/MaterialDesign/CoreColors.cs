@@ -1,15 +1,15 @@
-﻿using MaterialTheming.Creation;
-using System.Drawing;
+﻿using MaterialTheming.ColorDefinitions;
+using MaterialTheming.Creation;
 
 namespace MaterialTheming.MaterialDesign
 {
     public class CoreColors : ICoreColors
     {
-        public Color Primary { get; set; }
-        public Color Secondary { get; set; }
-        public Color Tertiary { get; set; }
-        public Color Error { get; set; }
-        public Color Neutral { get; set; }
-        public Color NeutralVariant { get; set; }
+        public RgbColor Primary { get; set; }
+        public RgbColor Secondary { get; set; }
+        public RgbColor Tertiary { get; set; }
+        public RgbColor Error { get; set; }
+        public RgbColor Neutral { get; set; }
+        public RgbColor NeutralVariant { get; set; }
     }
 }

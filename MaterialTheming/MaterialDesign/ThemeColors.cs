@@ -1,33 +1,33 @@
-﻿using MaterialTheming.Creation;
-using System.Drawing;
+﻿using MaterialTheming.ColorDefinitions;
+using MaterialTheming.Creation;
 
 namespace MaterialTheming.MaterialDesign
 {
     public class ThemeColors : IThemeColors
     {
-        public Color Primary { get; set; }
-        public Color OnPrimary { get; set; }
-        public Color PrimaryContainer { get; set; }
-        public Color OnPrimaryContainer { get; set; }
-        public Color Secondary { get; set; }
-        public Color OnSecondary { get; set; }
-        public Color SecondaryContainer { get; set; }
-        public Color OnSecondaryContainer { get; set; }
-        public Color Tertiary { get; set; }
-        public Color OnTertiary { get; set; }
-        public Color TertiaryContainer { get; set; }
-        public Color OnTertiaryContainer { get; set; }
-        public Color Error { get; set; }
-        public Color OnError { get; set; }
-        public Color ErrorContainer { get; set; }
-        public Color OnErrorContainer { get; set; }
-        public Color Surface { get; set; }
-        public Color SurfaceContainer { get; set; }
-        public Color SurfaceContainerLowest { get; set; }
-        public Color SurfaceContainerLow { get; set; }
-        public Color SurfaceContainerHigh { get; set; }
-        public Color SurfaceContainerHighest { get; set; }
-        public Color OnSurface { get; set; }
-        public Color OnSurfaceVariant { get; set; }
+        public RgbColor Primary { get; set; }
+        public RgbColor OnPrimary { get; set; }
+        public RgbColor PrimaryContainer { get; set; }
+        public RgbColor OnPrimaryContainer { get; set; }
+        public RgbColor Secondary { get; set; }
+        public RgbColor OnSecondary { get; set; }
+        public RgbColor SecondaryContainer { get; set; }
+        public RgbColor OnSecondaryContainer { get; set; }
+        public RgbColor Tertiary { get; set; }
+        public RgbColor OnTertiary { get; set; }
+        public RgbColor TertiaryContainer { get; set; }
+        public RgbColor OnTertiaryContainer { get; set; }
+        public RgbColor Error { get; set; }
+        public RgbColor OnError { get; set; }
+        public RgbColor ErrorContainer { get; set; }
+        public RgbColor OnErrorContainer { get; set; }
+        public RgbColor Surface { get; set; }
+        public RgbColor SurfaceContainer { get; set; }
+        public RgbColor SurfaceContainerLowest { get; set; }
+        public RgbColor SurfaceContainerLow { get; set; }
+        public RgbColor SurfaceContainerHigh { get; set; }
+        public RgbColor SurfaceContainerHighest { get; set; }
+        public RgbColor OnSurface { get; set; }
+        public RgbColor OnSurfaceVariant { get; set; }
     }
 }

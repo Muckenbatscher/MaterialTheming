@@ -1,6 +1,6 @@
-﻿using MaterialTheming.MaterialDesign;
+﻿using MaterialTheming.ColorDefinitions;
+using MaterialTheming.MaterialDesign;
 using MaterialTheming.ThemeBuilderConversion.SerializationModels;
-using System.Drawing;
 
 namespace MaterialTheming.ThemeBuilderConversion
 {
@@ -10,34 +10,34 @@ namespace MaterialTheming.ThemeBuilderConversion
         {
             var themeColors = new ThemeColors()
             {
-                Primary = ColorTranslator.FromHtml(scheme.Primary),
-                OnPrimary = ColorTranslator.FromHtml(scheme.OnPrimary),
-                PrimaryContainer = ColorTranslator.FromHtml(scheme.PrimaryContainer),
-                OnPrimaryContainer = ColorTranslator.FromHtml(scheme.OnPrimaryContainer),
+                Primary = RgbColor.FromHtml(scheme.Primary),
+                OnPrimary = RgbColor.FromHtml(scheme.OnPrimary),
+                PrimaryContainer = RgbColor.FromHtml(scheme.PrimaryContainer),
+                OnPrimaryContainer = RgbColor.FromHtml(scheme.OnPrimaryContainer),
 
-                Secondary = ColorTranslator.FromHtml(scheme.Secondary),
-                OnSecondary = ColorTranslator.FromHtml(scheme.OnSecondary),
-                SecondaryContainer = ColorTranslator.FromHtml(scheme.SecondaryContainer),
-                OnSecondaryContainer = ColorTranslator.FromHtml(scheme.OnSecondaryContainer),
+                Secondary = RgbColor.FromHtml(scheme.Secondary),
+                OnSecondary = RgbColor.FromHtml(scheme.OnSecondary),
+                SecondaryContainer = RgbColor.FromHtml(scheme.SecondaryContainer),
+                OnSecondaryContainer = RgbColor.FromHtml(scheme.OnSecondaryContainer),
 
-                Tertiary = ColorTranslator.FromHtml(scheme.Tertiary),
-                OnTertiary = ColorTranslator.FromHtml(scheme.OnTertiary),
-                TertiaryContainer = ColorTranslator.FromHtml(scheme.TertiaryContainer),
-                OnTertiaryContainer = ColorTranslator.FromHtml(scheme.OnTertiaryContainer),
+                Tertiary = RgbColor.FromHtml(scheme.Tertiary),
+                OnTertiary = RgbColor.FromHtml(scheme.OnTertiary),
+                TertiaryContainer = RgbColor.FromHtml(scheme.TertiaryContainer),
+                OnTertiaryContainer = RgbColor.FromHtml(scheme.OnTertiaryContainer),
 
-                Error = ColorTranslator.FromHtml(scheme.Error),
-                OnError = ColorTranslator.FromHtml(scheme.OnError),
-                ErrorContainer = ColorTranslator.FromHtml(scheme.ErrorContainer),
-                OnErrorContainer = ColorTranslator.FromHtml(scheme.OnErrorContainer),
+                Error = RgbColor.FromHtml(scheme.Error),
+                OnError = RgbColor.FromHtml(scheme.OnError),
+                ErrorContainer = RgbColor.FromHtml(scheme.ErrorContainer),
+                OnErrorContainer = RgbColor.FromHtml(scheme.OnErrorContainer),
 
-                Surface = ColorTranslator.FromHtml(scheme.Surface),
-                SurfaceContainer = ColorTranslator.FromHtml(scheme.SurfaceContainer),
-                SurfaceContainerLowest = ColorTranslator.FromHtml(scheme.SurfaceContainerLowest),
-                SurfaceContainerLow = ColorTranslator.FromHtml(scheme.SurfaceContainerLow),
-                SurfaceContainerHigh = ColorTranslator.FromHtml(scheme.SurfaceContainerHigh),
-                SurfaceContainerHighest = ColorTranslator.FromHtml(scheme.SurfaceContainerHighest),
-                OnSurface = ColorTranslator.FromHtml(scheme.OnSurface),
-                OnSurfaceVariant = ColorTranslator.FromHtml(scheme.OnSurfaceVariant)
+                Surface = RgbColor.FromHtml(scheme.Surface),
+                SurfaceContainer = RgbColor.FromHtml(scheme.SurfaceContainer),
+                SurfaceContainerLowest = RgbColor.FromHtml(scheme.SurfaceContainerLowest),
+                SurfaceContainerLow = RgbColor.FromHtml(scheme.SurfaceContainerLow),
+                SurfaceContainerHigh = RgbColor.FromHtml(scheme.SurfaceContainerHigh),
+                SurfaceContainerHighest = RgbColor.FromHtml(scheme.SurfaceContainerHighest),
+                OnSurface = RgbColor.FromHtml(scheme.OnSurface),
+                OnSurfaceVariant = RgbColor.FromHtml(scheme.OnSurfaceVariant)
             };
             return themeColors;
         }
