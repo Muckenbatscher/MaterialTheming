@@ -1,14 +1,14 @@
-﻿using System.Drawing;
+﻿using MaterialTheming.ColorDefinitions;
 
 namespace MaterialTheming.Creation
 {
     public interface ICoreColors
     {
-        public Color Primary { get; }
-        public Color Secondary { get; }
-        public Color Tertiary { get; }
-        public Color Error { get; }
-        public Color Neutral { get; }
-        public Color NeutralVariant { get; }
+        public RgbColor Primary { get; }
+        public RgbColor Secondary { get; }
+        public RgbColor Tertiary { get; }
+        public RgbColor Error { get; }
+        public RgbColor Neutral { get; }
+        public RgbColor NeutralVariant { get; }
     }
 }

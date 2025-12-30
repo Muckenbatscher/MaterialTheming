@@ -1,4 +1,5 @@
-﻿using MaterialTheming.Creation;
+﻿using MaterialTheming.ColorDefinitions;
+using MaterialTheming.Creation;
 using MaterialTheming.MaterialDesign;
 
 namespace MaterialTheming
@@ -21,62 +22,62 @@ namespace MaterialTheming
             double surfaceContainerHighTone = mode == ThemeMode.Dark ? 18 : 89;
             double surfaceContainerHighestTone = mode == ThemeMode.Dark ? 22 : 86;
 
-            var primaryHct = new HctColor(coreColors.Primary);
+            var primaryHct = HctColor.FromRgbColor(coreColors.Primary);
             if (normalizeChroma)
                 primaryHct.Chroma = TargetChromas.Primary;
             var primaryPalette = new HctTonalPalette(primaryHct);
 
-            var secondaryHct = new HctColor(coreColors.Secondary);
+            var secondaryHct = HctColor.FromRgbColor(coreColors.Secondary);
             if (normalizeChroma)
                 secondaryHct.Chroma = TargetChromas.Secondary;
             var secondaryPalette = new HctTonalPalette(secondaryHct);
 
-            var tertiaryHct = new HctColor(coreColors.Tertiary);
+            var tertiaryHct = HctColor.FromRgbColor(coreColors.Tertiary);
             if (normalizeChroma)
                 tertiaryHct.Chroma = TargetChromas.Tertiary;
             var tertiaryPalette = new HctTonalPalette(tertiaryHct);
 
-            var errorHct = new HctColor(coreColors.Error);
+            var errorHct = HctColor.FromRgbColor(coreColors.Error);
             if (normalizeChroma)
                 errorHct.Chroma = TargetChromas.Error;
             var errorPalette = new HctTonalPalette(errorHct);
 
-            var neutralHct = new HctColor(coreColors.Neutral);
+            var neutralHct = HctColor.FromRgbColor(coreColors.Neutral);
             if (normalizeChroma)
                 neutralHct.Chroma = TargetChromas.Neutral;
             var neutralPalette = new HctTonalPalette(neutralHct);
 
-            var neutralVariantHct = new HctColor(coreColors.NeutralVariant);
+            var neutralVariantHct = HctColor.FromRgbColor(coreColors.NeutralVariant);
             if (normalizeChroma)
                 neutralVariantHct.Chroma = TargetChromas.NeutralVariant;
             var neutralVariantPalette = new HctTonalPalette(neutralVariantHct);
 
             var colors = new ThemeColors()
             {
-                Primary = primaryPalette.GetHctForTone(backgroundTone).GetColor(),
-                OnPrimary = primaryPalette.GetHctForTone(foregroundTone).GetColor(),
-                PrimaryContainer = primaryPalette.GetHctForTone(containerBackgroundTone).GetColor(),
-                OnPrimaryContainer = primaryPalette.GetHctForTone(containerForegroundTone).GetColor(),
-                Secondary = secondaryPalette.GetHctForTone(backgroundTone).GetColor(),
-                OnSecondary = secondaryPalette.GetHctForTone(foregroundTone).GetColor(),
-                SecondaryContainer = secondaryPalette.GetHctForTone(containerBackgroundTone).GetColor(),
-                OnSecondaryContainer = secondaryPalette.GetHctForTone(containerForegroundTone).GetColor(),
-                Tertiary = tertiaryPalette.GetHctForTone(backgroundTone).GetColor(),
-                OnTertiary = tertiaryPalette.GetHctForTone(foregroundTone).GetColor(),
-                TertiaryContainer = tertiaryPalette.GetHctForTone(containerBackgroundTone).GetColor(),
-                OnTertiaryContainer = tertiaryPalette.GetHctForTone(containerForegroundTone).GetColor(),
-                Error = errorPalette.GetHctForTone(backgroundTone).GetColor(),
-                OnError = errorPalette.GetHctForTone(foregroundTone).GetColor(),
-                ErrorContainer = errorPalette.GetHctForTone(containerBackgroundTone).GetColor(),
-                OnErrorContainer = errorPalette.GetHctForTone(containerForegroundTone).GetColor(),
-                Surface = neutralPalette.GetHctForTone(surfaceBackgroundTone).GetColor(),
-                SurfaceContainer = neutralPalette.GetHctForTone(surfaceContainerTone).GetColor(),
-                SurfaceContainerLowest = neutralPalette.GetHctForTone(surfaceContainerLowestTone).GetColor(),
-                SurfaceContainerLow = neutralPalette.GetHctForTone(surfaceContainerLowTone).GetColor(),
-                SurfaceContainerHigh = neutralPalette.GetHctForTone(surfaceContainerHighTone).GetColor(),
-                SurfaceContainerHighest = neutralPalette.GetHctForTone(surfaceContainerHighestTone).GetColor(),
-                OnSurface = neutralPalette.GetHctForTone(surfaceForegroundTone).GetColor(),
-                OnSurfaceVariant = neutralVariantPalette.GetHctForTone(surfaceVariantForegroundTone).GetColor()
+                Primary = primaryPalette.GetHctForTone(backgroundTone).ToRgbColor(),
+                OnPrimary = primaryPalette.GetHctForTone(foregroundTone).ToRgbColor(),
+                PrimaryContainer = primaryPalette.GetHctForTone(containerBackgroundTone).ToRgbColor(),
+                OnPrimaryContainer = primaryPalette.GetHctForTone(containerForegroundTone).ToRgbColor(),
+                Secondary = secondaryPalette.GetHctForTone(backgroundTone).ToRgbColor(),
+                OnSecondary = secondaryPalette.GetHctForTone(foregroundTone).ToRgbColor(),
+                SecondaryContainer = secondaryPalette.GetHctForTone(containerBackgroundTone).ToRgbColor(),
+                OnSecondaryContainer = secondaryPalette.GetHctForTone(containerForegroundTone).ToRgbColor(),
+                Tertiary = tertiaryPalette.GetHctForTone(backgroundTone).ToRgbColor(),
+                OnTertiary = tertiaryPalette.GetHctForTone(foregroundTone).ToRgbColor(),
+                TertiaryContainer = tertiaryPalette.GetHctForTone(containerBackgroundTone).ToRgbColor(),
+                OnTertiaryContainer = tertiaryPalette.GetHctForTone(containerForegroundTone).ToRgbColor(),
+                Error = errorPalette.GetHctForTone(backgroundTone).ToRgbColor(),
+                OnError = errorPalette.GetHctForTone(foregroundTone).ToRgbColor(),
+                ErrorContainer = errorPalette.GetHctForTone(containerBackgroundTone).ToRgbColor(),
+                OnErrorContainer = errorPalette.GetHctForTone(containerForegroundTone).ToRgbColor(),
+                Surface = neutralPalette.GetHctForTone(surfaceBackgroundTone).ToRgbColor(),
+                SurfaceContainer = neutralPalette.GetHctForTone(surfaceContainerTone).ToRgbColor(),
+                SurfaceContainerLowest = neutralPalette.GetHctForTone(surfaceContainerLowestTone).ToRgbColor(),
+                SurfaceContainerLow = neutralPalette.GetHctForTone(surfaceContainerLowTone).ToRgbColor(),
+                SurfaceContainerHigh = neutralPalette.GetHctForTone(surfaceContainerHighTone).ToRgbColor(),
+                SurfaceContainerHighest = neutralPalette.GetHctForTone(surfaceContainerHighestTone).ToRgbColor(),
+                OnSurface = neutralPalette.GetHctForTone(surfaceForegroundTone).ToRgbColor(),
+                OnSurfaceVariant = neutralVariantPalette.GetHctForTone(surfaceVariantForegroundTone).ToRgbColor()
             };
 
             bool isDark = mode == ThemeMode.Dark;
