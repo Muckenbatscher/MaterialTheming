@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace MaterialTheming.ThemeBuilderConversion.SerializationModels
+namespace MaterialTheming.MaterialThemeBuilderConversion.SerializationModels
 {
     internal class Schemes
     {

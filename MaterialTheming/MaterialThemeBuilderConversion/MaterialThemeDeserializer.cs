@@ -1,7 +1,7 @@
-﻿using MaterialTheming.ThemeBuilderConversion.SerializationModels;
+﻿using MaterialTheming.MaterialThemeBuilderConversion.SerializationModels;
 using System.Text.Json;
 
-namespace MaterialTheming.ThemeBuilderConversion
+namespace MaterialTheming.MaterialThemeBuilderConversion
 {
     internal class MaterialThemeDeserializer
     {

@@ -90,4 +90,21 @@ public class HctColor
         chroma = cam.GetChroma();
         tone = ColorUtils.LstarFromArgb(argb);
     }
+
+    public static bool operator ==(HctColor colorOne, HctColor colorTwo)
+    {
+        return colorOne.Equals(colorTwo);
+    }
+    public static bool operator !=(HctColor colorOne, HctColor colorTwo)
+    {
+        return !colorOne.Equals(colorTwo);
+    }
+    public override bool Equals(object? obj)
+    {
+        return obj is HctColor color
+            && Hue == color.Hue
+            && Chroma == color.Chroma
+            && Tone == color.Tone;
+    }
+    public override int GetHashCode() => HashCode.Combine(Hue, Chroma, Tone);
 }

@@ -24,6 +24,7 @@ public class RgbColor
         byte blue = Convert.ToByte(hexString.Substring(4, 2), 16);
         return new RgbColor(red, green, blue);
     }
+    public static RgbColor Empty => new RgbColor(0, 0, 0);
 
     private RgbColor(byte red, byte green, byte blue)
     {
@@ -45,4 +46,21 @@ public class RgbColor
     {
         return $"RGB({Red}, {Green}, {Blue})";
     }
+
+    public static bool operator ==(RgbColor colorOne, RgbColor colorTwo)
+    {
+        return colorOne.Equals(colorTwo);
+    }
+    public static bool operator !=(RgbColor colorOne, RgbColor colorTwo)
+    {
+        return !colorOne.Equals(colorTwo);
+    }
+    public override bool Equals(object? obj)
+    {
+        return obj is RgbColor color
+            && Red == color.Red
+            && Green == color.Green
+            && Blue == color.Blue;
+    }
+    public override int GetHashCode() => HashCode.Combine(Red, Green, Blue);
 }
