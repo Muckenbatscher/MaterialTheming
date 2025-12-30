@@ -2,7 +2,7 @@
 
 namespace MaterialTheming
 {
-    public partial class Theme
+    public class Theme
     {
         public bool IsDark { get; set; }
         public ThemeColors Colors { get; set; } = new ThemeColors();
