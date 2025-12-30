@@ -1,10 +1,10 @@
 ﻿using MaterialTheming.ColorDefinitions;
 using MaterialTheming.MaterialDesign;
-using MaterialTheming.ThemeBuilderConversion.SerializationModels;
+using MaterialTheming.MaterialThemeBuilderConversion.SerializationModels;
 
-namespace MaterialTheming.ThemeBuilderConversion
+namespace MaterialTheming.MaterialThemeBuilderConversion
 {
-    internal class ThemeBuilderConverter
+    internal class MaterialThemeBuilderConverter
     {
         public ThemeColors ConvertFromThemeBuilder(Scheme scheme)
         {

@@ -24,6 +24,7 @@ public class RgbColor
         byte blue = Convert.ToByte(hexString.Substring(4, 2), 16);
         return new RgbColor(red, green, blue);
     }
+    public static RgbColor Empty => new RgbColor(0, 0, 0);
 
     private RgbColor(byte red, byte green, byte blue)
     {

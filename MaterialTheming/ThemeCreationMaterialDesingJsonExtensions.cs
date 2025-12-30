@@ -1,6 +1,6 @@
 ﻿using MaterialTheming.MaterialDesign;
-using MaterialTheming.ThemeBuilderConversion;
-using MaterialTheming.ThemeBuilderConversion.SerializationModels;
+using MaterialTheming.MaterialThemeBuilderConversion;
+using MaterialTheming.MaterialThemeBuilderConversion.SerializationModels;
 
 namespace MaterialTheming
 {
@@ -12,7 +12,7 @@ namespace MaterialTheming
             var materialTheme = deserializer.Deserialize(materialDesignJson);
             if (materialTheme == null)
                 throw new ArgumentException("Material design theme could not be parsed from the supplied JSON content.");
-            var converter = new ThemeBuilderConverter();
+            var converter = new MaterialThemeBuilderConverter();
             Scheme? selectedScheme = null;
             if (mode == ThemeMode.Light && contrastLevel == ContrastLevel.Normal)
                 selectedScheme = materialTheme.Schemes.Light;

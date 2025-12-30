@@ -5,11 +5,11 @@ namespace MaterialTheming.MaterialDesign
 {
     public class CoreColors : ICoreColors
     {
-        public RgbColor Primary { get; set; }
-        public RgbColor Secondary { get; set; }
-        public RgbColor Tertiary { get; set; }
-        public RgbColor Error { get; set; }
-        public RgbColor Neutral { get; set; }
-        public RgbColor NeutralVariant { get; set; }
+        public RgbColor Primary { get; set; } = RgbColor.Empty;
+        public RgbColor Secondary { get; set; } = RgbColor.Empty;
+        public RgbColor Tertiary { get; set; } = RgbColor.Empty;
+        public RgbColor Error { get; set; } = RgbColor.Empty;
+        public RgbColor Neutral { get; set; } = RgbColor.Empty;
+        public RgbColor NeutralVariant { get; set; } = RgbColor.Empty;
     }
 }
