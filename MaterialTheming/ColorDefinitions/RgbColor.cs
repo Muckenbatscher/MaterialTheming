@@ -47,6 +47,14 @@ public class RgbColor
         return $"RGB({Red}, {Green}, {Blue})";
     }
 
+    public static bool operator ==(RgbColor colorOne, RgbColor colorTwo)
+    {
+        return colorOne.Equals(colorTwo);
+    }
+    public static bool operator !=(RgbColor colorOne, RgbColor colorTwo)
+    {
+        return !colorOne.Equals(colorTwo);
+    }
     public override bool Equals(object? obj)
     {
         return obj is RgbColor color

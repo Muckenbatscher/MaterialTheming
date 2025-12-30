@@ -91,6 +91,14 @@ public class HctColor
         tone = ColorUtils.LstarFromArgb(argb);
     }
 
+    public static bool operator ==(HctColor colorOne, HctColor colorTwo)
+    {
+        return colorOne.Equals(colorTwo);
+    }
+    public static bool operator !=(HctColor colorOne, HctColor colorTwo)
+    {
+        return !colorOne.Equals(colorTwo);
+    }
     public override bool Equals(object? obj)
     {
         return obj is HctColor color
