@@ -2,16 +2,17 @@
 using MaterialTheming.MaterialThemeBuilderConversion;
 using MaterialTheming.MaterialThemeBuilderConversion.SerializationModels;
 
-namespace MaterialTheming
+namespace MaterialTheming;
+
+public static class ThemeMaterialDesignJsonExtensions
 {
-    public partial class Theme
+    extension(Theme)
     {
         public static Theme CreateFromMaterialDesignJson(string materialDesignJson, ThemeMode mode, ContrastLevel contrastLevel)
         {
             var deserializer = new MaterialThemeDeserializer();
-            var materialTheme = deserializer.Deserialize(materialDesignJson);
-            if (materialTheme == null)
-                throw new ArgumentException("Material design theme could not be parsed from the supplied JSON content.");
+            var materialTheme = deserializer.Deserialize(materialDesignJson)
+                ?? throw new ArgumentException("Material design theme could not be parsed from the supplied JSON content.");
             var converter = new MaterialThemeBuilderConverter();
             Scheme? selectedScheme = null;
             if (mode == ThemeMode.Light && contrastLevel == ContrastLevel.Normal)
@@ -32,7 +33,7 @@ namespace MaterialTheming
             if (selectedScheme == null)
                 throw new ArgumentException($"The requested combination of {nameof(ThemeMode)}: {mode} and {nameof(ContrastLevel)}: {contrastLevel} was not present in the supplied JSON content.");
 
-            var themeColors = converter.ConvertFromThemeBuilder(selectedScheme);
+            var themeColors = converter.ConvertFromMaterialThemeBuilder(selectedScheme);
             bool isDark = mode == ThemeMode.Dark;
             return new Theme()
             {

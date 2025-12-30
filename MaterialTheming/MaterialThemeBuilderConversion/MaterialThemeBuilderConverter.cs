@@ -6,7 +6,7 @@ namespace MaterialTheming.MaterialThemeBuilderConversion
 {
     internal class MaterialThemeBuilderConverter
     {
-        public ThemeColors ConvertFromThemeBuilder(Scheme scheme)
+        public ThemeColors ConvertFromMaterialThemeBuilder(Scheme scheme)
         {
             var themeColors = new ThemeColors()
             {
