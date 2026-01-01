@@ -107,13 +107,29 @@ public class ThemeBuilder : IThemeBuilder
 
     private HctTonalPalette CreateTonalPaletteFromSpecification(ColorPaletteSpecification specification)
     {
-        var primaryHct = HctColor.FromRgbColor(specification.BaseColor);
-        if (specification.NormalizeChroma)
-            primaryHct.Chroma = TargetChromaProvider.GetTargetChromaForPaletteType(specification.PaletteType);
-        else if (specification.UseFixedChroma)
-            primaryHct.Chroma = _primaryColorSpec.FixedChroma;
+        var specificationHct = HctColor.FromRgbColor(specification.BaseColor);
+        if (specification.UseFixedChroma)
+            specificationHct.Chroma = specification.FixedChroma;
+        else if (specification.NormalizeChroma)
+        {
+            bool isPrimary = specification.PaletteType == ColorPaletteType.Primary;
+            specificationHct.Chroma = isPrimary
+                ? TargetChromaProvider.GetTargetChromaForPaletteType(ColorPaletteType.Primary)
+                : GetChromaRatioedToPrimaryTargetChroma(specification.PaletteType);
+        }
 
-        return new HctTonalPalette(primaryHct);
+        return new HctTonalPalette(specificationHct);
+    }
+
+    private double GetChromaRatioedToPrimaryTargetChroma(ColorPaletteType paletteType)
+    {
+        var primaryTonalPalette = CreateTonalPaletteFromSpecification(_primaryColorSpec);
+        var primaryChroma = primaryTonalPalette.Chroma;
+        var primaryTargetChroma = TargetChromaProvider.GetTargetChromaForPaletteType(ColorPaletteType.Primary);
+        var ratio = primaryChroma / primaryTargetChroma;
+
+        var targetChroma = TargetChromaProvider.GetTargetChromaForPaletteType(paletteType);
+        return targetChroma * ratio;
     }
 
     private ThemeColors CreateThemeColors(HctTonalPalette primaryPalette,
