@@ -45,7 +45,8 @@ internal class ColorPaletteSpecification : IColorPaletteSpecification
     }
     public IColorPaletteSpecification WithBaseColorHue(double hue)
     {
-        return WithBaseColor(HctColor.From(hue, 50, 50));
+        var paletteTypeTargetChroma = TargetChromaProvider.GetTargetChromaForPaletteType(PaletteType);
+        return WithBaseColor(HctColor.From(hue, paletteTypeTargetChroma, 50));
     }
 
     public IColorPaletteSpecification WithNormalizedChroma(bool normalizeChroma = true)

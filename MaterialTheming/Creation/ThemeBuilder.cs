@@ -100,11 +100,9 @@ public class ThemeBuilder : IThemeBuilder
 
         var themeColors = CreateThemeColors(primaryPalette, secondaryPalette, tertiaryPalette,
             errorPalette, neutralPalette, neutralVariantPalette);
-        return new Theme()
-        {
-            IsDark = mode == ThemeMode.Dark,
-            Colors = themeColors
-        };
+        return new Theme(
+            isDark: mode == ThemeMode.Dark,
+            colors: themeColors);
     }
 
     private HctTonalPalette CreateTonalPaletteFromSpecification(ColorPaletteSpecification specification)
