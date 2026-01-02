@@ -5,67 +5,69 @@ namespace MaterialTheming.Creation;
 
 internal class NonPrimaryColorPaletteSpecification : INonPrimaryColorPaletteSpecification, INonPrimaryColorPaletteSpecResult
 {
+    private readonly ColorPaletteSpecification _colorPaletteSpecification;
+
     public NonPrimaryColorPaletteSpecification(ColorPaletteType paletteType)
     {
-        PaletteType = paletteType;
-        BaseColor = RgbColor.Empty;
-        UseFixedTargetChroma = true;
-        NormalizeChromaToPrimary = true;
-        UseFixedChroma = false;
-        FixedChroma = 0.0;
+        _colorPaletteSpecification = new ColorPaletteSpecification(paletteType);
+        WithChromaNormalizedToPrimary(true);
     }
 
-    public ColorPaletteType PaletteType { get; }
+    public ColorPaletteType PaletteType => _colorPaletteSpecification.PaletteType;
 
-    public bool BaseColorSpecified => BaseColor != RgbColor.Empty;
+    public bool BaseColorSpecified => _colorPaletteSpecification.BaseColorSpecified;
 
-    public RgbColor BaseColor { get; private set; }
-    public bool UseFixedTargetChroma { get; private set; }
+    public RgbColor BaseColor => _colorPaletteSpecification.BaseColor;
+    public bool UseFixedTargetChroma => _colorPaletteSpecification.UseFixedTargetChroma;
+    public bool UseFixedChroma => _colorPaletteSpecification.UseFixedChroma;
+    public double FixedChroma => _colorPaletteSpecification.FixedChroma;
+
+
     public bool NormalizeChromaToPrimary { get; private set; }
-    public bool UseFixedChroma { get; private set; }
-    public double FixedChroma { get; private set; }
 
     public INonPrimaryColorPaletteSpecification WithBaseColor(string baseColorHtml)
     {
-        BaseColor = RgbColor.FromHtml(baseColorHtml);
+        _colorPaletteSpecification.WithBaseColor(baseColorHtml);
         return this;
     }
     public INonPrimaryColorPaletteSpecification WithBaseColor(byte red, byte green, byte blue)
     {
-        BaseColor = RgbColor.FromRgb(red, green, blue);
+        _colorPaletteSpecification.WithBaseColor(red, green, blue);
         return this;
     }
     public INonPrimaryColorPaletteSpecification WithBaseColor(RgbColor baseColor)
     {
-        BaseColor = baseColor;
+        _colorPaletteSpecification.WithBaseColor(baseColor);
         return this;
     }
     public INonPrimaryColorPaletteSpecification WithBaseColor(HctColor baseColor)
     {
-        BaseColor = baseColor.ToRgbColor();
+        _colorPaletteSpecification.WithBaseColor(baseColor);
         return this;
     }
     public INonPrimaryColorPaletteSpecification WithBaseColorHue(double hue)
     {
-        var paletteTypeTargetChroma = TargetChromaProvider.GetTargetChromaForPaletteType(PaletteType);
-        return WithBaseColor(HctColor.From(hue, paletteTypeTargetChroma, 50));
+        _colorPaletteSpecification.WithBaseColorHue(hue);
+        return this;
     }
 
     public INonPrimaryColorPaletteSpecification WithFixedTargetChroma(bool useFixedTargetChroma = true)
     {
-        UseFixedTargetChroma = useFixedTargetChroma;
+        _colorPaletteSpecification.WithFixedTargetChroma(useFixedTargetChroma);
+        if (!useFixedTargetChroma)
+            WithChromaNormalizedToPrimary(false);
         return this;
     }
     public INonPrimaryColorPaletteSpecification WithFixedChroma(double chroma)
     {
-        UseFixedTargetChroma = false;
-        UseFixedChroma = true;
-        FixedChroma = chroma;
+        _colorPaletteSpecification.WithFixedChroma(chroma);
         return this;
     }
     public INonPrimaryColorPaletteSpecification WithChromaNormalizedToPrimary(bool normalizeChroma = true)
     {
         NormalizeChromaToPrimary = normalizeChroma;
+        if (!normalizeChroma)
+            _colorPaletteSpecification.WithFixedTargetChroma(false);
         return this;
     }
 }
