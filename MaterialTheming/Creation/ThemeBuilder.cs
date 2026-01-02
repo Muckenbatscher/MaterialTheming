@@ -92,30 +92,7 @@ public class ThemeBuilder : IThemeBuilder
 
     public Theme Build()
     {
-        if (!_primaryColorSpec.BaseColorSpecified)
-            throw new InvalidOperationException("Primary color must be specified.");
-
-        var primaryColorHct = HctColor.FromRgbColor(_primaryColorSpec.BaseColor);
-        if (!_secondaryColorSpec.BaseColorSpecified)
-            _secondaryColorSpec.WithBaseColorHue(primaryColorHct.Hue);
-        if (!_tertiaryColorSpec.BaseColorSpecified)
-            _tertiaryColorSpec.WithBaseColorHue(primaryColorHct.Hue + 60);
-        if (!_errorColorSpec.BaseColorSpecified)
-            _errorColorSpec.WithBaseColorHue(24);
-        if (!_neutralColorSpec.BaseColorSpecified)
-            _neutralColorSpec.WithBaseColorHue(primaryColorHct.Hue);
-        if (!_neutralVariantColorSpec.BaseColorSpecified)
-            _neutralVariantColorSpec.WithBaseColorHue(primaryColorHct.Hue);
-
-        var primaryPalette = CreateTonalPaletteFromSpecification(_primaryColorSpec);
-        var secondaryPalette = CreateTonalPaletteFromSpecification(_secondaryColorSpec);
-        var tertiaryPalette = CreateTonalPaletteFromSpecification(_tertiaryColorSpec);
-        var errorPalette = CreateTonalPaletteFromSpecification(_errorColorSpec);
-        var neutralPalette = CreateTonalPaletteFromSpecification(_neutralColorSpec);
-        var neutralVariantPalette = CreateTonalPaletteFromSpecification(_neutralVariantColorSpec);
-
-        var themeColors = CreateThemeColorsFromTonalPalettes(primaryPalette, secondaryPalette, tertiaryPalette,
-            errorPalette, neutralPalette, neutralVariantPalette);
+        var themeColors = BuildThemeColors();
         return new Theme(
             isDark: mode == ThemeMode.Dark,
             colors: themeColors);
