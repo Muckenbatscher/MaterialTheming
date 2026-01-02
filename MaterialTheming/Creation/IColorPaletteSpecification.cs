@@ -10,6 +10,6 @@ public interface IColorPaletteSpecification
     IColorPaletteSpecification WithBaseColor(HctColor baseColor);
     IColorPaletteSpecification WithBaseColorHue(double hue);
 
-    IColorPaletteSpecification WithNormalizedChroma(bool normalizeChroma = true);
+    IColorPaletteSpecification WithFixedTargetChroma(bool useFixedTargetChroma = true);
     IColorPaletteSpecification WithFixedChroma(double chroma);
 }
