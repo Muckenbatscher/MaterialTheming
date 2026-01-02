@@ -11,6 +11,9 @@ public interface IThemeBuilder
     IThemeBuilder WithNeutralColor(Action<INonPrimaryColorPaletteSpecification> colorSpecificationOptions);
     IThemeBuilder WithNeutralVariantColor(Action<INonPrimaryColorPaletteSpecification> colorSpecificationOptions);
 
+    IThemeBuilder WithMaterialThemeBuilderJson(string materialThemeBuilderJson);
+    IThemeBuilder WithMaterialThemeBuilderJsonFile(string materialThemeBuilderJsonFilePath);
+
     IThemeBuilder WithMode(ThemeMode mode);
     IThemeBuilder WithContrastLevel(ContrastLevel contrastLevel);
 

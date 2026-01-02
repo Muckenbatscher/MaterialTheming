@@ -1,5 +1,6 @@
 ﻿using MaterialTheming.ColorDefinitions;
 using MaterialTheming.MaterialDesign;
+using MaterialTheming.MaterialThemeBuilderConversion;
 
 namespace MaterialTheming.Creation;
 
@@ -26,6 +27,8 @@ public class ThemeBuilder : IThemeBuilder
     private readonly NonPrimaryColorPaletteSpecification _errorColorSpec;
     private readonly NonPrimaryColorPaletteSpecification _neutralColorSpec;
     private readonly NonPrimaryColorPaletteSpecification _neutralVariantColorSpec;
+
+    private string? materialThemeBuilderJson;
 
     private ThemeMode mode;
     private ContrastLevel contrastLevel;
@@ -59,6 +62,19 @@ public class ThemeBuilder : IThemeBuilder
     public IThemeBuilder WithNeutralVariantColor(Action<INonPrimaryColorPaletteSpecification> colorSpecificationOptions)
     {
         colorSpecificationOptions(_neutralVariantColorSpec);
+        return this;
+    }
+
+
+    public IThemeBuilder WithMaterialThemeBuilderJson(string materialThemeBuilderJson)
+    {
+        this.materialThemeBuilderJson = materialThemeBuilderJson;
+        return this;
+    }
+    public IThemeBuilder WithMaterialThemeBuilderJsonFile(string materialThemeBuilderJsonFilePath)
+    {
+        var fileContents = File.ReadAllText(materialThemeBuilderJsonFilePath);
+        materialThemeBuilderJson = fileContents;
         return this;
     }
 
@@ -98,11 +114,49 @@ public class ThemeBuilder : IThemeBuilder
         var neutralPalette = CreateTonalPaletteFromSpecification(_neutralColorSpec);
         var neutralVariantPalette = CreateTonalPaletteFromSpecification(_neutralVariantColorSpec);
 
-        var themeColors = CreateThemeColors(primaryPalette, secondaryPalette, tertiaryPalette,
+        var themeColors = CreateThemeColorsFromTonalPalettes(primaryPalette, secondaryPalette, tertiaryPalette,
             errorPalette, neutralPalette, neutralVariantPalette);
         return new Theme(
             isDark: mode == ThemeMode.Dark,
             colors: themeColors);
+    }
+
+    private ThemeColors BuildThemeColors()
+    {
+        return materialThemeBuilderJson != null
+            ? BuildThemeColorsFromMaterialDesignJson()
+            : BuildThemeColorsFromColorSpecifications();
+    }
+    private ThemeColors BuildThemeColorsFromMaterialDesignJson()
+    {
+        return MaterialThemeBuilderThemeColorsExtractor.CreateFromMaterialDesignJson(materialThemeBuilderJson!, mode, contrastLevel);
+    }
+    private ThemeColors BuildThemeColorsFromColorSpecifications()
+    {
+        if (!_primaryColorSpec.BaseColorSpecified)
+            throw new InvalidOperationException("Primary color must be specified.");
+
+        var primaryColorHct = HctColor.FromRgbColor(_primaryColorSpec.BaseColor);
+        if (!_secondaryColorSpec.BaseColorSpecified)
+            _secondaryColorSpec.WithBaseColorHue(primaryColorHct.Hue);
+        if (!_tertiaryColorSpec.BaseColorSpecified)
+            _tertiaryColorSpec.WithBaseColorHue(primaryColorHct.Hue + 60);
+        if (!_errorColorSpec.BaseColorSpecified)
+            _errorColorSpec.WithBaseColorHue(24);
+        if (!_neutralColorSpec.BaseColorSpecified)
+            _neutralColorSpec.WithBaseColorHue(primaryColorHct.Hue);
+        if (!_neutralVariantColorSpec.BaseColorSpecified)
+            _neutralVariantColorSpec.WithBaseColorHue(primaryColorHct.Hue);
+
+        var primaryPalette = CreateTonalPaletteFromSpecification(_primaryColorSpec);
+        var secondaryPalette = CreateTonalPaletteFromSpecification(_secondaryColorSpec);
+        var tertiaryPalette = CreateTonalPaletteFromSpecification(_tertiaryColorSpec);
+        var errorPalette = CreateTonalPaletteFromSpecification(_errorColorSpec);
+        var neutralPalette = CreateTonalPaletteFromSpecification(_neutralColorSpec);
+        var neutralVariantPalette = CreateTonalPaletteFromSpecification(_neutralVariantColorSpec);
+
+        return CreateThemeColorsFromTonalPalettes(primaryPalette, secondaryPalette, tertiaryPalette,
+            errorPalette, neutralPalette, neutralVariantPalette);
     }
 
     private HctTonalPalette CreateTonalPaletteFromSpecification(IColorPaletteSpecResult specification)
@@ -131,7 +185,7 @@ public class ThemeBuilder : IThemeBuilder
         return targetChroma * ratio;
     }
 
-    private ThemeColors CreateThemeColors(HctTonalPalette primaryPalette,
+    private ThemeColors CreateThemeColorsFromTonalPalettes(HctTonalPalette primaryPalette,
         HctTonalPalette secondaryPalette,
         HctTonalPalette tertiaryPalette,
         HctTonalPalette errorPalette,
