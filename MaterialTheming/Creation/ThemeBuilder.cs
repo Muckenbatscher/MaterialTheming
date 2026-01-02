@@ -10,22 +10,22 @@ public class ThemeBuilder : IThemeBuilder
     private ThemeBuilder()
     {
         _primaryColorSpec = new ColorPaletteSpecification(ColorPaletteType.Primary);
-        _secondaryColorSpec = new ColorPaletteSpecification(ColorPaletteType.Secondary);
-        _tertiaryColorSpec = new ColorPaletteSpecification(ColorPaletteType.Tertiary);
-        _errorColorSpec = new ColorPaletteSpecification(ColorPaletteType.Error);
-        _neutralColorSpec = new ColorPaletteSpecification(ColorPaletteType.Neutral);
-        _neutralVariantColorSpec = new ColorPaletteSpecification(ColorPaletteType.NeutralVariant);
+        _secondaryColorSpec = new NonPrimaryColorPaletteSpecification(ColorPaletteType.Secondary);
+        _tertiaryColorSpec = new NonPrimaryColorPaletteSpecification(ColorPaletteType.Tertiary);
+        _errorColorSpec = new NonPrimaryColorPaletteSpecification(ColorPaletteType.Error);
+        _neutralColorSpec = new NonPrimaryColorPaletteSpecification(ColorPaletteType.Neutral);
+        _neutralVariantColorSpec = new NonPrimaryColorPaletteSpecification(ColorPaletteType.NeutralVariant);
 
         mode = ThemeMode.Light;
         contrastLevel = ContrastLevel.Normal;
     }
 
     private readonly ColorPaletteSpecification _primaryColorSpec;
-    private readonly ColorPaletteSpecification _secondaryColorSpec;
-    private readonly ColorPaletteSpecification _tertiaryColorSpec;
-    private readonly ColorPaletteSpecification _errorColorSpec;
-    private readonly ColorPaletteSpecification _neutralColorSpec;
-    private readonly ColorPaletteSpecification _neutralVariantColorSpec;
+    private readonly NonPrimaryColorPaletteSpecification _secondaryColorSpec;
+    private readonly NonPrimaryColorPaletteSpecification _tertiaryColorSpec;
+    private readonly NonPrimaryColorPaletteSpecification _errorColorSpec;
+    private readonly NonPrimaryColorPaletteSpecification _neutralColorSpec;
+    private readonly NonPrimaryColorPaletteSpecification _neutralVariantColorSpec;
 
     private ThemeMode mode;
     private ContrastLevel contrastLevel;
@@ -35,28 +35,28 @@ public class ThemeBuilder : IThemeBuilder
         colorSpecificationOptions(_primaryColorSpec);
         return this;
     }
-    public IThemeBuilder WithSecondaryColor(Action<IColorPaletteSpecification> colorSpecificationOptions)
+    public IThemeBuilder WithSecondaryColor(Action<INonPrimaryColorPaletteSpecification> colorSpecificationOptions)
     {
         colorSpecificationOptions(_secondaryColorSpec);
         return this;
     }
-    public IThemeBuilder WithTertiaryolor(Action<IColorPaletteSpecification> colorSpecificationOptions)
+    public IThemeBuilder WithTertiaryolor(Action<INonPrimaryColorPaletteSpecification> colorSpecificationOptions)
     {
         colorSpecificationOptions(_tertiaryColorSpec);
         return this;
     }
-    public IThemeBuilder WithErrorColor(Action<IColorPaletteSpecification> colorSpecificationOptions)
+    public IThemeBuilder WithErrorColor(Action<INonPrimaryColorPaletteSpecification> colorSpecificationOptions)
     {
         colorSpecificationOptions(_errorColorSpec);
         return this;
     }
-    public IThemeBuilder WithNeutralColor(Action<IColorPaletteSpecification> colorSpecificationOptions)
+    public IThemeBuilder WithNeutralColor(Action<INonPrimaryColorPaletteSpecification> colorSpecificationOptions)
     {
         colorSpecificationOptions(_neutralColorSpec);
         return this;
 
     }
-    public IThemeBuilder WithNeutralVariantColor(Action<IColorPaletteSpecification> colorSpecificationOptions)
+    public IThemeBuilder WithNeutralVariantColor(Action<INonPrimaryColorPaletteSpecification> colorSpecificationOptions)
     {
         colorSpecificationOptions(_neutralVariantColorSpec);
         return this;
@@ -100,22 +100,35 @@ public class ThemeBuilder : IThemeBuilder
 
         var themeColors = CreateThemeColors(primaryPalette, secondaryPalette, tertiaryPalette,
             errorPalette, neutralPalette, neutralVariantPalette);
-        return new Theme()
-        {
-            IsDark = mode == ThemeMode.Dark,
-            Colors = themeColors
-        };
+        return new Theme(
+            isDark: mode == ThemeMode.Dark,
+            colors: themeColors);
     }
 
-    private HctTonalPalette CreateTonalPaletteFromSpecification(ColorPaletteSpecification specification)
+    private HctTonalPalette CreateTonalPaletteFromSpecification(IColorPaletteSpecResult specification)
     {
-        var primaryHct = HctColor.FromRgbColor(specification.BaseColor);
-        if (specification.NormalizeChroma)
-            primaryHct.Chroma = TargetChromaProvider.GetTargetChromaForPaletteType(specification.PaletteType);
-        else if (specification.UseFixedChroma)
-            primaryHct.Chroma = _primaryColorSpec.FixedChroma;
+        var specificationHct = HctColor.FromRgbColor(specification.BaseColor);
+        if (specification.UseFixedChroma)
+            specificationHct.Chroma = specification.FixedChroma;
 
-        return new HctTonalPalette(primaryHct);
+        else if (specification is INonPrimaryColorPaletteSpecResult nonPrimarySpec && nonPrimarySpec.NormalizeChromaToPrimary)
+            specificationHct.Chroma = GetChromaRatioedToPrimaryChroma(nonPrimarySpec);
+
+        else if (specification.UseFixedTargetChroma)
+            specificationHct.Chroma = TargetChromaProvider.GetTargetChromaForPaletteType(specification.PaletteType);
+
+        return new HctTonalPalette(specificationHct);
+    }
+
+    private double GetChromaRatioedToPrimaryChroma(INonPrimaryColorPaletteSpecResult nonPrimarySpec)
+    {
+        var primaryTonalPalette = CreateTonalPaletteFromSpecification(_primaryColorSpec);
+        var primaryChroma = primaryTonalPalette.Chroma;
+        var primaryTargetChroma = TargetChromaProvider.GetTargetChromaForPaletteType(ColorPaletteType.Primary);
+        var ratio = primaryChroma / primaryTargetChroma;
+
+        var targetChroma = TargetChromaProvider.GetTargetChromaForPaletteType(nonPrimarySpec.PaletteType);
+        return targetChroma * ratio;
     }
 
     private ThemeColors CreateThemeColors(HctTonalPalette primaryPalette,

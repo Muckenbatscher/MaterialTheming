@@ -3,13 +3,13 @@ using MaterialTheming.MaterialDesign;
 
 namespace MaterialTheming.Creation;
 
-internal class ColorPaletteSpecification : IColorPaletteSpecification
+internal class ColorPaletteSpecification : IColorPaletteSpecification, IColorPaletteSpecResult
 {
     public ColorPaletteSpecification(ColorPaletteType paletteType)
     {
         PaletteType = paletteType;
         BaseColor = RgbColor.Empty;
-        NormalizeChroma = true;
+        UseFixedTargetChroma = true;
         UseFixedChroma = false;
         FixedChroma = 0.0;
     }
@@ -19,7 +19,7 @@ internal class ColorPaletteSpecification : IColorPaletteSpecification
     public bool BaseColorSpecified => BaseColor != RgbColor.Empty;
 
     public RgbColor BaseColor { get; private set; }
-    public bool NormalizeChroma { get; private set; }
+    public bool UseFixedTargetChroma { get; private set; }
     public bool UseFixedChroma { get; private set; }
     public double FixedChroma { get; private set; }
 
@@ -45,17 +45,18 @@ internal class ColorPaletteSpecification : IColorPaletteSpecification
     }
     public IColorPaletteSpecification WithBaseColorHue(double hue)
     {
-        return WithBaseColor(HctColor.From(hue, 50, 50));
+        var paletteTypeTargetChroma = TargetChromaProvider.GetTargetChromaForPaletteType(PaletteType);
+        return WithBaseColor(HctColor.From(hue, paletteTypeTargetChroma, 50));
     }
 
-    public IColorPaletteSpecification WithNormalizedChroma(bool normalizeChroma = true)
+    public IColorPaletteSpecification WithFixedTargetChroma(bool useFixedTargetChroma = true)
     {
-        NormalizeChroma = normalizeChroma;
+        UseFixedTargetChroma = useFixedTargetChroma;
         return this;
     }
     public IColorPaletteSpecification WithFixedChroma(double chroma)
     {
-        NormalizeChroma = false;
+        UseFixedTargetChroma = false;
         UseFixedChroma = true;
         FixedChroma = chroma;
         return this;
