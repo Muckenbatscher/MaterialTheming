@@ -119,7 +119,7 @@ public class ThemeBuilder : IThemeBuilder
         if (!_tertiaryColorSpec.BaseColorSpecified)
             _tertiaryColorSpec.WithBaseColorHue(primaryColorHct.Hue + 60);
         if (!_errorColorSpec.BaseColorSpecified)
-            _errorColorSpec.WithBaseColorHue(24);
+            _errorColorSpec.WithBaseColorHue(25);
         if (!_neutralColorSpec.BaseColorSpecified)
             _neutralColorSpec.WithBaseColorHue(primaryColorHct.Hue);
         if (!_neutralVariantColorSpec.BaseColorSpecified)
