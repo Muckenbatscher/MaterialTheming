@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MaterialTheming.ColorDefinitions;
 
 namespace MaterialTheming.MaterialDesign.HctConversion
 {
@@ -98,31 +94,29 @@ namespace MaterialTheming.MaterialDesign.HctConversion
         /**
          * Create a CAM16 color from a color, assuming the color was viewed in default viewing conditions.
          *
-         * @param argb ARGB representation of a color.
+         * @param rgb RGB representation of a color.
          */
-        public static Cam16 FromInt(int argb)
+        public static Cam16 FromRgbColor(RgbColor rgb)
         {
-            return FromIntInViewingConditions(argb, ViewingConditions.DEFAULT);
+            return FromRgbColorInViewingConditions(rgb, ViewingConditions.DEFAULT);
         }
+
 
         /**
          * Create a CAM16 color from a color in defined viewing conditions.
          *
-         * @param argb ARGB representation of a color.
+         * @param rgb RGB representation of a color.
          * @param viewingConditions Information about the environment where the color was observed.
          */
         // The RGB => XYZ conversion matrix elements are derived scientific constants. While the values
         // may differ at runtime due to floating point imprecision, keeping the values the same, and
         // accurate, across implementations takes precedence.
-        static Cam16 FromIntInViewingConditions(int argb, ViewingConditions viewingConditions)
+        static Cam16 FromRgbColorInViewingConditions(RgbColor rgb, ViewingConditions viewingConditions)
         {
-            // Transform ARGB int to XYZ
-            int red = (argb & 0x00ff0000) >> 16;
-            int green = (argb & 0x0000ff00) >> 8;
-            int blue = (argb & 0x000000ff);
-            double redL = ColorUtils.Linearized(red);
-            double greenL = ColorUtils.Linearized(green);
-            double blueL = ColorUtils.Linearized(blue);
+            // Transform RGB int to XYZ
+            double redL = ColorUtils.Linearized(rgb.Red);
+            double greenL = ColorUtils.Linearized(rgb.Green);
+            double blueL = ColorUtils.Linearized(rgb.Blue);
             double x = 0.41233895 * redL + 0.35762064 * greenL + 0.18051042 * blueL;
             double y = 0.2126 * redL + 0.7152 * greenL + 0.0722 * blueL;
             double z = 0.01932141 * redL + 0.11916382 * greenL + 0.95034478 * blueL;
@@ -237,24 +231,15 @@ namespace MaterialTheming.MaterialDesign.HctConversion
         }
 
         /**
-         * ARGB representation of the color. Assumes the color was viewed in default viewing conditions,
-         * which are near-identical to the default viewing conditions for sRGB.
-         */
-        public int ToInt()
-        {
-            return Viewed(ViewingConditions.DEFAULT);
-        }
-
-        /**
-         * ARGB representation of the color, in defined viewing conditions.
+         * RGB representation of the color, in defined viewing conditions.
          *
          * @param viewingConditions Information about the environment where the color will be viewed.
-         * @return ARGB representation of color
+         * @return RGB representation of color
          */
-        int Viewed(ViewingConditions viewingConditions)
+        RgbColor Viewed(ViewingConditions viewingConditions)
         {
             double[] xyz = XyzInViewingConditions(viewingConditions, tempArray);
-            return ColorUtils.ArgbFromXyz(xyz[0], xyz[1], xyz[2]);
+            return ColorUtils.RgbFromXyz(xyz[0], xyz[1], xyz[2]);
         }
 
         internal double[] XyzInViewingConditions(ViewingConditions viewingConditions, double[]? returnArray)

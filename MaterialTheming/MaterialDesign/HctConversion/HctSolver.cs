@@ -1,4 +1,6 @@
-﻿namespace MaterialTheming.MaterialDesign.HctConversion
+﻿using MaterialTheming.ColorDefinitions;
+
+namespace MaterialTheming.MaterialDesign.HctConversion
 {
     internal class HctSolver
     {
@@ -592,6 +594,7 @@
             return MathUtils.Signum(adapted) * Math.Pow(@base, 1.0 / 0.42);
         }
 
+
         /**
          * Finds a color with the given hue, chroma, and Y.
          *
@@ -600,7 +603,7 @@
          * @param y The desired Y.
          * @return The desired color as a hexadecimal integer, if found; 0 otherwise.
          */
-        public static int FindResultByJ(double hueRadians, double chroma, double y)
+        public static RgbColor FindRgbColorResultByJ(double hueRadians, double chroma, double y)
         {
             // Initial estimate of j.
             double j = Math.Sqrt(y) * 11.0;
@@ -636,35 +639,32 @@
                 double bCScaled = InverseChromaticAdaptation(bA);
                 double[] linrgb =
                     MathUtils.MatrixMultiply(
-                        new double[] { rCScaled, gCScaled, bCScaled }, LINRGB_FROM_SCALED_DISCOUNT);
+                        [rCScaled, gCScaled, bCScaled], LINRGB_FROM_SCALED_DISCOUNT);
                 // ===========================================================
                 // Operations inlined from Cam16 to avoid repeated calculation
                 // ===========================================================
                 if (linrgb[0] < 0 || linrgb[1] < 0 || linrgb[2] < 0)
-                {
-                    return 0;
-                }
+                    return RgbColor.Empty;
+
                 double kR = Y_FROM_LINRGB[0];
                 double kG = Y_FROM_LINRGB[1];
                 double kB = Y_FROM_LINRGB[2];
                 double fnj = kR * linrgb[0] + kG * linrgb[1] + kB * linrgb[2];
                 if (fnj <= 0)
-                {
-                    return 0;
-                }
+                    return RgbColor.Empty;
+
                 if (iterationRound == 4 || Math.Abs(fnj - y) < 0.002)
                 {
                     if (linrgb[0] > 100.01 || linrgb[1] > 100.01 || linrgb[2] > 100.01)
-                    {
-                        return 0;
-                    }
-                    return ColorUtils.ArgbFromLinrgb(linrgb);
+                        return RgbColor.Empty;
+
+                    return ColorUtils.RgbFromLinrgb(linrgb);
                 }
                 // Iterates with Newton method,
                 // Using 2 * fn(j) / j as the approximation of fn'(j)
                 j = j - (fnj - y) * j / (2 * fnj);
             }
-            return 0;
+            return RgbColor.Empty;
         }
 
         /**
@@ -673,27 +673,25 @@
          * @param hueDegrees The desired hue, in degrees.
          * @param chroma The desired chroma.
          * @param lstar The desired L*.
-         * @return A hexadecimal representing the sRGB color. The color has sufficiently close hue,
+         * @return A RgbColor representing the sRGB color. The color has sufficiently close hue,
          * chroma, and L* to the desired values, if possible; otherwise, the hue and L* will be
          * sufficiently close, and chroma will be maximized.
          */
-        public static int SolveToInt(double hueDegrees, double chroma, double lstar)
+        public static RgbColor SolveToRgb(double hueDegrees, double chroma, double lstar)
         {
             if (chroma < 0.0001 || lstar < 0.0001 || lstar > 99.9999)
             {
-                return ColorUtils.ArgbFromLstar(lstar);
+                return ColorUtils.RgbFromLstar(lstar);
             }
             hueDegrees = MathUtils.SanitizeDegreesDouble(hueDegrees);
             double hueRadians = hueDegrees / 180 * Math.PI;
             double y = ColorUtils.YFromLstar(lstar);
-            int exactAnswer = FindResultByJ(hueRadians, chroma, y);
-            if (exactAnswer != 0)
-            {
+            var exactAnswer = FindRgbColorResultByJ(hueRadians, chroma, y);
+            if (exactAnswer != RgbColor.Empty)
                 return exactAnswer;
-            }
-            double[] linrgb = BisectToLimit(y, hueRadians);
-            return ColorUtils.ArgbFromLinrgb(linrgb);
-        }
 
+            double[] linrgb = BisectToLimit(y, hueRadians);
+            return ColorUtils.RgbFromLinrgb(linrgb);
+        }
     }
 }
