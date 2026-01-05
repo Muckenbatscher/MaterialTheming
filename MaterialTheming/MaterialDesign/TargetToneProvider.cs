@@ -48,7 +48,7 @@ internal class TargetToneProvider
 
     private static readonly Dictionary<TargetToneMapKey, double> _surfaceToneMap = new()
     {
-        {new TargetToneMapKey(ThemeMode.Dark, ContrastLevel.Normal, true), 5},
+        {new TargetToneMapKey(ThemeMode.Dark, ContrastLevel.Normal, true), 4},
         {new TargetToneMapKey(ThemeMode.Dark, ContrastLevel.Normal, false), 90},
         {new TargetToneMapKey(ThemeMode.Dark, ContrastLevel.Medium, true), 3},
         {new TargetToneMapKey(ThemeMode.Dark, ContrastLevel.Medium, false), 95},
@@ -92,7 +92,7 @@ internal class TargetToneProvider
 
     public static double GetSurfaceContainerLowestTone(ThemeMode mode) => mode == ThemeMode.Dark ? 0 : 100;
     public static double GetSurfaceContainerLowTone(ThemeMode mode) => mode == ThemeMode.Dark ? 6 : 96;
-    public static double GetSurfaceContainerTone(ThemeMode mode) => mode == ThemeMode.Dark ? 12 : 92;
-    public static double GetSurfaceContainerHighTone(ThemeMode mode) => mode == ThemeMode.Dark ? 18 : 89;
-    public static double GetSurfaceContainerHighestTone(ThemeMode mode) => mode == ThemeMode.Dark ? 22 : 86;
+    public static double GetSurfaceContainerTone(ThemeMode mode) => mode == ThemeMode.Dark ? 9 : 94;
+    public static double GetSurfaceContainerHighTone(ThemeMode mode) => mode == ThemeMode.Dark ? 12 : 92;
+    public static double GetSurfaceContainerHighestTone(ThemeMode mode) => mode == ThemeMode.Dark ? 15 : 90;
 }
