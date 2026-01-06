@@ -12,37 +12,37 @@ internal class ColorSpec2025
     // Main Palettes (From 2021 - Not overridden in 2025)
     // -----------------------------------------------------------------------------
 
-    public DynamicColor PrimaryPaletteKeyColor => new DynamicColor(
+    public static DynamicColor PrimaryPaletteKeyColor => new DynamicColor(
         name: "primary_palette_key_color",
         palette: s => s.PrimaryPalette,
         tone: s => s.PrimaryPalette.KeyColor.Tone
     );
 
-    public DynamicColor SecondaryPaletteKeyColor => new DynamicColor(
+    public static DynamicColor SecondaryPaletteKeyColor => new DynamicColor(
         name: "secondary_palette_key_color",
         palette: s => s.SecondaryPalette,
         tone: s => s.SecondaryPalette.KeyColor.Tone
     );
 
-    public DynamicColor TertiaryPaletteKeyColor => new DynamicColor(
+    public static DynamicColor TertiaryPaletteKeyColor => new DynamicColor(
         name: "tertiary_palette_key_color",
         palette: s => s.TertiaryPalette,
         tone: s => s.TertiaryPalette.KeyColor.Tone
     );
 
-    public DynamicColor NeutralPaletteKeyColor => new DynamicColor(
+    public static DynamicColor NeutralPaletteKeyColor => new DynamicColor(
         name: "neutral_palette_key_color",
         palette: s => s.NeutralPalette,
         tone: s => s.NeutralPalette.KeyColor.Tone
     );
 
-    public DynamicColor NeutralVariantPaletteKeyColor => new DynamicColor(
+    public static DynamicColor NeutralVariantPaletteKeyColor => new DynamicColor(
         name: "neutral_variant_palette_key_color",
         palette: s => s.NeutralVariantPalette,
         tone: s => s.NeutralVariantPalette.KeyColor.Tone
     );
 
-    public DynamicColor ErrorPaletteKeyColor => new DynamicColor(
+    public static DynamicColor ErrorPaletteKeyColor => new DynamicColor(
         name: "error_palette_key_color",
         palette: s => s.ErrorPalette,
         tone: s => s.ErrorPalette.KeyColor.Tone
@@ -52,14 +52,14 @@ internal class ColorSpec2025
     // Surfaces [S]
     // -----------------------------------------------------------------------------
 
-    public DynamicColor Background => new DynamicColor(
+    public static DynamicColor Background => new DynamicColor(
         name: "background",
         palette: s => s.NeutralPalette,
         tone: s => Surface.Tone(s), // Maps to Surface in 2025
         isBackground: true
     );
 
-    public DynamicColor OnBackground => new DynamicColor(
+    public static DynamicColor OnBackground => new DynamicColor(
         name: "on_background",
         palette: s => s.NeutralPalette,
         tone: s => s.Platform == Platform.Watch ? 100.0 : OnSurface.Tone(s), // Maps to OnSurface in 2025 (with Watch exception)
@@ -67,7 +67,7 @@ internal class ColorSpec2025
         contrastCurve: s => s.Platform == Platform.Phone ? GetContrastCurve(11) : GetContrastCurve(9)
     );
 
-    public DynamicColor Surface => new DynamicColor(
+    public static DynamicColor Surface => new DynamicColor(
         name: "surface",
         palette: s => s.NeutralPalette,
         tone: s =>
@@ -84,7 +84,7 @@ internal class ColorSpec2025
         isBackground: true
     );
 
-    public DynamicColor SurfaceDim => new DynamicColor(
+    public static DynamicColor SurfaceDim => new DynamicColor(
         name: "surface_dim",
         palette: s => s.NeutralPalette,
         tone: s =>
@@ -108,7 +108,7 @@ internal class ColorSpec2025
         }
     );
 
-    public DynamicColor SurfaceBright => new DynamicColor(
+    public static DynamicColor SurfaceBright => new DynamicColor(
         name: "surface_bright",
         palette: s => s.NeutralPalette,
         tone: s =>
@@ -132,14 +132,14 @@ internal class ColorSpec2025
         }
     );
 
-    public DynamicColor SurfaceContainerLowest => new DynamicColor(
+    public static DynamicColor SurfaceContainerLowest => new DynamicColor(
         name: "surface_container_lowest",
         palette: s => s.NeutralPalette,
         tone: s => s.IsDark ? 0.0 : 100.0,
         isBackground: true
     );
 
-    public DynamicColor SurfaceContainerLow => new DynamicColor(
+    public static DynamicColor SurfaceContainerLow => new DynamicColor(
         name: "surface_container_low",
         palette: s => s.NeutralPalette,
         tone: s =>
@@ -167,7 +167,7 @@ internal class ColorSpec2025
         }
     );
 
-    public DynamicColor SurfaceContainer => new DynamicColor(
+    public static DynamicColor SurfaceContainer => new DynamicColor(
         name: "surface_container",
         palette: s => s.NeutralPalette,
         tone: s =>
@@ -195,7 +195,7 @@ internal class ColorSpec2025
         }
     );
 
-    public DynamicColor SurfaceContainerHigh => new DynamicColor(
+    public static DynamicColor SurfaceContainerHigh => new DynamicColor(
         name: "surface_container_high",
         palette: s => s.NeutralPalette,
         tone: s =>
@@ -223,7 +223,7 @@ internal class ColorSpec2025
         }
     );
 
-    public DynamicColor SurfaceContainerHighest => new DynamicColor(
+    public static DynamicColor SurfaceContainerHighest => new DynamicColor(
         name: "surface_container_highest",
         palette: s => s.NeutralPalette,
         tone: s =>
@@ -244,7 +244,7 @@ internal class ColorSpec2025
         }
     );
 
-    public DynamicColor OnSurface => new DynamicColor(
+    public static DynamicColor OnSurface => new DynamicColor(
         name: "on_surface",
         palette: s => s.NeutralPalette,
         tone: s =>
@@ -274,7 +274,7 @@ internal class ColorSpec2025
         contrastCurve: s => s.IsDark && s.Platform == Platform.Phone ? GetContrastCurve(11) : GetContrastCurve(9)
     );
 
-    public DynamicColor SurfaceVariant => new DynamicColor(
+    public static DynamicColor SurfaceVariant => new DynamicColor(
         name: "surface_variant",
         palette: s => s.NeutralPalette,
         tone: s => SurfaceContainerHighest.Tone(s), // Remapped in 2025
@@ -282,7 +282,7 @@ internal class ColorSpec2025
         chromaMultiplier: s => SurfaceContainerHighest.ChromaMultiplier?.Invoke(s) ?? 1.0
     );
 
-    public DynamicColor OnSurfaceVariant => new DynamicColor(
+    public static DynamicColor OnSurfaceVariant => new DynamicColor(
         name: "on_surface_variant",
         palette: s => s.NeutralPalette,
         // Tone logic inferred from typical OnVariant behavior or default recursion, 
@@ -307,14 +307,14 @@ internal class ColorSpec2025
             : GetContrastCurve(7)
     );
 
-    public DynamicColor InverseSurface => new DynamicColor(
+    public static DynamicColor InverseSurface => new DynamicColor(
         name: "inverse_surface",
         palette: s => s.NeutralPalette,
         tone: s => s.IsDark ? 98.0 : 4.0,
         isBackground: true
     );
 
-    public DynamicColor InverseOnSurface => new DynamicColor(
+    public static DynamicColor InverseOnSurface => new DynamicColor(
         name: "inverse_on_surface",
         palette: s => s.NeutralPalette,
         tone: s => s.IsDark ? 20.0 : 95.0, // From 2021 fallback
@@ -322,7 +322,7 @@ internal class ColorSpec2025
         contrastCurve: s => GetContrastCurve(7)
     );
 
-    public DynamicColor Outline => new DynamicColor(
+    public static DynamicColor Outline => new DynamicColor(
         name: "outline",
         palette: s => s.NeutralPalette,
         tone: s => s.IsDark ? 60.0 : 50.0, // From 2021 fallback
@@ -347,7 +347,7 @@ internal class ColorSpec2025
             : GetContrastCurve(4.5)
     );
 
-    public DynamicColor OutlineVariant => new DynamicColor(
+    public static DynamicColor OutlineVariant => new DynamicColor(
         name: "outline_variant",
         palette: s => s.NeutralPalette,
         tone: s => s.IsDark ? 30.0 : 80.0, // From 2021 fallback
@@ -372,7 +372,7 @@ internal class ColorSpec2025
             : GetContrastCurve(3)
     );
 
-    public DynamicColor SurfaceTint => new DynamicColor(
+    public static DynamicColor SurfaceTint => new DynamicColor(
         name: "surface_tint",
         palette: s => s.PrimaryPalette,
         tone: s => Primary.Tone(s), // Maps to Primary in 2025
@@ -383,7 +383,7 @@ internal class ColorSpec2025
     // Primaries [P]
     // -----------------------------------------------------------------------------
 
-    public DynamicColor Primary => new DynamicColor(
+    public static DynamicColor Primary => new DynamicColor(
         name: "primary",
         palette: s => s.PrimaryPalette,
         tone: s =>
@@ -424,7 +424,7 @@ internal class ColorSpec2025
             : null
     );
 
-    public DynamicColor PrimaryDim => new DynamicColor(
+    public static DynamicColor PrimaryDim => new DynamicColor(
         name: "primary_dim",
         palette: s => s.PrimaryPalette,
         tone: s =>
@@ -441,7 +441,7 @@ internal class ColorSpec2025
         toneDeltaPair: s => new ToneDeltaPair(PrimaryDim, Primary, 5.0, TonePolarity.Darker, ToneDeltaConstraint.Farther)
     );
 
-    public DynamicColor OnPrimary => new DynamicColor(
+    public static DynamicColor OnPrimary => new DynamicColor(
         name: "on_primary",
         palette: s => s.PrimaryPalette,
         tone: s => s.IsDark ? 20.0 : 100.0, // 2021 fallback or standard contrast
@@ -449,7 +449,7 @@ internal class ColorSpec2025
         contrastCurve: s => s.Platform == Platform.Phone ? GetContrastCurve(6) : GetContrastCurve(7)
     );
 
-    public DynamicColor PrimaryContainer => new DynamicColor(
+    public static DynamicColor PrimaryContainer => new DynamicColor(
         name: "primary_container",
         palette: s => s.PrimaryPalette,
         tone: s =>
@@ -477,7 +477,7 @@ internal class ColorSpec2025
         contrastCurve: s => s.Platform == Platform.Phone && s.ContrastLevel > 0 ? GetContrastCurve(1.5) : null
     );
 
-    public DynamicColor OnPrimaryContainer => new DynamicColor(
+    public static DynamicColor OnPrimaryContainer => new DynamicColor(
         name: "on_primary_container",
         palette: s => s.PrimaryPalette,
         tone: s => s.IsDark ? 90.0 : 30.0, // 2021 fallback
@@ -485,7 +485,7 @@ internal class ColorSpec2025
         contrastCurve: s => s.Platform == Platform.Phone ? GetContrastCurve(6) : GetContrastCurve(7)
     );
 
-    public DynamicColor InversePrimary => new DynamicColor(
+    public static DynamicColor InversePrimary => new DynamicColor(
         name: "inverse_primary",
         palette: s => s.PrimaryPalette,
         tone: s => TMaxC(s.PrimaryPalette),
@@ -497,7 +497,7 @@ internal class ColorSpec2025
     // Secondaries [Q]
     // -----------------------------------------------------------------------------
 
-    public DynamicColor Secondary => new DynamicColor(
+    public static DynamicColor Secondary => new DynamicColor(
         name: "secondary",
         palette: s => s.SecondaryPalette,
         tone: s =>
@@ -514,7 +514,7 @@ internal class ColorSpec2025
         toneDeltaPair: s => s.Platform == Platform.Phone ? new ToneDeltaPair(SecondaryContainer, Secondary, 5.0, TonePolarity.RelativeLighter, ToneDeltaConstraint.Farther) : null
     );
 
-    public DynamicColor SecondaryDim => new DynamicColor(
+    public static DynamicColor SecondaryDim => new DynamicColor(
         name: "secondary_dim",
         palette: s => s.SecondaryPalette,
         tone: s => s.Variant == Variant.Neutral ? 85.0 : TMaxC(s.SecondaryPalette, 0, 90),
@@ -524,7 +524,7 @@ internal class ColorSpec2025
         toneDeltaPair: s => new ToneDeltaPair(SecondaryDim, Secondary, 5.0, TonePolarity.Darker, ToneDeltaConstraint.Farther)
     );
 
-    public DynamicColor OnSecondary => new DynamicColor(
+    public static DynamicColor OnSecondary => new DynamicColor(
         name: "on_secondary",
         palette: s => s.SecondaryPalette,
         tone: s => s.IsDark ? 20.0 : 100.0, // 2021 fallback
@@ -532,7 +532,7 @@ internal class ColorSpec2025
         contrastCurve: s => s.Platform == Platform.Phone ? GetContrastCurve(6) : GetContrastCurve(7)
     );
 
-    public DynamicColor SecondaryContainer => new DynamicColor(
+    public static DynamicColor SecondaryContainer => new DynamicColor(
         name: "secondary_container",
         palette: s => s.SecondaryPalette,
         tone: s =>
@@ -548,7 +548,7 @@ internal class ColorSpec2025
         contrastCurve: s => s.Platform == Platform.Phone && s.ContrastLevel > 0 ? GetContrastCurve(1.5) : null
     );
 
-    public DynamicColor OnSecondaryContainer => new DynamicColor(
+    public static DynamicColor OnSecondaryContainer => new DynamicColor(
         name: "on_secondary_container",
         palette: s => s.SecondaryPalette,
         tone: s => s.IsDark ? 90.0 : 30.0, // 2021 fallback
@@ -560,7 +560,7 @@ internal class ColorSpec2025
     // Tertiaries [T]
     // -----------------------------------------------------------------------------
 
-    public DynamicColor Tertiary => new DynamicColor(
+    public static DynamicColor Tertiary => new DynamicColor(
         name: "tertiary",
         palette: s => s.TertiaryPalette,
         tone: s =>
@@ -582,7 +582,7 @@ internal class ColorSpec2025
         toneDeltaPair: s => s.Platform == Platform.Phone ? new ToneDeltaPair(TertiaryContainer, Tertiary, 5.0, TonePolarity.RelativeLighter, ToneDeltaConstraint.Farther) : null
     );
 
-    public DynamicColor TertiaryDim => new DynamicColor(
+    public static DynamicColor TertiaryDim => new DynamicColor(
         name: "tertiary_dim",
         palette: s => s.TertiaryPalette,
         tone: s => s.Variant == Variant.TonalSpot ? TMaxC(s.TertiaryPalette, 0, 90) : TMaxC(s.TertiaryPalette),
@@ -592,7 +592,7 @@ internal class ColorSpec2025
         toneDeltaPair: s => new ToneDeltaPair(TertiaryDim, Tertiary, 5.0, TonePolarity.Darker, ToneDeltaConstraint.Farther)
     );
 
-    public DynamicColor OnTertiary => new DynamicColor(
+    public static DynamicColor OnTertiary => new DynamicColor(
         name: "on_tertiary",
         palette: s => s.TertiaryPalette,
         tone: s => s.IsDark ? 20.0 : 100.0, // 2021 fallback
@@ -600,7 +600,7 @@ internal class ColorSpec2025
         contrastCurve: s => s.Platform == Platform.Phone ? GetContrastCurve(6) : GetContrastCurve(7)
     );
 
-    public DynamicColor TertiaryContainer => new DynamicColor(
+    public static DynamicColor TertiaryContainer => new DynamicColor(
         name: "tertiary_container",
         palette: s => s.TertiaryPalette,
         tone: s =>
@@ -621,7 +621,7 @@ internal class ColorSpec2025
         contrastCurve: s => s.Platform == Platform.Phone && s.ContrastLevel > 0 ? GetContrastCurve(1.5) : null
     );
 
-    public DynamicColor OnTertiaryContainer => new DynamicColor(
+    public static DynamicColor OnTertiaryContainer => new DynamicColor(
         name: "on_tertiary_container",
         palette: s => s.TertiaryPalette,
         tone: s => s.IsDark ? 90.0 : 30.0, // 2021 fallback
@@ -633,7 +633,7 @@ internal class ColorSpec2025
     // Errors [E]
     // -----------------------------------------------------------------------------
 
-    public DynamicColor Error => new DynamicColor(
+    public static DynamicColor Error => new DynamicColor(
         name: "error",
         palette: s => s.ErrorPalette,
         tone: s =>
@@ -647,7 +647,7 @@ internal class ColorSpec2025
         toneDeltaPair: s => s.Platform == Platform.Phone ? new ToneDeltaPair(ErrorContainer, Error, 5.0, TonePolarity.RelativeLighter, ToneDeltaConstraint.Farther) : null
     );
 
-    public DynamicColor ErrorDim => new DynamicColor(
+    public static DynamicColor ErrorDim => new DynamicColor(
         name: "error_dim",
         palette: s => s.ErrorPalette,
         tone: s => TMinC(s.ErrorPalette),
@@ -657,7 +657,7 @@ internal class ColorSpec2025
         toneDeltaPair: s => new ToneDeltaPair(ErrorDim, Error, 5.0, TonePolarity.Darker, ToneDeltaConstraint.Farther)
     );
 
-    public DynamicColor OnError => new DynamicColor(
+    public static DynamicColor OnError => new DynamicColor(
         name: "on_error",
         palette: s => s.ErrorPalette,
         tone: s => s.IsDark ? 20.0 : 100.0, // 2021 fallback
@@ -665,7 +665,7 @@ internal class ColorSpec2025
         contrastCurve: s => s.Platform == Platform.Phone ? GetContrastCurve(6) : GetContrastCurve(7)
     );
 
-    public DynamicColor ErrorContainer => new DynamicColor(
+    public static DynamicColor ErrorContainer => new DynamicColor(
         name: "error_container",
         palette: s => s.ErrorPalette,
         tone: s =>
@@ -679,7 +679,7 @@ internal class ColorSpec2025
         contrastCurve: s => s.Platform == Platform.Phone && s.ContrastLevel > 0 ? GetContrastCurve(1.5) : null
     );
 
-    public DynamicColor OnErrorContainer => new DynamicColor(
+    public static DynamicColor OnErrorContainer => new DynamicColor(
         name: "on_error_container",
         palette: s => s.ErrorPalette,
         tone: s => s.IsDark ? 90.0 : 30.0, // 2021 fallback
@@ -691,7 +691,7 @@ internal class ColorSpec2025
     // Primary Fixed Colors [PF]
     // -----------------------------------------------------------------------------
 
-    public DynamicColor PrimaryFixed => new DynamicColor(
+    public static DynamicColor PrimaryFixed => new DynamicColor(
         name: "primary_fixed",
         palette: s => s.PrimaryPalette,
         tone: s =>
@@ -704,7 +704,7 @@ internal class ColorSpec2025
         contrastCurve: s => s.Platform == Platform.Phone && s.ContrastLevel > 0 ? GetContrastCurve(1.5) : null
     );
 
-    public DynamicColor PrimaryFixedDim => new DynamicColor(
+    public static DynamicColor PrimaryFixedDim => new DynamicColor(
         name: "primary_fixed_dim",
         palette: s => s.PrimaryPalette,
         tone: s => PrimaryFixed.Tone(s),
@@ -712,7 +712,7 @@ internal class ColorSpec2025
         toneDeltaPair: s => new ToneDeltaPair(PrimaryFixedDim, PrimaryFixed, 5.0, TonePolarity.Darker, ToneDeltaConstraint.Exact)
     );
 
-    public DynamicColor OnPrimaryFixed => new DynamicColor(
+    public static DynamicColor OnPrimaryFixed => new DynamicColor(
         name: "on_primary_fixed",
         palette: s => s.PrimaryPalette,
         tone: s => s.IsDark ? 100.0 : 10.0, // 2021 fallback
@@ -720,7 +720,7 @@ internal class ColorSpec2025
         contrastCurve: s => GetContrastCurve(7)
     );
 
-    public DynamicColor OnPrimaryFixedVariant => new DynamicColor(
+    public static DynamicColor OnPrimaryFixedVariant => new DynamicColor(
         name: "on_primary_fixed_variant",
         palette: s => s.PrimaryPalette,
         tone: s => s.IsDark ? 90.0 : 30.0, // 2021 fallback
@@ -732,7 +732,7 @@ internal class ColorSpec2025
     // Secondary Fixed Colors [QF]
     // -----------------------------------------------------------------------------
 
-    public DynamicColor SecondaryFixed => new DynamicColor(
+    public static DynamicColor SecondaryFixed => new DynamicColor(
         name: "secondary_fixed",
         palette: s => s.SecondaryPalette,
         tone: s =>
@@ -745,7 +745,7 @@ internal class ColorSpec2025
         contrastCurve: s => s.Platform == Platform.Phone && s.ContrastLevel > 0 ? GetContrastCurve(1.5) : null
     );
 
-    public DynamicColor SecondaryFixedDim => new DynamicColor(
+    public static DynamicColor SecondaryFixedDim => new DynamicColor(
         name: "secondary_fixed_dim",
         palette: s => s.SecondaryPalette,
         tone: s => SecondaryFixed.Tone(s),
@@ -753,7 +753,7 @@ internal class ColorSpec2025
         toneDeltaPair: s => new ToneDeltaPair(SecondaryFixedDim, SecondaryFixed, 5.0, TonePolarity.Darker, ToneDeltaConstraint.Exact)
     );
 
-    public DynamicColor OnSecondaryFixed => new DynamicColor(
+    public static DynamicColor OnSecondaryFixed => new DynamicColor(
         name: "on_secondary_fixed",
         palette: s => s.SecondaryPalette,
         tone: s => 10.0, // 2021 fallback
@@ -761,7 +761,7 @@ internal class ColorSpec2025
         contrastCurve: s => GetContrastCurve(7)
     );
 
-    public DynamicColor OnSecondaryFixedVariant => new DynamicColor(
+    public static DynamicColor OnSecondaryFixedVariant => new DynamicColor(
         name: "on_secondary_fixed_variant",
         palette: s => s.SecondaryPalette,
         tone: s => s.IsDark ? 25.0 : 30.0, // 2021 fallback
@@ -773,7 +773,7 @@ internal class ColorSpec2025
     // Tertiary Fixed Colors [TF]
     // -----------------------------------------------------------------------------
 
-    public DynamicColor TertiaryFixed => new DynamicColor(
+    public static DynamicColor TertiaryFixed => new DynamicColor(
         name: "tertiary_fixed",
         palette: s => s.TertiaryPalette,
         tone: s =>
@@ -786,7 +786,7 @@ internal class ColorSpec2025
         contrastCurve: s => s.Platform == Platform.Phone && s.ContrastLevel > 0 ? GetContrastCurve(1.5) : null
     );
 
-    public DynamicColor TertiaryFixedDim => new DynamicColor(
+    public static DynamicColor TertiaryFixedDim => new DynamicColor(
         name: "tertiary_fixed_dim",
         palette: s => s.TertiaryPalette,
         tone: s => TertiaryFixed.Tone(s),
@@ -794,7 +794,7 @@ internal class ColorSpec2025
         toneDeltaPair: s => new ToneDeltaPair(TertiaryFixedDim, TertiaryFixed, 5.0, TonePolarity.Darker, ToneDeltaConstraint.Exact)
     );
 
-    public DynamicColor OnTertiaryFixed => new DynamicColor(
+    public static DynamicColor OnTertiaryFixed => new DynamicColor(
         name: "on_tertiary_fixed",
         palette: s => s.TertiaryPalette,
         tone: s => 10.0, // 2021 fallback
@@ -802,7 +802,7 @@ internal class ColorSpec2025
         contrastCurve: s => GetContrastCurve(7)
     );
 
-    public DynamicColor OnTertiaryFixedVariant => new DynamicColor(
+    public static DynamicColor OnTertiaryFixedVariant => new DynamicColor(
         name: "on_tertiary_fixed_variant",
         palette: s => s.TertiaryPalette,
         tone: s => s.IsDark ? 90.0 : 30.0, // 2021 fallback
@@ -814,28 +814,28 @@ internal class ColorSpec2025
     // Android-only Colors
     // -----------------------------------------------------------------------------
 
-    public DynamicColor ControlActivated => new DynamicColor(
+    public static DynamicColor ControlActivated => new DynamicColor(
         name: "control_activated",
         palette: s => s.PrimaryPalette,
         tone: s => PrimaryContainer.Tone(s), // Maps to PrimaryContainer in 2025
         isBackground: true
     );
 
-    public DynamicColor ControlNormal => new DynamicColor(
+    public static DynamicColor ControlNormal => new DynamicColor(
         name: "control_normal",
         palette: s => s.NeutralPalette,
         tone: s => OnSurfaceVariant.Tone(s), // Maps to OnSurfaceVariant in 2025
         chromaMultiplier: s => OnSurfaceVariant.ChromaMultiplier?.Invoke(s) ?? 1.0
     );
 
-    public DynamicColor ControlHighlight => new DynamicColor(
+    public static DynamicColor ControlHighlight => new DynamicColor(
         name: "control_highlight",
         palette: s => s.NeutralPalette,
         tone: s => s.IsDark ? 100.0 : 0.0, // 2021 fallback
         opacity: s => s.IsDark ? 0.20 : 0.12 // 2021 fallback
     );
 
-    public DynamicColor TextPrimaryInverse => new DynamicColor(
+    public static DynamicColor TextPrimaryInverse => new DynamicColor(
         name: "text_primary_inverse",
         palette: s => s.NeutralPalette,
         tone: s => InverseOnSurface.Tone(s), // Maps to InverseOnSurface in 2025
@@ -843,25 +843,25 @@ internal class ColorSpec2025
         contrastCurve: s => InverseOnSurface.ContrastCurve?.Invoke(s)
     );
 
-    public DynamicColor TextSecondaryAndTertiaryInverse => new DynamicColor(
+    public static DynamicColor TextSecondaryAndTertiaryInverse => new DynamicColor(
         name: "text_secondary_and_tertiary_inverse",
         palette: s => s.NeutralVariantPalette,
         tone: s => s.IsDark ? 30.0 : 80.0 // 2021 fallback
     );
 
-    public DynamicColor TextPrimaryInverseDisableOnly => new DynamicColor(
+    public static DynamicColor TextPrimaryInverseDisableOnly => new DynamicColor(
         name: "text_primary_inverse_disable_only",
         palette: s => s.NeutralPalette,
         tone: s => s.IsDark ? 10.0 : 90.0 // 2021 fallback
     );
 
-    public DynamicColor TextSecondaryAndTertiaryInverseDisabled => new DynamicColor(
+    public static DynamicColor TextSecondaryAndTertiaryInverseDisabled => new DynamicColor(
         name: "text_secondary_and_tertiary_inverse_disabled",
         palette: s => s.NeutralPalette,
         tone: s => s.IsDark ? 10.0 : 90.0 // 2021 fallback
     );
 
-    public DynamicColor TextHintInverse => new DynamicColor(
+    public static DynamicColor TextHintInverse => new DynamicColor(
         name: "text_hint_inverse",
         palette: s => s.NeutralPalette,
         tone: s => s.IsDark ? 10.0 : 90.0 // 2021 fallback
