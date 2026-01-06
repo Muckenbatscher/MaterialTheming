@@ -330,14 +330,21 @@ internal class ColorSpec2025
         {
             if (s.Platform == Platform.Phone)
             {
-                if (s.Variant == Variant.Neutral) return 2.2;
-                if (s.Variant == Variant.TonalSpot) return 1.7;
-                if (s.Variant == Variant.Expressive) return HctColorCategorization.IsYellow(s.NeutralPalette.Hue) ? (s.IsDark ? 3.0 : 2.3) : 1.6;
+                if (s.Variant == Variant.Neutral)
+                    return 2.2;
+                if (s.Variant == Variant.TonalSpot)
+                    return 1.7;
+                if (s.Variant == Variant.Expressive)
+                    return HctColorCategorization.IsYellow(s.NeutralPalette.Hue) ? (s.IsDark ? 3.0 : 2.3) : 1.6;
             }
             return 1.0;
         },
-        background: s => s.Platform == Platform.Phone ? (s.IsDark ? SurfaceBright : SurfaceDim) : SurfaceContainerHigh,
-        contrastCurve: s => s.Platform == Platform.Phone ? GetContrastCurve(3) : GetContrastCurve(4.5)
+        background: s => s.Platform == Platform.Phone
+            ? (s.IsDark ? SurfaceBright : SurfaceDim)
+            : SurfaceContainerHigh,
+        contrastCurve: s => s.Platform == Platform.Phone
+            ? GetContrastCurve(3)
+            : GetContrastCurve(4.5)
     );
 
     public DynamicColor OutlineVariant => new DynamicColor(
@@ -348,14 +355,21 @@ internal class ColorSpec2025
         {
             if (s.Platform == Platform.Phone)
             {
-                if (s.Variant == Variant.Neutral) return 2.2;
-                if (s.Variant == Variant.TonalSpot) return 1.7;
-                if (s.Variant == Variant.Expressive) return HctColorCategorization.IsYellow(s.NeutralPalette.Hue) ? (s.IsDark ? 3.0 : 2.3) : 1.6;
+                if (s.Variant == Variant.Neutral)
+                    return 2.2;
+                if (s.Variant == Variant.TonalSpot)
+                    return 1.7;
+                if (s.Variant == Variant.Expressive)
+                    return HctColorCategorization.IsYellow(s.NeutralPalette.Hue) ? (s.IsDark ? 3.0 : 2.3) : 1.6;
             }
             return 1.0;
         },
-        background: s => s.Platform == Platform.Phone ? (s.IsDark ? SurfaceBright : SurfaceDim) : SurfaceContainerHigh,
-        contrastCurve: s => s.Platform == Platform.Phone ? GetContrastCurve(1.5) : GetContrastCurve(3)
+        background: s => s.Platform == Platform.Phone
+            ? (s.IsDark ? SurfaceBright : SurfaceDim)
+            : SurfaceContainerHigh,
+        contrastCurve: s => s.Platform == Platform.Phone
+            ? GetContrastCurve(1.5)
+            : GetContrastCurve(3)
     );
 
     public DynamicColor SurfaceTint => new DynamicColor(
@@ -399,9 +413,15 @@ internal class ColorSpec2025
             return TMaxC(s.PrimaryPalette);
         },
         isBackground: true,
-        background: s => s.Platform == Platform.Phone ? (s.IsDark ? SurfaceBright : SurfaceDim) : SurfaceContainerHigh,
-        contrastCurve: s => s.Platform == Platform.Phone ? GetContrastCurve(4.5) : GetContrastCurve(7),
-        toneDeltaPair: s => s.Platform == Platform.Phone ? new ToneDeltaPair(PrimaryContainer, Primary, 5.0, TonePolarity.RelativeLighter, ToneDeltaConstraint.Farther) : null
+        background: s => s.Platform == Platform.Phone
+            ? (s.IsDark ? SurfaceBright : SurfaceDim)
+            : SurfaceContainerHigh,
+        contrastCurve: s => s.Platform == Platform.Phone
+            ? GetContrastCurve(4.5)
+            : GetContrastCurve(7),
+        toneDeltaPair: s => s.Platform == Platform.Phone
+            ? new ToneDeltaPair(PrimaryContainer, Primary, 5.0, TonePolarity.RelativeLighter, ToneDeltaConstraint.Farther)
+            : null
     );
 
     public DynamicColor PrimaryDim => new DynamicColor(
@@ -409,8 +429,10 @@ internal class ColorSpec2025
         palette: s => s.PrimaryPalette,
         tone: s =>
         {
-            if (s.Variant == Variant.Neutral) return 85.0;
-            if (s.Variant == Variant.TonalSpot) return TMaxC(s.PrimaryPalette, 0, 90);
+            if (s.Variant == Variant.Neutral)
+                return 85.0;
+            if (s.Variant == Variant.TonalSpot)
+                return TMaxC(s.PrimaryPalette, 0, 90);
             return TMaxC(s.PrimaryPalette);
         },
         isBackground: true,
@@ -432,9 +454,12 @@ internal class ColorSpec2025
         palette: s => s.PrimaryPalette,
         tone: s =>
         {
-            if (s.Platform == Platform.Watch) return 30.0;
-            if (s.Variant == Variant.Neutral) return s.IsDark ? 30.0 : 90.0;
-            if (s.Variant == Variant.TonalSpot) return s.IsDark ? TMinC(s.PrimaryPalette, 35, 93) : TMaxC(s.PrimaryPalette, 0, 90);
+            if (s.Platform == Platform.Watch)
+                return 30.0;
+            if (s.Variant == Variant.Neutral)
+                return s.IsDark ? 30.0 : 90.0;
+            if (s.Variant == Variant.TonalSpot)
+                return s.IsDark ? TMinC(s.PrimaryPalette, 35, 93) : TMaxC(s.PrimaryPalette, 0, 90);
             if (s.Variant == Variant.Expressive)
             {
                 return s.IsDark
@@ -974,7 +999,7 @@ internal class ColorSpec2025
     // Palette Generation
     // -----------------------------------------------------------------------------
 
-    public TonalPalette GetPrimaryPalette(Variant variant, HctColor sourceColorHct, bool isDark, Platform platform)
+    public static TonalPalette GetPrimaryPalette(Variant variant, HctColor sourceColorHct, bool isDark, Platform platform)
     {
         switch (variant)
         {
@@ -1001,7 +1026,7 @@ internal class ColorSpec2025
         }
     }
 
-    public TonalPalette GetSecondaryPalette(Variant variant, HctColor sourceColorHct, bool isDark, Platform platform)
+    public static TonalPalette GetSecondaryPalette(Variant variant, HctColor sourceColorHct, bool isDark, Platform platform)
     {
         switch (variant)
         {
@@ -1032,7 +1057,7 @@ internal class ColorSpec2025
         }
     }
 
-    public TonalPalette GetTertiaryPalette(Variant variant, HctColor sourceColorHct, Platform platform)
+    public static TonalPalette GetTertiaryPalette(Variant variant, HctColor sourceColorHct, Platform platform)
     {
         switch (variant)
         {
@@ -1072,7 +1097,7 @@ internal class ColorSpec2025
         }
     }
 
-    public TonalPalette GetNeutralPalette(Variant variant, HctColor sourceColorHct, bool isDark, Platform platform)
+    public static TonalPalette GetNeutralPalette(Variant variant, HctColor sourceColorHct, bool isDark, Platform platform)
     {
         switch (variant)
         {
@@ -1099,7 +1124,7 @@ internal class ColorSpec2025
         }
     }
 
-    public TonalPalette GetNeutralVariantPalette(Variant variant, HctColor sourceColorHct, bool isDark, Platform platform)
+    public static TonalPalette GetNeutralVariantPalette(Variant variant, HctColor sourceColorHct, bool isDark, Platform platform)
     {
         switch (variant)
         {
@@ -1130,7 +1155,7 @@ internal class ColorSpec2025
         }
     }
 
-    public TonalPalette? GetErrorPalette(Variant variant, HctColor sourceColorHct, Platform platform)
+    public static TonalPalette? GetErrorPalette(Variant variant, HctColor sourceColorHct, Platform platform)
     {
         var hueBreakpoints = new double[] { 0, 3, 13, 23, 33, 43, 153, 273, 360 };
         var hues = new double[] { 12, 22, 32, 12, 22, 32, 22, 12 };
