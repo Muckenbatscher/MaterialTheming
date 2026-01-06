@@ -974,7 +974,7 @@ internal class ColorSpec2025
     // Palette Generation
     // -----------------------------------------------------------------------------
 
-    public TonalPalette GetPrimaryPalette(Variant variant, HctColor sourceColorHct, bool isDark, Platform platform, double contrastLevel)
+    public TonalPalette GetPrimaryPalette(Variant variant, HctColor sourceColorHct, bool isDark, Platform platform)
     {
         switch (variant)
         {
@@ -1001,7 +1001,7 @@ internal class ColorSpec2025
         }
     }
 
-    public TonalPalette GetSecondaryPalette(Variant variant, HctColor sourceColorHct, bool isDark, Platform platform, double contrastLevel)
+    public TonalPalette GetSecondaryPalette(Variant variant, HctColor sourceColorHct, bool isDark, Platform platform)
     {
         switch (variant)
         {
@@ -1032,7 +1032,7 @@ internal class ColorSpec2025
         }
     }
 
-    public TonalPalette GetTertiaryPalette(Variant variant, HctColor sourceColorHct, bool isDark, Platform platform, double contrastLevel)
+    public TonalPalette GetTertiaryPalette(Variant variant, HctColor sourceColorHct, Platform platform)
     {
         switch (variant)
         {
@@ -1072,7 +1072,7 @@ internal class ColorSpec2025
         }
     }
 
-    public TonalPalette GetNeutralPalette(Variant variant, HctColor sourceColorHct, bool isDark, Platform platform, double contrastLevel)
+    public TonalPalette GetNeutralPalette(Variant variant, HctColor sourceColorHct, bool isDark, Platform platform)
     {
         switch (variant)
         {
@@ -1099,7 +1099,7 @@ internal class ColorSpec2025
         }
     }
 
-    public TonalPalette GetNeutralVariantPalette(Variant variant, HctColor sourceColorHct, bool isDark, Platform platform, double contrastLevel)
+    public TonalPalette GetNeutralVariantPalette(Variant variant, HctColor sourceColorHct, bool isDark, Platform platform)
     {
         switch (variant)
         {
@@ -1130,7 +1130,7 @@ internal class ColorSpec2025
         }
     }
 
-    public TonalPalette? GetErrorPalette(Variant variant, HctColor sourceColorHct, bool isDark, Platform platform, double contrastLevel)
+    public TonalPalette? GetErrorPalette(Variant variant, HctColor sourceColorHct, Platform platform)
     {
         var hueBreakpoints = new double[] { 0, 3, 13, 23, 33, 43, 153, 273, 360 };
         var hues = new double[] { 12, 22, 32, 12, 22, 32, 22, 12 };
@@ -1227,16 +1227,24 @@ internal class ColorSpec2025
 
     private static double GetExpressiveNeutralHue(HctColor sourceColorHct)
     {
+        var breakPoints = new double[] { 0, 71, 124, 253, 278, 300, 360 };
+        var rotations = new double[] { 10, 0, 10, 0, 10, 0 };
         return DynamicScheme.GetRotatedHue(
             sourceColorHct,
-            new double[] { 0, 71, 124, 253, 278, 300, 360 },
-            new double[] { 10, 0, 10, 0, 10, 0 });
+            breakPoints,
+            rotations);
     }
 
     private static double GetExpressiveNeutralChroma(HctColor sourceColorHct, bool isDark, Platform platform)
     {
         double neutralHue = GetExpressiveNeutralHue(sourceColorHct);
-        return platform == Platform.Phone ? (isDark ? (HctColorCategorization.IsYellow(neutralHue) ? 6 : 14) : 18) : 12;
+        if (platform == Platform.Phone)
+            if (isDark)
+                return HctColorCategorization.IsYellow(neutralHue) ? 6 : 14;
+            else
+                return 18;
+        else
+            return 12;
     }
 
     private static double GetVibrantNeutralHue(HctColor sourceColorHct)
@@ -1252,6 +1260,9 @@ internal class ColorSpec2025
     private static double GetVibrantNeutralChroma(HctColor sourceColorHct, Platform platform)
     {
         double neutralHue = GetVibrantNeutralHue(sourceColorHct);
-        return platform == Platform.Phone ? 28 : (HctColorCategorization.IsBlue(neutralHue) ? 28 : 20);
+        if (platform == Platform.Phone)
+            return 28;
+        else
+            return HctColorCategorization.IsBlue(neutralHue) ? 28 : 20;
     }
 }
