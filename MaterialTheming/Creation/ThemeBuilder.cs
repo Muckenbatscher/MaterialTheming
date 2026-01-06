@@ -136,7 +136,7 @@ public class ThemeBuilder : IThemeBuilder
             _ => 0.0
         };
 
-        var scheme = new DynamicScheme(primaryColorHct, DefaultVariant, mode == ThemeMode.Dark, contrastLevelValue,
+        var scheme = new DynamicScheme(DefaultVariant, mode == ThemeMode.Dark, contrastLevelValue,
             primaryPalette, secondaryPalette, tertiaryPalette,
             neutralPalette, neutralVariantPalette, errorPalette);
         return CreateThemeColorFromScheme(scheme);

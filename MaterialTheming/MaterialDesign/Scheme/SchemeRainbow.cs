@@ -16,7 +16,6 @@ internal class SchemeRainbow : DynamicScheme
         double contrastLevel,
         Platform platform)
         : base(
-            sourceColorHct: sourceColorHct,
             variant: Variant.Rainbow,
             isDark: isDark,
             contrastLevel: contrastLevel,

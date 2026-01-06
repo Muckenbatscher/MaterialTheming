@@ -16,7 +16,6 @@ internal class SchemeNeutral : DynamicScheme
         double contrastLevel,
         Platform platform)
         : base(
-            sourceColorHct: sourceColorHct,
             variant: Variant.Neutral,
             isDark: isDark,
             contrastLevel: contrastLevel,

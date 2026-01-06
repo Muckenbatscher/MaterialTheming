@@ -16,7 +16,6 @@ internal class SchemeExpressive : DynamicScheme
         double contrastLevel,
         Platform platform)
         : base(
-            sourceColorHct: sourceColorHct,
             variant: Variant.Expressive,
             isDark: isDark,
             contrastLevel: contrastLevel,

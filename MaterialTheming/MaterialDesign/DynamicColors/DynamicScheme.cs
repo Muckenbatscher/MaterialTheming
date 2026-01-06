@@ -8,7 +8,6 @@ internal class DynamicScheme
 {
     public static readonly Platform DefaultPlatform = Platform.Phone;
 
-    public HctColor HctSourceColor { get; }
     public Variant Variant { get; }
     public bool IsDark { get; }
     public Platform Platform { get; }
@@ -22,7 +21,6 @@ internal class DynamicScheme
     public TonalPalette ErrorPalette { get; }
 
     public DynamicScheme(
-        HctColor sourceColorHct,
         Variant variant,
         bool isDark,
         double contrastLevel,
@@ -34,7 +32,6 @@ internal class DynamicScheme
         TonalPalette? errorPalette = null,
         Platform platform = Platform.Phone)
     {
-        HctSourceColor = sourceColorHct;
         Variant = variant;
         IsDark = isDark;
         ContrastLevel = contrastLevel;
@@ -56,7 +53,6 @@ internal class DynamicScheme
     public static DynamicScheme From(DynamicScheme other, bool isDark, double contrastLevel)
     {
         return new DynamicScheme(
-            other.HctSourceColor,
             other.Variant,
             isDark,
             contrastLevel,

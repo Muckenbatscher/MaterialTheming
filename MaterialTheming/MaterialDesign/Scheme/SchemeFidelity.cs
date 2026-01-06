@@ -16,7 +16,6 @@ internal class SchemeFidelity : DynamicScheme
         double contrastLevel,
         Platform platform)
         : base(
-            sourceColorHct: sourceColorHct,
             variant: Variant.Fidelity,
             isDark: isDark,
             contrastLevel: contrastLevel,

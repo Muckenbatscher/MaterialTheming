@@ -16,7 +16,6 @@ internal class SchemeTonalSpot : DynamicScheme
         double contrastLevel,
         Platform platform)
         : base(
-            sourceColorHct: sourceColorHct,
             variant: Variant.TonalSpot,
             isDark: isDark,
             contrastLevel: contrastLevel,

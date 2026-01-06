@@ -16,7 +16,6 @@ internal class SchemeVibrant : DynamicScheme
         double contrastLevel,
         Platform platform)
         : base(
-            sourceColorHct: sourceColorHct,
             variant: Variant.Vibrant,
             isDark: isDark,
             contrastLevel: contrastLevel,

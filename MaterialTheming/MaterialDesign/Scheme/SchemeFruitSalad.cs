@@ -16,7 +16,6 @@ internal class SchemeFruitSalad : DynamicScheme
         double contrastLevel,
         Platform platform)
         : base(
-            sourceColorHct: sourceColorHct,
             variant: Variant.FruitSalad,
             isDark: isDark,
             contrastLevel: contrastLevel,
