@@ -1,5 +1,6 @@
 ﻿using MaterialTheming.ColorDefinitions;
 using MaterialTheming.MaterialDesign;
+using MaterialTheming.MaterialDesign.DynamicColors;
 using MaterialTheming.MaterialDesign.Palettes;
 using MaterialTheming.MaterialThemeBuilderConversion;
 
@@ -7,6 +8,9 @@ namespace MaterialTheming.Creation;
 
 public class ThemeBuilder : IThemeBuilder
 {
+    private readonly Variant DefaultVariant = Variant.TonalSpot;
+    private readonly Platform DefaultPlatform = Platform.Phone;
+
     public static ThemeBuilder Create() => new ThemeBuilder();
 
     private ThemeBuilder()
@@ -115,26 +119,27 @@ public class ThemeBuilder : IThemeBuilder
             throw new InvalidOperationException("Primary color must be specified.");
 
         var primaryColorHct = HctColor.FromRgbColor(_primaryColorSpec.BaseColor);
-        if (!_secondaryColorSpec.BaseColorSpecified)
-            _secondaryColorSpec.WithBaseColorHue(primaryColorHct.Hue);
-        if (!_tertiaryColorSpec.BaseColorSpecified)
-            _tertiaryColorSpec.WithBaseColorHue(primaryColorHct.Hue + 60);
-        if (!_errorColorSpec.BaseColorSpecified)
-            _errorColorSpec.WithBaseColorHue(25);
-        if (!_neutralColorSpec.BaseColorSpecified)
-            _neutralColorSpec.WithBaseColorHue(primaryColorHct.Hue);
-        if (!_neutralVariantColorSpec.BaseColorSpecified)
-            _neutralVariantColorSpec.WithBaseColorHue(primaryColorHct.Hue);
 
-        var primaryPalette = CreateTonalPaletteFromSpecification(_primaryColorSpec);
-        var secondaryPalette = CreateTonalPaletteFromSpecification(_secondaryColorSpec);
-        var tertiaryPalette = CreateTonalPaletteFromSpecification(_tertiaryColorSpec);
-        var errorPalette = CreateTonalPaletteFromSpecification(_errorColorSpec);
-        var neutralPalette = CreateTonalPaletteFromSpecification(_neutralColorSpec);
-        var neutralVariantPalette = CreateTonalPaletteFromSpecification(_neutralVariantColorSpec);
+        bool isDark = mode == ThemeMode.Dark;
+        var primaryPalette = ColorSpec2025.GetPrimaryPalette(DefaultVariant, primaryColorHct, isDark, DefaultPlatform);
+        var secondaryPalette = ColorSpec2025.GetSecondaryPalette(DefaultVariant, primaryColorHct, isDark, DefaultPlatform);
+        var tertiaryPalette = ColorSpec2025.GetTertiaryPalette(DefaultVariant, primaryColorHct, DefaultPlatform);
+        var errorPalette = ColorSpec2025.GetErrorPalette(DefaultVariant, primaryColorHct, DefaultPlatform);
+        var neutralPalette = ColorSpec2025.GetNeutralPalette(DefaultVariant, primaryColorHct, isDark, DefaultPlatform);
+        var neutralVariantPalette = ColorSpec2025.GetNeutralVariantPalette(DefaultVariant, primaryColorHct, isDark, DefaultPlatform);
 
-        return CreateThemeColorsFromTonalPalettes(primaryPalette, secondaryPalette, tertiaryPalette,
-            errorPalette, neutralPalette, neutralVariantPalette);
+        var contrastLevelValue = contrastLevel switch
+        {
+            ContrastLevel.Normal => 0.0,
+            ContrastLevel.Medium => 0.5,
+            ContrastLevel.High => 1.0,
+            _ => 0.0
+        };
+
+        var scheme = new DynamicScheme(primaryColorHct, DefaultVariant, mode == ThemeMode.Dark, contrastLevelValue,
+            primaryPalette, secondaryPalette, tertiaryPalette,
+            neutralPalette, neutralVariantPalette, errorPalette);
+        return CreateThemeColorFromScheme(scheme);
     }
 
     private TonalPalette CreateTonalPaletteFromSpecification(IColorPaletteSpecResult specification)
@@ -163,54 +168,39 @@ public class ThemeBuilder : IThemeBuilder
         return targetChroma * ratio;
     }
 
-    private ThemeColors CreateThemeColorsFromTonalPalettes(TonalPalette primaryPalette,
-        TonalPalette secondaryPalette,
-        TonalPalette tertiaryPalette,
-        TonalPalette errorPalette,
-        TonalPalette neutralPalette,
-        TonalPalette neutralVariantPalette)
+    private static ThemeColors CreateThemeColorFromScheme(DynamicScheme scheme)
     {
-        var foregroundTone = TargetToneProvider.GetTone(mode, contrastLevel, false);
-        var backgroundTone = TargetToneProvider.GetTone(mode, contrastLevel, true);
-        var containerForegroundTone = TargetToneProvider.GetContainerTone(mode, contrastLevel, false);
-        var containerBackgroundTone = TargetToneProvider.GetContainerTone(mode, contrastLevel, true);
-        var surfaceForegroundTone = TargetToneProvider.GetSurfaceTone(mode, contrastLevel, false);
-        var surfaceBackgroundTone = TargetToneProvider.GetSurfaceTone(mode, contrastLevel, true);
-        var surfaceVariantForegroundTone = TargetToneProvider.GetSurfaceVariantTone(mode, contrastLevel, false);
-        var surfaceVariantBackgroundTone = TargetToneProvider.GetSurfaceVariantTone(mode, contrastLevel, true);
-
-        double surfaceContainerLowestTone = TargetToneProvider.GetSurfaceContainerLowestTone(mode);
-        double surfaceContainerLowTone = TargetToneProvider.GetSurfaceContainerLowTone(mode);
-        double surfaceContainerTone = TargetToneProvider.GetSurfaceContainerTone(mode);
-        double surfaceContainerHighTone = TargetToneProvider.GetSurfaceContainerHighTone(mode);
-        double surfaceContainerHighestTone = TargetToneProvider.GetSurfaceContainerHighestTone(mode);
-
         return new ThemeColors()
         {
-            Primary = primaryPalette.GetHct(backgroundTone).ToRgbColor(),
-            OnPrimary = primaryPalette.GetHct(foregroundTone).ToRgbColor(),
-            PrimaryContainer = primaryPalette.GetHct(containerBackgroundTone).ToRgbColor(),
-            OnPrimaryContainer = primaryPalette.GetHct(containerForegroundTone).ToRgbColor(),
-            Secondary = secondaryPalette.GetHct(backgroundTone).ToRgbColor(),
-            OnSecondary = secondaryPalette.GetHct(foregroundTone).ToRgbColor(),
-            SecondaryContainer = secondaryPalette.GetHct(containerBackgroundTone).ToRgbColor(),
-            OnSecondaryContainer = secondaryPalette.GetHct(containerForegroundTone).ToRgbColor(),
-            Tertiary = tertiaryPalette.GetHct(backgroundTone).ToRgbColor(),
-            OnTertiary = tertiaryPalette.GetHct(foregroundTone).ToRgbColor(),
-            TertiaryContainer = tertiaryPalette.GetHct(containerBackgroundTone).ToRgbColor(),
-            OnTertiaryContainer = tertiaryPalette.GetHct(containerForegroundTone).ToRgbColor(),
-            Error = errorPalette.GetHct(backgroundTone).ToRgbColor(),
-            OnError = errorPalette.GetHct(foregroundTone).ToRgbColor(),
-            ErrorContainer = errorPalette.GetHct(containerBackgroundTone).ToRgbColor(),
-            OnErrorContainer = errorPalette.GetHct(containerForegroundTone).ToRgbColor(),
-            Surface = neutralPalette.GetHct(surfaceBackgroundTone).ToRgbColor(),
-            SurfaceContainer = neutralPalette.GetHct(surfaceContainerTone).ToRgbColor(),
-            SurfaceContainerLowest = neutralPalette.GetHct(surfaceContainerLowestTone).ToRgbColor(),
-            SurfaceContainerLow = neutralPalette.GetHct(surfaceContainerLowTone).ToRgbColor(),
-            SurfaceContainerHigh = neutralPalette.GetHct(surfaceContainerHighTone).ToRgbColor(),
-            SurfaceContainerHighest = neutralPalette.GetHct(surfaceContainerHighestTone).ToRgbColor(),
-            OnSurface = neutralPalette.GetHct(surfaceForegroundTone).ToRgbColor(),
-            OnSurfaceVariant = neutralVariantPalette.GetHct(surfaceVariantForegroundTone).ToRgbColor()
+            Primary = scheme.Primary.ToRgbColor(),
+            OnPrimary = scheme.OnPrimary.ToRgbColor(),
+            PrimaryContainer = scheme.PrimaryContainer.ToRgbColor(),
+            OnPrimaryContainer = scheme.OnPrimaryContainer.ToRgbColor(),
+
+            Secondary = scheme.Secondary.ToRgbColor(),
+            OnSecondary = scheme.OnSecondary.ToRgbColor(),
+            SecondaryContainer = scheme.SecondaryContainer.ToRgbColor(),
+            OnSecondaryContainer = scheme.OnSecondaryContainer.ToRgbColor(),
+
+            Tertiary = scheme.Tertiary.ToRgbColor(),
+            OnTertiary = scheme.OnTertiary.ToRgbColor(),
+            TertiaryContainer = scheme.TertiaryContainer.ToRgbColor(),
+            OnTertiaryContainer = scheme.OnTertiaryContainer.ToRgbColor(),
+
+            Error = scheme.Error.ToRgbColor(),
+            OnError = scheme.OnError.ToRgbColor(),
+            ErrorContainer = scheme.ErrorContainer.ToRgbColor(),
+            OnErrorContainer = scheme.OnErrorContainer.ToRgbColor(),
+
+            Surface = scheme.Surface.ToRgbColor(),
+            OnSurface = scheme.OnSurface.ToRgbColor(),
+            OnSurfaceVariant = scheme.OnSurfaceVariant.ToRgbColor(),
+
+            SurfaceContainerLowest = scheme.SurfaceContainerLowest.ToRgbColor(),
+            SurfaceContainerLow = scheme.SurfaceContainerLow.ToRgbColor(),
+            SurfaceContainer = scheme.SurfaceContainer.ToRgbColor(),
+            SurfaceContainerHigh = scheme.SurfaceContainerHigh.ToRgbColor(),
+            SurfaceContainerHighest = scheme.SurfaceContainerHighest.ToRgbColor(),
         };
     }
 }

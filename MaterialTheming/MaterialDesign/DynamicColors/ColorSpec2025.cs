@@ -811,63 +811,6 @@ internal class ColorSpec2025
     );
 
     // -----------------------------------------------------------------------------
-    // Android-only Colors
-    // -----------------------------------------------------------------------------
-
-    public static DynamicColor ControlActivated => new DynamicColor(
-        name: "control_activated",
-        palette: s => s.PrimaryPalette,
-        tone: s => PrimaryContainer.Tone(s), // Maps to PrimaryContainer in 2025
-        isBackground: true
-    );
-
-    public static DynamicColor ControlNormal => new DynamicColor(
-        name: "control_normal",
-        palette: s => s.NeutralPalette,
-        tone: s => OnSurfaceVariant.Tone(s), // Maps to OnSurfaceVariant in 2025
-        chromaMultiplier: s => OnSurfaceVariant.ChromaMultiplier?.Invoke(s) ?? 1.0
-    );
-
-    public static DynamicColor ControlHighlight => new DynamicColor(
-        name: "control_highlight",
-        palette: s => s.NeutralPalette,
-        tone: s => s.IsDark ? 100.0 : 0.0, // 2021 fallback
-        opacity: s => s.IsDark ? 0.20 : 0.12 // 2021 fallback
-    );
-
-    public static DynamicColor TextPrimaryInverse => new DynamicColor(
-        name: "text_primary_inverse",
-        palette: s => s.NeutralPalette,
-        tone: s => InverseOnSurface.Tone(s), // Maps to InverseOnSurface in 2025
-        background: s => InverseOnSurface.Background?.Invoke(s),
-        contrastCurve: s => InverseOnSurface.ContrastCurve?.Invoke(s)
-    );
-
-    public static DynamicColor TextSecondaryAndTertiaryInverse => new DynamicColor(
-        name: "text_secondary_and_tertiary_inverse",
-        palette: s => s.NeutralVariantPalette,
-        tone: s => s.IsDark ? 30.0 : 80.0 // 2021 fallback
-    );
-
-    public static DynamicColor TextPrimaryInverseDisableOnly => new DynamicColor(
-        name: "text_primary_inverse_disable_only",
-        palette: s => s.NeutralPalette,
-        tone: s => s.IsDark ? 10.0 : 90.0 // 2021 fallback
-    );
-
-    public static DynamicColor TextSecondaryAndTertiaryInverseDisabled => new DynamicColor(
-        name: "text_secondary_and_tertiary_inverse_disabled",
-        palette: s => s.NeutralPalette,
-        tone: s => s.IsDark ? 10.0 : 90.0 // 2021 fallback
-    );
-
-    public static DynamicColor TextHintInverse => new DynamicColor(
-        name: "text_hint_inverse",
-        palette: s => s.NeutralPalette,
-        tone: s => s.IsDark ? 10.0 : 90.0 // 2021 fallback
-    );
-
-    // -----------------------------------------------------------------------------
     // Calculation Logic
     // -----------------------------------------------------------------------------
 
@@ -1188,7 +1131,8 @@ internal class ColorSpec2025
         HctColor bestCandidate = HctColor.From(hue, chroma, answer);
         while (bestCandidate.Chroma < chroma)
         {
-            if (tone < 0 || tone > 100) break;
+            if (tone < 0 || tone > 100)
+                break;
             tone += byDecreasingTone ? -1.0 : 1.0;
             HctColor newCandidate = HctColor.From(hue, chroma, tone);
             if (bestCandidate.Chroma < newCandidate.Chroma)
