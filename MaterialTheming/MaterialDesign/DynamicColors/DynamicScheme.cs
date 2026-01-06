@@ -6,22 +6,13 @@ namespace MaterialTheming.MaterialDesign.DynamicColors;
 
 internal class DynamicScheme
 {
-    public enum SpecVersion
-    {
-        Spec2021,
-        Spec2025
-    }
-
-    public static readonly SpecVersion DefaultSpecVersion = SpecVersion.Spec2021;
     public static readonly Platform DefaultPlatform = Platform.Phone;
 
-    public RgbColor SourceColorRgb { get; }
     public HctColor HctSourceColor { get; }
     public Variant Variant { get; }
     public bool IsDark { get; }
     public Platform Platform { get; }
     public double ContrastLevel { get; }
-    public SpecVersion Version { get; }
 
     public TonalPalette PrimaryPalette { get; }
     public TonalPalette SecondaryPalette { get; }
@@ -41,16 +32,13 @@ internal class DynamicScheme
         TonalPalette neutralPalette,
         TonalPalette neutralVariantPalette,
         TonalPalette? errorPalette = null,
-        Platform platform = Platform.Phone,
-        SpecVersion specVersion = SpecVersion.Spec2021)
+        Platform platform = Platform.Phone)
     {
-        SourceColorRgb = sourceColorHct.ToRgbColor();
         HctSourceColor = sourceColorHct;
         Variant = variant;
         IsDark = isDark;
         ContrastLevel = contrastLevel;
         Platform = platform;
-        Version = MaybeFallbackSpecVersion(specVersion, variant);
 
         PrimaryPalette = primaryPalette;
         SecondaryPalette = secondaryPalette;
@@ -78,22 +66,7 @@ internal class DynamicScheme
             other.NeutralPalette,
             other.NeutralVariantPalette,
             other.ErrorPalette,
-            other.Platform,
-            other.Version);
-    }
-
-    private static SpecVersion MaybeFallbackSpecVersion(SpecVersion specVersion, Variant variant)
-    {
-        switch (variant)
-        {
-            case Variant.Expressive:
-            case Variant.Vibrant:
-            case Variant.TonalSpot:
-            case Variant.Neutral:
-                return specVersion;
-            default:
-                return SpecVersion.Spec2021;
-        }
+            other.Platform);
     }
 
     /// <summary>
