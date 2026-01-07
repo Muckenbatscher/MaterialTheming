@@ -1,9 +1,8 @@
 ﻿using MaterialTheming.ColorDefinitions;
-using MaterialTheming.Creation;
 
-namespace MaterialTheming.MaterialDesign
+namespace MaterialTheming
 {
-    public class ThemeColors : IThemeColors
+    public class ThemeColors
     {
         public RgbColor Primary { get; set; } = RgbColor.Empty;
         public RgbColor OnPrimary { get; set; } = RgbColor.Empty;
