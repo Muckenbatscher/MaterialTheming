@@ -3,14 +3,12 @@ using MaterialTheming.MaterialDesign;
 using MaterialTheming.MaterialDesign.DynamicColors;
 using MaterialTheming.MaterialDesign.Palettes;
 using MaterialTheming.MaterialThemeBuilderConversion;
+using System.ComponentModel;
 
 namespace MaterialTheming.Creation;
 
 public class ThemeBuilder : IThemeBuilder
 {
-    private readonly Variant DefaultVariant = Variant.TonalSpot;
-    private readonly Platform DefaultPlatform = Platform.Phone;
-
     public static ThemeBuilder Create() => new ThemeBuilder();
 
     private ThemeBuilder()
@@ -23,7 +21,9 @@ public class ThemeBuilder : IThemeBuilder
         _neutralVariantColorSpec = new NonPrimaryColorPaletteSpecification(ColorPaletteType.NeutralVariant);
 
         mode = ThemeMode.Light;
-        contrastLevel = ContrastLevel.Normal;
+        contrastLevel = 0.0;
+        variant = Variant.TonalSpot;
+        platform = Platform.Phone;
     }
 
     private readonly ColorPaletteSpecification _primaryColorSpec;
@@ -36,7 +36,9 @@ public class ThemeBuilder : IThemeBuilder
     private string? materialThemeBuilderJson;
 
     private ThemeMode mode;
-    private ContrastLevel contrastLevel;
+    private double contrastLevel;
+    private Variant variant;
+    private Platform platform;
 
     public IThemeBuilder WithPrimaryColor(Action<IColorPaletteSpecification> colorSpecificationOptions)
     {
@@ -70,7 +72,6 @@ public class ThemeBuilder : IThemeBuilder
         return this;
     }
 
-
     public IThemeBuilder WithMaterialThemeBuilderJson(string materialThemeBuilderJson)
     {
         this.materialThemeBuilderJson = materialThemeBuilderJson;
@@ -91,7 +92,29 @@ public class ThemeBuilder : IThemeBuilder
 
     public IThemeBuilder WithContrastLevel(ContrastLevel contrastLevel)
     {
+        var contrastLevelValue = contrastLevel switch
+        {
+            ContrastLevel.Normal => 0.0,
+            ContrastLevel.Medium => 0.5,
+            ContrastLevel.High => 1.0,
+            _ => throw new InvalidEnumArgumentException(nameof(contrastLevel), (int)contrastLevel, typeof(ContrastLevel))
+        };
+        return WithContrastLevel(contrastLevelValue);
+    }
+    public IThemeBuilder WithContrastLevel(double contrastLevel)
+    {
         this.contrastLevel = contrastLevel;
+        return this;
+    }
+
+    public IThemeBuilder WithVariant(Variant variant)
+    {
+        this.variant = variant;
+        return this;
+    }
+    public IThemeBuilder WithPlatform(Platform platform)
+    {
+        this.platform = platform;
         return this;
     }
 
@@ -111,7 +134,7 @@ public class ThemeBuilder : IThemeBuilder
     }
     private ThemeColors BuildThemeColorsFromMaterialDesignJson()
     {
-        return MaterialThemeBuilderThemeColorsExtractor.CreateFromMaterialDesignJson(materialThemeBuilderJson!, mode, contrastLevel);
+        return MaterialThemeBuilderThemeColorsExtractor.CreateFromMaterialDesignJson(materialThemeBuilderJson!, mode, ContrastLevel.Normal);
     }
     private ThemeColors BuildThemeColorsFromColorSpecifications()
     {
@@ -121,22 +144,15 @@ public class ThemeBuilder : IThemeBuilder
         var primaryColorHct = HctColor.FromRgbColor(_primaryColorSpec.BaseColor);
 
         bool isDark = mode == ThemeMode.Dark;
-        var primaryPalette = ColorSpec2025.GetPrimaryPalette(DefaultVariant, primaryColorHct, isDark, DefaultPlatform);
-        var secondaryPalette = ColorSpec2025.GetSecondaryPalette(DefaultVariant, primaryColorHct, isDark, DefaultPlatform);
-        var tertiaryPalette = ColorSpec2025.GetTertiaryPalette(DefaultVariant, primaryColorHct, DefaultPlatform);
-        var errorPalette = ColorSpec2025.GetErrorPalette(DefaultVariant, primaryColorHct, DefaultPlatform);
-        var neutralPalette = ColorSpec2025.GetNeutralPalette(DefaultVariant, primaryColorHct, isDark, DefaultPlatform);
-        var neutralVariantPalette = ColorSpec2025.GetNeutralVariantPalette(DefaultVariant, primaryColorHct, isDark, DefaultPlatform);
+        var primaryPalette = ColorSpec2025.GetPrimaryPalette(variant, primaryColorHct, isDark, platform);
+        var secondaryPalette = ColorSpec2025.GetSecondaryPalette(variant, primaryColorHct, isDark, platform);
+        var tertiaryPalette = ColorSpec2025.GetTertiaryPalette(variant, primaryColorHct, platform);
+        var errorPalette = ColorSpec2025.GetErrorPalette(variant, primaryColorHct, platform);
+        var neutralPalette = ColorSpec2025.GetNeutralPalette(variant, primaryColorHct, isDark, platform);
+        var neutralVariantPalette = ColorSpec2025.GetNeutralVariantPalette(variant, primaryColorHct, isDark, platform);
 
-        var contrastLevelValue = contrastLevel switch
-        {
-            ContrastLevel.Normal => 0.0,
-            ContrastLevel.Medium => 0.5,
-            ContrastLevel.High => 1.0,
-            _ => 0.0
-        };
-
-        var scheme = new DynamicScheme(DefaultVariant, mode == ThemeMode.Dark, contrastLevelValue,
+        
+        var scheme = new DynamicScheme(variant, mode == ThemeMode.Dark, contrastLevel,
             primaryPalette, secondaryPalette, tertiaryPalette,
             neutralPalette, neutralVariantPalette, errorPalette);
         return CreateThemeColorFromScheme(scheme);

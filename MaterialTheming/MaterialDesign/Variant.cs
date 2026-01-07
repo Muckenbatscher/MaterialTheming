@@ -1,6 +1,6 @@
-﻿namespace MaterialTheming.MaterialDesign.DynamicColors;
+﻿namespace MaterialTheming.MaterialDesign;
 
-internal enum Variant
+public enum Variant
 {
     Monochrome,
     Neutral,

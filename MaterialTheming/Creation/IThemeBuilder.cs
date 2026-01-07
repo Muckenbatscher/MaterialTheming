@@ -16,6 +16,9 @@ public interface IThemeBuilder
 
     IThemeBuilder WithMode(ThemeMode mode);
     IThemeBuilder WithContrastLevel(ContrastLevel contrastLevel);
+    IThemeBuilder WithContrastLevel(double contrastLevel);
+    IThemeBuilder WithVariant(Variant variant);
+    IThemeBuilder WithPlatform(Platform platform);
 
     Theme Build();
 }
