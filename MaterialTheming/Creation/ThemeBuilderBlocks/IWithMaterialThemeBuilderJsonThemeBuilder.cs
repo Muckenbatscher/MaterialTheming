@@ -3,6 +3,6 @@
 public interface IWithMaterialThemeBuilderJsonThemeBuilder<TBuilder>
     where TBuilder : IBuildableThemeBuilder
 {
-    TBuilder WithMaterialThemeBuilderJson(string materialThemeBuilderJson);
-    TBuilder WithMaterialThemeBuilderJsonFile(string materialThemeBuilderJsonFilePath);
+    TBuilder WithMaterialThemeBuilderJsonContent(string materialThemeBuilderJson);
+    TBuilder WithMaterialThemeBuilderJsonFilePath(string materialThemeBuilderJsonFilePath);
 }

@@ -8,10 +8,10 @@ public class MaterialThemeBuilderJsonThemeBuilder : IMaterialThemeBuilderJsonThe
     public static IMaterialThemeBuilderJsonThemeBuilder Create() => new MaterialThemeBuilderJsonThemeBuilder();
 
     public static IMaterialThemeBuilderJsonThemeBuilder CreateFromJsonContent(string materialThemeBuilderJson)
-        => Create().WithMaterialThemeBuilderJson(materialThemeBuilderJson);
+        => Create().WithMaterialThemeBuilderJsonContent(materialThemeBuilderJson);
 
-    public static IMaterialThemeBuilderJsonThemeBuilder CreateFromJsonFile(string materialThemeBuilderJsonFilePath)
-        => Create().WithMaterialThemeBuilderJsonFile(materialThemeBuilderJsonFilePath);
+    public static IMaterialThemeBuilderJsonThemeBuilder CreateFromJsonFilePath(string materialThemeBuilderJsonFilePath)
+        => Create().WithMaterialThemeBuilderJsonFilePath(materialThemeBuilderJsonFilePath);
 
     private MaterialThemeBuilderJsonThemeBuilder()
     {
@@ -24,13 +24,12 @@ public class MaterialThemeBuilderJsonThemeBuilder : IMaterialThemeBuilderJsonThe
     private ThemeMode mode;
     private ContrastLevel contrastLevel;
 
-    public IMaterialThemeBuilderJsonThemeBuilder WithMaterialThemeBuilderJson(string materialThemeBuilderJson)
+    public IMaterialThemeBuilderJsonThemeBuilder WithMaterialThemeBuilderJsonContent(string materialThemeBuilderJson)
     {
-
         this.materialThemeBuilderJson = materialThemeBuilderJson;
         return this;
     }
-    public IMaterialThemeBuilderJsonThemeBuilder WithMaterialThemeBuilderJsonFile(string materialThemeBuilderJsonFilePath)
+    public IMaterialThemeBuilderJsonThemeBuilder WithMaterialThemeBuilderJsonFilePath(string materialThemeBuilderJsonFilePath)
     {
         var fileContents = File.ReadAllText(materialThemeBuilderJsonFilePath);
         materialThemeBuilderJson = fileContents;
