@@ -59,6 +59,51 @@ namespace MaterialTheming.MaterialDesign.HctConversion
             return MathUtils.MatrixMultiply(new double[] { r, g, b }, SrgbToXyz);
         }
 
+        // <summary>
+        /// Converts a color represented in Lab color space into an RGB color.
+        /// </summary>
+        public static RgbColor RgbFromLab(double l, double a, double b)
+        {
+            double[] whitePoint = WhitePointD65();
+            double fy = (l + 16.0) / 116.0;
+            double fx = a / 500.0 + fy;
+            double fz = fy - b / 200.0;
+            double xNormalized = LabInvf(fx);
+            double yNormalized = LabInvf(fy);
+            double zNormalized = LabInvf(fz);
+            double x = xNormalized * whitePoint[0];
+            double y = yNormalized * whitePoint[1];
+            double z = zNormalized * whitePoint[2];
+            return RgbFromXyz(x, y, z);
+        }
+
+        /// <summary>
+        /// Converts a color from RGB representation to L*a*b* representation.
+        /// </summary>
+        /// <param name="argb">the RGB representation of a color</param>
+        /// <returns>a double array representing the color in Lab space</returns>
+        public static double[] LabFromRgb(RgbColor rgb)
+        {
+            double linearR = Linearized(rgb.Red);
+            double linearG = Linearized(rgb.Green);
+            double linearB = Linearized(rgb.Blue);
+            double[][] matrix = SrgbToXyz;
+            double x = matrix[0][0] * linearR + matrix[0][1] * linearG + matrix[0][2] * linearB;
+            double y = matrix[1][0] * linearR + matrix[1][1] * linearG + matrix[1][2] * linearB;
+            double z = matrix[2][0] * linearR + matrix[2][1] * linearG + matrix[2][2] * linearB;
+            double[] whitePoint = WhitePointD65();
+            double xNormalized = x / whitePoint[0];
+            double yNormalized = y / whitePoint[1];
+            double zNormalized = z / whitePoint[2];
+            double fx = LabF(xNormalized);
+            double fy = LabF(yNormalized);
+            double fz = LabF(zNormalized);
+            double l = 116.0 * fy - 16;
+            double a = 500.0 * (fx - fy);
+            double b = 200.0 * (fy - fz);
+            return [l, a, b];
+        }
+
         /**
          * Converts an L* value to an RGB representation.
          *

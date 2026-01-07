@@ -7,6 +7,8 @@ namespace MaterialTheming.Creation;
 
 public class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
 {
+    private SpecVersion colorSpecVersion;
+
     public static IColorPaletteThemeBuilder Create() => new ColorPaletteThemeBuilder();
 
     public static IColorPaletteThemeBuilder CreateFromSourceColor(string htmlColor)
@@ -29,6 +31,7 @@ public class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
         contrastLevel = 0.0;
         variant = Variant.TonalSpot;
         platform = Platform.Phone;
+        colorSpecVersion = SpecVersion.Spec2021;
     }
 
     private readonly ColorPaletteSpecification _primaryColorSpec;
@@ -124,12 +127,14 @@ public class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
         var primaryColorHct = HctColor.FromRgbColor(_primaryColorSpec.BaseColor);
 
         bool isDark = mode == ThemeMode.Dark;
-        var primaryPalette = ColorSpec2025.GetPrimaryPalette(variant, primaryColorHct, isDark, platform);
-        var secondaryPalette = ColorSpec2025.GetSecondaryPalette(variant, primaryColorHct, isDark, platform);
-        var tertiaryPalette = ColorSpec2025.GetTertiaryPalette(variant, primaryColorHct, platform);
-        var errorPalette = ColorSpec2025.GetErrorPalette(variant, primaryColorHct, platform);
-        var neutralPalette = ColorSpec2025.GetNeutralPalette(variant, primaryColorHct, isDark, platform);
-        var neutralVariantPalette = ColorSpec2025.GetNeutralVariantPalette(variant, primaryColorHct, isDark, platform);
+        var colorSpec = ColorSpecFactory.Create(colorSpecVersion);
+
+        var primaryPalette = colorSpec.GetPrimaryPalette(variant, primaryColorHct, isDark, platform, contrastLevel);
+        var secondaryPalette = colorSpec.GetSecondaryPalette(variant, primaryColorHct, isDark, platform, contrastLevel);
+        var tertiaryPalette = colorSpec.GetTertiaryPalette(variant, primaryColorHct, isDark, platform, contrastLevel);
+        var errorPalette = colorSpec.GetErrorPalette(variant, primaryColorHct, isDark, platform, contrastLevel);
+        var neutralPalette = colorSpec.GetNeutralPalette(variant, primaryColorHct, isDark, platform, contrastLevel);
+        var neutralVariantPalette = colorSpec.GetNeutralVariantPalette(variant, primaryColorHct, isDark, platform, contrastLevel);
 
         var scheme = new DynamicScheme(variant, mode == ThemeMode.Dark, contrastLevel,
             primaryPalette, secondaryPalette, tertiaryPalette,

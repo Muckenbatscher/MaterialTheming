@@ -56,14 +56,14 @@ internal class DynamicColor
 
     public HctColor GetHct(DynamicScheme scheme)
     {
-        var colorSpec = new ColorSpec2025();
+        var colorSpec = ColorSpecFactory.Create(scheme.ColorSpecVersion);
         HctColor answer = colorSpec.GetHct(scheme, this);
         return answer;
     }
 
     public double GetTone(DynamicScheme scheme)
     {
-        var colorSpec = new ColorSpec2025();
+        var colorSpec = ColorSpecFactory.Create(scheme.ColorSpecVersion);
         return colorSpec.GetTone(scheme, this);
     }
 }

@@ -6,11 +6,13 @@ namespace MaterialTheming.MaterialDesign.DynamicColors;
 
 internal class DynamicScheme
 {
-    public static readonly Platform DefaultPlatform = Platform.Phone;
+    public const Platform DefaultPlatform = Platform.Phone;
+    public const SpecVersion DefaultSpecVersion = SpecVersion.Spec2021;
 
     public Variant Variant { get; }
     public bool IsDark { get; }
     public Platform Platform { get; }
+    public SpecVersion ColorSpecVersion { get; }
     public double ContrastLevel { get; }
 
     public TonalPalette PrimaryPalette { get; }
@@ -30,12 +32,14 @@ internal class DynamicScheme
         TonalPalette neutralPalette,
         TonalPalette neutralVariantPalette,
         TonalPalette? errorPalette = null,
-        Platform platform = Platform.Phone)
+        Platform platform = DefaultPlatform,
+        SpecVersion specVersion = DefaultSpecVersion)
     {
         Variant = variant;
         IsDark = isDark;
         ContrastLevel = contrastLevel;
         Platform = platform;
+        ColorSpecVersion = specVersion;
 
         PrimaryPalette = primaryPalette;
         SecondaryPalette = secondaryPalette;
@@ -62,7 +66,8 @@ internal class DynamicScheme
             other.NeutralPalette,
             other.NeutralVariantPalette,
             other.ErrorPalette,
-            other.Platform);
+            other.Platform,
+            other.ColorSpecVersion);
     }
 
     /// <summary>
@@ -74,7 +79,7 @@ internal class DynamicScheme
         for (int i = 0; i < size; i++)
         {
             if (sourceHue >= hueBreakpoints[i] && sourceHue < hueBreakpoints[i + 1])
-                return MathUtils.SanitizeDegreesDouble(hues[i]);
+                return MathUtils.SanitizeDegrees(hues[i]);
         }
         return sourceHue;
     }
@@ -86,7 +91,7 @@ internal class DynamicScheme
     {
         double sourceHue = sourceColorHct.Hue;
         double calculatedRotation = GetPiecewiseValue(sourceHue, hueBreakpoints, rotations);
-        return MathUtils.SanitizeDegreesDouble(sourceHue + calculatedRotation);
+        return MathUtils.SanitizeDegrees(sourceHue + calculatedRotation);
     }
 
     public HctColor GetHct(DynamicColor dynamicColor)

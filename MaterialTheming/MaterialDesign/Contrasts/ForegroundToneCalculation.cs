@@ -1,4 +1,6 @@
-﻿namespace MaterialTheming.MaterialDesign.Contrasts;
+﻿using MaterialTheming.MaterialDesign.DynamicColors;
+
+namespace MaterialTheming.MaterialDesign.Contrasts;
 
 internal class ForegroundToneCalculation
 {
@@ -56,5 +58,17 @@ internal class ForegroundToneCalculation
     public static bool ToneAllowsLightForeground(double tone)
     {
         return Math.Round(tone) <= 49;
+    }
+
+    public static Func<DynamicScheme, double> GetInitialToneFromBackground(Func<DynamicScheme, DynamicColor?>? background)
+    {
+        if (background == null)
+            return _ => 50.0;
+
+        return scheme =>
+        {
+            var bgColor = background(scheme);
+            return bgColor?.GetTone(scheme) ?? 50.0;
+        };
     }
 }

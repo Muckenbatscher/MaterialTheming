@@ -1,81 +1,25 @@
 ﻿using MaterialTheming.ColorDefinitions;
 using MaterialTheming.MaterialDesign.Contrasts;
-using MaterialTheming.MaterialDesign.Hct;
 using MaterialTheming.MaterialDesign.HctConversion;
 using MaterialTheming.MaterialDesign.Palettes;
 
 namespace MaterialTheming.MaterialDesign.DynamicColors;
 
-internal class ColorSpec2025
+internal class ColorSpec2025 : ColorSpec2021
 {
-    // -----------------------------------------------------------------------------
-    // Main Palettes (From 2021 - Not overridden in 2025)
-    // -----------------------------------------------------------------------------
+    // ----------------------------------------------------------------
+    // Surfaces
+    // ----------------------------------------------------------------
 
-    public static DynamicColor PrimaryPaletteKeyColor => new DynamicColor(
-        name: "primary_palette_key_color",
-        palette: s => s.PrimaryPalette,
-        tone: s => s.PrimaryPalette.KeyColor.Tone
-    );
-
-    public static DynamicColor SecondaryPaletteKeyColor => new DynamicColor(
-        name: "secondary_palette_key_color",
-        palette: s => s.SecondaryPalette,
-        tone: s => s.SecondaryPalette.KeyColor.Tone
-    );
-
-    public static DynamicColor TertiaryPaletteKeyColor => new DynamicColor(
-        name: "tertiary_palette_key_color",
-        palette: s => s.TertiaryPalette,
-        tone: s => s.TertiaryPalette.KeyColor.Tone
-    );
-
-    public static DynamicColor NeutralPaletteKeyColor => new DynamicColor(
-        name: "neutral_palette_key_color",
-        palette: s => s.NeutralPalette,
-        tone: s => s.NeutralPalette.KeyColor.Tone
-    );
-
-    public static DynamicColor NeutralVariantPaletteKeyColor => new DynamicColor(
-        name: "neutral_variant_palette_key_color",
-        palette: s => s.NeutralVariantPalette,
-        tone: s => s.NeutralVariantPalette.KeyColor.Tone
-    );
-
-    public static DynamicColor ErrorPaletteKeyColor => new DynamicColor(
-        name: "error_palette_key_color",
-        palette: s => s.ErrorPalette,
-        tone: s => s.ErrorPalette.KeyColor.Tone
-    );
-
-    // -----------------------------------------------------------------------------
-    // Surfaces [S]
-    // -----------------------------------------------------------------------------
-
-    public static DynamicColor Background => new DynamicColor(
+    public override DynamicColor Background => new(
         name: "background",
-        palette: s => s.NeutralPalette,
-        tone: s => Surface.Tone(s), // Maps to Surface in 2025
-        isBackground: true
-    );
-
-    public static DynamicColor OnBackground => new DynamicColor(
-        name: "on_background",
-        palette: s => s.NeutralPalette,
-        tone: s => s.Platform == Platform.Watch ? 100.0 : OnSurface.Tone(s), // Maps to OnSurface in 2025 (with Watch exception)
-        background: s => Background,
-        contrastCurve: s => s.Platform == Platform.Phone ? GetContrastCurve(11) : GetContrastCurve(9)
-    );
-
-    public static DynamicColor Surface => new DynamicColor(
-        name: "surface",
         palette: s => s.NeutralPalette,
         tone: s =>
         {
             if (s.Platform == Platform.Phone)
             {
                 if (s.IsDark) return 4.0;
-                if (HctColorCategorization.IsYellow(s.NeutralPalette.Hue)) return 99.0;
+                if (IsYellow(s.NeutralPalette.Hue)) return 99.0;
                 if (s.Variant == Variant.Vibrant) return 97.0;
                 return 98.0;
             }
@@ -84,13 +28,38 @@ internal class ColorSpec2025
         isBackground: true
     );
 
-    public static DynamicColor SurfaceDim => new DynamicColor(
+    public override DynamicColor OnBackground => new(
+        name: "on_background",
+        palette: s => s.NeutralPalette,
+        tone: s => s.Platform == Platform.Watch ? 100.0 : base.OnSurface.GetTone(s),
+        background: s => Background,
+        contrastCurve: s => new ContrastCurve(3.0, 3.0, 4.5, 7.0)
+    );
+
+    public override DynamicColor Surface => new(
+        name: "surface",
+        palette: s => s.NeutralPalette,
+        tone: s =>
+        {
+            if (s.Platform == Platform.Phone)
+            {
+                if (s.IsDark) return 4.0;
+                if (IsYellow(s.NeutralPalette.Hue)) return 99.0;
+                if (s.Variant == Variant.Vibrant) return 97.0;
+                return 98.0;
+            }
+            return 0.0;
+        },
+        isBackground: true
+    );
+
+    public override DynamicColor SurfaceDim => new(
         name: "surface_dim",
         palette: s => s.NeutralPalette,
         tone: s =>
         {
             if (s.IsDark) return 4.0;
-            if (HctColorCategorization.IsYellow(s.NeutralPalette.Hue)) return 90.0;
+            if (IsYellow(s.NeutralPalette.Hue)) return 90.0;
             if (s.Variant == Variant.Vibrant) return 85.0;
             return 87.0;
         },
@@ -101,20 +70,20 @@ internal class ColorSpec2025
             {
                 if (s.Variant == Variant.Neutral) return 2.5;
                 if (s.Variant == Variant.TonalSpot) return 1.7;
-                if (s.Variant == Variant.Expressive) return HctColorCategorization.IsYellow(s.NeutralPalette.Hue) ? 2.7 : 1.75;
+                if (s.Variant == Variant.Expressive) return IsYellow(s.NeutralPalette.Hue) ? 2.7 : 1.75;
                 if (s.Variant == Variant.Vibrant) return 1.36;
             }
             return 1.0;
         }
     );
 
-    public static DynamicColor SurfaceBright => new DynamicColor(
+    public override DynamicColor SurfaceBright => new(
         name: "surface_bright",
         palette: s => s.NeutralPalette,
         tone: s =>
         {
             if (s.IsDark) return 18.0;
-            if (HctColorCategorization.IsYellow(s.NeutralPalette.Hue)) return 99.0;
+            if (IsYellow(s.NeutralPalette.Hue)) return 99.0;
             if (s.Variant == Variant.Vibrant) return 97.0;
             return 98.0;
         },
@@ -125,21 +94,21 @@ internal class ColorSpec2025
             {
                 if (s.Variant == Variant.Neutral) return 2.5;
                 if (s.Variant == Variant.TonalSpot) return 1.7;
-                if (s.Variant == Variant.Expressive) return HctColorCategorization.IsYellow(s.NeutralPalette.Hue) ? 2.7 : 1.75;
+                if (s.Variant == Variant.Expressive) return IsYellow(s.NeutralPalette.Hue) ? 2.7 : 1.75;
                 if (s.Variant == Variant.Vibrant) return 1.36;
             }
             return 1.0;
         }
     );
 
-    public static DynamicColor SurfaceContainerLowest => new DynamicColor(
+    public override DynamicColor SurfaceContainerLowest => new(
         name: "surface_container_lowest",
         palette: s => s.NeutralPalette,
         tone: s => s.IsDark ? 0.0 : 100.0,
         isBackground: true
     );
 
-    public static DynamicColor SurfaceContainerLow => new DynamicColor(
+    public override DynamicColor SurfaceContainerLow => new(
         name: "surface_container_low",
         palette: s => s.NeutralPalette,
         tone: s =>
@@ -147,7 +116,7 @@ internal class ColorSpec2025
             if (s.Platform == Platform.Phone)
             {
                 if (s.IsDark) return 6.0;
-                if (HctColorCategorization.IsYellow(s.NeutralPalette.Hue)) return 98.0;
+                if (IsYellow(s.NeutralPalette.Hue)) return 98.0;
                 if (s.Variant == Variant.Vibrant) return 95.0;
                 return 96.0;
             }
@@ -160,14 +129,14 @@ internal class ColorSpec2025
             {
                 if (s.Variant == Variant.Neutral) return 1.3;
                 if (s.Variant == Variant.TonalSpot) return 1.25;
-                if (s.Variant == Variant.Expressive) return HctColorCategorization.IsYellow(s.NeutralPalette.Hue) ? 1.3 : 1.15;
+                if (s.Variant == Variant.Expressive) return IsYellow(s.NeutralPalette.Hue) ? 1.3 : 1.15;
                 if (s.Variant == Variant.Vibrant) return 1.08;
             }
             return 1.0;
         }
     );
 
-    public static DynamicColor SurfaceContainer => new DynamicColor(
+    public override DynamicColor SurfaceContainer => new(
         name: "surface_container",
         palette: s => s.NeutralPalette,
         tone: s =>
@@ -175,7 +144,7 @@ internal class ColorSpec2025
             if (s.Platform == Platform.Phone)
             {
                 if (s.IsDark) return 9.0;
-                if (HctColorCategorization.IsYellow(s.NeutralPalette.Hue)) return 96.0;
+                if (IsYellow(s.NeutralPalette.Hue)) return 96.0;
                 if (s.Variant == Variant.Vibrant) return 92.0;
                 return 94.0;
             }
@@ -188,14 +157,14 @@ internal class ColorSpec2025
             {
                 if (s.Variant == Variant.Neutral) return 1.6;
                 if (s.Variant == Variant.TonalSpot) return 1.4;
-                if (s.Variant == Variant.Expressive) return HctColorCategorization.IsYellow(s.NeutralPalette.Hue) ? 1.6 : 1.3;
+                if (s.Variant == Variant.Expressive) return IsYellow(s.NeutralPalette.Hue) ? 1.6 : 1.3;
                 if (s.Variant == Variant.Vibrant) return 1.15;
             }
             return 1.0;
         }
     );
 
-    public static DynamicColor SurfaceContainerHigh => new DynamicColor(
+    public override DynamicColor SurfaceContainerHigh => new(
         name: "surface_container_high",
         palette: s => s.NeutralPalette,
         tone: s =>
@@ -203,7 +172,7 @@ internal class ColorSpec2025
             if (s.Platform == Platform.Phone)
             {
                 if (s.IsDark) return 12.0;
-                if (HctColorCategorization.IsYellow(s.NeutralPalette.Hue)) return 94.0;
+                if (IsYellow(s.NeutralPalette.Hue)) return 94.0;
                 if (s.Variant == Variant.Vibrant) return 90.0;
                 return 92.0;
             }
@@ -216,20 +185,20 @@ internal class ColorSpec2025
             {
                 if (s.Variant == Variant.Neutral) return 1.9;
                 if (s.Variant == Variant.TonalSpot) return 1.5;
-                if (s.Variant == Variant.Expressive) return HctColorCategorization.IsYellow(s.NeutralPalette.Hue) ? 1.95 : 1.45;
+                if (s.Variant == Variant.Expressive) return IsYellow(s.NeutralPalette.Hue) ? 1.95 : 1.45;
                 if (s.Variant == Variant.Vibrant) return 1.22;
             }
             return 1.0;
         }
     );
 
-    public static DynamicColor SurfaceContainerHighest => new DynamicColor(
+    public override DynamicColor SurfaceContainerHighest => new(
         name: "surface_container_highest",
         palette: s => s.NeutralPalette,
         tone: s =>
         {
             if (s.IsDark) return 15.0;
-            if (HctColorCategorization.IsYellow(s.NeutralPalette.Hue)) return 92.0;
+            if (IsYellow(s.NeutralPalette.Hue)) return 92.0;
             if (s.Variant == Variant.Vibrant) return 88.0;
             return 90.0;
         },
@@ -238,27 +207,24 @@ internal class ColorSpec2025
         {
             if (s.Variant == Variant.Neutral) return 2.2;
             if (s.Variant == Variant.TonalSpot) return 1.7;
-            if (s.Variant == Variant.Expressive) return HctColorCategorization.IsYellow(s.NeutralPalette.Hue) ? 2.3 : 1.6;
+            if (s.Variant == Variant.Expressive) return IsYellow(s.NeutralPalette.Hue) ? 2.3 : 1.6;
             if (s.Variant == Variant.Vibrant) return 1.29;
             return 1.0;
         }
     );
 
-    public static DynamicColor OnSurface => new DynamicColor(
+    public override DynamicColor OnSurface => new(
         name: "on_surface",
         palette: s => s.NeutralPalette,
         tone: s =>
         {
-            if (s.Variant == Variant.Vibrant)
+            if (s.Variant == Variant.Vibrant) return TMaxC(s.NeutralPalette, 0, 100, 1.1);
+            return ForegroundToneCalculation.GetInitialToneFromBackground(scheme =>
             {
-                return TMaxC(s.NeutralPalette, 0, 100, 1.1);
-            }
-            else
-            {
-                // Logic from 2025 "getInitialToneFromBackground" equivalent
-                DynamicColor bg = s.Platform == Platform.Phone ? (s.IsDark ? SurfaceBright : SurfaceDim) : SurfaceContainerHigh;
-                return bg.GetTone(s) < 50 ? 98.0 : 10.0; // Approximation of standard contrast calculation initial tone
-            }
+                if (scheme.Platform == Platform.Phone)
+                    return scheme.IsDark ? SurfaceBright : SurfaceDim;
+                return SurfaceContainerHigh;
+            })(s);
         },
         chromaMultiplier: s =>
         {
@@ -266,7 +232,7 @@ internal class ColorSpec2025
             {
                 if (s.Variant == Variant.Neutral) return 2.2;
                 if (s.Variant == Variant.TonalSpot) return 1.7;
-                if (s.Variant == Variant.Expressive) return HctColorCategorization.IsYellow(s.NeutralPalette.Hue) ? (s.IsDark ? 3.0 : 2.3) : 1.6;
+                if (s.Variant == Variant.Expressive) return IsYellow(s.NeutralPalette.Hue) ? (s.IsDark ? 3.0 : 2.3) : 1.6;
             }
             return 1.0;
         },
@@ -274,30 +240,24 @@ internal class ColorSpec2025
         contrastCurve: s => s.IsDark && s.Platform == Platform.Phone ? GetContrastCurve(11) : GetContrastCurve(9)
     );
 
-    public static DynamicColor SurfaceVariant => new DynamicColor(
+    public override DynamicColor SurfaceVariant => new(
         name: "surface_variant",
-        palette: s => s.NeutralPalette,
-        tone: s => SurfaceContainerHighest.Tone(s), // Remapped in 2025
-        isBackground: true,
-        chromaMultiplier: s => SurfaceContainerHighest.ChromaMultiplier?.Invoke(s) ?? 1.0
+        palette: s => s.NeutralVariantPalette,
+        tone: s => SurfaceContainerHighest.GetTone(s), // Mapped to SurfaceContainerHighest
+        isBackground: true
     );
 
-    public static DynamicColor OnSurfaceVariant => new DynamicColor(
+    public override DynamicColor OnSurfaceVariant => new(
         name: "on_surface_variant",
-        palette: s => s.NeutralPalette,
-        // Tone logic inferred from typical OnVariant behavior or default recursion, 
-        // but 2025 doesn't explicitly override Tone, it overrides Chroma/BG/Contrast.
-        // However, since we aren't inheriting 2021, we need a tone. 
-        // 2021 was: s.IsDark ? 80.0 : 30.0. 
-        // But we should use the standard contrast relationship.
-        tone: s => s.IsDark ? 80.0 : 30.0,
+        palette: s => s.NeutralPalette, // Switched to NeutralPalette in 2025
+        tone: s => base.OnSurfaceVariant.Tone(s), // Keep base tone logic but on different palette/settings
         chromaMultiplier: s =>
         {
             if (s.Platform == Platform.Phone)
             {
                 if (s.Variant == Variant.Neutral) return 2.2;
                 if (s.Variant == Variant.TonalSpot) return 1.7;
-                if (s.Variant == Variant.Expressive) return HctColorCategorization.IsYellow(s.NeutralPalette.Hue) ? (s.IsDark ? 3.0 : 2.3) : 1.6;
+                if (s.Variant == Variant.Expressive) return IsYellow(s.NeutralPalette.Hue) ? (s.IsDark ? 3.0 : 2.3) : 1.6;
             }
             return 1.0;
         },
@@ -307,132 +267,117 @@ internal class ColorSpec2025
             : GetContrastCurve(7)
     );
 
-    public static DynamicColor InverseSurface => new DynamicColor(
+    public override DynamicColor InverseSurface => new(
         name: "inverse_surface",
         palette: s => s.NeutralPalette,
         tone: s => s.IsDark ? 98.0 : 4.0,
         isBackground: true
     );
 
-    public static DynamicColor InverseOnSurface => new DynamicColor(
+    public override DynamicColor InverseOnSurface => new(
         name: "inverse_on_surface",
         palette: s => s.NeutralPalette,
-        tone: s => s.IsDark ? 20.0 : 95.0, // From 2021 fallback
+        tone: s => base.InverseOnSurface.Tone(s),
         background: s => InverseSurface,
         contrastCurve: s => GetContrastCurve(7)
     );
 
-    public static DynamicColor Outline => new DynamicColor(
+    public override DynamicColor Outline => new(
         name: "outline",
         palette: s => s.NeutralPalette,
-        tone: s => s.IsDark ? 60.0 : 50.0, // From 2021 fallback
+        tone: s => base.Outline.Tone(s),
         chromaMultiplier: s =>
         {
             if (s.Platform == Platform.Phone)
             {
-                if (s.Variant == Variant.Neutral)
-                    return 2.2;
-                if (s.Variant == Variant.TonalSpot)
-                    return 1.7;
-                if (s.Variant == Variant.Expressive)
-                    return HctColorCategorization.IsYellow(s.NeutralPalette.Hue) ? (s.IsDark ? 3.0 : 2.3) : 1.6;
+                if (s.Variant == Variant.Neutral) return 2.2;
+                if (s.Variant == Variant.TonalSpot) return 1.7;
+                if (s.Variant == Variant.Expressive) return IsYellow(s.NeutralPalette.Hue) ? (s.IsDark ? 3.0 : 2.3) : 1.6;
             }
             return 1.0;
         },
-        background: s => s.Platform == Platform.Phone
-            ? (s.IsDark ? SurfaceBright : SurfaceDim)
-            : SurfaceContainerHigh,
-        contrastCurve: s => s.Platform == Platform.Phone
-            ? GetContrastCurve(3)
-            : GetContrastCurve(4.5)
+        background: s => s.Platform == Platform.Phone ? (s.IsDark ? SurfaceBright : SurfaceDim) : SurfaceContainerHigh,
+        contrastCurve: s => s.Platform == Platform.Phone ? GetContrastCurve(3) : GetContrastCurve(4.5)
     );
 
-    public static DynamicColor OutlineVariant => new DynamicColor(
+    public override DynamicColor OutlineVariant => new(
         name: "outline_variant",
         palette: s => s.NeutralPalette,
-        tone: s => s.IsDark ? 30.0 : 80.0, // From 2021 fallback
+        tone: s => base.OutlineVariant.Tone(s),
         chromaMultiplier: s =>
         {
             if (s.Platform == Platform.Phone)
             {
-                if (s.Variant == Variant.Neutral)
-                    return 2.2;
-                if (s.Variant == Variant.TonalSpot)
-                    return 1.7;
-                if (s.Variant == Variant.Expressive)
-                    return HctColorCategorization.IsYellow(s.NeutralPalette.Hue) ? (s.IsDark ? 3.0 : 2.3) : 1.6;
+                if (s.Variant == Variant.Neutral) return 2.2;
+                if (s.Variant == Variant.TonalSpot) return 1.7;
+                if (s.Variant == Variant.Expressive) return IsYellow(s.NeutralPalette.Hue) ? (s.IsDark ? 3.0 : 2.3) : 1.6;
             }
             return 1.0;
         },
-        background: s => s.Platform == Platform.Phone
-            ? (s.IsDark ? SurfaceBright : SurfaceDim)
-            : SurfaceContainerHigh,
-        contrastCurve: s => s.Platform == Platform.Phone
-            ? GetContrastCurve(1.5)
-            : GetContrastCurve(3)
+        background: s => s.Platform == Platform.Phone ? (s.IsDark ? SurfaceBright : SurfaceDim) : SurfaceContainerHigh,
+        contrastCurve: s => s.Platform == Platform.Phone ? GetContrastCurve(1.5) : GetContrastCurve(3)
     );
 
-    public static DynamicColor SurfaceTint => new DynamicColor(
+    public override DynamicColor SurfaceTint => new(
         name: "surface_tint",
         palette: s => s.PrimaryPalette,
-        tone: s => Primary.Tone(s), // Maps to Primary in 2025
+        tone: s => Primary.GetTone(s),
         isBackground: true
     );
 
-    // -----------------------------------------------------------------------------
-    // Primaries [P]
-    // -----------------------------------------------------------------------------
+    // ----------------------------------------------------------------
+    // Primaries
+    // ----------------------------------------------------------------
 
-    public static DynamicColor Primary => new DynamicColor(
+    public override DynamicColor Primary => new(
         name: "primary",
         palette: s => s.PrimaryPalette,
         tone: s =>
         {
             if (s.Variant == Variant.Neutral)
             {
-                return s.Platform == Platform.Phone ? (s.IsDark ? 80.0 : 40.0) : 90.0;
+                if (s.Platform == Platform.Phone) return s.IsDark ? 80.0 : 40.0;
+                return 90.0;
             }
             if (s.Variant == Variant.TonalSpot)
             {
-                if (s.Platform == Platform.Phone) return s.IsDark ? 80.0 : TMaxC(s.PrimaryPalette);
+                if (s.Platform == Platform.Phone)
+                {
+                    if (s.IsDark) return 80.0;
+                    return TMaxC(s.PrimaryPalette);
+                }
                 return TMaxC(s.PrimaryPalette, 0, 90);
             }
             if (s.Variant == Variant.Expressive)
             {
                 if (s.Platform == Platform.Phone)
                 {
-                    return TMaxC(s.PrimaryPalette, 0, HctColorCategorization.IsYellow(s.PrimaryPalette.Hue) ? 25 : HctColorCategorization.IsCyan(s.PrimaryPalette.Hue) ? 88 : 98);
+                    return TMaxC(s.PrimaryPalette, 0, IsYellow(s.PrimaryPalette.Hue) ? 25 : IsCyan(s.PrimaryPalette.Hue) ? 88 : 98);
                 }
                 return TMaxC(s.PrimaryPalette);
             }
             // Vibrant
             if (s.Platform == Platform.Phone)
             {
-                return TMaxC(s.PrimaryPalette, 0, HctColorCategorization.IsCyan(s.PrimaryPalette.Hue) ? 88 : 98);
+                return TMaxC(s.PrimaryPalette, 0, IsCyan(s.PrimaryPalette.Hue) ? 88 : 98);
             }
             return TMaxC(s.PrimaryPalette);
         },
         isBackground: true,
-        background: s => s.Platform == Platform.Phone
-            ? (s.IsDark ? SurfaceBright : SurfaceDim)
-            : SurfaceContainerHigh,
-        contrastCurve: s => s.Platform == Platform.Phone
-            ? GetContrastCurve(4.5)
-            : GetContrastCurve(7),
+        background: s => s.Platform == Platform.Phone ? (s.IsDark ? SurfaceBright : SurfaceDim) : SurfaceContainerHigh,
+        contrastCurve: s => s.Platform == Platform.Phone ? GetContrastCurve(4.5) : GetContrastCurve(7),
         toneDeltaPair: s => s.Platform == Platform.Phone
             ? new ToneDeltaPair(PrimaryContainer, Primary, 5.0, TonePolarity.RelativeLighter, ToneDeltaConstraint.Farther)
             : null
     );
 
-    public static DynamicColor PrimaryDim => new DynamicColor(
+    public override DynamicColor PrimaryDim => new(
         name: "primary_dim",
         palette: s => s.PrimaryPalette,
         tone: s =>
         {
-            if (s.Variant == Variant.Neutral)
-                return 85.0;
-            if (s.Variant == Variant.TonalSpot)
-                return TMaxC(s.PrimaryPalette, 0, 90);
+            if (s.Variant == Variant.Neutral) return 85.0;
+            if (s.Variant == Variant.TonalSpot) return TMaxC(s.PrimaryPalette, 0, 90);
             return TMaxC(s.PrimaryPalette);
         },
         isBackground: true,
@@ -441,51 +386,50 @@ internal class ColorSpec2025
         toneDeltaPair: s => new ToneDeltaPair(PrimaryDim, Primary, 5.0, TonePolarity.Darker, ToneDeltaConstraint.Farther)
     );
 
-    public static DynamicColor OnPrimary => new DynamicColor(
+    public override DynamicColor OnPrimary => new(
         name: "on_primary",
         palette: s => s.PrimaryPalette,
-        tone: s => s.IsDark ? 20.0 : 100.0, // 2021 fallback or standard contrast
+        tone: s => base.OnPrimary.Tone(s),
         background: s => s.Platform == Platform.Phone ? Primary : PrimaryDim,
         contrastCurve: s => s.Platform == Platform.Phone ? GetContrastCurve(6) : GetContrastCurve(7)
     );
 
-    public static DynamicColor PrimaryContainer => new DynamicColor(
+    public override DynamicColor PrimaryContainer => new(
         name: "primary_container",
         palette: s => s.PrimaryPalette,
         tone: s =>
         {
-            if (s.Platform == Platform.Watch)
-                return 30.0;
-            if (s.Variant == Variant.Neutral)
-                return s.IsDark ? 30.0 : 90.0;
-            if (s.Variant == Variant.TonalSpot)
-                return s.IsDark ? TMinC(s.PrimaryPalette, 35, 93) : TMaxC(s.PrimaryPalette, 0, 90);
+            if (s.Platform == Platform.Watch) return 30.0;
+            if (s.Variant == Variant.Neutral) return s.IsDark ? 30.0 : 90.0;
+            if (s.Variant == Variant.TonalSpot) return s.IsDark ? TMinC(s.PrimaryPalette, 35, 93) : TMaxC(s.PrimaryPalette, 0, 90);
             if (s.Variant == Variant.Expressive)
             {
                 return s.IsDark
                     ? TMaxC(s.PrimaryPalette, 30, 93)
-                    : TMaxC(s.PrimaryPalette, 78, HctColorCategorization.IsCyan(s.PrimaryPalette.Hue) ? 88 : 90);
+                    : TMaxC(s.PrimaryPalette, 78, IsCyan(s.PrimaryPalette.Hue) ? 88 : 90);
             }
             // Vibrant
             return s.IsDark
                 ? TMinC(s.PrimaryPalette, 66, 93)
-                : TMaxC(s.PrimaryPalette, 66, HctColorCategorization.IsCyan(s.PrimaryPalette.Hue) ? 88 : 93);
+                : TMaxC(s.PrimaryPalette, 66, IsCyan(s.PrimaryPalette.Hue) ? 88 : 93);
         },
         isBackground: true,
         background: s => s.Platform == Platform.Phone ? (s.IsDark ? SurfaceBright : SurfaceDim) : null,
-        toneDeltaPair: s => s.Platform == Platform.Watch ? new ToneDeltaPair(PrimaryContainer, PrimaryDim, 10.0, TonePolarity.Darker, ToneDeltaConstraint.Farther) : null,
-        contrastCurve: s => s.Platform == Platform.Phone && s.ContrastLevel > 0 ? GetContrastCurve(1.5) : null
+        contrastCurve: s => s.Platform == Platform.Phone && s.ContrastLevel > 0 ? GetContrastCurve(1.5) : null,
+        toneDeltaPair: s => s.Platform == Platform.Watch
+            ? new ToneDeltaPair(PrimaryContainer, PrimaryDim, 10.0, TonePolarity.Darker, ToneDeltaConstraint.Farther)
+            : null
     );
 
-    public static DynamicColor OnPrimaryContainer => new DynamicColor(
+    public override DynamicColor OnPrimaryContainer => new(
         name: "on_primary_container",
         palette: s => s.PrimaryPalette,
-        tone: s => s.IsDark ? 90.0 : 30.0, // 2021 fallback
+        tone: s => base.OnPrimaryContainer.Tone(s),
         background: s => PrimaryContainer,
         contrastCurve: s => s.Platform == Platform.Phone ? GetContrastCurve(6) : GetContrastCurve(7)
     );
 
-    public static DynamicColor InversePrimary => new DynamicColor(
+    public override DynamicColor InversePrimary => new(
         name: "inverse_primary",
         palette: s => s.PrimaryPalette,
         tone: s => TMaxC(s.PrimaryPalette),
@@ -493,11 +437,11 @@ internal class ColorSpec2025
         contrastCurve: s => s.Platform == Platform.Phone ? GetContrastCurve(6) : GetContrastCurve(7)
     );
 
-    // -----------------------------------------------------------------------------
-    // Secondaries [Q]
-    // -----------------------------------------------------------------------------
+    // ----------------------------------------------------------------
+    // Secondaries
+    // ----------------------------------------------------------------
 
-    public static DynamicColor Secondary => new DynamicColor(
+    public override DynamicColor Secondary => new(
         name: "secondary",
         palette: s => s.SecondaryPalette,
         tone: s =>
@@ -505,102 +449,115 @@ internal class ColorSpec2025
             if (s.Platform == Platform.Watch) return s.Variant == Variant.Neutral ? 90.0 : TMaxC(s.SecondaryPalette, 0, 90);
             if (s.Variant == Variant.Neutral) return s.IsDark ? TMinC(s.SecondaryPalette, 0, 98) : TMaxC(s.SecondaryPalette);
             if (s.Variant == Variant.Vibrant) return TMaxC(s.SecondaryPalette, 0, s.IsDark ? 90 : 98);
-            // Expressive and TonalSpot
             return s.IsDark ? 80.0 : TMaxC(s.SecondaryPalette);
         },
         isBackground: true,
         background: s => s.Platform == Platform.Phone ? (s.IsDark ? SurfaceBright : SurfaceDim) : SurfaceContainerHigh,
         contrastCurve: s => s.Platform == Platform.Phone ? GetContrastCurve(4.5) : GetContrastCurve(7),
-        toneDeltaPair: s => s.Platform == Platform.Phone ? new ToneDeltaPair(SecondaryContainer, Secondary, 5.0, TonePolarity.RelativeLighter, ToneDeltaConstraint.Farther) : null
+        toneDeltaPair: s => s.Platform == Platform.Phone
+            ? new ToneDeltaPair(SecondaryContainer, Secondary, 5.0, TonePolarity.RelativeLighter, ToneDeltaConstraint.Farther)
+            : null
     );
 
-    public static DynamicColor SecondaryDim => new DynamicColor(
+    public override DynamicColor SecondaryDim => new(
         name: "secondary_dim",
         palette: s => s.SecondaryPalette,
-        tone: s => s.Variant == Variant.Neutral ? 85.0 : TMaxC(s.SecondaryPalette, 0, 90),
+        tone: s =>
+        {
+            if (s.Variant == Variant.Neutral) return 85.0;
+            return TMaxC(s.SecondaryPalette, 0, 90);
+        },
         isBackground: true,
         background: s => SurfaceContainerHigh,
         contrastCurve: s => GetContrastCurve(4.5),
         toneDeltaPair: s => new ToneDeltaPair(SecondaryDim, Secondary, 5.0, TonePolarity.Darker, ToneDeltaConstraint.Farther)
     );
 
-    public static DynamicColor OnSecondary => new DynamicColor(
+    public override DynamicColor OnSecondary => new(
         name: "on_secondary",
         palette: s => s.SecondaryPalette,
-        tone: s => s.IsDark ? 20.0 : 100.0, // 2021 fallback
+        tone: s => base.OnSecondary.Tone(s),
         background: s => s.Platform == Platform.Phone ? Secondary : SecondaryDim,
         contrastCurve: s => s.Platform == Platform.Phone ? GetContrastCurve(6) : GetContrastCurve(7)
     );
 
-    public static DynamicColor SecondaryContainer => new DynamicColor(
+    public override DynamicColor SecondaryContainer => new(
         name: "secondary_container",
         palette: s => s.SecondaryPalette,
         tone: s =>
         {
             if (s.Platform == Platform.Watch) return 30.0;
-            if (s.Variant == Variant.Vibrant) return s.IsDark ? TMinC(s.SecondaryPalette, 30, 40) : TMaxC(s.SecondaryPalette, 84, 90);
-            if (s.Variant == Variant.Expressive) return s.IsDark ? 15.0 : TMaxC(s.SecondaryPalette, 90, 95);
+            if (s.Variant == Variant.Vibrant)
+                return s.IsDark ? TMinC(s.SecondaryPalette, 30, 40) : TMaxC(s.SecondaryPalette, 84, 90);
+            if (s.Variant == Variant.Expressive)
+                return s.IsDark ? 15.0 : TMaxC(s.SecondaryPalette, 90, 95);
             return s.IsDark ? 25.0 : 90.0;
         },
         isBackground: true,
         background: s => s.Platform == Platform.Phone ? (s.IsDark ? SurfaceBright : SurfaceDim) : null,
-        toneDeltaPair: s => s.Platform == Platform.Watch ? new ToneDeltaPair(SecondaryContainer, SecondaryDim, 10.0, TonePolarity.Darker, ToneDeltaConstraint.Farther) : null,
-        contrastCurve: s => s.Platform == Platform.Phone && s.ContrastLevel > 0 ? GetContrastCurve(1.5) : null
+        contrastCurve: s => s.Platform == Platform.Phone && s.ContrastLevel > 0 ? GetContrastCurve(1.5) : null,
+        toneDeltaPair: s => s.Platform == Platform.Watch
+            ? new ToneDeltaPair(SecondaryContainer, SecondaryDim, 10.0, TonePolarity.Darker, ToneDeltaConstraint.Farther)
+            : null
     );
 
-    public static DynamicColor OnSecondaryContainer => new DynamicColor(
+    public override DynamicColor OnSecondaryContainer => new(
         name: "on_secondary_container",
         palette: s => s.SecondaryPalette,
-        tone: s => s.IsDark ? 90.0 : 30.0, // 2021 fallback
+        tone: s => base.OnSecondaryContainer.Tone(s),
         background: s => SecondaryContainer,
         contrastCurve: s => s.Platform == Platform.Phone ? GetContrastCurve(6) : GetContrastCurve(7)
     );
 
-    // -----------------------------------------------------------------------------
-    // Tertiaries [T]
-    // -----------------------------------------------------------------------------
+    // ----------------------------------------------------------------
+    // Tertiaries
+    // ----------------------------------------------------------------
 
-    public static DynamicColor Tertiary => new DynamicColor(
+    public override DynamicColor Tertiary => new(
         name: "tertiary",
         palette: s => s.TertiaryPalette,
         tone: s =>
         {
             if (s.Platform == Platform.Watch)
-            {
                 return s.Variant == Variant.TonalSpot ? TMaxC(s.TertiaryPalette, 0, 90) : TMaxC(s.TertiaryPalette);
-            }
+
             if (s.Variant == Variant.Expressive || s.Variant == Variant.Vibrant)
             {
-                return TMaxC(s.TertiaryPalette, 0, HctColorCategorization.IsCyan(s.TertiaryPalette.Hue) ? 88 : (s.IsDark ? 98 : 100));
+                return TMaxC(s.TertiaryPalette, 0, IsCyan(s.TertiaryPalette.Hue) ? 88 : (s.IsDark ? 98 : 100));
             }
-            // Neutral and TonalSpot
             return s.IsDark ? TMaxC(s.TertiaryPalette, 0, 98) : TMaxC(s.TertiaryPalette);
         },
         isBackground: true,
         background: s => s.Platform == Platform.Phone ? (s.IsDark ? SurfaceBright : SurfaceDim) : SurfaceContainerHigh,
         contrastCurve: s => s.Platform == Platform.Phone ? GetContrastCurve(4.5) : GetContrastCurve(7),
-        toneDeltaPair: s => s.Platform == Platform.Phone ? new ToneDeltaPair(TertiaryContainer, Tertiary, 5.0, TonePolarity.RelativeLighter, ToneDeltaConstraint.Farther) : null
+        toneDeltaPair: s => s.Platform == Platform.Phone
+            ? new ToneDeltaPair(TertiaryContainer, Tertiary, 5.0, TonePolarity.RelativeLighter, ToneDeltaConstraint.Farther)
+            : null
     );
 
-    public static DynamicColor TertiaryDim => new DynamicColor(
+    public override DynamicColor TertiaryDim => new(
         name: "tertiary_dim",
         palette: s => s.TertiaryPalette,
-        tone: s => s.Variant == Variant.TonalSpot ? TMaxC(s.TertiaryPalette, 0, 90) : TMaxC(s.TertiaryPalette),
+        tone: s =>
+        {
+            if (s.Variant == Variant.TonalSpot) return TMaxC(s.TertiaryPalette, 0, 90);
+            return TMaxC(s.TertiaryPalette);
+        },
         isBackground: true,
         background: s => SurfaceContainerHigh,
         contrastCurve: s => GetContrastCurve(4.5),
         toneDeltaPair: s => new ToneDeltaPair(TertiaryDim, Tertiary, 5.0, TonePolarity.Darker, ToneDeltaConstraint.Farther)
     );
 
-    public static DynamicColor OnTertiary => new DynamicColor(
+    public override DynamicColor OnTertiary => new(
         name: "on_tertiary",
         palette: s => s.TertiaryPalette,
-        tone: s => s.IsDark ? 20.0 : 100.0, // 2021 fallback
+        tone: s => base.OnTertiary.Tone(s),
         background: s => s.Platform == Platform.Phone ? Tertiary : TertiaryDim,
         contrastCurve: s => s.Platform == Platform.Phone ? GetContrastCurve(6) : GetContrastCurve(7)
     );
 
-    public static DynamicColor TertiaryContainer => new DynamicColor(
+    public override DynamicColor TertiaryContainer => new(
         name: "tertiary_container",
         palette: s => s.TertiaryPalette,
         tone: s =>
@@ -609,31 +566,43 @@ internal class ColorSpec2025
             {
                 return s.Variant == Variant.TonalSpot ? TMaxC(s.TertiaryPalette, 0, 90) : TMaxC(s.TertiaryPalette);
             }
-            if (s.Variant == Variant.Neutral) return s.IsDark ? TMaxC(s.TertiaryPalette, 0, 93) : TMaxC(s.TertiaryPalette, 0, 96);
-            if (s.Variant == Variant.TonalSpot) return TMaxC(s.TertiaryPalette, 0, s.IsDark ? 93 : 100);
-            if (s.Variant == Variant.Expressive) return TMaxC(s.TertiaryPalette, 75, HctColorCategorization.IsCyan(s.TertiaryPalette.Hue) ? 88 : (s.IsDark ? 93 : 100));
+
+            if (s.Variant == Variant.Neutral)
+            {
+                return s.IsDark ? TMaxC(s.TertiaryPalette, 0, 93) : TMaxC(s.TertiaryPalette, 0, 96);
+            }
+            if (s.Variant == Variant.TonalSpot)
+            {
+                return TMaxC(s.TertiaryPalette, 0, s.IsDark ? 93 : 100);
+            }
+            if (s.Variant == Variant.Expressive)
+            {
+                return TMaxC(s.TertiaryPalette, 75, IsCyan(s.TertiaryPalette.Hue) ? 88 : (s.IsDark ? 93 : 100));
+            }
             // Vibrant
             return s.IsDark ? TMaxC(s.TertiaryPalette, 0, 93) : TMaxC(s.TertiaryPalette, 72, 100);
         },
         isBackground: true,
         background: s => s.Platform == Platform.Phone ? (s.IsDark ? SurfaceBright : SurfaceDim) : null,
-        toneDeltaPair: s => s.Platform == Platform.Watch ? new ToneDeltaPair(TertiaryContainer, TertiaryDim, 10.0, TonePolarity.Darker, ToneDeltaConstraint.Farther) : null,
-        contrastCurve: s => s.Platform == Platform.Phone && s.ContrastLevel > 0 ? GetContrastCurve(1.5) : null
+        contrastCurve: s => s.Platform == Platform.Phone && s.ContrastLevel > 0 ? GetContrastCurve(1.5) : null,
+        toneDeltaPair: s => s.Platform == Platform.Watch
+            ? new ToneDeltaPair(TertiaryContainer, TertiaryDim, 10.0, TonePolarity.Darker, ToneDeltaConstraint.Farther)
+            : null
     );
 
-    public static DynamicColor OnTertiaryContainer => new DynamicColor(
+    public override DynamicColor OnTertiaryContainer => new(
         name: "on_tertiary_container",
         palette: s => s.TertiaryPalette,
-        tone: s => s.IsDark ? 90.0 : 30.0, // 2021 fallback
+        tone: s => base.OnTertiaryContainer.Tone(s),
         background: s => TertiaryContainer,
         contrastCurve: s => s.Platform == Platform.Phone ? GetContrastCurve(6) : GetContrastCurve(7)
     );
 
-    // -----------------------------------------------------------------------------
-    // Errors [E]
-    // -----------------------------------------------------------------------------
+    // ----------------------------------------------------------------
+    // Errors
+    // ----------------------------------------------------------------
 
-    public static DynamicColor Error => new DynamicColor(
+    public override DynamicColor Error => new(
         name: "error",
         palette: s => s.ErrorPalette,
         tone: s =>
@@ -644,10 +613,12 @@ internal class ColorSpec2025
         isBackground: true,
         background: s => s.Platform == Platform.Phone ? (s.IsDark ? SurfaceBright : SurfaceDim) : SurfaceContainerHigh,
         contrastCurve: s => s.Platform == Platform.Phone ? GetContrastCurve(4.5) : GetContrastCurve(7),
-        toneDeltaPair: s => s.Platform == Platform.Phone ? new ToneDeltaPair(ErrorContainer, Error, 5.0, TonePolarity.RelativeLighter, ToneDeltaConstraint.Farther) : null
+        toneDeltaPair: s => s.Platform == Platform.Phone
+            ? new ToneDeltaPair(ErrorContainer, Error, 5.0, TonePolarity.RelativeLighter, ToneDeltaConstraint.Farther)
+            : null
     );
 
-    public static DynamicColor ErrorDim => new DynamicColor(
+    public override DynamicColor ErrorDim => new(
         name: "error_dim",
         palette: s => s.ErrorPalette,
         tone: s => TMinC(s.ErrorPalette),
@@ -657,15 +628,15 @@ internal class ColorSpec2025
         toneDeltaPair: s => new ToneDeltaPair(ErrorDim, Error, 5.0, TonePolarity.Darker, ToneDeltaConstraint.Farther)
     );
 
-    public static DynamicColor OnError => new DynamicColor(
+    public override DynamicColor OnError => new(
         name: "on_error",
         palette: s => s.ErrorPalette,
-        tone: s => s.IsDark ? 20.0 : 100.0, // 2021 fallback
+        tone: s => base.OnError.Tone(s),
         background: s => s.Platform == Platform.Phone ? Error : ErrorDim,
         contrastCurve: s => s.Platform == Platform.Phone ? GetContrastCurve(6) : GetContrastCurve(7)
     );
 
-    public static DynamicColor ErrorContainer => new DynamicColor(
+    public override DynamicColor ErrorContainer => new(
         name: "error_container",
         palette: s => s.ErrorPalette,
         tone: s =>
@@ -675,146 +646,159 @@ internal class ColorSpec2025
         },
         isBackground: true,
         background: s => s.Platform == Platform.Phone ? (s.IsDark ? SurfaceBright : SurfaceDim) : null,
-        toneDeltaPair: s => s.Platform == Platform.Watch ? new ToneDeltaPair(ErrorContainer, ErrorDim, 10.0, TonePolarity.Darker, ToneDeltaConstraint.Farther) : null,
-        contrastCurve: s => s.Platform == Platform.Phone && s.ContrastLevel > 0 ? GetContrastCurve(1.5) : null
+        contrastCurve: s => s.Platform == Platform.Phone && s.ContrastLevel > 0 ? GetContrastCurve(1.5) : null,
+        toneDeltaPair: s => s.Platform == Platform.Watch
+            ? new ToneDeltaPair(ErrorContainer, ErrorDim, 10.0, TonePolarity.Darker, ToneDeltaConstraint.Farther)
+            : null
     );
 
-    public static DynamicColor OnErrorContainer => new DynamicColor(
+    public override DynamicColor OnErrorContainer => new(
         name: "on_error_container",
         palette: s => s.ErrorPalette,
-        tone: s => s.IsDark ? 90.0 : 30.0, // 2021 fallback
+        tone: s => base.OnErrorContainer.Tone(s),
         background: s => ErrorContainer,
         contrastCurve: s => s.Platform == Platform.Phone ? GetContrastCurve(4.5) : GetContrastCurve(7)
     );
 
-    // -----------------------------------------------------------------------------
-    // Primary Fixed Colors [PF]
-    // -----------------------------------------------------------------------------
+    // ----------------------------------------------------------------
+    // Primary Fixed
+    // ----------------------------------------------------------------
 
-    public static DynamicColor PrimaryFixed => new DynamicColor(
+    public override DynamicColor PrimaryFixed => new(
         name: "primary_fixed",
         palette: s => s.PrimaryPalette,
-        tone: s =>
-        {
-            var tempS = DynamicScheme.From(s, isDark: false, contrastLevel: 0.0);
-            return PrimaryContainer.Tone(tempS);
-        },
+        tone: s => PrimaryContainer.GetTone(DynamicScheme.From(s, false, 0.0)),
         isBackground: true,
         background: s => s.Platform == Platform.Phone ? (s.IsDark ? SurfaceBright : SurfaceDim) : null,
         contrastCurve: s => s.Platform == Platform.Phone && s.ContrastLevel > 0 ? GetContrastCurve(1.5) : null
     );
 
-    public static DynamicColor PrimaryFixedDim => new DynamicColor(
+    public override DynamicColor PrimaryFixedDim => new(
         name: "primary_fixed_dim",
         palette: s => s.PrimaryPalette,
-        tone: s => PrimaryFixed.Tone(s),
+        tone: s => PrimaryFixed.GetTone(s),
         isBackground: true,
         toneDeltaPair: s => new ToneDeltaPair(PrimaryFixedDim, PrimaryFixed, 5.0, TonePolarity.Darker, ToneDeltaConstraint.Exact)
     );
 
-    public static DynamicColor OnPrimaryFixed => new DynamicColor(
+    public override DynamicColor OnPrimaryFixed => new(
         name: "on_primary_fixed",
         palette: s => s.PrimaryPalette,
-        tone: s => s.IsDark ? 100.0 : 10.0, // 2021 fallback
+        tone: s => base.OnPrimaryFixed.Tone(s),
         background: s => PrimaryFixedDim,
         contrastCurve: s => GetContrastCurve(7)
     );
 
-    public static DynamicColor OnPrimaryFixedVariant => new DynamicColor(
+    public override DynamicColor OnPrimaryFixedVariant => new(
         name: "on_primary_fixed_variant",
         palette: s => s.PrimaryPalette,
-        tone: s => s.IsDark ? 90.0 : 30.0, // 2021 fallback
+        tone: s => base.OnPrimaryFixedVariant.Tone(s),
         background: s => PrimaryFixedDim,
         contrastCurve: s => GetContrastCurve(4.5)
     );
 
-    // -----------------------------------------------------------------------------
-    // Secondary Fixed Colors [QF]
-    // -----------------------------------------------------------------------------
+    // ----------------------------------------------------------------
+    // Secondary Fixed
+    // ----------------------------------------------------------------
 
-    public static DynamicColor SecondaryFixed => new DynamicColor(
+    public override DynamicColor SecondaryFixed => new(
         name: "secondary_fixed",
         palette: s => s.SecondaryPalette,
-        tone: s =>
-        {
-            var tempS = DynamicScheme.From(s, isDark: false, contrastLevel: 0.0);
-            return SecondaryContainer.Tone(tempS);
-        },
+        tone: s => SecondaryContainer.GetTone(DynamicScheme.From(s, false, 0.0)),
         isBackground: true,
         background: s => s.Platform == Platform.Phone ? (s.IsDark ? SurfaceBright : SurfaceDim) : null,
         contrastCurve: s => s.Platform == Platform.Phone && s.ContrastLevel > 0 ? GetContrastCurve(1.5) : null
     );
 
-    public static DynamicColor SecondaryFixedDim => new DynamicColor(
+    public override DynamicColor SecondaryFixedDim => new(
         name: "secondary_fixed_dim",
         palette: s => s.SecondaryPalette,
-        tone: s => SecondaryFixed.Tone(s),
+        tone: s => SecondaryFixed.GetTone(s),
         isBackground: true,
         toneDeltaPair: s => new ToneDeltaPair(SecondaryFixedDim, SecondaryFixed, 5.0, TonePolarity.Darker, ToneDeltaConstraint.Exact)
     );
 
-    public static DynamicColor OnSecondaryFixed => new DynamicColor(
+    public override DynamicColor OnSecondaryFixed => new(
         name: "on_secondary_fixed",
         palette: s => s.SecondaryPalette,
-        tone: s => 10.0, // 2021 fallback
+        tone: s => base.OnSecondaryFixed.Tone(s),
         background: s => SecondaryFixedDim,
         contrastCurve: s => GetContrastCurve(7)
     );
 
-    public static DynamicColor OnSecondaryFixedVariant => new DynamicColor(
+    public override DynamicColor OnSecondaryFixedVariant => new(
         name: "on_secondary_fixed_variant",
         palette: s => s.SecondaryPalette,
-        tone: s => s.IsDark ? 25.0 : 30.0, // 2021 fallback
+        tone: s => base.OnSecondaryFixedVariant.Tone(s),
         background: s => SecondaryFixedDim,
         contrastCurve: s => GetContrastCurve(4.5)
     );
 
-    // -----------------------------------------------------------------------------
-    // Tertiary Fixed Colors [TF]
-    // -----------------------------------------------------------------------------
+    // ----------------------------------------------------------------
+    // Tertiary Fixed
+    // ----------------------------------------------------------------
 
-    public static DynamicColor TertiaryFixed => new DynamicColor(
+    public override DynamicColor TertiaryFixed => new(
         name: "tertiary_fixed",
         palette: s => s.TertiaryPalette,
-        tone: s =>
-        {
-            var tempS = DynamicScheme.From(s, isDark: false, contrastLevel: 0.0);
-            return TertiaryContainer.Tone(tempS);
-        },
+        tone: s => TertiaryContainer.GetTone(DynamicScheme.From(s, false, 0.0)),
         isBackground: true,
         background: s => s.Platform == Platform.Phone ? (s.IsDark ? SurfaceBright : SurfaceDim) : null,
         contrastCurve: s => s.Platform == Platform.Phone && s.ContrastLevel > 0 ? GetContrastCurve(1.5) : null
     );
 
-    public static DynamicColor TertiaryFixedDim => new DynamicColor(
+    public override DynamicColor TertiaryFixedDim => new(
         name: "tertiary_fixed_dim",
         palette: s => s.TertiaryPalette,
-        tone: s => TertiaryFixed.Tone(s),
+        tone: s => TertiaryFixed.GetTone(s),
         isBackground: true,
         toneDeltaPair: s => new ToneDeltaPair(TertiaryFixedDim, TertiaryFixed, 5.0, TonePolarity.Darker, ToneDeltaConstraint.Exact)
     );
 
-    public static DynamicColor OnTertiaryFixed => new DynamicColor(
+    public override DynamicColor OnTertiaryFixed => new(
         name: "on_tertiary_fixed",
         palette: s => s.TertiaryPalette,
-        tone: s => 10.0, // 2021 fallback
+        tone: s => base.OnTertiaryFixed.Tone(s),
         background: s => TertiaryFixedDim,
         contrastCurve: s => GetContrastCurve(7)
     );
 
-    public static DynamicColor OnTertiaryFixedVariant => new DynamicColor(
+    public override DynamicColor OnTertiaryFixedVariant => new(
         name: "on_tertiary_fixed_variant",
         palette: s => s.TertiaryPalette,
-        tone: s => s.IsDark ? 90.0 : 30.0, // 2021 fallback
+        tone: s => base.OnTertiaryFixedVariant.Tone(s),
         background: s => TertiaryFixedDim,
         contrastCurve: s => GetContrastCurve(4.5)
     );
 
-    // -----------------------------------------------------------------------------
-    // Calculation Logic
-    // -----------------------------------------------------------------------------
+    // ----------------------------------------------------------------
+    // Android-only
+    // ----------------------------------------------------------------
 
-    public HctColor GetHct(DynamicScheme scheme, DynamicColor color)
+    public override DynamicColor ControlActivated => new(
+        name: "control_activated",
+        palette: s => s.PrimaryPalette,
+        tone: s => PrimaryContainer.GetTone(s),
+        isBackground: true
+    );
+
+    public override DynamicColor ControlNormal => new(
+        name: "control_normal",
+        palette: s => s.NeutralPalette,
+        tone: s => OnSurfaceVariant.GetTone(s)
+    );
+
+    public override DynamicColor TextPrimaryInverse => new(
+        name: "text_primary_inverse",
+        palette: s => s.NeutralPalette,
+        tone: s => InverseOnSurface.GetTone(s)
+    );
+
+    // ----------------------------------------------------------------
+    // Calculations & Logic
+    // ----------------------------------------------------------------
+
+    public override HctColor GetHct(DynamicScheme scheme, DynamicColor color)
     {
         TonalPalette palette = color.Palette(scheme);
         double tone = GetTone(scheme, color);
@@ -822,14 +806,13 @@ internal class ColorSpec2025
         double chromaMultiplier = color.ChromaMultiplier?.Invoke(scheme) ?? 1.0;
         double chroma = palette.Chroma * chromaMultiplier;
 
-        HctColor answer = HctColor.From(hue, chroma, tone);
-        return answer;
+        return HctColor.From(hue, chroma, tone);
     }
 
-    public double GetTone(DynamicScheme scheme, DynamicColor color)
+    public override double GetTone(DynamicScheme scheme, DynamicColor color)
     {
+        // Case 0: Tone Delta Pair exists
         ToneDeltaPair? toneDeltaPair = color.ToneDeltaPair?.Invoke(scheme);
-
         if (toneDeltaPair != null)
         {
             DynamicColor roleA = toneDeltaPair.RoleA;
@@ -839,10 +822,10 @@ internal class ColorSpec2025
 
             double absoluteDelta = toneDeltaPair.Delta;
             if (polarity == TonePolarity.Darker ||
-               (polarity == TonePolarity.RelativeLighter && scheme.IsDark) ||
-               (polarity == TonePolarity.RelativeDarker && !scheme.IsDark))
+                (polarity == TonePolarity.RelativeLighter && scheme.IsDark) ||
+                (polarity == TonePolarity.RelativeDarker && !scheme.IsDark))
             {
-                absoluteDelta *= -1;
+                absoluteDelta = -absoluteDelta;
             }
 
             bool amRoleA = color.Name == roleA.Name;
@@ -850,7 +833,7 @@ internal class ColorSpec2025
             DynamicColor referenceRole = amRoleA ? roleB : roleA;
 
             double selfTone = selfRole.Tone(scheme);
-            double referenceTone = GetTone(scheme, referenceRole); // Recursive check
+            double referenceTone = referenceRole.GetTone(scheme);
             double relativeDelta = absoluteDelta * (amRoleA ? 1 : -1);
 
             switch (constraint)
@@ -878,20 +861,17 @@ internal class ColorSpec2025
                 ContrastCurve? contrastCurve = color.ContrastCurve(scheme);
                 if (background != null && contrastCurve != null)
                 {
-                    double bgTone = GetTone(scheme, background);
+                    double bgTone = background.GetTone(scheme);
                     double selfContrast = contrastCurve.Get(scheme.ContrastLevel);
 
-                    if (scheme.ContrastLevel < 0 || Contrast.RatioOfTones(bgTone, selfTone) < selfContrast)
+                    if (Contrast.RatioOfTones(bgTone, selfTone) < selfContrast || scheme.ContrastLevel < 0)
                     {
                         selfTone = ForegroundToneCalculation.ForegroundTone(bgTone, selfContrast);
-                    }
-                    else
-                    {
-                        // Keep selfTone
                     }
                 }
             }
 
+            // Awkward zone avoidance (except fixed dim colors)
             if (color.IsBackground && !color.Name.EndsWith("_fixed_dim"))
             {
                 if (selfTone >= 57) selfTone = MathUtils.ClampDouble(65, 100, selfTone);
@@ -900,241 +880,180 @@ internal class ColorSpec2025
 
             return selfTone;
         }
-        else
+
+        // Case 1: No tone delta pair; use base logic (which handles self-solving and backgrounds)
+        // Note: The logic in 2025 GetTone for Case 1 is almost identical to 2021,
+        // EXCEPT for the "Awkward Zone" logic at the end.
+        // We will copy the implementation here to ensure the 2025 specific constraints are applied.
+
+        double answer = color.Tone(scheme);
+
+        if (color.Background == null || color.ContrastCurve == null)
+            return answer;
+
+        DynamicColor? bg = color.Background(scheme);
+        ContrastCurve? curve = color.ContrastCurve(scheme);
+
+        if (bg == null || curve == null) return answer;
+
+        double backgroundTone = bg.GetTone(scheme);
+        double desiredRatio = curve.Get(scheme.ContrastLevel);
+
+        if (Contrast.RatioOfTones(backgroundTone, answer) < desiredRatio || scheme.ContrastLevel < 0)
         {
-            // Case 1: No tone delta pair
-            double answer = color.Tone(scheme);
+            answer = ForegroundToneCalculation.ForegroundTone(backgroundTone, desiredRatio);
+        }
 
-            if (color.Background == null || color.ContrastCurve == null)
-                return answer;
+        // Awkward zone avoidance
+        if (color.IsBackground && !color.Name.EndsWith("_fixed_dim"))
+        {
+            if (answer >= 57) answer = MathUtils.ClampDouble(65, 100, answer);
+            else answer = MathUtils.ClampDouble(0, 49, answer);
+        }
 
-            var background = color.Background(scheme);
-            var contrastCurve = color.ContrastCurve(scheme);
-            if (background == null || contrastCurve == null)
-                return answer;
+        if (color.SecondBackground == null) return answer;
 
-            double bgTone = GetTone(scheme, background);
-            double desiredRatio = contrastCurve.Get(scheme.ContrastLevel);
+        DynamicColor? bg2 = color.SecondBackground(scheme);
+        if (bg2 == null) return answer;
 
-            if (scheme.ContrastLevel < 0 || Contrast.RatioOfTones(bgTone, answer) < desiredRatio)
-            {
-                answer = ForegroundToneCalculation.ForegroundTone(bgTone, desiredRatio);
-            }
-            else
-            {
-                // answer is fine
-            }
+        double bgTone1 = backgroundTone;
+        double bgTone2 = bg2.GetTone(scheme);
+        double upper = Math.Max(bgTone1, bgTone2);
+        double lower = Math.Min(bgTone1, bgTone2);
 
-            if (color.IsBackground && !color.Name.EndsWith("_fixed_dim"))
-            {
-                if (answer >= 57) answer = MathUtils.ClampDouble(65, 100, answer);
-                else answer = MathUtils.ClampDouble(0, 49, answer);
-            }
-
-            // Note: Dual background logic from 2021 is usually here, but 2025 simplified this logic block significantly
-            // in the provided file. I am following the 2025 implementation provided.
-
+        if (Contrast.RatioOfTones(upper, answer) >= desiredRatio &&
+            Contrast.RatioOfTones(lower, answer) >= desiredRatio)
+        {
             return answer;
         }
+
+        double lightOption = Contrast.Lighter(upper, desiredRatio);
+        double darkOption = Contrast.Darker(lower, desiredRatio);
+
+        List<double> availables = new();
+        if (lightOption != -1) availables.Add(lightOption);
+        if (darkOption != -1) availables.Add(darkOption);
+
+        bool prefersLight = ForegroundToneCalculation.TonePrefersLightForeground(bgTone1) ||
+                            ForegroundToneCalculation.TonePrefersLightForeground(bgTone2);
+
+        if (prefersLight) return lightOption < 0 ? 100 : lightOption;
+        if (availables.Count == 1) return availables[0];
+        return darkOption < 0 ? 0 : darkOption;
     }
 
-    // -----------------------------------------------------------------------------
-    // Palette Generation
-    // -----------------------------------------------------------------------------
+    // ----------------------------------------------------------------
+    // Scheme Palettes
+    // ----------------------------------------------------------------
 
-    public static TonalPalette GetPrimaryPalette(Variant variant, HctColor sourceColorHct, bool isDark, Platform platform)
+    public override TonalPalette GetPrimaryPalette(Variant variant, HctColor sourceColorHct, bool isDark, Platform platform, double contrastLevel)
     {
-        switch (variant)
+        return variant switch
         {
-            case Variant.Neutral:
-                return TonalPalette.FromHueAndChroma(sourceColorHct.Hue, platform == Platform.Phone ? (HctColorCategorization.IsBlue(sourceColorHct.Hue) ? 12 : 8) : (HctColorCategorization.IsBlue(sourceColorHct.Hue) ? 16 : 12));
-            case Variant.TonalSpot:
-                return TonalPalette.FromHueAndChroma(sourceColorHct.Hue, platform == Platform.Phone && isDark ? 26 : 32);
-            case Variant.Expressive:
-                return TonalPalette.FromHueAndChroma(sourceColorHct.Hue, platform == Platform.Phone ? (isDark ? 36 : 48) : 40);
-            case Variant.Vibrant:
-                return TonalPalette.FromHueAndChroma(sourceColorHct.Hue, platform == Platform.Phone ? 74 : 56);
-            // Fallback to 2021 Logic
-            case Variant.Content:
-            case Variant.Fidelity:
-                return TonalPalette.FromHueAndChroma(sourceColorHct.Hue, sourceColorHct.Chroma);
-            case Variant.FruitSalad:
-                return TonalPalette.FromHueAndChroma(MathUtils.SanitizeDegreesDouble(sourceColorHct.Hue - 50.0), 48.0);
-            case Variant.Monochrome:
-                return TonalPalette.FromHueAndChroma(sourceColorHct.Hue, 0.0);
-            case Variant.Rainbow:
-                return TonalPalette.FromHueAndChroma(sourceColorHct.Hue, 48.0);
-            default:
-                return TonalPalette.FromHueAndChroma(sourceColorHct.Hue, sourceColorHct.Chroma);
-        }
+            Variant.Neutral => TonalPalette.FromHueAndChroma(sourceColorHct.Hue, platform == Platform.Phone ? (IsBlue(sourceColorHct.Hue) ? 12 : 8) : (IsBlue(sourceColorHct.Hue) ? 16 : 12)),
+            Variant.TonalSpot => TonalPalette.FromHueAndChroma(sourceColorHct.Hue, platform == Platform.Phone && isDark ? 26 : 32),
+            Variant.Expressive => TonalPalette.FromHueAndChroma(sourceColorHct.Hue, platform == Platform.Phone ? (isDark ? 36 : 48) : 40),
+            Variant.Vibrant => TonalPalette.FromHueAndChroma(sourceColorHct.Hue, platform == Platform.Phone ? 74 : 56),
+            _ => base.GetPrimaryPalette(variant, sourceColorHct, isDark, platform, contrastLevel)
+        };
     }
 
-    public static TonalPalette GetSecondaryPalette(Variant variant, HctColor sourceColorHct, bool isDark, Platform platform)
+    public override TonalPalette GetSecondaryPalette(Variant variant, HctColor sourceColorHct, bool isDark, Platform platform, double contrastLevel)
     {
-        switch (variant)
+        return variant switch
         {
-            case Variant.Neutral:
-                return TonalPalette.FromHueAndChroma(sourceColorHct.Hue, platform == Platform.Phone ? (HctColorCategorization.IsBlue(sourceColorHct.Hue) ? 6 : 4) : (HctColorCategorization.IsBlue(sourceColorHct.Hue) ? 10 : 6));
-            case Variant.TonalSpot:
-                return TonalPalette.FromHueAndChroma(sourceColorHct.Hue, 16);
-            case Variant.Expressive:
-                double[] expressiveHues = { 0, 105, 140, 204, 253, 278, 300, 333, 360 };
-                double[] expressiveRotations = { -160, 155, -100, 96, -96, -156, -165, -160 };
-                return TonalPalette.FromHueAndChroma(DynamicScheme.GetRotatedHue(sourceColorHct, expressiveHues, expressiveRotations), platform == Platform.Phone ? (isDark ? 16 : 24) : 24);
-            case Variant.Vibrant:
-                double[] vibrantHues = { 0, 38, 105, 140, 333, 360 };
-                double[] vibrantRotations = { -14, 10, -14, 10, -14 };
-                return TonalPalette.FromHueAndChroma(DynamicScheme.GetRotatedHue(sourceColorHct, vibrantHues, vibrantRotations), platform == Platform.Phone ? 56 : 36);
-            // Fallback to 2021 Logic
-            case Variant.Content:
-            case Variant.Fidelity:
-                return TonalPalette.FromHueAndChroma(sourceColorHct.Hue, Math.Max(sourceColorHct.Chroma - 32.0, sourceColorHct.Chroma * 0.5));
-            case Variant.FruitSalad:
-                return TonalPalette.FromHueAndChroma(MathUtils.SanitizeDegreesDouble(sourceColorHct.Hue - 50.0), 36.0);
-            case Variant.Monochrome:
-                return TonalPalette.FromHueAndChroma(sourceColorHct.Hue, 0.0);
-            case Variant.Rainbow:
-                return TonalPalette.FromHueAndChroma(sourceColorHct.Hue, 16.0);
-            default:
-                return TonalPalette.FromHueAndChroma(sourceColorHct.Hue, 16.0);
-        }
+            Variant.Neutral => TonalPalette.FromHueAndChroma(sourceColorHct.Hue, platform == Platform.Phone ? (IsBlue(sourceColorHct.Hue) ? 6 : 4) : (IsBlue(sourceColorHct.Hue) ? 10 : 6)),
+            Variant.TonalSpot => TonalPalette.FromHueAndChroma(sourceColorHct.Hue, 16),
+            Variant.Expressive => TonalPalette.FromHueAndChroma(
+                DynamicScheme.GetRotatedHue(sourceColorHct, [0, 105, 140, 204, 253, 278, 300, 333, 360], [-160, 155, -100, 96, -96, -156, -165, -160]),
+                platform == Platform.Phone ? (isDark ? 16 : 24) : 24),
+            Variant.Vibrant => TonalPalette.FromHueAndChroma(
+                DynamicScheme.GetRotatedHue(sourceColorHct, [0, 38, 105, 140, 333, 360], [-14, 10, -14, 10, -14]),
+                platform == Platform.Phone ? 56 : 36),
+            _ => base.GetSecondaryPalette(variant, sourceColorHct, isDark, platform, contrastLevel)
+        };
     }
 
-    public static TonalPalette GetTertiaryPalette(Variant variant, HctColor sourceColorHct, Platform platform)
+    public override TonalPalette GetTertiaryPalette(Variant variant, HctColor sourceColorHct, bool isDark, Platform platform, double contrastLevel)
     {
-        switch (variant)
+        return variant switch
         {
-            case Variant.Neutral:
-                double[] neutralHues = { 0, 38, 105, 161, 204, 278, 333, 360 };
-                double[] neutralRotations = { -32, 26, 10, -39, 24, -15, -32 };
-                return TonalPalette.FromHueAndChroma(DynamicScheme.GetRotatedHue(sourceColorHct, neutralHues, neutralRotations), platform == Platform.Phone ? 20 : 36);
-            case Variant.TonalSpot:
-                double[] tonalSpotHues = { 0, 20, 71, 161, 333, 360 };
-                double[] tonalSpotRotations = { -40, 48, -32, 40, -32 };
-                return TonalPalette.FromHueAndChroma(DynamicScheme.GetRotatedHue(sourceColorHct, tonalSpotHues, tonalSpotRotations), platform == Platform.Phone ? 28 : 32);
-            case Variant.Expressive:
-                double[] expressiveHues = { 0, 105, 140, 204, 253, 278, 300, 333, 360 };
-                double[] expressiveRotations = { -165, 160, -105, 101, -101, -160, -170, -165 };
-                return TonalPalette.FromHueAndChroma(DynamicScheme.GetRotatedHue(sourceColorHct, expressiveHues, expressiveRotations), 48);
-            case Variant.Vibrant:
-                double[] vibrantHues = { 0, 38, 71, 105, 140, 161, 253, 333, 360 };
-                double[] vibrantRotations = { -72, 35, 24, -24, 62, 50, 62, -72 };
-                return TonalPalette.FromHueAndChroma(DynamicScheme.GetRotatedHue(sourceColorHct, vibrantHues, vibrantRotations), 56);
-            // Fallback to 2021 Logic
-            case Variant.Content:
-                // Note: This relies on DislikeAnalyzer and TemperatureCache which are complex. 
-                // Assuming basic fallback for brevity if those aren't ported, but ideally:
-                // return TonalPalette.FromHct(DislikeAnalyzer.FixIfDisliked(new TemperatureCache(sourceColorHct).GetAnalogousColors(3, 6)[2]));
-                return TonalPalette.FromHueAndChroma(sourceColorHct.Hue, 24.0); // Simplified fallback
-            case Variant.Fidelity:
-                // return TonalPalette.FromHct(DislikeAnalyzer.FixIfDisliked(new TemperatureCache(sourceColorHct).GetComplement()));
-                return TonalPalette.FromHueAndChroma(sourceColorHct.Hue, 24.0); // Simplified fallback
-            case Variant.FruitSalad:
-                return TonalPalette.FromHueAndChroma(sourceColorHct.Hue, 36.0);
-            case Variant.Monochrome:
-                return TonalPalette.FromHueAndChroma(sourceColorHct.Hue, 0.0);
-            case Variant.Rainbow:
-                return TonalPalette.FromHueAndChroma(MathUtils.SanitizeDegreesDouble(sourceColorHct.Hue + 60.0), 24.0);
-            default:
-                return TonalPalette.FromHueAndChroma(MathUtils.SanitizeDegreesDouble(sourceColorHct.Hue + 60.0), 24.0);
-        }
+            Variant.Neutral => TonalPalette.FromHueAndChroma(
+                DynamicScheme.GetRotatedHue(sourceColorHct, [0, 38, 105, 161, 204, 278, 333, 360], [-32, 26, 10, -39, 24, -15, -32]),
+                platform == Platform.Phone ? 20 : 36),
+            Variant.TonalSpot => TonalPalette.FromHueAndChroma(
+                DynamicScheme.GetRotatedHue(sourceColorHct, [0, 20, 71, 161, 333, 360], [-40, 48, -32, 40, -32]),
+                platform == Platform.Phone ? 28 : 32),
+            Variant.Expressive => TonalPalette.FromHueAndChroma(
+                DynamicScheme.GetRotatedHue(sourceColorHct, [0, 105, 140, 204, 253, 278, 300, 333, 360], [-165, 160, -105, 101, -101, -160, -170, -165]),
+                48),
+            Variant.Vibrant => TonalPalette.FromHueAndChroma(
+                DynamicScheme.GetRotatedHue(sourceColorHct, [0, 38, 71, 105, 140, 161, 253, 333, 360], [-72, 35, 24, -24, 62, 50, 62, -72]),
+                56),
+            _ => base.GetTertiaryPalette(variant, sourceColorHct, isDark, platform, contrastLevel)
+        };
     }
 
-    public static TonalPalette GetNeutralPalette(Variant variant, HctColor sourceColorHct, bool isDark, Platform platform)
+    public override TonalPalette GetNeutralPalette(Variant variant, HctColor sourceColorHct, bool isDark, Platform platform, double contrastLevel)
     {
-        switch (variant)
+        return variant switch
         {
-            case Variant.Neutral:
-                return TonalPalette.FromHueAndChroma(sourceColorHct.Hue, platform == Platform.Phone ? 1.4 : 6);
-            case Variant.TonalSpot:
-                return TonalPalette.FromHueAndChroma(sourceColorHct.Hue, platform == Platform.Phone ? 5 : 10);
-            case Variant.Expressive:
-                return TonalPalette.FromHueAndChroma(GetExpressiveNeutralHue(sourceColorHct), GetExpressiveNeutralChroma(sourceColorHct, isDark, platform));
-            case Variant.Vibrant:
-                return TonalPalette.FromHueAndChroma(GetVibrantNeutralHue(sourceColorHct), GetVibrantNeutralChroma(sourceColorHct, platform));
-            // Fallback to 2021
-            case Variant.Content:
-            case Variant.Fidelity:
-                return TonalPalette.FromHueAndChroma(sourceColorHct.Hue, sourceColorHct.Chroma / 8.0);
-            case Variant.FruitSalad:
-                return TonalPalette.FromHueAndChroma(sourceColorHct.Hue, 10.0);
-            case Variant.Monochrome:
-                return TonalPalette.FromHueAndChroma(sourceColorHct.Hue, 0.0);
-            case Variant.Rainbow:
-                return TonalPalette.FromHueAndChroma(sourceColorHct.Hue, 0.0);
-            default:
-                return TonalPalette.FromHueAndChroma(sourceColorHct.Hue, 12.0); // Fallback generic
-        }
+            Variant.Neutral => TonalPalette.FromHueAndChroma(sourceColorHct.Hue, platform == Platform.Phone ? 1.4 : 6),
+            Variant.TonalSpot => TonalPalette.FromHueAndChroma(sourceColorHct.Hue, platform == Platform.Phone ? 5 : 10),
+            Variant.Expressive => TonalPalette.FromHueAndChroma(GetExpressiveNeutralHue(sourceColorHct), GetExpressiveNeutralChroma(sourceColorHct, isDark, platform)),
+            Variant.Vibrant => TonalPalette.FromHueAndChroma(GetVibrantNeutralHue(sourceColorHct), GetVibrantNeutralChroma(sourceColorHct, platform)),
+            _ => base.GetNeutralPalette(variant, sourceColorHct, isDark, platform, contrastLevel)
+        };
     }
 
-    public static TonalPalette GetNeutralVariantPalette(Variant variant, HctColor sourceColorHct, bool isDark, Platform platform)
+    public override TonalPalette GetNeutralVariantPalette(Variant variant, HctColor sourceColorHct, bool isDark, Platform platform, double contrastLevel)
     {
-        switch (variant)
+        return variant switch
         {
-            case Variant.Neutral:
-                return TonalPalette.FromHueAndChroma(sourceColorHct.Hue, (platform == Platform.Phone ? 1.4 : 6) * 2.2);
-            case Variant.TonalSpot:
-                return TonalPalette.FromHueAndChroma(sourceColorHct.Hue, (platform == Platform.Phone ? 5 : 10) * 1.7);
-            case Variant.Expressive:
-                double expressiveHue = GetExpressiveNeutralHue(sourceColorHct);
-                double expressiveChroma = GetExpressiveNeutralChroma(sourceColorHct, isDark, platform);
-                return TonalPalette.FromHueAndChroma(expressiveHue, expressiveChroma * (expressiveHue >= 105 && expressiveHue < 125 ? 1.6 : 2.3));
-            case Variant.Vibrant:
-                double vibrantHue = GetVibrantNeutralHue(sourceColorHct);
-                double vibrantChroma = GetVibrantNeutralChroma(sourceColorHct, platform);
-                return TonalPalette.FromHueAndChroma(vibrantHue, vibrantChroma * 1.29);
-            // Fallback to 2021
-            case Variant.Content:
-            case Variant.Fidelity:
-                return TonalPalette.FromHueAndChroma(sourceColorHct.Hue, (sourceColorHct.Chroma / 8.0) + 4.0);
-            case Variant.FruitSalad:
-                return TonalPalette.FromHueAndChroma(sourceColorHct.Hue, 16.0);
-            case Variant.Monochrome:
-                return TonalPalette.FromHueAndChroma(sourceColorHct.Hue, 0.0);
-            case Variant.Rainbow:
-                return TonalPalette.FromHueAndChroma(sourceColorHct.Hue, 0.0);
-            default:
-                return TonalPalette.FromHueAndChroma(sourceColorHct.Hue, 12.0);
-        }
+            Variant.Neutral => TonalPalette.FromHueAndChroma(sourceColorHct.Hue, (platform == Platform.Phone ? 1.4 : 6) * 2.2),
+            Variant.TonalSpot => TonalPalette.FromHueAndChroma(sourceColorHct.Hue, (platform == Platform.Phone ? 5 : 10) * 1.7),
+            Variant.Expressive => TonalPalette.FromHueAndChroma(
+                GetExpressiveNeutralHue(sourceColorHct),
+                GetExpressiveNeutralChroma(sourceColorHct, isDark, platform) * (GetExpressiveNeutralHue(sourceColorHct) is >= 105 and < 125 ? 1.6 : 2.3)),
+            Variant.Vibrant => TonalPalette.FromHueAndChroma(
+                GetVibrantNeutralHue(sourceColorHct),
+                GetVibrantNeutralChroma(sourceColorHct, platform) * 1.29),
+            _ => base.GetNeutralVariantPalette(variant, sourceColorHct, isDark, platform, contrastLevel)
+        };
     }
 
-    public static TonalPalette? GetErrorPalette(Variant variant, HctColor sourceColorHct, Platform platform)
+    public override TonalPalette? GetErrorPalette(Variant variant, HctColor sourceColorHct, bool isDark, Platform platform, double contrastLevel)
     {
-        var hueBreakpoints = new double[] { 0, 3, 13, 23, 33, 43, 153, 273, 360 };
-        var hues = new double[] { 12, 22, 32, 12, 22, 32, 22, 12 };
         double errorHue = DynamicScheme.GetPiecewiseValue(sourceColorHct.Hue,
-            hueBreakpoints,
-            hues);
+            [0, 3, 13, 23, 33, 43, 153, 273, 360],
+            [12, 22, 32, 12, 22, 32, 22, 12]);
 
-        switch (variant)
+        return variant switch
         {
-            case Variant.Neutral:
-                return TonalPalette.FromHueAndChroma(errorHue, platform == Platform.Phone ? 50 : 40);
-            case Variant.TonalSpot:
-                return TonalPalette.FromHueAndChroma(errorHue, platform == Platform.Phone ? 60 : 48);
-            case Variant.Expressive:
-                return TonalPalette.FromHueAndChroma(errorHue, platform == Platform.Phone ? 64 : 48);
-            case Variant.Vibrant:
-                return TonalPalette.FromHueAndChroma(errorHue, platform == Platform.Phone ? 80 : 60);
-            default:
-                return null; // 2021 fallback is Optional.empty()
-        }
+            Variant.Neutral => TonalPalette.FromHueAndChroma(errorHue, platform == Platform.Phone ? 50 : 40),
+            Variant.TonalSpot => TonalPalette.FromHueAndChroma(errorHue, platform == Platform.Phone ? 60 : 48),
+            Variant.Expressive => TonalPalette.FromHueAndChroma(errorHue, platform == Platform.Phone ? 64 : 48),
+            Variant.Vibrant => TonalPalette.FromHueAndChroma(errorHue, platform == Platform.Phone ? 80 : 60),
+            _ => base.GetErrorPalette(variant, sourceColorHct, isDark, platform, contrastLevel)
+        };
     }
 
-    // -----------------------------------------------------------------------------
+    // ----------------------------------------------------------------
     // Helpers
-    // -----------------------------------------------------------------------------
+    // ----------------------------------------------------------------
 
     private static double FindBestToneForChroma(double hue, double chroma, double tone, bool byDecreasingTone)
     {
         double answer = tone;
         HctColor bestCandidate = HctColor.From(hue, chroma, answer);
+
         while (bestCandidate.Chroma < chroma)
         {
-            if (tone < 0 || tone > 100)
-                break;
+            if (tone is < 0 or > 100) break;
+
             tone += byDecreasingTone ? -1.0 : 1.0;
             HctColor newCandidate = HctColor.From(hue, chroma, tone);
+
             if (bestCandidate.Chroma < newCandidate.Chroma)
             {
                 bestCandidate = newCandidate;
@@ -1144,11 +1063,9 @@ internal class ColorSpec2025
         return answer;
     }
 
-    private static double TMaxC(TonalPalette palette)
-        => TMaxC(palette, 0, 100);
+    private static double TMaxC(TonalPalette palette) => TMaxC(palette, 0, 100);
 
-    private static double TMaxC(TonalPalette palette, double lowerBound, double upperBound)
-        => TMaxC(palette, lowerBound, upperBound, 1);
+    private static double TMaxC(TonalPalette palette, double lowerBound, double upperBound) => TMaxC(palette, lowerBound, upperBound, 1);
 
     private static double TMaxC(TonalPalette palette, double lowerBound, double upperBound, double chromaMultiplier)
     {
@@ -1156,8 +1073,7 @@ internal class ColorSpec2025
         return MathUtils.ClampDouble(lowerBound, upperBound, answer);
     }
 
-    private static double TMinC(TonalPalette palette)
-        => TMinC(palette, 0, 100);
+    private static double TMinC(TonalPalette palette) => TMinC(palette, 0, 100);
 
     private static double TMinC(TonalPalette palette, double lowerBound, double upperBound)
     {
@@ -1167,71 +1083,50 @@ internal class ColorSpec2025
 
     private static ContrastCurve GetContrastCurve(double defaultContrast)
     {
-        if (defaultContrast == 1.5)
-            return new ContrastCurve(1.5, 1.5, 3, 5.5);
-
-        if (defaultContrast == 3)
-            return new ContrastCurve(3, 3, 4.5, 7);
-
-        if (defaultContrast == 4.5)
-            return new ContrastCurve(4.5, 4.5, 7, 11);
-
-        if (defaultContrast == 6)
-            return new ContrastCurve(6, 6, 7, 11);
-
-        if (defaultContrast == 7)
-            return new ContrastCurve(7, 7, 11, 21);
-
-        if (defaultContrast == 9)
-            return new ContrastCurve(9, 9, 11, 21);
-
-        if (defaultContrast == 11)
-            return new ContrastCurve(11, 11, 21, 21);
-
-        if (defaultContrast == 21)
-            return new ContrastCurve(21, 21, 21, 21);
-
-        return new ContrastCurve(defaultContrast, defaultContrast, 7, 21);
+        return defaultContrast switch
+        {
+            1.5 => new ContrastCurve(1.5, 1.5, 3, 5.5),
+            3 => new ContrastCurve(3, 3, 4.5, 7),
+            4.5 => new ContrastCurve(4.5, 4.5, 7, 11),
+            6 => new ContrastCurve(6, 6, 7, 11),
+            7 => new ContrastCurve(7, 7, 11, 21),
+            9 => new ContrastCurve(9, 9, 11, 21),
+            11 => new ContrastCurve(11, 11, 21, 21),
+            21 => new ContrastCurve(21, 21, 21, 21),
+            _ => new ContrastCurve(defaultContrast, defaultContrast, 7, 21)
+        };
     }
+
+    private static bool IsYellow(double hue) => hue is >= 41 and <= 69;
+    private static bool IsCyan(double hue) => hue is >= 166 and <= 214;
+    private static bool IsBlue(double hue) => hue is >= 215 and <= 299;
 
     private static double GetExpressiveNeutralHue(HctColor sourceColorHct)
     {
-        var breakPoints = new double[] { 0, 71, 124, 253, 278, 300, 360 };
-        var rotations = new double[] { 10, 0, 10, 0, 10, 0 };
-        return DynamicScheme.GetRotatedHue(
-            sourceColorHct,
-            breakPoints,
-            rotations);
+        return DynamicScheme.GetRotatedHue(sourceColorHct,
+            [0, 71, 124, 253, 278, 300, 360],
+            [10, 0, 10, 0, 10, 0]);
     }
 
     private static double GetExpressiveNeutralChroma(HctColor sourceColorHct, bool isDark, Platform platform)
     {
         double neutralHue = GetExpressiveNeutralHue(sourceColorHct);
         if (platform == Platform.Phone)
-            if (isDark)
-                return HctColorCategorization.IsYellow(neutralHue) ? 6 : 14;
-            else
-                return 18;
-        else
-            return 12;
+            return isDark ? (IsYellow(neutralHue) ? 6 : 14) : 18;
+        return 12;
     }
 
     private static double GetVibrantNeutralHue(HctColor sourceColorHct)
     {
-        var breakPoints = new double[] { 0, 38, 105, 140, 333, 360 };
-        var rotations = new double[] { -14, 10, -14, 10, -14 };
-        return DynamicScheme.GetRotatedHue(
-            sourceColorHct,
-            breakPoints,
-            rotations);
+        return DynamicScheme.GetRotatedHue(sourceColorHct,
+            [0, 38, 105, 140, 333, 360],
+            [-14, 10, -14, 10, -14]);
     }
 
     private static double GetVibrantNeutralChroma(HctColor sourceColorHct, Platform platform)
     {
         double neutralHue = GetVibrantNeutralHue(sourceColorHct);
-        if (platform == Platform.Phone)
-            return 28;
-        else
-            return HctColorCategorization.IsBlue(neutralHue) ? 28 : 20;
+        if (platform == Platform.Phone) return 28;
+        return IsBlue(neutralHue) ? 28 : 20;
     }
 }

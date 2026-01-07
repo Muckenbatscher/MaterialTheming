@@ -5,5 +5,7 @@ internal enum TonePolarity
     Darker,
     Lighter,
     RelativeDarker,
-    RelativeLighter
+    RelativeLighter,
+    Nearer,
+    Farther
 }

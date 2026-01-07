@@ -683,7 +683,7 @@ namespace MaterialTheming.MaterialDesign.HctConversion
             {
                 return ColorUtils.RgbFromLstar(lstar);
             }
-            hueDegrees = MathUtils.SanitizeDegreesDouble(hueDegrees);
+            hueDegrees = MathUtils.SanitizeDegrees(hueDegrees);
             double hueRadians = hueDegrees / 180 * Math.PI;
             double y = ColorUtils.YFromLstar(lstar);
             var exactAnswer = FindRgbColorResultByJ(hueRadians, chroma, y);

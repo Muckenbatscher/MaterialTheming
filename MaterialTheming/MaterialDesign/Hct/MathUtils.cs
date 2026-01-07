@@ -76,7 +76,7 @@
          *
          * @return a degree measure between 0.0 (inclusive) and 360.0 (exclusive).
          */
-        public static double SanitizeDegreesDouble(double degrees)
+        public static double SanitizeDegrees(double degrees)
         {
             degrees = degrees % 360.0;
             if (degrees < 0)
