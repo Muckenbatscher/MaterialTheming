@@ -7,10 +7,11 @@ namespace MaterialTheming.Tests;
 public sealed class TonalSpotTests
 {
     [TestMethod]
-    public void LightMode_NormalContrast_Green()
+    [DataRow(typeof(TonalSpot_LightMode_NormalContrast_Green))]
+    [DataRow(typeof(TonalSpot_DarkMode_NormalContrast_Cyan))]
+    public void TonalSpot_ForType(Type testThemeType)
     {
-        var result = ThemeValidator.ValidateThemeColors<
-            TonalSpot_LightMode_NormalContrast_Green>();
+        var result = TestThemeTypeValidator.ValidateThemeType(testThemeType);
 
         Assert.IsTrue(result.IsValid, message: result.GetFailedValidationMessage());
     }
