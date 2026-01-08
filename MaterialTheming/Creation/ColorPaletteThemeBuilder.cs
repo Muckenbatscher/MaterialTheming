@@ -1,6 +1,7 @@
 ﻿using MaterialTheming.ColorDefinitions;
 using MaterialTheming.MaterialDesign;
 using MaterialTheming.MaterialDesign.DynamicColors;
+using MaterialTheming.MaterialDesign.DynamicColors.ColorSpecs;
 using System.ComponentModel;
 
 namespace MaterialTheming.Creation;

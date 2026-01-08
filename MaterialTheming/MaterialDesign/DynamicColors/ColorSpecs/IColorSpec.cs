@@ -1,7 +1,7 @@
 ﻿using MaterialTheming.ColorDefinitions;
 using MaterialTheming.MaterialDesign.Palettes;
 
-namespace MaterialTheming.MaterialDesign.DynamicColors;
+namespace MaterialTheming.MaterialDesign.DynamicColors.ColorSpecs;
 
 internal interface IColorSpec
 {

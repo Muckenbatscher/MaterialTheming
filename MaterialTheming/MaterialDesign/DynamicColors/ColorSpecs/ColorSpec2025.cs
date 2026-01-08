@@ -3,7 +3,7 @@ using MaterialTheming.MaterialDesign.Contrasts;
 using MaterialTheming.MaterialDesign.HctConversion;
 using MaterialTheming.MaterialDesign.Palettes;
 
-namespace MaterialTheming.MaterialDesign.DynamicColors;
+namespace MaterialTheming.MaterialDesign.DynamicColors.ColorSpecs;
 
 internal class ColorSpec2025 : ColorSpec2021
 {

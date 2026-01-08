@@ -1,4 +1,4 @@
-﻿namespace MaterialTheming.MaterialDesign.DynamicColors;
+﻿namespace MaterialTheming.MaterialDesign.DynamicColors.ColorSpecs;
 
 internal class ColorSpecFactory
 {

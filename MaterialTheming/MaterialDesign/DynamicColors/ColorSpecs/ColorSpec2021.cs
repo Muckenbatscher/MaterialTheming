@@ -5,7 +5,7 @@ using MaterialTheming.MaterialDesign.HctConversion;
 using MaterialTheming.MaterialDesign.Palettes;
 using MaterialTheming.MaterialDesign.Temperature;
 
-namespace MaterialTheming.MaterialDesign.DynamicColors;
+namespace MaterialTheming.MaterialDesign.DynamicColors.ColorSpecs;
 
 internal class ColorSpec2021 : IColorSpec
 {

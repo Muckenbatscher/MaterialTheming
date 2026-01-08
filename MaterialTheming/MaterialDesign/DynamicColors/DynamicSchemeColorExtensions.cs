@@ -1,4 +1,5 @@
 ﻿using MaterialTheming.ColorDefinitions;
+using MaterialTheming.MaterialDesign.DynamicColors.ColorSpecs;
 
 namespace MaterialTheming.MaterialDesign.DynamicColors;
 
