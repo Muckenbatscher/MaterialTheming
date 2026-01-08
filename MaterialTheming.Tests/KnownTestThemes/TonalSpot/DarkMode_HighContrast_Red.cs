@@ -1,8 +1,8 @@
 ﻿using MaterialTheming.MaterialDesign;
 
-namespace MaterialTheming.Tests.KnownTestThemes;
+namespace MaterialTheming.Tests.KnownTestThemes.TonalSpot;
 
-internal class TonalSpot_DarkMode_HighContrast_Red : ITestTheme
+internal class DarkMode_HighContrast_Red : ITestTheme
 {
     public string SourceColor => "#D2463D";
     public bool IsDark => true;

@@ -1,8 +1,8 @@
 ﻿using MaterialTheming.MaterialDesign;
 
-namespace MaterialTheming.Tests.KnownTestThemes;
+namespace MaterialTheming.Tests.KnownTestThemes.TonalSpot;
 
-internal class TonalSpot_DarkMode_MediumContrast_Purple : ITestTheme
+internal class DarkMode_MediumContrast_Purple : ITestTheme
 {
     public string SourceColor => "#945CCD";
     public bool IsDark => true;

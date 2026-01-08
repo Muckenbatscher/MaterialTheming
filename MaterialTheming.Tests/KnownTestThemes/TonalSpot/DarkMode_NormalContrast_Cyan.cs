@@ -1,8 +1,8 @@
 ﻿using MaterialTheming.MaterialDesign;
 
-namespace MaterialTheming.Tests.KnownTestThemes;
+namespace MaterialTheming.Tests.KnownTestThemes.TonalSpot;
 
-internal class TonalSpot_DarkMode_NormalContrast_Cyan : ITestTheme
+internal class DarkMode_NormalContrast_Cyan : ITestTheme
 {
     public string SourceColor => "#00BCD1";
     public bool IsDark => true;
