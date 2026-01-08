@@ -1,26 +1,26 @@
 ﻿using MaterialTheming.ColorDefinitions;
 using MaterialTheming.Tests.KnownTestThemes;
 
-namespace MaterialTheming.Tests.ColorValidation;
+namespace MaterialTheming.Tests.ColorDifferenceCalculation;
 
 internal class ColorDifferenceService
 {
-    public static IEnumerable<ColorDifference> GetColorDifferences<TExpected>(Theme theme)
+    public static IEnumerable<ColorDifference> CalculateColorDifferences<TExpected>(Theme theme)
         where TExpected : IExpectedThemeColors, new()
     {
         var expectedThemeColors = new TExpected();
-        return GetColorDifferences(theme.Colors, expectedThemeColors);
+        return CalculateColorDifferences(theme.Colors, expectedThemeColors);
     }
-    public static IEnumerable<ColorDifference> GetColorDifferences<TExpected>(ThemeColors themeColors)
+    public static IEnumerable<ColorDifference> CalculateColorDifferences<TExpected>(ThemeColors themeColors)
         where TExpected : IExpectedThemeColors, new()
     {
         var expectedThemeColors = new TExpected();
-        return GetColorDifferences(themeColors, expectedThemeColors);
+        return CalculateColorDifferences(themeColors, expectedThemeColors);
     }
 
-    public static IEnumerable<ColorDifference> GetColorDifferences(Theme theme, IExpectedThemeColors expectedThemeColors)
-        => GetColorDifferences(theme.Colors, expectedThemeColors);
-    public static IEnumerable<ColorDifference> GetColorDifferences(ThemeColors themeColors, IExpectedThemeColors expectedThemeColors)
+    public static IEnumerable<ColorDifference> CalculateColorDifferences(Theme theme, IExpectedThemeColors expectedThemeColors)
+        => CalculateColorDifferences(theme.Colors, expectedThemeColors);
+    public static IEnumerable<ColorDifference> CalculateColorDifferences(ThemeColors themeColors, IExpectedThemeColors expectedThemeColors)
     {
         yield return CalculateColorDifference("Primary", themeColors.Primary, expectedThemeColors.Primary);
         yield return CalculateColorDifference("OnPrimary", themeColors.OnPrimary, expectedThemeColors.OnPrimary);

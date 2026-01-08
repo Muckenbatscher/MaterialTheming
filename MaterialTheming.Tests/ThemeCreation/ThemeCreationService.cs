@@ -19,6 +19,7 @@ internal class ThemeCreationService
             .WithMode(mode)
             .WithContrastLevel(parameters.ContrastLevelValue)
             .WithVariant(parameters.Variant)
+            .WithSpecVersion(parameters.SpecVersion)
             .Build();
     }
 }

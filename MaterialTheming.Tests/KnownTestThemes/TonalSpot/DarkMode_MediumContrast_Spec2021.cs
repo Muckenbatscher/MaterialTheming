@@ -2,12 +2,13 @@
 
 namespace MaterialTheming.Tests.KnownTestThemes.TonalSpot;
 
-internal class DarkMode_MediumContrast_Purple : ITestTheme
+internal class DarkMode_MediumContrast_Spec2021 : ITestTheme
 {
-    public string SourceColor => "#945CCD";
+    public string SourceColor => "#945CCD"; //purple
     public bool IsDark => true;
     public Variant Variant => Variant.TonalSpot;
     public double ContrastLevelValue => 0.5;
+    public SpecVersion SpecVersion => SpecVersion.Spec2021;
 
     public string Primary => "#ECD3FF";
     public string OnPrimary => "#33184D";

@@ -1,4 +1,6 @@
-﻿namespace MaterialTheming.Tests.ColorValidation;
+﻿using MaterialTheming.Tests.ColorDifferenceCalculation;
+
+namespace MaterialTheming.Tests.ColorValidation;
 
 internal class ColorDifferenceValidationService
 {

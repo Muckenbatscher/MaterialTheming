@@ -7,12 +7,15 @@ namespace MaterialTheming.Tests;
 public sealed class TonalSpotTests
 {
     [TestMethod]
-    [DataRow(typeof(LightMode_NormalContrast_Green))]
-    [DataRow(typeof(DarkMode_NormalContrast_Cyan))]
-    [DataRow(typeof(LightMode_MediumContrast_Blue))]
-    [DataRow(typeof(DarkMode_MediumContrast_Purple))]
-    [DataRow(typeof(LightMode_HighContrast_Magenta))]
-    [DataRow(typeof(DarkMode_HighContrast_Red))]
+    [DataRow(typeof(LightMode_NormalContrast_Spec2021))]
+    [DataRow(typeof(DarkMode_NormalContrast_Spec2021))]
+    [DataRow(typeof(LightMode_MediumContrast_Spec2021))]
+    [DataRow(typeof(DarkMode_MediumContrast_Spec2021))]
+    [DataRow(typeof(LightMode_HighContrast_Spec2021))]
+    [DataRow(typeof(DarkMode_HighContrast_Spec2021))]
+    [DataRow(typeof(LightMode_NormalContrast_Spec2025))]
+    [DataRow(typeof(DarkMode_MediumContrast_Spec2025))]
+    [DataRow(typeof(DarkMode_HighContrast_Spec2025))]
     public void TonalSpot_ForType(Type testThemeType)
     {
         var result = TestThemeTypeValidator.ValidateThemeType(testThemeType);

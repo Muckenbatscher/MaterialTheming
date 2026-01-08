@@ -143,7 +143,8 @@ public class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
 
         var scheme = new DynamicScheme(variant, mode == ThemeMode.Dark, contrastLevel,
             primaryPalette, secondaryPalette, tertiaryPalette,
-            neutralPalette, neutralVariantPalette, errorPalette);
+            neutralPalette, neutralVariantPalette, errorPalette,
+            specVersion: specVersion);
         return CreateThemeColorFromScheme(scheme);
     }
 

@@ -2,12 +2,13 @@
 
 namespace MaterialTheming.Tests.KnownTestThemes.TonalSpot;
 
-internal class LightMode_HighContrast_Magenta : ITestTheme
+internal class LightMode_HighContrast_Spec2021 : ITestTheme
 {
-    public string SourceColor => "#E85DAE";
+    public string SourceColor => "#E85DAE"; //magenta
     public bool IsDark => false;
     public Variant Variant => Variant.TonalSpot;
     public double ContrastLevelValue => 1.0;
+    public SpecVersion SpecVersion => SpecVersion.Spec2021;
 
     public string Primary => "#4D1937";
     public string OnPrimary => "#FFFFFF";

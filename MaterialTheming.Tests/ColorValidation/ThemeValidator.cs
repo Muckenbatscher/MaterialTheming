@@ -1,4 +1,5 @@
-﻿using MaterialTheming.Tests.KnownTestThemes;
+﻿using MaterialTheming.Tests.ColorDifferenceCalculation;
+using MaterialTheming.Tests.KnownTestThemes;
 using MaterialTheming.Tests.ThemeCreation;
 
 namespace MaterialTheming.Tests.ColorValidation;
@@ -17,7 +18,7 @@ internal class ThemeValidator
     {
         var theme = ThemeCreationService.CreateTheme(testTheme);
 
-        var colorDifferences = ColorDifferenceService.GetColorDifferences(theme, testTheme);
+        var colorDifferences = ColorDifferenceService.CalculateColorDifferences(theme, testTheme);
         var outOfSpecColorDifferences = ColorDifferenceValidationService.FilterToOutOfSpecColorDifferences(colorDifferences);
         return new ThemeValidationResult(outOfSpecColorDifferences);
     }

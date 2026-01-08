@@ -2,12 +2,13 @@
 
 namespace MaterialTheming.Tests.KnownTestThemes.TonalSpot;
 
-internal class LightMode_NormalContrast_Green : ITestTheme
+internal class LightMode_NormalContrast_Spec2021 : ITestTheme
 {
-    public string SourceColor => "#338745";
+    public string SourceColor => "#338745"; //green
     public bool IsDark => false;
     public Variant Variant => Variant.TonalSpot;
     public double ContrastLevelValue => 0.0;
+    public SpecVersion SpecVersion => SpecVersion.Spec2021;
 
     public string Primary => "#36693D";
     public string OnPrimary => "#FFFFFF";

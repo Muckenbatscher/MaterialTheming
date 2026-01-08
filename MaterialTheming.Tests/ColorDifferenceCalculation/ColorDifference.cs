@@ -1,4 +1,4 @@
-﻿namespace MaterialTheming.Tests.ColorValidation;
+﻿namespace MaterialTheming.Tests.ColorDifferenceCalculation;
 
 internal record ColorDifference(
     string ColorRoleName,

@@ -8,4 +8,5 @@ internal interface IThemeCreationParameters
     public bool IsDark { get; }
     public double ContrastLevelValue { get; }
     public Variant Variant { get; }
+    public SpecVersion SpecVersion { get; }
 }
