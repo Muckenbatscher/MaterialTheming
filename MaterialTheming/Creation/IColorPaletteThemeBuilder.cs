@@ -9,6 +9,7 @@ public interface IColorPaletteThemeBuilder :
     IWithContrastLevelThemeBuilder<IColorPaletteThemeBuilder>,
     IWithContrastLevelValueThemeBuilder<IColorPaletteThemeBuilder>,
     IWithVariantThemeBuilder<IColorPaletteThemeBuilder>,
-    IWithPlatformThemeBuilder<IColorPaletteThemeBuilder>
+    IWithPlatformThemeBuilder<IColorPaletteThemeBuilder>,
+    IWithSpecVersionThemeBuilder<IColorPaletteThemeBuilder>
 {
 }

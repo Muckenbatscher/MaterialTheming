@@ -7,8 +7,6 @@ namespace MaterialTheming.Creation;
 
 public class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
 {
-    private SpecVersion colorSpecVersion;
-
     public static IColorPaletteThemeBuilder Create() => new ColorPaletteThemeBuilder();
 
     public static IColorPaletteThemeBuilder CreateFromSourceColor(string htmlColor)
@@ -31,7 +29,7 @@ public class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
         contrastLevel = 0.0;
         variant = Variant.TonalSpot;
         platform = Platform.Phone;
-        colorSpecVersion = SpecVersion.Spec2021;
+        specVersion = SpecVersion.Spec2021;
     }
 
     private readonly ColorPaletteSpecification _primaryColorSpec;
@@ -45,6 +43,7 @@ public class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
     private double contrastLevel;
     private Variant variant;
     private Platform platform;
+    private SpecVersion specVersion;
 
     public IColorPaletteThemeBuilder WithPrimaryColor(Action<IColorPaletteSpecification> colorSpecificationOptions)
     {
@@ -110,6 +109,11 @@ public class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
         this.platform = platform;
         return this;
     }
+    public IColorPaletteThemeBuilder WithSpecVersion(SpecVersion specVersion)
+    {
+        this.specVersion = specVersion;
+        return this;
+    }
 
     public Theme Build()
     {
@@ -127,7 +131,7 @@ public class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
         var primaryColorHct = HctColor.FromRgbColor(_primaryColorSpec.BaseColor);
 
         bool isDark = mode == ThemeMode.Dark;
-        var colorSpec = ColorSpecFactory.Create(colorSpecVersion);
+        var colorSpec = ColorSpecFactory.Create(specVersion);
 
         var primaryPalette = colorSpec.GetPrimaryPalette(variant, primaryColorHct, isDark, platform, contrastLevel);
         var secondaryPalette = colorSpec.GetSecondaryPalette(variant, primaryColorHct, isDark, platform, contrastLevel);
