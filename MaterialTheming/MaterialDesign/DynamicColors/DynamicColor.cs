@@ -12,7 +12,7 @@ internal class DynamicColor
     public bool IsBackground { get; }
     public Func<DynamicScheme, double>? ChromaMultiplier { get; }
     public Func<DynamicScheme, DynamicColor?>? Background { get; }
-    public Func<DynamicScheme, DynamicColor>? SecondBackground { get; }
+    public Func<DynamicScheme, DynamicColor?>? SecondBackground { get; }
     public Func<DynamicScheme, ContrastCurve?>? ContrastCurve { get; }
     public Func<DynamicScheme, ToneDeltaPair?>? ToneDeltaPair { get; }
     public Func<DynamicScheme, double>? Opacity { get; }
@@ -24,7 +24,7 @@ internal class DynamicColor
         bool isBackground = false,
         Func<DynamicScheme, double>? chromaMultiplier = null,
         Func<DynamicScheme, DynamicColor?>? background = null,
-        Func<DynamicScheme, DynamicColor>? secondBackground = null,
+        Func<DynamicScheme, DynamicColor?>? secondBackground = null,
         Func<DynamicScheme, ContrastCurve?>? contrastCurve = null,
         Func<DynamicScheme, ToneDeltaPair?>? toneDeltaPair = null,
         Func<DynamicScheme, double>? opacity = null)
