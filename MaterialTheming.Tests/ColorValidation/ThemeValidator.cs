@@ -18,7 +18,7 @@ internal class ThemeValidator
     {
         var theme = ThemeCreationService.CreateTheme(testTheme);
 
-        var colorDifferences = ColorDifferenceService.CalculateColorDifferences(theme, testTheme);
+        var colorDifferences = ColorDifferenceService.GetColorDifferences(theme, testTheme);
         var outOfSpecColorDifferences = ColorDifferenceValidationService.FilterToOutOfSpecColorDifferences(colorDifferences);
         return new ThemeValidationResult(outOfSpecColorDifferences);
     }

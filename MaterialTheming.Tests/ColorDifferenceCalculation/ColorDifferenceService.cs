@@ -5,67 +5,54 @@ namespace MaterialTheming.Tests.ColorDifferenceCalculation;
 
 internal class ColorDifferenceService
 {
-    public static IEnumerable<ColorDifference> CalculateColorDifferences<TExpected>(Theme theme)
+    public static IEnumerable<ColorDifference> GetColorDifferences<TExpected>(Theme theme)
         where TExpected : IExpectedThemeColors, new()
     {
         var expectedThemeColors = new TExpected();
-        return CalculateColorDifferences(theme.Colors, expectedThemeColors);
+        return GetColorDifferences(theme.Colors, expectedThemeColors);
     }
-    public static IEnumerable<ColorDifference> CalculateColorDifferences<TExpected>(ThemeColors themeColors)
+    public static IEnumerable<ColorDifference> GetColorDifferences<TExpected>(ThemeColors themeColors)
         where TExpected : IExpectedThemeColors, new()
     {
         var expectedThemeColors = new TExpected();
-        return CalculateColorDifferences(themeColors, expectedThemeColors);
+        return GetColorDifferences(themeColors, expectedThemeColors);
     }
 
-    public static IEnumerable<ColorDifference> CalculateColorDifferences(Theme theme, IExpectedThemeColors expectedThemeColors)
-        => CalculateColorDifferences(theme.Colors, expectedThemeColors);
-    public static IEnumerable<ColorDifference> CalculateColorDifferences(ThemeColors themeColors, IExpectedThemeColors expectedThemeColors)
+    public static IEnumerable<ColorDifference> GetColorDifferences(Theme theme, IExpectedThemeColors expectedThemeColors)
+        => GetColorDifferences(theme.Colors, expectedThemeColors);
+    public static IEnumerable<ColorDifference> GetColorDifferences(ThemeColors themeColors, IExpectedThemeColors expectedThemeColors)
     {
-        yield return CalculateColorDifference("Primary", themeColors.Primary, expectedThemeColors.Primary);
-        yield return CalculateColorDifference("OnPrimary", themeColors.OnPrimary, expectedThemeColors.OnPrimary);
-        yield return CalculateColorDifference("PrimaryContainer", themeColors.PrimaryContainer, expectedThemeColors.PrimaryContainer);
-        yield return CalculateColorDifference("OnPrimaryContainer", themeColors.OnPrimaryContainer, expectedThemeColors.OnPrimaryContainer);
+        yield return GetColorDifference("Primary", themeColors.Primary, expectedThemeColors.Primary);
+        yield return GetColorDifference("OnPrimary", themeColors.OnPrimary, expectedThemeColors.OnPrimary);
+        yield return GetColorDifference("PrimaryContainer", themeColors.PrimaryContainer, expectedThemeColors.PrimaryContainer);
+        yield return GetColorDifference("OnPrimaryContainer", themeColors.OnPrimaryContainer, expectedThemeColors.OnPrimaryContainer);
 
+        yield return GetColorDifference("Secondary", themeColors.Secondary, expectedThemeColors.Secondary);
+        yield return GetColorDifference("OnSecondary", themeColors.OnSecondary, expectedThemeColors.OnSecondary);
+        yield return GetColorDifference("SecondaryContainer", themeColors.SecondaryContainer, expectedThemeColors.SecondaryContainer);
+        yield return GetColorDifference("OnSecondaryContainer", themeColors.OnSecondaryContainer, expectedThemeColors.OnSecondaryContainer);
 
-        yield return CalculateColorDifference("Secondary", themeColors.Secondary, expectedThemeColors.Secondary);
-        yield return CalculateColorDifference("OnSecondary", themeColors.OnSecondary, expectedThemeColors.OnSecondary);
-        yield return CalculateColorDifference("SecondaryContainer", themeColors.SecondaryContainer, expectedThemeColors.SecondaryContainer);
-        yield return CalculateColorDifference("OnSecondaryContainer", themeColors.OnSecondaryContainer, expectedThemeColors.OnSecondaryContainer);
+        yield return GetColorDifference("Tertiary", themeColors.Tertiary, expectedThemeColors.Tertiary);
+        yield return GetColorDifference("OnTertiary", themeColors.OnTertiary, expectedThemeColors.OnTertiary);
+        yield return GetColorDifference("TertiaryContainer", themeColors.TertiaryContainer, expectedThemeColors.TertiaryContainer);
+        yield return GetColorDifference("OnTertiaryContainer", themeColors.OnTertiaryContainer, expectedThemeColors.OnTertiaryContainer);
 
+        yield return GetColorDifference("Error", themeColors.Error, expectedThemeColors.Error);
+        yield return GetColorDifference("OnError", themeColors.OnError, expectedThemeColors.OnError);
+        yield return GetColorDifference("ErrorContainer", themeColors.ErrorContainer, expectedThemeColors.ErrorContainer);
+        yield return GetColorDifference("OnErrorContainer", themeColors.OnErrorContainer, expectedThemeColors.OnErrorContainer);
 
-        yield return CalculateColorDifference("Tertiary", themeColors.Tertiary, expectedThemeColors.Tertiary);
-        yield return CalculateColorDifference("OnTertiary", themeColors.OnTertiary, expectedThemeColors.OnTertiary);
-        yield return CalculateColorDifference("TertiaryContainer", themeColors.TertiaryContainer, expectedThemeColors.TertiaryContainer);
-        yield return CalculateColorDifference("OnTertiaryContainer", themeColors.OnTertiaryContainer, expectedThemeColors.OnTertiaryContainer);
+        yield return GetColorDifference("Surface", themeColors.Surface, expectedThemeColors.Surface);
+        yield return GetColorDifference("OnSurface", themeColors.OnSurface, expectedThemeColors.OnSurface);
+        yield return GetColorDifference("OnSurfaceVariant", themeColors.OnSurfaceVariant, expectedThemeColors.OnSurfaceVariant);
 
-
-        yield return CalculateColorDifference("Error", themeColors.Error, expectedThemeColors.Error);
-        yield return CalculateColorDifference("OnError", themeColors.OnError, expectedThemeColors.OnError);
-        yield return CalculateColorDifference("ErrorContainer", themeColors.ErrorContainer, expectedThemeColors.ErrorContainer);
-        yield return CalculateColorDifference("OnErrorContainer", themeColors.OnErrorContainer, expectedThemeColors.OnErrorContainer);
-
-
-        yield return CalculateColorDifference("Surface", themeColors.Surface, expectedThemeColors.Surface);
-        yield return CalculateColorDifference("OnSurface", themeColors.OnSurface, expectedThemeColors.OnSurface);
-        yield return CalculateColorDifference("OnSurfaceVariant", themeColors.OnSurfaceVariant, expectedThemeColors.OnSurfaceVariant);
-
-        yield return CalculateColorDifference("SurfaceContainerLowest", themeColors.SurfaceContainerLowest, expectedThemeColors.SurfaceContainerLowest);
-        yield return CalculateColorDifference("SurfaceContainerLow", themeColors.SurfaceContainerLow, expectedThemeColors.SurfaceContainerLow);
-        yield return CalculateColorDifference("SurfaceContainer", themeColors.SurfaceContainer, expectedThemeColors.SurfaceContainer);
-        yield return CalculateColorDifference("SurfaceContainerHigh", themeColors.SurfaceContainerHigh, expectedThemeColors.SurfaceContainerHigh);
-        yield return CalculateColorDifference("SurfaceContainerHighest", themeColors.SurfaceContainerHighest, expectedThemeColors.SurfaceContainerHighest);
+        yield return GetColorDifference("SurfaceContainerLowest", themeColors.SurfaceContainerLowest, expectedThemeColors.SurfaceContainerLowest);
+        yield return GetColorDifference("SurfaceContainerLow", themeColors.SurfaceContainerLow, expectedThemeColors.SurfaceContainerLow);
+        yield return GetColorDifference("SurfaceContainer", themeColors.SurfaceContainer, expectedThemeColors.SurfaceContainer);
+        yield return GetColorDifference("SurfaceContainerHigh", themeColors.SurfaceContainerHigh, expectedThemeColors.SurfaceContainerHigh);
+        yield return GetColorDifference("SurfaceContainerHighest", themeColors.SurfaceContainerHighest, expectedThemeColors.SurfaceContainerHighest);
     }
 
-    private static ColorDifference CalculateColorDifference(string colorRoleName, RgbColor actualColor, string expectedColor)
-        => CalculateColorDifference(colorRoleName, actualColor, RgbColor.FromHtml(expectedColor));
-    private static ColorDifference CalculateColorDifference(string colorRoleName, RgbColor actualColor, RgbColor expectedColor)
-    {
-        int redDiff = actualColor.Red - expectedColor.Red;
-        int greenDiff = actualColor.Green - expectedColor.Green;
-        int blueDiff = actualColor.Blue - expectedColor.Blue;
-
-        return new ColorDifference(colorRoleName,
-            redDiff, greenDiff, blueDiff);
-    }
+    private static ColorDifference GetColorDifference(string colorRoleName, RgbColor actualColor, string expectedColor)
+        => new(colorRoleName, actualColor, RgbColor.FromHtml(expectedColor));
 }
