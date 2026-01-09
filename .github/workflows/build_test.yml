@@ -1,4 +1,4 @@
-name: .NET Build Validation
+name: .NET Build and Test
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ "master" ]
 
 jobs:
-  build-validation:
+  build-test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -19,3 +19,5 @@ jobs:
       run: dotnet restore --property:EnableWindowsTargeting=true
     - name: Build
       run: dotnet build --no-restore --property:EnableWindowsTargeting=true
+    - name: Test
+      run: dotnet test --no-build --property:EnableWindowsTargeting=true
