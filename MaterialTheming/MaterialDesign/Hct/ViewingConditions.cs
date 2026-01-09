@@ -74,13 +74,13 @@
             double f = 0.8 + (surround / 10.0);
             double c =
                 (f >= 0.9)
-                    ? MathUtils.Lerp(0.59, 0.69, ((f - 0.9) * 10.0))
-                    : MathUtils.Lerp(0.525, 0.59, ((f - 0.8) * 10.0));
+                    ? double.Lerp(0.59, 0.69, ((f - 0.9) * 10.0))
+                    : double.Lerp(0.525, 0.59, ((f - 0.8) * 10.0));
             double d =
                 discountingIlluminant
                     ? 1.0
                     : f * (1.0 - ((1.0 / 3.6) * Math.Exp((-adaptingLuminance - 42.0) / 92.0)));
-            d = MathUtils.ClampDouble(0.0, 1.0, d);
+            d = double.Clamp(d, 0.0, 1.0);
             double nc = f;
             double[] rgbD =
                 new double[] {

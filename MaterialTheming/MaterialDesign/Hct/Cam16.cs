@@ -4,35 +4,27 @@ namespace MaterialTheming.MaterialDesign.HctConversion
 {
     internal class Cam16
     {
-        internal static readonly double[][] XYZ_TO_CAM16RGB = {
-        new double[] { 0.401288, 0.650173, -0.051461 },
-        new double[] { -0.250268, 1.204414, 0.045854 },
-        new double[] { -0.002079, 0.048952, 0.953127 }
-    };
+        internal static readonly double[][] XYZ_TO_CAM16RGB =
+        {
+            [0.401288,  0.650173, -0.051461],
+            [-0.250268, 1.204414, 0.045854],
+            [-0.002079, 0.048952, 0.953127]
+        };
 
         // Transforms 'cone'/'RGB' responses in CAM16 to XYZ color space coordinates.
-        static readonly double[][] CAM16RGB_TO_XYZ = {
-        new double[] { 1.8620678, -1.0112547, 0.14918678 },
-        new double[] { 0.38752654, 0.62144744, -0.00897398 },
-        new double[] { -0.01584150, -0.03412294, 1.0499644 }
-    };
+        static readonly double[][] CAM16RGB_TO_XYZ =
+        {
+            [1.8620678,   -1.0112547, 0.14918678],
+            [0.38752654,  0.62144744, -0.00897398],
+            [-0.01584150, -0.03412294, 1.0499644]
+        };
 
-        // CAM16 color dimensions, see getters for documentation.
         private readonly double hue;
         private readonly double chroma;
         private readonly double j;
         private readonly double q;
         private readonly double m;
         private readonly double s;
-
-        // Coordinates in UCS space. Used to determine color distance, like delta E equations in L*a*b*.
-        private readonly double jstar;
-        private readonly double astar;
-        private readonly double bstar;
-
-        // Avoid allocations during conversion by pre-allocating an array.
-        private readonly double[] tempArray = new double[] { 0.0, 0.0, 0.0 };
-
 
         /** Hue in CAM16 */
         public double GetHue()
@@ -75,10 +67,7 @@ namespace MaterialTheming.MaterialDesign.HctConversion
             double j,
             double q,
             double m,
-            double s,
-            double jstar,
-            double astar,
-            double bstar)
+            double s)
         {
             this.hue = hue;
             this.chroma = chroma;
@@ -86,9 +75,6 @@ namespace MaterialTheming.MaterialDesign.HctConversion
             this.q = q;
             this.m = m;
             this.s = s;
-            this.jstar = jstar;
-            this.astar = astar;
-            this.bstar = bstar;
         }
 
         /**
@@ -100,7 +86,6 @@ namespace MaterialTheming.MaterialDesign.HctConversion
         {
             return FromRgbColorInViewingConditions(rgb, ViewingConditions.DEFAULT);
         }
-
 
         /**
          * Create a CAM16 color from a color in defined viewing conditions.
@@ -193,13 +178,7 @@ namespace MaterialTheming.MaterialDesign.HctConversion
             double s =
                 50.0 * Math.Sqrt((alpha * viewingConditions.C) / (viewingConditions.Aw + 4.0));
 
-            // CAM16-UCS components
-            double jstar = (1.0 + 100.0 * 0.007) * j / (1.0 + 0.007 * j);
-            double mstar = 1.0 / 0.0228 * Math.Log(1.0 + 0.0228 * m);
-            double astar = mstar * Math.Cos(hueRadians);
-            double bstar = mstar * Math.Sin(hueRadians);
-
-            return new Cam16(hue, c, j, q, m, s, jstar, astar, bstar);
+            return new Cam16(hue, c, j, q, m, s);
         }
 
         /**
@@ -222,12 +201,7 @@ namespace MaterialTheming.MaterialDesign.HctConversion
             double s =
                 50.0 * Math.Sqrt((alpha * viewingConditions.C) / (viewingConditions.Aw + 4.0));
 
-            double hueRadians = h * (Math.PI / 180.0);
-            double jstar = (1.0 + 100.0 * 0.007) * j / (1.0 + 0.007 * j);
-            double mstar = 1.0 / 0.0228 * Math.Log(1.0 + 0.0228 * m);
-            double astar = mstar * Math.Cos(hueRadians);
-            double bstar = mstar * Math.Sin(hueRadians);
-            return new Cam16(h, c, j, q, m, s, jstar, astar, bstar);
+            return new Cam16(h, c, j, q, m, s);
         }
 
         /**
@@ -238,11 +212,11 @@ namespace MaterialTheming.MaterialDesign.HctConversion
          */
         RgbColor Viewed(ViewingConditions viewingConditions)
         {
-            double[] xyz = XyzInViewingConditions(viewingConditions, tempArray);
+            double[] xyz = XyzInViewingConditions(viewingConditions);
             return ColorUtils.RgbFromXyz(xyz[0], xyz[1], xyz[2]);
         }
 
-        internal double[] XyzInViewingConditions(ViewingConditions viewingConditions, double[]? returnArray)
+        internal double[] XyzInViewingConditions(ViewingConditions viewingConditions)
         {
             double alpha =
                 (GetChroma() == 0.0 || GetJ() == 0.0) ? 0.0 : GetChroma() / Math.Sqrt(GetJ() / 100.0);
@@ -287,17 +261,7 @@ namespace MaterialTheming.MaterialDesign.HctConversion
             double y = (rF * matrix[1][0]) + (gF * matrix[1][1]) + (bF * matrix[1][2]);
             double z = (rF * matrix[2][0]) + (gF * matrix[2][1]) + (bF * matrix[2][2]);
 
-            if (returnArray != null)
-            {
-                returnArray[0] = x;
-                returnArray[1] = y;
-                returnArray[2] = z;
-                return returnArray;
-            }
-            else
-            {
-                return new double[] { x, y, z };
-            }
+            return [x, y, z];
         }
     }
 }

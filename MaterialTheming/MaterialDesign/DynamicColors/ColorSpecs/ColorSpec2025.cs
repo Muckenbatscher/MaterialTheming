@@ -820,13 +820,10 @@ internal class ColorSpec2025 : ColorSpec2021
             TonePolarity polarity = toneDeltaPair.Polarity;
             ToneDeltaConstraint constraint = toneDeltaPair.Constraint;
 
-            double absoluteDelta = toneDeltaPair.Delta;
-            if (polarity == TonePolarity.Darker ||
+            bool invertDelta = polarity == TonePolarity.Darker ||
                 (polarity == TonePolarity.RelativeLighter && scheme.IsDark) ||
-                (polarity == TonePolarity.RelativeDarker && !scheme.IsDark))
-            {
-                absoluteDelta = -absoluteDelta;
-            }
+                (polarity == TonePolarity.RelativeDarker && !scheme.IsDark);
+            double absoluteDelta =  invertDelta ? -toneDeltaPair.Delta : toneDeltaPair.Delta;
 
             bool amRoleA = color.Name == roleA.Name;
             DynamicColor selfRole = amRoleA ? roleA : roleB;
@@ -834,24 +831,24 @@ internal class ColorSpec2025 : ColorSpec2021
 
             double selfTone = selfRole.Tone(scheme);
             double referenceTone = referenceRole.GetTone(scheme);
-            double relativeDelta = absoluteDelta * (amRoleA ? 1 : -1);
+            double relativeDelta = amRoleA ? absoluteDelta : -absoluteDelta;
 
             switch (constraint)
             {
                 case ToneDeltaConstraint.Exact:
-                    selfTone = MathUtils.ClampDouble(0, 100, referenceTone + relativeDelta);
+                    selfTone = Math.Clamp(referenceTone + relativeDelta, 0, 100);
                     break;
                 case ToneDeltaConstraint.Nearer:
                     if (relativeDelta > 0)
-                        selfTone = MathUtils.ClampDouble(0, 100, MathUtils.ClampDouble(referenceTone, referenceTone + relativeDelta, selfTone));
+                        selfTone = Math.Clamp(Math.Clamp(selfTone, referenceTone, referenceTone + relativeDelta), 0, 100);
                     else
-                        selfTone = MathUtils.ClampDouble(0, 100, MathUtils.ClampDouble(referenceTone + relativeDelta, referenceTone, selfTone));
+                        selfTone = Math.Clamp(Math.Clamp(selfTone, referenceTone + relativeDelta, referenceTone), 0, 100);
                     break;
                 case ToneDeltaConstraint.Farther:
                     if (relativeDelta > 0)
-                        selfTone = MathUtils.ClampDouble(referenceTone + relativeDelta, 100, selfTone);
+                        selfTone = Math.Clamp(selfTone, referenceTone + relativeDelta, 100);
                     else
-                        selfTone = MathUtils.ClampDouble(0, referenceTone + relativeDelta, selfTone);
+                        selfTone = Math.Clamp(selfTone, 0, referenceTone + relativeDelta);
                     break;
             }
 
@@ -874,72 +871,81 @@ internal class ColorSpec2025 : ColorSpec2021
             // Awkward zone avoidance (except fixed dim colors)
             if (color.IsBackground && !color.Name.EndsWith("_fixed_dim"))
             {
-                if (selfTone >= 57) selfTone = MathUtils.ClampDouble(65, 100, selfTone);
-                else selfTone = MathUtils.ClampDouble(0, 49, selfTone);
+                if (selfTone >= 57)
+                    selfTone = Math.Clamp(selfTone, 65, 100);
+                else
+                    selfTone = Math.Clamp(selfTone, 0, 49);
             }
 
             return selfTone;
         }
-
-        // Case 1: No tone delta pair; use base logic (which handles self-solving and backgrounds)
-        // Note: The logic in 2025 GetTone for Case 1 is almost identical to 2021,
-        // EXCEPT for the "Awkward Zone" logic at the end.
-        // We will copy the implementation here to ensure the 2025 specific constraints are applied.
-
-        double answer = color.Tone(scheme);
-
-        if (color.Background == null || color.ContrastCurve == null)
-            return answer;
-
-        DynamicColor? bg = color.Background(scheme);
-        ContrastCurve? curve = color.ContrastCurve(scheme);
-
-        if (bg == null || curve == null) return answer;
-
-        double backgroundTone = bg.GetTone(scheme);
-        double desiredRatio = curve.Get(scheme.ContrastLevel);
-
-        if (Contrast.RatioOfTones(backgroundTone, answer) < desiredRatio || scheme.ContrastLevel < 0)
+        else
         {
-            answer = ForegroundToneCalculation.ForegroundTone(backgroundTone, desiredRatio);
+            // Case 1: No tone delta pair; use base logic (which handles self-solving and backgrounds)
+            // Note: The logic in 2025 GetTone for Case 1 is almost identical to 2021,
+            // EXCEPT for the "Awkward Zone" logic at the end.
+            // We will copy the implementation here to ensure the 2025 specific constraints are applied.
+
+            double answer = color.Tone(scheme);
+
+            if (color.Background == null || color.ContrastCurve == null)
+                return answer;
+
+            DynamicColor? bg = color.Background(scheme);
+            ContrastCurve? curve = color.ContrastCurve(scheme);
+
+            if (bg == null || curve == null)
+                return answer;
+
+            double bgTone = bg.GetTone(scheme);
+            double desiredRatio = curve.Get(scheme.ContrastLevel);
+
+            if (Contrast.RatioOfTones(bgTone, answer) < desiredRatio || scheme.ContrastLevel < 0)
+            {
+                answer = ForegroundToneCalculation.ForegroundTone(bgTone, desiredRatio);
+            }
+
+            // Awkward zone avoidance
+            if (color.IsBackground && !color.Name.EndsWith("_fixed_dim"))
+            {
+                answer = answer >= 57
+                    ? Math.Clamp(answer, 65, 100)
+                    : Math.Clamp(answer, 0, 49);
+            }
+
+            DynamicColor? bg2 = color.SecondBackground?.Invoke(scheme);
+            if (bg2 == null)
+                return answer;
+
+            double bgTone1 = bgTone;
+            double bgTone2 = bg2.GetTone(scheme);
+            double upper = Math.Max(bgTone1, bgTone2);
+            double lower = Math.Min(bgTone1, bgTone2);
+
+            if (Contrast.RatioOfTones(upper, answer) >= desiredRatio &&
+                Contrast.RatioOfTones(lower, answer) >= desiredRatio)
+            {
+                return answer;
+            }
+
+            double lightOption = Contrast.Lighter(upper, desiredRatio);
+            double darkOption = Contrast.Darker(lower, desiredRatio);
+
+            List<double> availables = [];
+            if (lightOption != -1)
+                availables.Add(lightOption);
+            if (darkOption != -1)
+                availables.Add(darkOption);
+
+            bool prefersLight = ForegroundToneCalculation.TonePrefersLightForeground(bgTone1) ||
+                                ForegroundToneCalculation.TonePrefersLightForeground(bgTone2);
+
+            if (prefersLight)
+                return lightOption < 0 ? 100 : lightOption;
+            if (availables.Count == 1)
+                return availables[0];
+            return darkOption < 0 ? 0 : darkOption;
         }
-
-        // Awkward zone avoidance
-        if (color.IsBackground && !color.Name.EndsWith("_fixed_dim"))
-        {
-            if (answer >= 57) answer = MathUtils.ClampDouble(65, 100, answer);
-            else answer = MathUtils.ClampDouble(0, 49, answer);
-        }
-
-        if (color.SecondBackground == null) return answer;
-
-        DynamicColor? bg2 = color.SecondBackground(scheme);
-        if (bg2 == null) return answer;
-
-        double bgTone1 = backgroundTone;
-        double bgTone2 = bg2.GetTone(scheme);
-        double upper = Math.Max(bgTone1, bgTone2);
-        double lower = Math.Min(bgTone1, bgTone2);
-
-        if (Contrast.RatioOfTones(upper, answer) >= desiredRatio &&
-            Contrast.RatioOfTones(lower, answer) >= desiredRatio)
-        {
-            return answer;
-        }
-
-        double lightOption = Contrast.Lighter(upper, desiredRatio);
-        double darkOption = Contrast.Darker(lower, desiredRatio);
-
-        List<double> availables = new();
-        if (lightOption != -1) availables.Add(lightOption);
-        if (darkOption != -1) availables.Add(darkOption);
-
-        bool prefersLight = ForegroundToneCalculation.TonePrefersLightForeground(bgTone1) ||
-                            ForegroundToneCalculation.TonePrefersLightForeground(bgTone2);
-
-        if (prefersLight) return lightOption < 0 ? 100 : lightOption;
-        if (availables.Count == 1) return availables[0];
-        return darkOption < 0 ? 0 : darkOption;
     }
 
     // ----------------------------------------------------------------
@@ -1070,7 +1076,7 @@ internal class ColorSpec2025 : ColorSpec2021
     private static double TMaxC(TonalPalette palette, double lowerBound, double upperBound, double chromaMultiplier)
     {
         double answer = FindBestToneForChroma(palette.Hue, palette.Chroma * chromaMultiplier, 100, true);
-        return MathUtils.ClampDouble(lowerBound, upperBound, answer);
+        return Math.Clamp(answer, lowerBound, upperBound);
     }
 
     private static double TMinC(TonalPalette palette) => TMinC(palette, 0, 100);
@@ -1078,7 +1084,7 @@ internal class ColorSpec2025 : ColorSpec2021
     private static double TMinC(TonalPalette palette, double lowerBound, double upperBound)
     {
         double answer = FindBestToneForChroma(palette.Hue, palette.Chroma, 0, false);
-        return MathUtils.ClampDouble(lowerBound, upperBound, answer);
+        return Math.Clamp(answer, lowerBound, upperBound);
     }
 
     private static ContrastCurve GetContrastCurve(double defaultContrast)

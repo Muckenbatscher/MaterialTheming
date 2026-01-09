@@ -38,19 +38,13 @@ internal class ContrastCurve
     /// <returns>The value. For contrast ratios, a number between 1.0 and 21.0.</returns>
     public double Get(double contrastLevel)
     {
-        if (contrastLevel <= -1.0)
-            return _low;
-
-        else if (contrastLevel < 0.0)
-            return MathUtils.Lerp(_low, _normal, (contrastLevel - -1) / 1);
-
-        else if (contrastLevel < 0.5)
-            return MathUtils.Lerp(_normal, _medium, (contrastLevel - 0) / 0.5);
-
-        else if (contrastLevel < 1.0)
-            return MathUtils.Lerp(_medium, _high, (contrastLevel - 0.5) / 0.5);
-
-        else
-            return _high;
+        return contrastLevel switch
+        {
+            < -1.0 => _low,
+            < 0.0 => double.Lerp(_low, _normal, (contrastLevel - -1) / 1),
+            < 0.5 => double.Lerp(_normal, _medium, (contrastLevel - 0) / 0.5),
+            < 1.0 => double.Lerp(_medium, _high, (contrastLevel - 0.5) / 0.5),
+            _ => _high
+        };
     }
 }

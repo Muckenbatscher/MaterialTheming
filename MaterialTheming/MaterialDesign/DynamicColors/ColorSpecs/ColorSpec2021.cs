@@ -746,10 +746,10 @@ internal class ColorSpec2021 : IColorSpec
 
             if ((fTone - nTone) * expansionDir < delta)
             {
-                fTone = MathUtils.ClampDouble(0, 100, nTone + delta * expansionDir);
+                fTone = Math.Clamp(nTone + delta * expansionDir, 0, 100);
                 if ((fTone - nTone) * expansionDir < delta)
                 {
-                    nTone = MathUtils.ClampDouble(0, 100, fTone - delta * expansionDir);
+                    nTone = Math.Clamp(fTone - delta * expansionDir, 0, 100);
                 }
             }
 
