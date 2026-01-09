@@ -1,6 +1,6 @@
 ﻿using MaterialTheming.ColorDefinitions;
 using MaterialTheming.MaterialDesign.Contrasts;
-using MaterialTheming.MaterialDesign.HctConversion;
+using MaterialTheming.MaterialDesign.Hct;
 using MaterialTheming.MaterialDesign.Palettes;
 
 namespace MaterialTheming.MaterialDesign.DynamicColors.ColorSpecs;
@@ -19,7 +19,7 @@ internal class ColorSpec2025 : ColorSpec2021
             if (s.Platform == Platform.Phone)
             {
                 if (s.IsDark) return 4.0;
-                if (IsYellow(s.NeutralPalette.Hue)) return 99.0;
+                if (HctColorCategorization.IsYellow(s.NeutralPalette.Hue)) return 99.0;
                 if (s.Variant == Variant.Vibrant) return 97.0;
                 return 98.0;
             }
@@ -44,7 +44,7 @@ internal class ColorSpec2025 : ColorSpec2021
             if (s.Platform == Platform.Phone)
             {
                 if (s.IsDark) return 4.0;
-                if (IsYellow(s.NeutralPalette.Hue)) return 99.0;
+                if (HctColorCategorization.IsYellow(s.NeutralPalette.Hue)) return 99.0;
                 if (s.Variant == Variant.Vibrant) return 97.0;
                 return 98.0;
             }
@@ -59,7 +59,7 @@ internal class ColorSpec2025 : ColorSpec2021
         tone: s =>
         {
             if (s.IsDark) return 4.0;
-            if (IsYellow(s.NeutralPalette.Hue)) return 90.0;
+            if (HctColorCategorization.IsYellow(s.NeutralPalette.Hue)) return 90.0;
             if (s.Variant == Variant.Vibrant) return 85.0;
             return 87.0;
         },
@@ -70,7 +70,7 @@ internal class ColorSpec2025 : ColorSpec2021
             {
                 if (s.Variant == Variant.Neutral) return 2.5;
                 if (s.Variant == Variant.TonalSpot) return 1.7;
-                if (s.Variant == Variant.Expressive) return IsYellow(s.NeutralPalette.Hue) ? 2.7 : 1.75;
+                if (s.Variant == Variant.Expressive) return HctColorCategorization.IsYellow(s.NeutralPalette.Hue) ? 2.7 : 1.75;
                 if (s.Variant == Variant.Vibrant) return 1.36;
             }
             return 1.0;
@@ -83,7 +83,7 @@ internal class ColorSpec2025 : ColorSpec2021
         tone: s =>
         {
             if (s.IsDark) return 18.0;
-            if (IsYellow(s.NeutralPalette.Hue)) return 99.0;
+            if (HctColorCategorization.IsYellow(s.NeutralPalette.Hue)) return 99.0;
             if (s.Variant == Variant.Vibrant) return 97.0;
             return 98.0;
         },
@@ -94,7 +94,7 @@ internal class ColorSpec2025 : ColorSpec2021
             {
                 if (s.Variant == Variant.Neutral) return 2.5;
                 if (s.Variant == Variant.TonalSpot) return 1.7;
-                if (s.Variant == Variant.Expressive) return IsYellow(s.NeutralPalette.Hue) ? 2.7 : 1.75;
+                if (s.Variant == Variant.Expressive) return HctColorCategorization.IsYellow(s.NeutralPalette.Hue) ? 2.7 : 1.75;
                 if (s.Variant == Variant.Vibrant) return 1.36;
             }
             return 1.0;
@@ -116,7 +116,7 @@ internal class ColorSpec2025 : ColorSpec2021
             if (s.Platform == Platform.Phone)
             {
                 if (s.IsDark) return 6.0;
-                if (IsYellow(s.NeutralPalette.Hue)) return 98.0;
+                if (HctColorCategorization.IsYellow(s.NeutralPalette.Hue)) return 98.0;
                 if (s.Variant == Variant.Vibrant) return 95.0;
                 return 96.0;
             }
@@ -129,7 +129,7 @@ internal class ColorSpec2025 : ColorSpec2021
             {
                 if (s.Variant == Variant.Neutral) return 1.3;
                 if (s.Variant == Variant.TonalSpot) return 1.25;
-                if (s.Variant == Variant.Expressive) return IsYellow(s.NeutralPalette.Hue) ? 1.3 : 1.15;
+                if (s.Variant == Variant.Expressive) return HctColorCategorization.IsYellow(s.NeutralPalette.Hue) ? 1.3 : 1.15;
                 if (s.Variant == Variant.Vibrant) return 1.08;
             }
             return 1.0;
@@ -144,7 +144,7 @@ internal class ColorSpec2025 : ColorSpec2021
             if (s.Platform == Platform.Phone)
             {
                 if (s.IsDark) return 9.0;
-                if (IsYellow(s.NeutralPalette.Hue)) return 96.0;
+                if (HctColorCategorization.IsYellow(s.NeutralPalette.Hue)) return 96.0;
                 if (s.Variant == Variant.Vibrant) return 92.0;
                 return 94.0;
             }
@@ -157,7 +157,7 @@ internal class ColorSpec2025 : ColorSpec2021
             {
                 if (s.Variant == Variant.Neutral) return 1.6;
                 if (s.Variant == Variant.TonalSpot) return 1.4;
-                if (s.Variant == Variant.Expressive) return IsYellow(s.NeutralPalette.Hue) ? 1.6 : 1.3;
+                if (s.Variant == Variant.Expressive) return HctColorCategorization.IsYellow(s.NeutralPalette.Hue) ? 1.6 : 1.3;
                 if (s.Variant == Variant.Vibrant) return 1.15;
             }
             return 1.0;
@@ -172,7 +172,7 @@ internal class ColorSpec2025 : ColorSpec2021
             if (s.Platform == Platform.Phone)
             {
                 if (s.IsDark) return 12.0;
-                if (IsYellow(s.NeutralPalette.Hue)) return 94.0;
+                if (HctColorCategorization.IsYellow(s.NeutralPalette.Hue)) return 94.0;
                 if (s.Variant == Variant.Vibrant) return 90.0;
                 return 92.0;
             }
@@ -185,7 +185,7 @@ internal class ColorSpec2025 : ColorSpec2021
             {
                 if (s.Variant == Variant.Neutral) return 1.9;
                 if (s.Variant == Variant.TonalSpot) return 1.5;
-                if (s.Variant == Variant.Expressive) return IsYellow(s.NeutralPalette.Hue) ? 1.95 : 1.45;
+                if (s.Variant == Variant.Expressive) return HctColorCategorization.IsYellow(s.NeutralPalette.Hue) ? 1.95 : 1.45;
                 if (s.Variant == Variant.Vibrant) return 1.22;
             }
             return 1.0;
@@ -198,7 +198,7 @@ internal class ColorSpec2025 : ColorSpec2021
         tone: s =>
         {
             if (s.IsDark) return 15.0;
-            if (IsYellow(s.NeutralPalette.Hue)) return 92.0;
+            if (HctColorCategorization.IsYellow(s.NeutralPalette.Hue)) return 92.0;
             if (s.Variant == Variant.Vibrant) return 88.0;
             return 90.0;
         },
@@ -207,7 +207,7 @@ internal class ColorSpec2025 : ColorSpec2021
         {
             if (s.Variant == Variant.Neutral) return 2.2;
             if (s.Variant == Variant.TonalSpot) return 1.7;
-            if (s.Variant == Variant.Expressive) return IsYellow(s.NeutralPalette.Hue) ? 2.3 : 1.6;
+            if (s.Variant == Variant.Expressive) return HctColorCategorization.IsYellow(s.NeutralPalette.Hue) ? 2.3 : 1.6;
             if (s.Variant == Variant.Vibrant) return 1.29;
             return 1.0;
         }
@@ -232,7 +232,7 @@ internal class ColorSpec2025 : ColorSpec2021
             {
                 if (s.Variant == Variant.Neutral) return 2.2;
                 if (s.Variant == Variant.TonalSpot) return 1.7;
-                if (s.Variant == Variant.Expressive) return IsYellow(s.NeutralPalette.Hue) ? (s.IsDark ? 3.0 : 2.3) : 1.6;
+                if (s.Variant == Variant.Expressive) return HctColorCategorization.IsYellow(s.NeutralPalette.Hue) ? (s.IsDark ? 3.0 : 2.3) : 1.6;
             }
             return 1.0;
         },
@@ -257,7 +257,7 @@ internal class ColorSpec2025 : ColorSpec2021
             {
                 if (s.Variant == Variant.Neutral) return 2.2;
                 if (s.Variant == Variant.TonalSpot) return 1.7;
-                if (s.Variant == Variant.Expressive) return IsYellow(s.NeutralPalette.Hue) ? (s.IsDark ? 3.0 : 2.3) : 1.6;
+                if (s.Variant == Variant.Expressive) return HctColorCategorization.IsYellow(s.NeutralPalette.Hue) ? (s.IsDark ? 3.0 : 2.3) : 1.6;
             }
             return 1.0;
         },
@@ -292,7 +292,7 @@ internal class ColorSpec2025 : ColorSpec2021
             {
                 if (s.Variant == Variant.Neutral) return 2.2;
                 if (s.Variant == Variant.TonalSpot) return 1.7;
-                if (s.Variant == Variant.Expressive) return IsYellow(s.NeutralPalette.Hue) ? (s.IsDark ? 3.0 : 2.3) : 1.6;
+                if (s.Variant == Variant.Expressive) return HctColorCategorization.IsYellow(s.NeutralPalette.Hue) ? (s.IsDark ? 3.0 : 2.3) : 1.6;
             }
             return 1.0;
         },
@@ -310,7 +310,7 @@ internal class ColorSpec2025 : ColorSpec2021
             {
                 if (s.Variant == Variant.Neutral) return 2.2;
                 if (s.Variant == Variant.TonalSpot) return 1.7;
-                if (s.Variant == Variant.Expressive) return IsYellow(s.NeutralPalette.Hue) ? (s.IsDark ? 3.0 : 2.3) : 1.6;
+                if (s.Variant == Variant.Expressive) return HctColorCategorization.IsYellow(s.NeutralPalette.Hue) ? (s.IsDark ? 3.0 : 2.3) : 1.6;
             }
             return 1.0;
         },
@@ -352,14 +352,14 @@ internal class ColorSpec2025 : ColorSpec2021
             {
                 if (s.Platform == Platform.Phone)
                 {
-                    return TMaxC(s.PrimaryPalette, 0, IsYellow(s.PrimaryPalette.Hue) ? 25 : IsCyan(s.PrimaryPalette.Hue) ? 88 : 98);
+                    return TMaxC(s.PrimaryPalette, 0, HctColorCategorization.IsYellow(s.PrimaryPalette.Hue) ? 25 : HctColorCategorization.IsCyan(s.PrimaryPalette.Hue) ? 88 : 98);
                 }
                 return TMaxC(s.PrimaryPalette);
             }
             // Vibrant
             if (s.Platform == Platform.Phone)
             {
-                return TMaxC(s.PrimaryPalette, 0, IsCyan(s.PrimaryPalette.Hue) ? 88 : 98);
+                return TMaxC(s.PrimaryPalette, 0, HctColorCategorization.IsCyan(s.PrimaryPalette.Hue) ? 88 : 98);
             }
             return TMaxC(s.PrimaryPalette);
         },
@@ -406,12 +406,12 @@ internal class ColorSpec2025 : ColorSpec2021
             {
                 return s.IsDark
                     ? TMaxC(s.PrimaryPalette, 30, 93)
-                    : TMaxC(s.PrimaryPalette, 78, IsCyan(s.PrimaryPalette.Hue) ? 88 : 90);
+                    : TMaxC(s.PrimaryPalette, 78, HctColorCategorization.IsCyan(s.PrimaryPalette.Hue) ? 88 : 90);
             }
             // Vibrant
             return s.IsDark
                 ? TMinC(s.PrimaryPalette, 66, 93)
-                : TMaxC(s.PrimaryPalette, 66, IsCyan(s.PrimaryPalette.Hue) ? 88 : 93);
+                : TMaxC(s.PrimaryPalette, 66, HctColorCategorization.IsCyan(s.PrimaryPalette.Hue) ? 88 : 93);
         },
         isBackground: true,
         background: s => s.Platform == Platform.Phone ? (s.IsDark ? SurfaceBright : SurfaceDim) : null,
@@ -523,7 +523,7 @@ internal class ColorSpec2025 : ColorSpec2021
 
             if (s.Variant == Variant.Expressive || s.Variant == Variant.Vibrant)
             {
-                return TMaxC(s.TertiaryPalette, 0, IsCyan(s.TertiaryPalette.Hue) ? 88 : (s.IsDark ? 98 : 100));
+                return TMaxC(s.TertiaryPalette, 0, HctColorCategorization.IsCyan(s.TertiaryPalette.Hue) ? 88 : (s.IsDark ? 98 : 100));
             }
             return s.IsDark ? TMaxC(s.TertiaryPalette, 0, 98) : TMaxC(s.TertiaryPalette);
         },
@@ -577,7 +577,7 @@ internal class ColorSpec2025 : ColorSpec2021
             }
             if (s.Variant == Variant.Expressive)
             {
-                return TMaxC(s.TertiaryPalette, 75, IsCyan(s.TertiaryPalette.Hue) ? 88 : (s.IsDark ? 93 : 100));
+                return TMaxC(s.TertiaryPalette, 75, HctColorCategorization.IsCyan(s.TertiaryPalette.Hue) ? 88 : (s.IsDark ? 93 : 100));
             }
             // Vibrant
             return s.IsDark ? TMaxC(s.TertiaryPalette, 0, 93) : TMaxC(s.TertiaryPalette, 72, 100);
@@ -823,7 +823,7 @@ internal class ColorSpec2025 : ColorSpec2021
             bool invertDelta = polarity == TonePolarity.Darker ||
                 (polarity == TonePolarity.RelativeLighter && scheme.IsDark) ||
                 (polarity == TonePolarity.RelativeDarker && !scheme.IsDark);
-            double absoluteDelta =  invertDelta ? -toneDeltaPair.Delta : toneDeltaPair.Delta;
+            double absoluteDelta = invertDelta ? -toneDeltaPair.Delta : toneDeltaPair.Delta;
 
             bool amRoleA = color.Name == roleA.Name;
             DynamicColor selfRole = amRoleA ? roleA : roleB;
@@ -956,7 +956,7 @@ internal class ColorSpec2025 : ColorSpec2021
     {
         return variant switch
         {
-            Variant.Neutral => TonalPalette.FromHueAndChroma(sourceColorHct.Hue, platform == Platform.Phone ? (IsBlue(sourceColorHct.Hue) ? 12 : 8) : (IsBlue(sourceColorHct.Hue) ? 16 : 12)),
+            Variant.Neutral => TonalPalette.FromHueAndChroma(sourceColorHct.Hue, platform == Platform.Phone ? (HctColorCategorization.IsBlue(sourceColorHct.Hue) ? 12 : 8) : (HctColorCategorization.IsBlue(sourceColorHct.Hue) ? 16 : 12)),
             Variant.TonalSpot => TonalPalette.FromHueAndChroma(sourceColorHct.Hue, platform == Platform.Phone && isDark ? 26 : 32),
             Variant.Expressive => TonalPalette.FromHueAndChroma(sourceColorHct.Hue, platform == Platform.Phone ? (isDark ? 36 : 48) : 40),
             Variant.Vibrant => TonalPalette.FromHueAndChroma(sourceColorHct.Hue, platform == Platform.Phone ? 74 : 56),
@@ -968,7 +968,7 @@ internal class ColorSpec2025 : ColorSpec2021
     {
         return variant switch
         {
-            Variant.Neutral => TonalPalette.FromHueAndChroma(sourceColorHct.Hue, platform == Platform.Phone ? (IsBlue(sourceColorHct.Hue) ? 6 : 4) : (IsBlue(sourceColorHct.Hue) ? 10 : 6)),
+            Variant.Neutral => TonalPalette.FromHueAndChroma(sourceColorHct.Hue, platform == Platform.Phone ? (HctColorCategorization.IsBlue(sourceColorHct.Hue) ? 6 : 4) : (HctColorCategorization.IsBlue(sourceColorHct.Hue) ? 10 : 6)),
             Variant.TonalSpot => TonalPalette.FromHueAndChroma(sourceColorHct.Hue, 16),
             Variant.Expressive => TonalPalette.FromHueAndChroma(
                 DynamicScheme.GetRotatedHue(sourceColorHct, [0, 105, 140, 204, 253, 278, 300, 333, 360], [-160, 155, -100, 96, -96, -156, -165, -160]),
@@ -1103,10 +1103,6 @@ internal class ColorSpec2025 : ColorSpec2021
         };
     }
 
-    private static bool IsYellow(double hue) => hue is >= 41 and <= 69;
-    private static bool IsCyan(double hue) => hue is >= 166 and <= 214;
-    private static bool IsBlue(double hue) => hue is >= 215 and <= 299;
-
     private static double GetExpressiveNeutralHue(HctColor sourceColorHct)
     {
         return DynamicScheme.GetRotatedHue(sourceColorHct,
@@ -1118,7 +1114,7 @@ internal class ColorSpec2025 : ColorSpec2021
     {
         double neutralHue = GetExpressiveNeutralHue(sourceColorHct);
         if (platform == Platform.Phone)
-            return isDark ? (IsYellow(neutralHue) ? 6 : 14) : 18;
+            return isDark ? (HctColorCategorization.IsYellow(neutralHue) ? 6 : 14) : 18;
         return 12;
     }
 
@@ -1133,6 +1129,6 @@ internal class ColorSpec2025 : ColorSpec2021
     {
         double neutralHue = GetVibrantNeutralHue(sourceColorHct);
         if (platform == Platform.Phone) return 28;
-        return IsBlue(neutralHue) ? 28 : 20;
+        return HctColorCategorization.IsBlue(neutralHue) ? 28 : 20;
     }
 }
