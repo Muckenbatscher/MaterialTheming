@@ -13,7 +13,7 @@ internal class DynamicColorBuilder
         return Create()
             .WithName(dynamicColor.Name)
             .WithPalette(dynamicColor.Palette)
-            .WithTone(dynamicColor.Tone)
+            .WithTone(s => dynamicColor.Tone.Invoke(s))
             .WithIsBackground(dynamicColor.IsBackground)
             .WithChromaMultiplier(dynamicColor.ChromaMultiplier)
             .WithBackground(dynamicColor.Background)
@@ -27,12 +27,12 @@ internal class DynamicColorBuilder
     private Func<DynamicScheme, TonalPalette>? palette;
     private Func<DynamicScheme, double>? tone;
     private bool isBackground = false;
-    private Func<DynamicScheme, double>? chromaMultiplier;
+    private Func<DynamicScheme, double?>? chromaMultiplier;
     private Func<DynamicScheme, DynamicColor?>? background;
     private Func<DynamicScheme, DynamicColor?>? secondBackground;
     private Func<DynamicScheme, ContrastCurve?>? contrastCurve;
     private Func<DynamicScheme, ToneDeltaPair?>? toneDeltaPair;
-    private Func<DynamicScheme, double>? opacity;
+    private Func<DynamicScheme, double?>? opacity;
 
     public DynamicColor Build()
     {
@@ -69,19 +69,94 @@ internal class DynamicColorBuilder
             opacity: opacity);
     }
 
+    public DynamicColorBuilder WithSpecExtension(SpecVersion specVersion, DynamicColor extendedColor)
+    {
+        return Create()
+            .WithName(name!)
+            .WithIsBackground(isBackground)
+            .WithPalette(s =>
+            {
+                var function = s.ColorSpecVersion == specVersion
+                    ? extendedColor.Palette
+                    : this.palette;
+                return function?.Invoke(s)!;
+            })
+            .WithTone(s =>
+            {
+                var function = s.ColorSpecVersion == specVersion
+                    ? extendedColor.Tone
+                    : this.tone;
+                return function?.Invoke(s);
+            })
+            .WithChromaMultiplier(s =>
+            {
+                var function = s.ColorSpecVersion == specVersion
+                    ? extendedColor.ChromaMultiplier
+                    : this.chromaMultiplier;
+                return function?.Invoke(s);
+            })
+            .WithBackground(s =>
+            {
+                var function = s.ColorSpecVersion == specVersion
+                    ? extendedColor.Background
+                    : this.background;
+                return function?.Invoke(s);
+            })
+            .WithSecondBackground(s =>
+            {
+                var function = s.ColorSpecVersion == specVersion
+                    ? extendedColor.SecondBackground
+                    : this.secondBackground;
+                return function?.Invoke(s);
+            })
+            .WithContrastCurve(s =>
+            {
+                var function = s.ColorSpecVersion == specVersion
+                    ? extendedColor.ContrastCurve
+                    : this.contrastCurve;
+                return function?.Invoke(s);
+            })
+            .WithToneDeltaPair(s =>
+            {
+                var function = s.ColorSpecVersion == specVersion
+                    ? extendedColor.ToneDeltaPair
+                    : this.toneDeltaPair;
+                return function?.Invoke(s);
+            })
+            .WithOpacity(s =>
+            {
+                var function = s.ColorSpecVersion == specVersion
+                    ? extendedColor.Opacity
+                    : this.opacity;
+                return function?.Invoke(s);
+            });
+    }
+    private static Func<DynamicScheme, T>? GetFunc<T>(DynamicScheme scheme, SpecVersion specVersion,
+        Func<DynamicScheme, T?>? extendedColorFunc,
+        Func<DynamicScheme, T?>? thisFunc)
+    {
+        var function = scheme.ColorSpecVersion == specVersion
+            ? extendedColorFunc
+            : thisFunc;
+        if (function == null)
+            return null;
+
+        return s => function.Invoke(s)!;
+    }
+
     public DynamicColorBuilder WithName(string name)
     {
         this.name = name;
         return this;
     }
-    public DynamicColorBuilder WithPalette(Func<DynamicScheme, TonalPalette> palette)
+    public DynamicColorBuilder WithPalette(Func<DynamicScheme, TonalPalette>? palette)
     {
         this.palette = palette;
         return this;
     }
-    public DynamicColorBuilder WithTone(Func<DynamicScheme, double> tone)
+    public DynamicColorBuilder WithTone(Func<DynamicScheme, double?>? tone)
     {
-        this.tone = tone;
+        this.tone = s => tone?.Invoke(s) ?? throw new InvalidOperationException();
         return this;
     }
     public DynamicColorBuilder WithIsBackground(bool isBackground)
@@ -89,7 +164,7 @@ internal class DynamicColorBuilder
         this.isBackground = isBackground;
         return this;
     }
-    public DynamicColorBuilder WithChromaMultiplier(Func<DynamicScheme, double>? chromaMultiplier)
+    public DynamicColorBuilder WithChromaMultiplier(Func<DynamicScheme, double?>? chromaMultiplier)
     {
         this.chromaMultiplier = chromaMultiplier;
         return this;
@@ -114,7 +189,7 @@ internal class DynamicColorBuilder
         this.toneDeltaPair = toneDeltaPair;
         return this;
     }
-    public DynamicColorBuilder WithOpacity(Func<DynamicScheme, double>? opacity)
+    public DynamicColorBuilder WithOpacity(Func<DynamicScheme, double?>? opacity)
     {
         this.opacity = opacity;
         return this;

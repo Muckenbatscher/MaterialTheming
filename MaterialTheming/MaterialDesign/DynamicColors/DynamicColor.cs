@@ -10,24 +10,24 @@ internal class DynamicColor
     public Func<DynamicScheme, TonalPalette> Palette { get; }
     public Func<DynamicScheme, double> Tone { get; }
     public bool IsBackground { get; }
-    public Func<DynamicScheme, double>? ChromaMultiplier { get; }
+    public Func<DynamicScheme, double?>? ChromaMultiplier { get; }
     public Func<DynamicScheme, DynamicColor?>? Background { get; }
     public Func<DynamicScheme, DynamicColor?>? SecondBackground { get; }
     public Func<DynamicScheme, ContrastCurve?>? ContrastCurve { get; }
     public Func<DynamicScheme, ToneDeltaPair?>? ToneDeltaPair { get; }
-    public Func<DynamicScheme, double>? Opacity { get; }
+    public Func<DynamicScheme, double?>? Opacity { get; }
 
     public DynamicColor(
         string name,
         Func<DynamicScheme, TonalPalette> palette,
         Func<DynamicScheme, double> tone,
         bool isBackground = false,
-        Func<DynamicScheme, double>? chromaMultiplier = null,
+        Func<DynamicScheme, double?>? chromaMultiplier = null,
         Func<DynamicScheme, DynamicColor?>? background = null,
         Func<DynamicScheme, DynamicColor?>? secondBackground = null,
         Func<DynamicScheme, ContrastCurve?>? contrastCurve = null,
         Func<DynamicScheme, ToneDeltaPair?>? toneDeltaPair = null,
-        Func<DynamicScheme, double>? opacity = null)
+        Func<DynamicScheme, double?>? opacity = null)
     {
         Name = name;
         Palette = palette;

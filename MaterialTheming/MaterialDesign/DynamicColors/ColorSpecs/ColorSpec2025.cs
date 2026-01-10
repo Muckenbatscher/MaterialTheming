@@ -329,47 +329,56 @@ internal class ColorSpec2025 : ColorSpec2021
     // Primaries
     // ----------------------------------------------------------------
 
-    public override DynamicColor Primary => new(
-        name: "primary",
-        palette: s => s.PrimaryPalette,
-        tone: s =>
+    public override DynamicColor Primary
+    {
+        get
         {
-            if (s.Variant == Variant.Neutral)
-            {
-                if (s.Platform == Platform.Phone) return s.IsDark ? 80.0 : 40.0;
-                return 90.0;
-            }
-            if (s.Variant == Variant.TonalSpot)
-            {
-                if (s.Platform == Platform.Phone)
+            var color2025 = new DynamicColor(
+                name: "primary",
+                palette: s => s.PrimaryPalette,
+                tone: s =>
                 {
-                    if (s.IsDark) return 80.0;
+                    if (s.Variant == Variant.Neutral)
+                    {
+                        if (s.Platform == Platform.Phone) return s.IsDark ? 80.0 : 40.0;
+                        return 90.0;
+                    }
+                    if (s.Variant == Variant.TonalSpot)
+                    {
+                        if (s.Platform == Platform.Phone)
+                        {
+                            if (s.IsDark) return 80.0;
+                            return TMaxC(s.PrimaryPalette);
+                        }
+                        return TMaxC(s.PrimaryPalette, 0, 90);
+                    }
+                    if (s.Variant == Variant.Expressive)
+                    {
+                        if (s.Platform == Platform.Phone)
+                        {
+                            return TMaxC(s.PrimaryPalette, 0, HctColorCategorization.IsYellow(s.PrimaryPalette.Hue) ? 25 : HctColorCategorization.IsCyan(s.PrimaryPalette.Hue) ? 88 : 98);
+                        }
+                        return TMaxC(s.PrimaryPalette);
+                    }
+                    // Vibrant
+                    if (s.Platform == Platform.Phone)
+                    {
+                        return TMaxC(s.PrimaryPalette, 0, HctColorCategorization.IsCyan(s.PrimaryPalette.Hue) ? 88 : 98);
+                    }
                     return TMaxC(s.PrimaryPalette);
-                }
-                return TMaxC(s.PrimaryPalette, 0, 90);
-            }
-            if (s.Variant == Variant.Expressive)
-            {
-                if (s.Platform == Platform.Phone)
-                {
-                    return TMaxC(s.PrimaryPalette, 0, HctColorCategorization.IsYellow(s.PrimaryPalette.Hue) ? 25 : HctColorCategorization.IsCyan(s.PrimaryPalette.Hue) ? 88 : 98);
-                }
-                return TMaxC(s.PrimaryPalette);
-            }
-            // Vibrant
-            if (s.Platform == Platform.Phone)
-            {
-                return TMaxC(s.PrimaryPalette, 0, HctColorCategorization.IsCyan(s.PrimaryPalette.Hue) ? 88 : 98);
-            }
-            return TMaxC(s.PrimaryPalette);
-        },
-        isBackground: true,
-        background: s => s.Platform == Platform.Phone ? (s.IsDark ? SurfaceBright : SurfaceDim) : SurfaceContainerHigh,
-        contrastCurve: s => s.Platform == Platform.Phone ? GetContrastCurve(4.5) : GetContrastCurve(7),
-        toneDeltaPair: s => s.Platform == Platform.Phone
-            ? new ToneDeltaPair(PrimaryContainer, Primary, 5.0, TonePolarity.RelativeLighter, ToneDeltaConstraint.Farther)
-            : null
-    );
+                },
+                isBackground: true,
+                background: s => s.Platform == Platform.Phone ? (s.IsDark ? SurfaceBright : SurfaceDim) : SurfaceContainerHigh,
+                contrastCurve: s => s.Platform == Platform.Phone ? GetContrastCurve(4.5) : GetContrastCurve(7),
+                toneDeltaPair: s => s.Platform == Platform.Phone
+                    ? new ToneDeltaPair(PrimaryContainer, Primary, 5.0, TonePolarity.RelativeLighter, ToneDeltaConstraint.Farther)
+                    : null
+            );
+            return DynamicColorBuilder.Create(base.Primary)
+                .WithSpecExtension(SpecVersion.Spec2025, color2025)
+                .Build();
+        }
+    }
 
     public override DynamicColor PrimaryDim => new(
         name: "primary_dim",
