@@ -505,13 +505,15 @@ internal class ColorSpec2025 : ColorSpec2021
             : null
     );
 
-    public override DynamicColor OnSecondaryContainer => new(
-        name: "on_secondary_container",
-        palette: s => s.SecondaryPalette,
-        tone: s => base.OnSecondaryContainer.Tone(s),
-        background: s => SecondaryContainer,
-        contrastCurve: s => s.Platform == Platform.Phone ? GetContrastCurve(6) : GetContrastCurve(7)
-    );
+    public override DynamicColor OnSecondaryContainer => CreateOnSecondaryContainer().Build();
+    public DynamicColorBuilder CreateOnSecondaryContainer()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("on_secondary_container")
+            .WithPalette(s => s.SecondaryPalette)
+            .WithBackground(_ => SecondaryContainer)
+            .WithContrastCurve(s => s.Platform == Platform.Phone ? GetContrastCurve(6) : GetContrastCurve(7));
+    }
 
     // ----------------------------------------------------------------
     // Tertiaries
@@ -597,13 +599,15 @@ internal class ColorSpec2025 : ColorSpec2021
             : null
     );
 
-    public override DynamicColor OnTertiaryContainer => new(
-        name: "on_tertiary_container",
-        palette: s => s.TertiaryPalette,
-        tone: s => base.OnTertiaryContainer.Tone(s),
-        background: s => TertiaryContainer,
-        contrastCurve: s => s.Platform == Platform.Phone ? GetContrastCurve(6) : GetContrastCurve(7)
-    );
+    public override DynamicColor OnTertiaryContainer => CreateOnTertiaryContainer().Build();
+    public DynamicColorBuilder CreateOnTertiaryContainer()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("on_tertiary_container")
+            .WithPalette(s => s.TertiaryPalette)
+            .WithBackground(_ => TertiaryContainer)
+            .WithContrastCurve(s => s.Platform == Platform.Phone ? GetContrastCurve(6) : GetContrastCurve(7));
+    }
 
     // ----------------------------------------------------------------
     // Errors
@@ -635,13 +639,15 @@ internal class ColorSpec2025 : ColorSpec2021
         toneDeltaPair: s => new ToneDeltaPair(ErrorDim, Error, 5.0, TonePolarity.Darker, ToneDeltaConstraint.Farther)
     );
 
-    public override DynamicColor OnError => new(
-        name: "on_error",
-        palette: s => s.ErrorPalette,
-        tone: s => base.OnError.Tone(s),
-        background: s => s.Platform == Platform.Phone ? Error : ErrorDim,
-        contrastCurve: s => s.Platform == Platform.Phone ? GetContrastCurve(6) : GetContrastCurve(7)
-    );
+    public override DynamicColor OnError => CreateOnError().Build();
+    public DynamicColorBuilder CreateOnError()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("on_error")
+            .WithPalette(s => s.ErrorPalette)
+            .WithBackground(s => s.Platform == Platform.Phone ? Error : ErrorDim)
+            .WithContrastCurve(s => s.Platform == Platform.Phone ? GetContrastCurve(6) : GetContrastCurve(7));
+    }
 
     public override DynamicColor ErrorContainer => new(
         name: "error_container",
