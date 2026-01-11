@@ -5,14 +5,6 @@ namespace MaterialTheming.MaterialDesign.DynamicColors.ColorSpecs;
 
 internal interface IColorSpec
 {
-    // Main Palettes
-    DynamicColor PrimaryPaletteKeyColor { get; }
-    DynamicColor SecondaryPaletteKeyColor { get; }
-    DynamicColor TertiaryPaletteKeyColor { get; }
-    DynamicColor NeutralPaletteKeyColor { get; }
-    DynamicColor NeutralVariantPaletteKeyColor { get; }
-    DynamicColor ErrorPaletteKeyColor { get; }
-
     // Surfaces
     DynamicColor Background { get; }
     DynamicColor OnBackground { get; }

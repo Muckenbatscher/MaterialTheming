@@ -10,45 +10,6 @@ namespace MaterialTheming.MaterialDesign.DynamicColors.ColorSpecs;
 internal class ColorSpec2021 : IColorSpec
 {
     // ----------------------------------------------------------------
-    // Main Palettes
-    // ----------------------------------------------------------------
-
-    public DynamicColor PrimaryPaletteKeyColor => new(
-        name: "primary_palette_key_color",
-        palette: s => s.PrimaryPalette,
-        tone: s => s.PrimaryPalette.KeyColor.Tone
-    );
-    public DynamicColor SecondaryPaletteKeyColor => new(
-        name: "secondary_palette_key_color",
-        palette: s => s.SecondaryPalette,
-        tone: s => s.SecondaryPalette.KeyColor.Tone
-    );
-
-    public DynamicColor TertiaryPaletteKeyColor => new(
-        name: "tertiary_palette_key_color",
-        palette: s => s.TertiaryPalette,
-        tone: s => s.TertiaryPalette.KeyColor.Tone
-    );
-
-    public DynamicColor NeutralPaletteKeyColor => new(
-        name: "neutral_palette_key_color",
-        palette: s => s.NeutralPalette,
-        tone: s => s.NeutralPalette.KeyColor.Tone
-    );
-
-    public DynamicColor NeutralVariantPaletteKeyColor => new(
-        name: "neutral_variant_palette_key_color",
-        palette: s => s.NeutralVariantPalette,
-        tone: s => s.NeutralVariantPalette.KeyColor.Tone
-    );
-
-    public DynamicColor ErrorPaletteKeyColor => new(
-        name: "error_palette_key_color",
-        palette: s => s.ErrorPalette,
-        tone: s => s.ErrorPalette.KeyColor.Tone
-    );
-
-    // ----------------------------------------------------------------
     // Surfaces
     // ----------------------------------------------------------------
 
