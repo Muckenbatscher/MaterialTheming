@@ -277,15 +277,19 @@ internal class ColorSpec2021 : IColorSpec
     // Secondaries
     // ----------------------------------------------------------------
 
-    public virtual DynamicColor Secondary => new(
-        name: "secondary",
-        palette: s => s.SecondaryPalette,
-        tone: s => s.IsDark ? 80.0 : 40.0,
-        isBackground: true,
-        background: HighestSurface,
-        contrastCurve: s => new ContrastCurve(3.0, 4.5, 7.0, 7.0),
-        toneDeltaPair: s => new ToneDeltaPair(SecondaryContainer, Secondary, 10.0, TonePolarity.Nearer, false)
-    );
+    public virtual DynamicColor Secondary => CreateSecondary().Build();
+
+    private DynamicColorBuilder CreateSecondary()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("secondary")
+            .WithPalette(s => s.SecondaryPalette)
+            .WithTone(s => s.IsDark ? 80 : 40)
+            .WithIsBackground(true)
+            .WithBackground(HighestSurface)
+            .WithContrastCurve(s => new ContrastCurve(3.0, 4.5, 7.0, 7.0))
+            .WithToneDeltaPair(s => new ToneDeltaPair(SecondaryContainer, Secondary, 10.0, TonePolarity.Nearer, false));
+    }
 
     public virtual DynamicColor? SecondaryDim => null;
 
