@@ -52,9 +52,27 @@ public sealed class TonalSpotTests
         Assert.IsTrue(result.IsValid, message: result.GetFailedValidationMessage());
     }
     [TestMethod]
+    public void TonalSpot_DarkMode_NormalContrast_Spec2025()
+    {
+        var result = ThemeValidator.ValidateThemeColors<DarkMode_NormalContrast_Spec2025>();
+        Assert.IsTrue(result.IsValid, message: result.GetFailedValidationMessage());
+    }
+    [TestMethod]
+    public void TonalSpot_LightMode_MediumContrast_Spec2025()
+    {
+        var result = ThemeValidator.ValidateThemeColors<LightMode_MediumContrast_Spec2025>();
+        Assert.IsTrue(result.IsValid, message: result.GetFailedValidationMessage());
+    }
+    [TestMethod]
     public void TonalSpot_DarkMode_MediumContrast_Spec2025()
     {
         var result = ThemeValidator.ValidateThemeColors<DarkMode_MediumContrast_Spec2025>();
+        Assert.IsTrue(result.IsValid, message: result.GetFailedValidationMessage());
+    }
+    [TestMethod]
+    public void TonalSpot_LightMode_HighContrast_Spec2025()
+    {
+        var result = ThemeValidator.ValidateThemeColors<LightMode_HighContrast_Spec2025>();
         Assert.IsTrue(result.IsValid, message: result.GetFailedValidationMessage());
     }
     [TestMethod]

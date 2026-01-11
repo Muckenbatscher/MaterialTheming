@@ -665,13 +665,15 @@ internal class ColorSpec2025 : ColorSpec2021
             : null
     );
 
-    public override DynamicColor OnErrorContainer => new(
-        name: "on_error_container",
-        palette: s => s.ErrorPalette,
-        tone: s => base.OnErrorContainer.Tone(s),
-        background: s => ErrorContainer,
-        contrastCurve: s => s.Platform == Platform.Phone ? GetContrastCurve(4.5) : GetContrastCurve(7)
-    );
+    public override DynamicColor OnErrorContainer => CreateOnErrorContainer().Build();
+    public DynamicColorBuilder CreateOnErrorContainer()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("on_error_container")
+            .WithPalette(s => s.ErrorPalette)
+            .WithBackground(s => ErrorContainer)
+            .WithContrastCurve(s => s.Platform == Platform.Phone ? GetContrastCurve(4.5) : GetContrastCurve(7));
+    }
 
     // ----------------------------------------------------------------
     // Primary Fixed
