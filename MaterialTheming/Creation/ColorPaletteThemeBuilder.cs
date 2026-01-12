@@ -131,8 +131,9 @@ public class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
 
         var primarySourceColor = HctColor.FromRgbColor(_primaryColorSpec.BaseColor);
 
+        var specVersionToUse = GetFallbackSpecVersionToUse(specVersion, variant);
+        var colorSpec = ColorSpecFactory.Create(specVersionToUse);
         bool isDark = mode == ThemeMode.Dark;
-        var colorSpec = ColorSpecFactory.Create(specVersion);
 
         var primaryPalette = colorSpec.GetPrimaryPalette(variant, primarySourceColor, isDark, platform, contrastLevel);
         var secondaryPalette = colorSpec.GetSecondaryPalette(variant, primarySourceColor, isDark, platform, contrastLevel);
@@ -141,11 +142,22 @@ public class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
         var neutralPalette = colorSpec.GetNeutralPalette(variant, primarySourceColor, isDark, platform, contrastLevel);
         var neutralVariantPalette = colorSpec.GetNeutralVariantPalette(variant, primarySourceColor, isDark, platform, contrastLevel);
 
-        var scheme = new DynamicScheme(variant, mode == ThemeMode.Dark, contrastLevel, primarySourceColor,
+        var scheme = new DynamicScheme(variant, isDark, contrastLevel, primarySourceColor,
             primaryPalette, secondaryPalette, tertiaryPalette,
             neutralPalette, neutralVariantPalette, errorPalette,
-            specVersion: specVersion);
+            platform: platform,
+            specVersion: specVersionToUse);
         return CreateThemeColorFromScheme(scheme);
+    }
+    private static SpecVersion GetFallbackSpecVersionToUse(SpecVersion desiredSpecVersion, Variant variant)
+    {
+        IEnumerable<Variant> spec2025implementedVariants = 
+            [Variant.TonalSpot, Variant.Neutral, Variant.Expressive, Variant.Vibrant];
+        var variantIsImplementedInSpec2025 = spec2025implementedVariants.Contains(variant);
+
+        return desiredSpecVersion == SpecVersion.Spec2025 && variantIsImplementedInSpec2025
+            ? desiredSpecVersion
+            : SpecVersion.Spec2021;
     }
 
     private static ThemeColors CreateThemeColorFromScheme(DynamicScheme scheme)
