@@ -1,0 +1,42 @@
+using MaterialTheming.MaterialDesign;
+
+namespace MaterialTheming.Tests.KnownTestThemes.TonalSpot;
+
+internal class DarkMode_MediumContrast_Spec2021_Green : ITestTheme
+{
+    public string SourceColor => "#338745"; //Green
+    public bool IsDark => true;
+    public Variant Variant => Variant.TonalSpot;
+    public double ContrastLevelValue => 0.5;
+    public SpecVersion SpecVersion => SpecVersion.Spec2021;
+
+    public string Primary => "#B2EAB3";
+    public string OnPrimary => "#002D0D";
+    public string PrimaryContainer => "#689D6C";
+    public string OnPrimaryContainer => "#000000";
+
+    public string Secondary => "#CEE2CB";
+    public string OnSecondary => "#19291A";
+    public string SecondaryContainer => "#839681";
+    public string OnSecondaryContainer => "#000000";
+
+    public string Tertiary => "#B7E4ED";
+    public string OnTertiary => "#002A30";
+    public string TertiaryContainer => "#6C98A0";
+    public string OnTertiaryContainer => "#000000";
+
+    public string Error => "#FFD2CC";
+    public string OnError => "#540003";
+    public string ErrorContainer => "#FF5449";
+    public string OnErrorContainer => "#000000";
+
+    public string Surface => "#101510";
+    public string OnSurface => "#FFFFFF";
+    public string OnSurfaceVariant => "#D7DED3";
+
+    public string SurfaceContainerLowest => "#050805";
+    public string SurfaceContainerLow => "#1A1F1A";
+    public string SurfaceContainer => "#242924";
+    public string SurfaceContainerHigh => "#2F342E";
+    public string SurfaceContainerHighest => "#3A3F39";
+}
