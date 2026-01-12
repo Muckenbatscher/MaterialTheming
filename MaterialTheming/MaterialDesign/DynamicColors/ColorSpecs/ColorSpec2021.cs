@@ -13,237 +13,309 @@ internal class ColorSpec2021 : IColorSpec
     // Surfaces
     // ----------------------------------------------------------------
 
-    public virtual DynamicColor Background => new(
-        name: "background",
-        palette: s => s.NeutralPalette,
-        tone: s => s.IsDark ? 6.0 : 98.0,
-        isBackground: true
-    );
+    public virtual DynamicColor Background => CreateBackground().Build();
+    private DynamicColorBuilder CreateBackground()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("background")
+            .WithPalette(s => s.NeutralPalette)
+            .WithTone(s => s.IsDark ? 6.0 : 98.0)
+            .WithIsBackground(true);
+    }
 
-    public virtual DynamicColor OnBackground => new(
-        name: "on_background",
-        palette: s => s.NeutralPalette,
-        tone: s => s.IsDark ? 90.0 : 10.0,
-        background: s => Background,
-        contrastCurve: s => new ContrastCurve(3.0, 3.0, 4.5, 7.0)
-    );
+    public virtual DynamicColor OnBackground => CreateOnBackground().Build();
+    private DynamicColorBuilder CreateOnBackground()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("on_background")
+            .WithPalette(s => s.NeutralPalette)
+            .WithTone(s => s.IsDark ? 90.0 : 10.0)
+            .WithBackground(_ => Background)
+            .WithContrastCurve(s => new ContrastCurve(3.0, 3.0, 4.5, 7.0));
+    }
 
-    public virtual DynamicColor Surface => new(
-        name: "surface",
-        palette: s => s.NeutralPalette,
-        tone: s => s.IsDark ? 6.0 : 98.0,
-        isBackground: true
-    );
+    public virtual DynamicColor Surface => CreateSurface().Build();
+    private DynamicColorBuilder CreateSurface()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("surface")
+            .WithPalette(s => s.NeutralPalette)
+            .WithTone(s => s.IsDark ? 6.0 : 98.0)
+            .WithIsBackground(true);
+    }
 
-    public virtual DynamicColor SurfaceDim => new(
-        name: "surface_dim",
-        palette: s => s.NeutralPalette,
-        tone: s => s.IsDark ? 6.0 : new ContrastCurve(87.0, 87.0, 80.0, 75.0).Get(s.ContrastLevel),
-        isBackground: true
-    );
+    public virtual DynamicColor SurfaceDim => CreateSurfaceDim().Build();
+    private DynamicColorBuilder CreateSurfaceDim()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("surface_dim")
+            .WithPalette(s => s.NeutralPalette)
+            .WithTone(s => s.IsDark ? 6.0 : new ContrastCurve(87.0, 87.0, 80.0, 75.0).Get(s.ContrastLevel))
+            .WithIsBackground(true);
+    }
 
-    public virtual DynamicColor SurfaceBright => new(
-        name: "surface_bright",
-        palette: s => s.NeutralPalette,
-        tone: s => s.IsDark ? new ContrastCurve(24.0, 24.0, 29.0, 34.0).Get(s.ContrastLevel) : 98.0,
-        isBackground: true
-    );
+    public virtual DynamicColor SurfaceBright => CreateSurfaceBright().Build();
+    private DynamicColorBuilder CreateSurfaceBright()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("surface_bright")
+            .WithPalette(s => s.NeutralPalette)
+            .WithTone(s => s.IsDark ? new ContrastCurve(24.0, 24.0, 29.0, 34.0).Get(s.ContrastLevel) : 98.0)
+            .WithIsBackground(true);
+    }
 
-    public virtual DynamicColor SurfaceContainerLowest => new(
-        name: "surface_container_lowest",
-        palette: s => s.NeutralPalette,
-        tone: s => s.IsDark ? new ContrastCurve(4.0, 4.0, 2.0, 0.0).Get(s.ContrastLevel) : 100.0,
-        isBackground: true
-    );
+    public virtual DynamicColor SurfaceContainerLowest => CreateSurfaceContainerLowest().Build();
+    private DynamicColorBuilder CreateSurfaceContainerLowest()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("surface_container_lowest")
+            .WithPalette(s => s.NeutralPalette)
+            .WithTone(s => s.IsDark ? new ContrastCurve(4.0, 4.0, 2.0, 0.0).Get(s.ContrastLevel) : 100.0)
+            .WithIsBackground(true);
+    }
 
-    public virtual DynamicColor SurfaceContainerLow => new(
-        name: "surface_container_low",
-        palette: s => s.NeutralPalette,
-        tone: s => s.IsDark
-            ? new ContrastCurve(10.0, 10.0, 11.0, 12.0).Get(s.ContrastLevel)
-            : new ContrastCurve(96.0, 96.0, 96.0, 95.0).Get(s.ContrastLevel),
-        isBackground: true
-    );
+    public virtual DynamicColor SurfaceContainerLow => CreateSurfaceContainerLow().Build();
+    private DynamicColorBuilder CreateSurfaceContainerLow()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("surface_container_low")
+            .WithPalette(s => s.NeutralPalette)
+            .WithTone(s => s.IsDark
+                ? new ContrastCurve(10.0, 10.0, 11.0, 12.0).Get(s.ContrastLevel)
+                : new ContrastCurve(96.0, 96.0, 96.0, 95.0).Get(s.ContrastLevel))
+            .WithIsBackground(true);
+    }
 
-    public virtual DynamicColor SurfaceContainer => new(
-        name: "surface_container",
-        palette: s => s.NeutralPalette,
-        tone: s => s.IsDark
-            ? new ContrastCurve(12.0, 12.0, 16.0, 20.0).Get(s.ContrastLevel)
-            : new ContrastCurve(94.0, 94.0, 92.0, 90.0).Get(s.ContrastLevel),
-        isBackground: true
-    );
+    public virtual DynamicColor SurfaceContainer => CreateSurfaceContainer().Build();
+    private DynamicColorBuilder CreateSurfaceContainer()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("surface_container")
+            .WithPalette(s => s.NeutralPalette)
+            .WithTone(s => s.IsDark
+                ? new ContrastCurve(12.0, 12.0, 16.0, 20.0).Get(s.ContrastLevel)
+                : new ContrastCurve(94.0, 94.0, 92.0, 90.0).Get(s.ContrastLevel))
+            .WithIsBackground(true);
+    }
 
-    public virtual DynamicColor SurfaceContainerHigh => new(
-        name: "surface_container_high",
-        palette: s => s.NeutralPalette,
-        tone: s => s.IsDark
-            ? new ContrastCurve(17.0, 17.0, 21.0, 25.0).Get(s.ContrastLevel)
-            : new ContrastCurve(92.0, 92.0, 88.0, 85.0).Get(s.ContrastLevel),
-        isBackground: true
-    );
+    public virtual DynamicColor SurfaceContainerHigh => CreateSurfaceContainerHigh().Build();
+    private DynamicColorBuilder CreateSurfaceContainerHigh()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("surface_container_high")
+            .WithPalette(s => s.NeutralPalette)
+            .WithTone(s => s.IsDark
+                ? new ContrastCurve(17.0, 17.0, 21.0, 25.0).Get(s.ContrastLevel)
+                : new ContrastCurve(92.0, 92.0, 88.0, 85.0).Get(s.ContrastLevel))
+            .WithIsBackground(true);
+    }
 
-    public virtual DynamicColor SurfaceContainerHighest => new(
-        name: "surface_container_highest",
-        palette: s => s.NeutralPalette,
-        tone: s => s.IsDark
-            ? new ContrastCurve(22.0, 22.0, 26.0, 30.0).Get(s.ContrastLevel)
-            : new ContrastCurve(90.0, 90.0, 84.0, 80.0).Get(s.ContrastLevel),
-        isBackground: true
-    );
+    public virtual DynamicColor SurfaceContainerHighest => CreateSurfaceContainerHighest().Build();
+    private DynamicColorBuilder CreateSurfaceContainerHighest()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("surface_container_highest")
+            .WithPalette(s => s.NeutralPalette)
+            .WithTone(s => s.IsDark
+                ? new ContrastCurve(22.0, 22.0, 26.0, 30.0).Get(s.ContrastLevel)
+                : new ContrastCurve(90.0, 90.0, 84.0, 80.0).Get(s.ContrastLevel))
+            .WithIsBackground(true);
+    }
 
-    public virtual DynamicColor OnSurface => new(
-        name: "on_surface",
-        palette: s => s.NeutralPalette,
-        tone: s => s.IsDark ? 90.0 : 10.0,
-        background: HighestSurface,
-        contrastCurve: s => new ContrastCurve(4.5, 7.0, 11.0, 21.0)
-    );
+    public virtual DynamicColor OnSurface => CreateOnSurface().Build();
+    private DynamicColorBuilder CreateOnSurface()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("on_surface")
+            .WithPalette(s => s.NeutralPalette)
+            .WithTone(s => s.IsDark ? 90.0 : 10.0)
+            .WithBackground(HighestSurface)
+            .WithContrastCurve(s => new ContrastCurve(4.5, 7.0, 11.0, 21.0));
+    }
 
-    public virtual DynamicColor SurfaceVariant => new(
-        name: "surface_variant",
-        palette: s => s.NeutralVariantPalette,
-        tone: s => s.IsDark ? 30.0 : 90.0,
-        isBackground: true
-    );
+    public virtual DynamicColor SurfaceVariant => CreateSurfaceVariant().Build();
+    private DynamicColorBuilder CreateSurfaceVariant()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("surface_variant")
+            .WithPalette(s => s.NeutralVariantPalette)
+            .WithTone(s => s.IsDark ? 30.0 : 90.0)
+            .WithIsBackground(true);
+    }
 
-    public virtual DynamicColor OnSurfaceVariant => new(
-        name: "on_surface_variant",
-        palette: s => s.NeutralVariantPalette,
-        tone: s => s.IsDark ? 80.0 : 30.0,
-        background: HighestSurface,
-        contrastCurve: s => new ContrastCurve(3.0, 4.5, 7.0, 11.0)
-    );
+    public virtual DynamicColor OnSurfaceVariant => CreateOnSurfaceVariant().Build();
+    private DynamicColorBuilder CreateOnSurfaceVariant()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("on_surface_variant")
+            .WithPalette(s => s.NeutralVariantPalette)
+            .WithTone(s => s.IsDark ? 80.0 : 30.0)
+            .WithBackground(HighestSurface)
+            .WithContrastCurve(s => new ContrastCurve(3.0, 4.5, 7.0, 11.0));
+    }
 
-    public virtual DynamicColor InverseSurface => new(
-        name: "inverse_surface",
-        palette: s => s.NeutralPalette,
-        tone: s => s.IsDark ? 90.0 : 20.0,
-        isBackground: true
-    );
+    public virtual DynamicColor InverseSurface => CreateInverseSurface().Build();
+    private DynamicColorBuilder CreateInverseSurface()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("inverse_surface")
+            .WithPalette(s => s.NeutralPalette)
+            .WithTone(s => s.IsDark ? 90.0 : 20.0)
+            .WithIsBackground(true);
+    }
 
-    public virtual DynamicColor InverseOnSurface => new(
-        name: "inverse_on_surface",
-        palette: s => s.NeutralPalette,
-        tone: s => s.IsDark ? 20.0 : 95.0,
-        background: s => InverseSurface,
-        contrastCurve: s => new ContrastCurve(4.5, 7.0, 11.0, 21.0)
-    );
+    public virtual DynamicColor InverseOnSurface => CreateInverseOnSurface().Build();
+    private DynamicColorBuilder CreateInverseOnSurface()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("inverse_on_surface")
+            .WithPalette(s => s.NeutralPalette)
+            .WithTone(s => s.IsDark ? 20.0 : 95.0)
+            .WithBackground(_ => InverseSurface)
+            .WithContrastCurve(s => new ContrastCurve(4.5, 7.0, 11.0, 21.0));
+    }
 
-    public virtual DynamicColor Outline => new(
-        name: "outline",
-        palette: s => s.NeutralVariantPalette,
-        tone: s => s.IsDark ? 60.0 : 50.0,
-        background: HighestSurface,
-        contrastCurve: s => new ContrastCurve(1.5, 3.0, 4.5, 7.0)
-    );
+    public virtual DynamicColor Outline => CreateOutline().Build();
+    private DynamicColorBuilder CreateOutline()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("outline")
+            .WithPalette(s => s.NeutralVariantPalette)
+            .WithTone(s => s.IsDark ? 60.0 : 50.0)
+            .WithBackground(HighestSurface)
+            .WithContrastCurve(s => new ContrastCurve(1.5, 3.0, 4.5, 7.0));
+    }
 
-    public virtual DynamicColor OutlineVariant => new(
-        name: "outline_variant",
-        palette: s => s.NeutralVariantPalette,
-        tone: s => s.IsDark ? 30.0 : 80.0,
-        background: HighestSurface,
-        contrastCurve: s => new ContrastCurve(1.0, 1.0, 3.0, 4.5)
-    );
+    public virtual DynamicColor OutlineVariant => CreateOutlineVariant().Build();
+    private DynamicColorBuilder CreateOutlineVariant()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("outline_variant")
+            .WithPalette(s => s.NeutralVariantPalette)
+            .WithTone(s => s.IsDark ? 30.0 : 80.0)
+            .WithBackground(HighestSurface)
+            .WithContrastCurve(s => new ContrastCurve(1.0, 1.0, 3.0, 4.5));
+    }
 
-    public virtual DynamicColor Shadow => new(
-        name: "shadow",
-        palette: s => s.NeutralPalette,
-        tone: s => 0.0
-    );
+    public virtual DynamicColor Shadow => CreateShadow().Build();
+    private DynamicColorBuilder CreateShadow()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("shadow")
+            .WithPalette(s => s.NeutralPalette)
+            .WithTone(s => 0.0);
+    }
 
-    public virtual DynamicColor Scrim => new(
-        name: "scrim",
-        palette: s => s.NeutralPalette,
-        tone: s => 0.0
-    );
+    public virtual DynamicColor Scrim => CreateScrim().Build();
+    private DynamicColorBuilder CreateScrim()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("scrim")
+            .WithPalette(s => s.NeutralPalette)
+            .WithTone(s => 0.0);
+    }
 
-    public virtual DynamicColor SurfaceTint => new(
-        name: "surface_tint",
-        palette: s => s.PrimaryPalette,
-        tone: s => s.IsDark ? 80.0 : 40.0,
-        isBackground: true
-    );
+    public virtual DynamicColor SurfaceTint => CreateSurfaceTint().Build();
+    private DynamicColorBuilder CreateSurfaceTint()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("surface_tint")
+            .WithPalette(s => s.PrimaryPalette)
+            .WithTone(s => s.IsDark ? 80.0 : 40.0)
+            .WithIsBackground(true);
+    }
 
     // ----------------------------------------------------------------
     // Primaries
     // ----------------------------------------------------------------
 
-    public virtual DynamicColor Primary => new(
-        name: "primary",
-        palette: s => s.PrimaryPalette,
-        tone: s => IsMonochrome(s) ? (s.IsDark ? 100.0 : 0.0) : (s.IsDark ? 80.0 : 40.0),
-        isBackground: true,
-        background: HighestSurface,
-        contrastCurve: s => new ContrastCurve(3.0, 4.5, 7.0, 7.0),
-        toneDeltaPair: s => new ToneDeltaPair(PrimaryContainer, Primary, 10.0, TonePolarity.Nearer, false)
-    );
+    public virtual DynamicColor Primary => CreatePrimary().Build();
+    private DynamicColorBuilder CreatePrimary()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("primary")
+            .WithPalette(s => s.PrimaryPalette)
+            .WithTone(s => IsMonochrome(s) ? (s.IsDark ? 100.0 : 0.0) : (s.IsDark ? 80.0 : 40.0))
+            .WithIsBackground(true)
+            .WithBackground(HighestSurface)
+            .WithContrastCurve(s => new ContrastCurve(3.0, 4.5, 7.0, 7.0))
+            .WithToneDeltaPair(s => new ToneDeltaPair(PrimaryContainer, Primary, 10.0, TonePolarity.Nearer, false));
+    }
 
     public virtual DynamicColor? PrimaryDim => null;
 
-    public virtual DynamicColor OnPrimary => new(
-        name: "on_primary",
-        palette: s => s.PrimaryPalette,
-        tone: s =>
-        {
-            if (IsMonochrome(s))
-                return s.IsDark ? 10.0 : 90.0;
-            return s.IsDark ? 20.0 : 100.0;
-        },
-        background: s => Primary,
-        contrastCurve: s => new ContrastCurve(4.5, 7.0, 11.0, 21.0)
-    );
-
-    public virtual DynamicColor PrimaryContainer => new(
-        name: "primary_container",
-        palette: s => s.PrimaryPalette,
-        tone: s =>
-        {
-            if (IsFidelity(s))
-                return s.SourceColor.Tone;
-            if (IsMonochrome(s))
-                return s.IsDark ? 85.0 : 25.0;
-            return s.IsDark ? 30.0 : 90.0;
-        },
-        isBackground: true,
-        background: HighestSurface,
-        contrastCurve: s => new ContrastCurve(1.0, 1.0, 3.0, 4.5),
-        toneDeltaPair: s => new ToneDeltaPair(PrimaryContainer, Primary, 10.0, TonePolarity.Nearer, false)
-    );
-
-    public virtual DynamicColor OnPrimaryContainer => new(
-        name: "on_primary_container",
-        palette: s => s.PrimaryPalette,
-        tone: s =>
-        {
-            if (IsFidelity(s))
+    public virtual DynamicColor OnPrimary => CreateOnPrimary().Build();
+    private DynamicColorBuilder CreateOnPrimary()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("on_primary")
+            .WithPalette(s => s.PrimaryPalette)
+            .WithTone(s =>
             {
-                // Note: assuming context where PrimaryContainer is the source color being resolved
-                // This requires PrimaryContainer.Tone to be resolvable.
-                return ForegroundToneCalculation.ForegroundTone(PrimaryContainer.Tone(s), 4.5);
-            }
-            if (IsMonochrome(s))
-                return s.IsDark ? 0.0 : 100.0;
-            return s.IsDark ? 90.0 : 30.0;
-        },
-        background: s => PrimaryContainer,
-        contrastCurve: s => new ContrastCurve(3.0, 4.5, 7.0, 11.0)
-    );
+                if (IsMonochrome(s))
+                    return s.IsDark ? 10.0 : 90.0;
+                return s.IsDark ? 20.0 : 100.0;
+            })
+            .WithBackground(_ => Primary)
+            .WithContrastCurve(s => new ContrastCurve(4.5, 7.0, 11.0, 21.0));
+    }
 
-    public virtual DynamicColor InversePrimary => new(
-        name: "inverse_primary",
-        palette: s => s.PrimaryPalette,
-        tone: s => s.IsDark ? 40.0 : 80.0,
-        background: s => InverseSurface,
-        contrastCurve: s => new ContrastCurve(3.0, 4.5, 7.0, 7.0)
-    );
+    public virtual DynamicColor PrimaryContainer => CreatePrimaryContainer().Build();
+    private DynamicColorBuilder CreatePrimaryContainer()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("primary_container")
+            .WithPalette(s => s.PrimaryPalette)
+            .WithTone(s =>
+            {
+                if (IsFidelity(s))
+                    return s.SourceColor.Tone;
+                if (IsMonochrome(s))
+                    return s.IsDark ? 85.0 : 25.0;
+                return s.IsDark ? 30.0 : 90.0;
+            })
+            .WithIsBackground(true)
+            .WithBackground(HighestSurface)
+            .WithContrastCurve(s => new ContrastCurve(1.0, 1.0, 3.0, 4.5))
+            .WithToneDeltaPair(s => new ToneDeltaPair(PrimaryContainer, Primary, 10.0, TonePolarity.Nearer, false));
+    }
+
+    public virtual DynamicColor OnPrimaryContainer => CreateOnPrimaryContainer().Build();
+    private DynamicColorBuilder CreateOnPrimaryContainer()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("on_primary_container")
+            .WithPalette(s => s.PrimaryPalette)
+            .WithTone(s =>
+            {
+                if (IsFidelity(s))
+                {
+                    return ForegroundToneCalculation.ForegroundTone(PrimaryContainer.Tone(s), 4.5);
+                }
+                if (IsMonochrome(s))
+                    return s.IsDark ? 0.0 : 100.0;
+                return s.IsDark ? 90.0 : 30.0;
+            })
+            .WithBackground(_ => PrimaryContainer)
+            .WithContrastCurve(s => new ContrastCurve(3.0, 4.5, 7.0, 11.0));
+    }
+
+    public virtual DynamicColor InversePrimary => CreateInversePrimary().Build();
+    private DynamicColorBuilder CreateInversePrimary()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("inverse_primary")
+            .WithPalette(s => s.PrimaryPalette)
+            .WithTone(s => s.IsDark ? 40.0 : 80.0)
+            .WithBackground(_ => InverseSurface)
+            .WithContrastCurve(s => new ContrastCurve(3.0, 4.5, 7.0, 7.0));
+    }
 
     // ----------------------------------------------------------------
     // Secondaries
     // ----------------------------------------------------------------
 
     public virtual DynamicColor Secondary => CreateSecondary().Build();
-
     private DynamicColorBuilder CreateSecondary()
     {
         return DynamicColorBuilder.Create()
@@ -258,297 +330,366 @@ internal class ColorSpec2021 : IColorSpec
 
     public virtual DynamicColor? SecondaryDim => null;
 
-    public virtual DynamicColor OnSecondary => new(
-        name: "on_secondary",
-        palette: s => s.SecondaryPalette,
-        tone: s =>
-        {
-            if (IsMonochrome(s))
-                return s.IsDark ? 10.0 : 100.0;
-            return s.IsDark ? 20.0 : 100.0;
-        },
-        background: s => Secondary,
-        contrastCurve: s => new ContrastCurve(4.5, 7.0, 11.0, 21.0)
-    );
+    public virtual DynamicColor OnSecondary => CreateOnSecondary().Build();
+    private DynamicColorBuilder CreateOnSecondary()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("on_secondary")
+            .WithPalette(s => s.SecondaryPalette)
+            .WithTone(s =>
+            {
+                if (IsMonochrome(s))
+                    return s.IsDark ? 10.0 : 100.0;
+                return s.IsDark ? 20.0 : 100.0;
+            })
+            .WithBackground(_ => Secondary)
+            .WithContrastCurve(s => new ContrastCurve(4.5, 7.0, 11.0, 21.0));
+    }
 
-    public virtual DynamicColor SecondaryContainer => new(
-        name: "secondary_container",
-        palette: s => s.SecondaryPalette,
-        tone: s =>
-        {
-            double initialTone = s.IsDark ? 30.0 : 90.0;
-            if (IsMonochrome(s))
-                return s.IsDark ? 30.0 : 85.0;
-            if (!IsFidelity(s))
-                return initialTone;
+    public virtual DynamicColor SecondaryContainer => CreateSecondaryContainer().Build();
+    private DynamicColorBuilder CreateSecondaryContainer()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("secondary_container")
+            .WithPalette(s => s.SecondaryPalette)
+            .WithTone(s =>
+            {
+                double initialTone = s.IsDark ? 30.0 : 90.0;
+                if (IsMonochrome(s))
+                    return s.IsDark ? 30.0 : 85.0;
+                if (!IsFidelity(s))
+                    return initialTone;
 
-            return FindDesiredChromaByTone(
-                s.SecondaryPalette.Hue,
-                s.SecondaryPalette.Chroma,
-                initialTone,
-                !s.IsDark);
-        },
-        isBackground: true,
-        background: HighestSurface,
-        contrastCurve: s => new ContrastCurve(1.0, 1.0, 3.0, 4.5),
-        toneDeltaPair: s => new ToneDeltaPair(SecondaryContainer, Secondary, 10.0, TonePolarity.Nearer, false)
-    );
+                return FindDesiredChromaByTone(
+                    s.SecondaryPalette.Hue,
+                    s.SecondaryPalette.Chroma,
+                    initialTone,
+                    !s.IsDark);
+            })
+            .WithIsBackground(true)
+            .WithBackground(HighestSurface)
+            .WithContrastCurve(s => new ContrastCurve(1.0, 1.0, 3.0, 4.5))
+            .WithToneDeltaPair(s => new ToneDeltaPair(SecondaryContainer, Secondary, 10.0, TonePolarity.Nearer, false));
+    }
 
-    public virtual DynamicColor OnSecondaryContainer => new(
-        name: "on_secondary_container",
-        palette: s => s.SecondaryPalette,
-        tone: s =>
-        {
-            if (IsMonochrome(s))
-                return s.IsDark ? 90.0 : 10.0;
-            if (!IsFidelity(s))
-                return s.IsDark ? 90.0 : 30.0;
-            return ForegroundToneCalculation.ForegroundTone(SecondaryContainer.Tone(s), 4.5);
-        },
-        background: s => SecondaryContainer,
-        contrastCurve: s => new ContrastCurve(3.0, 4.5, 7.0, 11.0)
-    );
+    public virtual DynamicColor OnSecondaryContainer => CreateOnSecondaryContainer().Build();
+    private DynamicColorBuilder CreateOnSecondaryContainer()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("on_secondary_container")
+            .WithPalette(s => s.SecondaryPalette)
+            .WithTone(s =>
+            {
+                if (IsMonochrome(s))
+                    return s.IsDark ? 90.0 : 10.0;
+                if (!IsFidelity(s))
+                    return s.IsDark ? 90.0 : 30.0;
+                return ForegroundToneCalculation.ForegroundTone(SecondaryContainer.Tone(s), 4.5);
+            })
+            .WithBackground(_ => SecondaryContainer)
+            .WithContrastCurve(s => new ContrastCurve(3.0, 4.5, 7.0, 11.0));
+    }
 
     // ----------------------------------------------------------------
     // Tertiaries
     // ----------------------------------------------------------------
 
-    public virtual DynamicColor Tertiary => new(
-        name: "tertiary",
-        palette: s => s.TertiaryPalette,
-        tone: s =>
-        {
-            if (IsMonochrome(s))
-                return s.IsDark ? 90.0 : 25.0;
-            return s.IsDark ? 80.0 : 40.0;
-        },
-        isBackground: true,
-        background: HighestSurface,
-        contrastCurve: s => new ContrastCurve(3.0, 4.5, 7.0, 7.0),
-        toneDeltaPair: s => new ToneDeltaPair(TertiaryContainer, Tertiary, 10.0, TonePolarity.Nearer, false)
-    );
+    public virtual DynamicColor Tertiary => CreateTertiary().Build();
+    private DynamicColorBuilder CreateTertiary()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("tertiary")
+            .WithPalette(s => s.TertiaryPalette)
+            .WithTone(s =>
+            {
+                if (IsMonochrome(s))
+                    return s.IsDark ? 90.0 : 25.0;
+                return s.IsDark ? 80.0 : 40.0;
+            })
+            .WithIsBackground(true)
+            .WithBackground(HighestSurface)
+            .WithContrastCurve(s => new ContrastCurve(3.0, 4.5, 7.0, 7.0))
+            .WithToneDeltaPair(s => new ToneDeltaPair(TertiaryContainer, Tertiary, 10.0, TonePolarity.Nearer, false));
+    }
 
     public virtual DynamicColor? TertiaryDim => null;
 
-    public virtual DynamicColor OnTertiary => new(
-        name: "on_tertiary",
-        palette: s => s.TertiaryPalette,
-        tone: s =>
-        {
-            if (IsMonochrome(s))
-                return s.IsDark ? 10.0 : 90.0;
-            return s.IsDark ? 20.0 : 100.0;
-        },
-        background: s => Tertiary,
-        contrastCurve: s => new ContrastCurve(4.5, 7.0, 11.0, 21.0)
-    );
+    public virtual DynamicColor OnTertiary => CreateOnTertiary().Build();
+    private DynamicColorBuilder CreateOnTertiary()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("on_tertiary")
+            .WithPalette(s => s.TertiaryPalette)
+            .WithTone(s =>
+            {
+                if (IsMonochrome(s))
+                    return s.IsDark ? 10.0 : 90.0;
+                return s.IsDark ? 20.0 : 100.0;
+            })
+            .WithBackground(_ => Tertiary)
+            .WithContrastCurve(s => new ContrastCurve(4.5, 7.0, 11.0, 21.0));
+    }
 
-    public virtual DynamicColor TertiaryContainer => new(
-        name: "tertiary_container",
-        palette: s => s.TertiaryPalette,
-        tone: s =>
-        {
-            if (IsMonochrome(s))
-                return s.IsDark ? 60.0 : 49.0;
-            if (!IsFidelity(s))
-                return s.IsDark ? 30.0 : 90.0;
+    public virtual DynamicColor TertiaryContainer => CreateTertiaryContainer().Build();
+    private DynamicColorBuilder CreateTertiaryContainer()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("tertiary_container")
+            .WithPalette(s => s.TertiaryPalette)
+            .WithTone(s =>
+            {
+                if (IsMonochrome(s))
+                    return s.IsDark ? 60.0 : 49.0;
+                if (!IsFidelity(s))
+                    return s.IsDark ? 30.0 : 90.0;
 
-            var proposedHct = s.TertiaryPalette.GetHct(s.SourceColor.Tone);
-            return DislikeAnalyzer.FixIfDisliked(proposedHct).Tone;
-        },
-        isBackground: true,
-        background: HighestSurface,
-        contrastCurve: s => new ContrastCurve(1.0, 1.0, 3.0, 4.5),
-        toneDeltaPair: s => new ToneDeltaPair(TertiaryContainer, Tertiary, 10.0, TonePolarity.Nearer, false)
-    );
+                var proposedHct = s.TertiaryPalette.GetHct(s.SourceColor.Tone);
+                return DislikeAnalyzer.FixIfDisliked(proposedHct).Tone;
+            })
+            .WithIsBackground(true)
+            .WithBackground(HighestSurface)
+            .WithContrastCurve(s => new ContrastCurve(1.0, 1.0, 3.0, 4.5))
+            .WithToneDeltaPair(s => new ToneDeltaPair(TertiaryContainer, Tertiary, 10.0, TonePolarity.Nearer, false));
+    }
 
-    public virtual DynamicColor OnTertiaryContainer => new(
-        name: "on_tertiary_container",
-        palette: s => s.TertiaryPalette,
-        tone: s =>
-        {
-            if (IsMonochrome(s))
-                return s.IsDark ? 0.0 : 100.0;
-            if (!IsFidelity(s))
-                return s.IsDark ? 90.0 : 30.0;
-            return ForegroundToneCalculation.ForegroundTone(TertiaryContainer.Tone(s), 4.5);
-        },
-        background: s => TertiaryContainer,
-        contrastCurve: s => new ContrastCurve(3.0, 4.5, 7.0, 11.0)
-    );
+    public virtual DynamicColor OnTertiaryContainer => CreateOnTertiaryContainer().Build();
+    private DynamicColorBuilder CreateOnTertiaryContainer()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("on_tertiary_container")
+            .WithPalette(s => s.TertiaryPalette)
+            .WithTone(s =>
+            {
+                if (IsMonochrome(s))
+                    return s.IsDark ? 0.0 : 100.0;
+                if (!IsFidelity(s))
+                    return s.IsDark ? 90.0 : 30.0;
+                return ForegroundToneCalculation.ForegroundTone(TertiaryContainer.Tone(s), 4.5);
+            })
+            .WithBackground(_ => TertiaryContainer)
+            .WithContrastCurve(s => new ContrastCurve(3.0, 4.5, 7.0, 11.0));
+    }
 
     // ----------------------------------------------------------------
     // Errors
     // ----------------------------------------------------------------
 
-    public virtual DynamicColor Error => new(
-        name: "error",
-        palette: s => s.ErrorPalette,
-        tone: s => s.IsDark ? 80.0 : 40.0,
-        isBackground: true,
-        background: HighestSurface,
-        contrastCurve: s => new ContrastCurve(3.0, 4.5, 7.0, 7.0),
-        toneDeltaPair: s => new ToneDeltaPair(ErrorContainer, Error, 10.0, TonePolarity.Nearer, false)
-    );
+    public virtual DynamicColor Error => CreateError().Build();
+    private DynamicColorBuilder CreateError()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("error")
+            .WithPalette(s => s.ErrorPalette)
+            .WithTone(s => s.IsDark ? 80.0 : 40.0)
+            .WithIsBackground(true)
+            .WithBackground(HighestSurface)
+            .WithContrastCurve(s => new ContrastCurve(3.0, 4.5, 7.0, 7.0))
+            .WithToneDeltaPair(s => new ToneDeltaPair(ErrorContainer, Error, 10.0, TonePolarity.Nearer, false));
+    }
 
     public virtual DynamicColor? ErrorDim => null;
 
-    public virtual DynamicColor OnError => new(
-        name: "on_error",
-        palette: s => s.ErrorPalette,
-        tone: s => s.IsDark ? 20.0 : 100.0,
-        background: s => Error,
-        contrastCurve: s => new ContrastCurve(4.5, 7.0, 11.0, 21.0)
-    );
+    public virtual DynamicColor OnError => CreateOnError().Build();
+    private DynamicColorBuilder CreateOnError()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("on_error")
+            .WithPalette(s => s.ErrorPalette)
+            .WithTone(s => s.IsDark ? 20.0 : 100.0)
+            .WithBackground(_ => Error)
+            .WithContrastCurve(s => new ContrastCurve(4.5, 7.0, 11.0, 21.0));
+    }
 
-    public virtual DynamicColor ErrorContainer => new(
-        name: "error_container",
-        palette: s => s.ErrorPalette,
-        tone: s => s.IsDark ? 30.0 : 90.0,
-        isBackground: true,
-        background: HighestSurface,
-        contrastCurve: s => new ContrastCurve(1.0, 1.0, 3.0, 4.5),
-        toneDeltaPair: s => new ToneDeltaPair(ErrorContainer, Error, 10.0, TonePolarity.Nearer, false)
-    );
+    public virtual DynamicColor ErrorContainer => CreateErrorContainer().Build();
+    private DynamicColorBuilder CreateErrorContainer()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("error_container")
+            .WithPalette(s => s.ErrorPalette)
+            .WithTone(s => s.IsDark ? 30.0 : 90.0)
+            .WithIsBackground(true)
+            .WithBackground(HighestSurface)
+            .WithContrastCurve(s => new ContrastCurve(1.0, 1.0, 3.0, 4.5))
+            .WithToneDeltaPair(s => new ToneDeltaPair(ErrorContainer, Error, 10.0, TonePolarity.Nearer, false));
+    }
 
-    public virtual DynamicColor OnErrorContainer => new(
-        name: "on_error_container",
-        palette: s => s.ErrorPalette,
-        tone: s =>
-        {
-            if (IsMonochrome(s))
-                return s.IsDark ? 90.0 : 10.0;
-            return s.IsDark ? 90.0 : 30.0;
-        },
-        background: s => ErrorContainer,
-        contrastCurve: s => new ContrastCurve(3.0, 4.5, 7.0, 11.0)
-    );
+    public virtual DynamicColor OnErrorContainer => CreateOnErrorContainer().Build();
+    private DynamicColorBuilder CreateOnErrorContainer()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("on_error_container")
+            .WithPalette(s => s.ErrorPalette)
+            .WithTone(s =>
+            {
+                if (IsMonochrome(s))
+                    return s.IsDark ? 90.0 : 10.0;
+                return s.IsDark ? 90.0 : 30.0;
+            })
+            .WithBackground(_ => ErrorContainer)
+            .WithContrastCurve(s => new ContrastCurve(3.0, 4.5, 7.0, 11.0));
+    }
 
     // ----------------------------------------------------------------
     // Primary Fixed
     // ----------------------------------------------------------------
 
-    public virtual DynamicColor PrimaryFixed => new(
-        name: "primary_fixed",
-        palette: s => s.PrimaryPalette,
-        tone: s => IsMonochrome(s) ? 40.0 : 90.0,
-        isBackground: true,
-        background: HighestSurface,
-        contrastCurve: s => new ContrastCurve(1.0, 1.0, 3.0, 4.5),
-        toneDeltaPair: s => new ToneDeltaPair(PrimaryFixed, PrimaryFixedDim, 10.0, TonePolarity.Lighter, true)
-    );
+    public virtual DynamicColor PrimaryFixed => CreatePrimaryFixed().Build();
+    private DynamicColorBuilder CreatePrimaryFixed()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("primary_fixed")
+            .WithPalette(s => s.PrimaryPalette)
+            .WithTone(s => IsMonochrome(s) ? 40.0 : 90.0)
+            .WithIsBackground(true)
+            .WithBackground(HighestSurface)
+            .WithContrastCurve(s => new ContrastCurve(1.0, 1.0, 3.0, 4.5))
+            .WithToneDeltaPair(s => new ToneDeltaPair(PrimaryFixed, PrimaryFixedDim, 10.0, TonePolarity.Lighter, true));
+    }
 
-    public virtual DynamicColor PrimaryFixedDim => new(
-        name: "primary_fixed_dim",
-        palette: s => s.PrimaryPalette,
-        tone: s => IsMonochrome(s) ? 30.0 : 80.0,
-        isBackground: true,
-        background: HighestSurface,
-        contrastCurve: s => new ContrastCurve(1.0, 1.0, 3.0, 4.5),
-        toneDeltaPair: s => new ToneDeltaPair(PrimaryFixed, PrimaryFixedDim, 10.0, TonePolarity.Lighter, true)
-    );
+    public virtual DynamicColor PrimaryFixedDim => CreatePrimaryFixedDim().Build();
+    private DynamicColorBuilder CreatePrimaryFixedDim()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("primary_fixed_dim")
+            .WithPalette(s => s.PrimaryPalette)
+            .WithTone(s => IsMonochrome(s) ? 30.0 : 80.0)
+            .WithIsBackground(true)
+            .WithBackground(HighestSurface)
+            .WithContrastCurve(s => new ContrastCurve(1.0, 1.0, 3.0, 4.5))
+            .WithToneDeltaPair(s => new ToneDeltaPair(PrimaryFixed, PrimaryFixedDim, 10.0, TonePolarity.Lighter, true));
+    }
 
-    public virtual DynamicColor OnPrimaryFixed => new(
-        name: "on_primary_fixed",
-        palette: s => s.PrimaryPalette,
-        tone: s => IsMonochrome(s) ? 100.0 : 10.0,
-        background: s => PrimaryFixedDim,
-        secondBackground: s => PrimaryFixed,
-        contrastCurve: s => new ContrastCurve(4.5, 7.0, 11.0, 21.0)
-    );
+    public virtual DynamicColor OnPrimaryFixed => CreateOnPrimaryFixed().Build();
+    private DynamicColorBuilder CreateOnPrimaryFixed()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("on_primary_fixed")
+            .WithPalette(s => s.PrimaryPalette)
+            .WithTone(s => IsMonochrome(s) ? 100.0 : 10.0)
+            .WithBackground(_ => PrimaryFixedDim)
+            .WithSecondBackground(_ => PrimaryFixed)
+            .WithContrastCurve(s => new ContrastCurve(4.5, 7.0, 11.0, 21.0));
+    }
 
-    public virtual DynamicColor OnPrimaryFixedVariant => new(
-        name: "on_primary_fixed_variant",
-        palette: s => s.PrimaryPalette,
-        tone: s => IsMonochrome(s) ? 90.0 : 30.0,
-        background: s => PrimaryFixedDim,
-        secondBackground: s => PrimaryFixed,
-        contrastCurve: s => new ContrastCurve(3.0, 4.5, 7.0, 11.0)
-    );
+    public virtual DynamicColor OnPrimaryFixedVariant => CreateOnPrimaryFixedVariant().Build();
+    private DynamicColorBuilder CreateOnPrimaryFixedVariant()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("on_primary_fixed_variant")
+            .WithPalette(s => s.PrimaryPalette)
+            .WithTone(s => IsMonochrome(s) ? 90.0 : 30.0)
+            .WithBackground(_ => PrimaryFixedDim)
+            .WithSecondBackground(_ => PrimaryFixed)
+            .WithContrastCurve(s => new ContrastCurve(3.0, 4.5, 7.0, 11.0));
+    }
 
     // ----------------------------------------------------------------
     // Secondary Fixed
     // ----------------------------------------------------------------
 
-    public virtual DynamicColor SecondaryFixed => new(
-        name: "secondary_fixed",
-        palette: s => s.SecondaryPalette,
-        tone: s => IsMonochrome(s) ? 80.0 : 90.0,
-        isBackground: true,
-        background: HighestSurface,
-        contrastCurve: s => new ContrastCurve(1.0, 1.0, 3.0, 4.5),
-        toneDeltaPair: s => new ToneDeltaPair(SecondaryFixed, SecondaryFixedDim, 10.0, TonePolarity.Lighter, true)
-    );
+    public virtual DynamicColor SecondaryFixed => CreateSecondaryFixed().Build();
+    private DynamicColorBuilder CreateSecondaryFixed()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("secondary_fixed")
+            .WithPalette(s => s.SecondaryPalette)
+            .WithTone(s => IsMonochrome(s) ? 80.0 : 90.0)
+            .WithIsBackground(true)
+            .WithBackground(HighestSurface)
+            .WithContrastCurve(s => new ContrastCurve(1.0, 1.0, 3.0, 4.5))
+            .WithToneDeltaPair(s => new ToneDeltaPair(SecondaryFixed, SecondaryFixedDim, 10.0, TonePolarity.Lighter, true));
+    }
 
-    public virtual DynamicColor SecondaryFixedDim => new(
-        name: "secondary_fixed_dim",
-        palette: s => s.SecondaryPalette,
-        tone: s => IsMonochrome(s) ? 70.0 : 80.0,
-        isBackground: true,
-        background: HighestSurface,
-        contrastCurve: s => new ContrastCurve(1.0, 1.0, 3.0, 4.5),
-        toneDeltaPair: s => new ToneDeltaPair(SecondaryFixed, SecondaryFixedDim, 10.0, TonePolarity.Lighter, true)
-    );
+    public virtual DynamicColor SecondaryFixedDim => CreateSecondaryFixedDim().Build();
+    private DynamicColorBuilder CreateSecondaryFixedDim()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("secondary_fixed_dim")
+            .WithPalette(s => s.SecondaryPalette)
+            .WithTone(s => IsMonochrome(s) ? 70.0 : 80.0)
+            .WithIsBackground(true)
+            .WithBackground(HighestSurface)
+            .WithContrastCurve(s => new ContrastCurve(1.0, 1.0, 3.0, 4.5))
+            .WithToneDeltaPair(s => new ToneDeltaPair(SecondaryFixed, SecondaryFixedDim, 10.0, TonePolarity.Lighter, true));
+    }
 
-    public virtual DynamicColor OnSecondaryFixed => new(
-        name: "on_secondary_fixed",
-        palette: s => s.SecondaryPalette,
-        tone: s => 10.0,
-        background: s => SecondaryFixedDim,
-        secondBackground: s => SecondaryFixed,
-        contrastCurve: s => new ContrastCurve(4.5, 7.0, 11.0, 21.0)
-    );
+    public virtual DynamicColor OnSecondaryFixed => CreateOnSecondaryFixed().Build();
+    private DynamicColorBuilder CreateOnSecondaryFixed()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("on_secondary_fixed")
+            .WithPalette(s => s.SecondaryPalette)
+            .WithTone(s => 10.0)
+            .WithBackground(_ => SecondaryFixedDim)
+            .WithSecondBackground(_ => SecondaryFixed)
+            .WithContrastCurve(s => new ContrastCurve(4.5, 7.0, 11.0, 21.0));
+    }
 
-    public virtual DynamicColor OnSecondaryFixedVariant => new(
-        name: "on_secondary_fixed_variant",
-        palette: s => s.SecondaryPalette,
-        tone: s => IsMonochrome(s) ? 25.0 : 30.0,
-        background: s => SecondaryFixedDim,
-        secondBackground: s => SecondaryFixed,
-        contrastCurve: s => new ContrastCurve(3.0, 4.5, 7.0, 11.0)
-    );
+    public virtual DynamicColor OnSecondaryFixedVariant => CreateOnSecondaryFixedVariant().Build();
+    private DynamicColorBuilder CreateOnSecondaryFixedVariant()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("on_secondary_fixed_variant")
+            .WithPalette(s => s.SecondaryPalette)
+            .WithTone(s => IsMonochrome(s) ? 25.0 : 30.0)
+            .WithBackground(_ => SecondaryFixedDim)
+            .WithSecondBackground(_ => SecondaryFixed)
+            .WithContrastCurve(s => new ContrastCurve(3.0, 4.5, 7.0, 11.0));
+    }
 
     // ----------------------------------------------------------------
     // Tertiary Fixed
     // ----------------------------------------------------------------
 
-    public virtual DynamicColor TertiaryFixed => new(
-        name: "tertiary_fixed",
-        palette: s => s.TertiaryPalette,
-        tone: s => IsMonochrome(s) ? 40.0 : 90.0,
-        isBackground: true,
-        background: HighestSurface,
-        contrastCurve: s => new ContrastCurve(1.0, 1.0, 3.0, 4.5),
-        toneDeltaPair: s => new ToneDeltaPair(TertiaryFixed, TertiaryFixedDim, 10.0, TonePolarity.Lighter, true)
-    );
+    public virtual DynamicColor TertiaryFixed => CreateTertiaryFixed().Build();
+    private DynamicColorBuilder CreateTertiaryFixed()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("tertiary_fixed")
+            .WithPalette(s => s.TertiaryPalette)
+            .WithTone(s => IsMonochrome(s) ? 40.0 : 90.0)
+            .WithIsBackground(true)
+            .WithBackground(HighestSurface)
+            .WithContrastCurve(s => new ContrastCurve(1.0, 1.0, 3.0, 4.5))
+            .WithToneDeltaPair(s => new ToneDeltaPair(TertiaryFixed, TertiaryFixedDim, 10.0, TonePolarity.Lighter, true));
+    }
 
-    public virtual DynamicColor TertiaryFixedDim => new(
-        name: "tertiary_fixed_dim",
-        palette: s => s.TertiaryPalette,
-        tone: s => IsMonochrome(s) ? 30.0 : 80.0,
-        isBackground: true,
-        background: HighestSurface,
-        contrastCurve: s => new ContrastCurve(1.0, 1.0, 3.0, 4.5),
-        toneDeltaPair: s => new ToneDeltaPair(TertiaryFixed, TertiaryFixedDim, 10.0, TonePolarity.Lighter, true)
-    );
+    public virtual DynamicColor TertiaryFixedDim => CreateTertiaryFixedDim().Build();
+    private DynamicColorBuilder CreateTertiaryFixedDim()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("tertiary_fixed_dim")
+            .WithPalette(s => s.TertiaryPalette)
+            .WithTone(s => IsMonochrome(s) ? 30.0 : 80.0)
+            .WithIsBackground(true)
+            .WithBackground(HighestSurface)
+            .WithContrastCurve(s => new ContrastCurve(1.0, 1.0, 3.0, 4.5))
+            .WithToneDeltaPair(s => new ToneDeltaPair(TertiaryFixed, TertiaryFixedDim, 10.0, TonePolarity.Lighter, true));
+    }
 
-    public virtual DynamicColor OnTertiaryFixed => new(
-        name: "on_tertiary_fixed",
-        palette: s => s.TertiaryPalette,
-        tone: s => IsMonochrome(s) ? 100.0 : 10.0,
-        background: s => TertiaryFixedDim,
-        secondBackground: s => TertiaryFixed,
-        contrastCurve: s => new ContrastCurve(4.5, 7.0, 11.0, 21.0)
-    );
+    public virtual DynamicColor OnTertiaryFixed => CreateOnTertiaryFixed().Build();
+    private DynamicColorBuilder CreateOnTertiaryFixed()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("on_tertiary_fixed")
+            .WithPalette(s => s.TertiaryPalette)
+            .WithTone(s => IsMonochrome(s) ? 100.0 : 10.0)
+            .WithBackground(_ => TertiaryFixedDim)
+            .WithSecondBackground(_ => TertiaryFixed)
+            .WithContrastCurve(s => new ContrastCurve(4.5, 7.0, 11.0, 21.0));
+    }
 
-    public virtual DynamicColor OnTertiaryFixedVariant => new(
-        name: "on_tertiary_fixed_variant",
-        palette: s => s.TertiaryPalette,
-        tone: s => IsMonochrome(s) ? 90.0 : 30.0,
-        background: s => TertiaryFixedDim,
-        secondBackground: s => TertiaryFixed,
-        contrastCurve: s => new ContrastCurve(3.0, 4.5, 7.0, 11.0)
-    );
+    public virtual DynamicColor OnTertiaryFixedVariant => CreateOnTertiaryFixedVariant().Build();
+    private DynamicColorBuilder CreateOnTertiaryFixedVariant()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("on_tertiary_fixed_variant")
+            .WithPalette(s => s.TertiaryPalette)
+            .WithTone(s => IsMonochrome(s) ? 90.0 : 30.0)
+            .WithBackground(_ => TertiaryFixedDim)
+            .WithSecondBackground(_ => TertiaryFixed)
+            .WithContrastCurve(s => new ContrastCurve(3.0, 4.5, 7.0, 11.0));
+    }
 
     // ----------------------------------------------------------------
     // Helpers
