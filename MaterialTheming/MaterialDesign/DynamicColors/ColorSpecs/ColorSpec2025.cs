@@ -422,13 +422,15 @@ internal class ColorSpec2025 : ColorSpec2021
             : null
     );
 
-    public override DynamicColor OnPrimaryContainer => new(
-        name: "on_primary_container",
-        palette: s => s.PrimaryPalette,
-        tone: s => base.OnPrimaryContainer.Tone(s),
-        background: s => PrimaryContainer,
-        contrastCurve: s => s.Platform == Platform.Phone ? GetContrastCurve(6) : GetContrastCurve(7)
-    );
+    public override DynamicColor OnPrimaryContainer => CreateOnPrimaryContainer().Build();
+    public DynamicColorBuilder CreateOnPrimaryContainer()
+    {
+        return DynamicColorBuilder.Create()
+            .WithName("on_primary_container")
+            .WithPalette(s => s.PrimaryPalette)
+            .WithBackground(_ => PrimaryContainer)
+            .WithContrastCurve(s => s.Platform == Platform.Phone ? GetContrastCurve(6) : GetContrastCurve(7));
+    }
 
     public override DynamicColor InversePrimary => new(
         name: "inverse_primary",
