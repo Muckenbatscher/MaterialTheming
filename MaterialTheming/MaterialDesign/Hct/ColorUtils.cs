@@ -171,8 +171,8 @@ namespace MaterialTheming.MaterialDesign.HctConversion
         public static double Linearized(int rgbComponent)
         {
             double normalized = rgbComponent / 255.0;
-            return normalized <= 0.040449936 
-                ? normalized / 12.92 * 100.0 
+            return normalized <= 0.040449936
+                ? normalized / 12.92 * 100.0
                 : Math.Pow((normalized + 0.055) / 1.055, 2.4) * 100.0;
         }
 
@@ -185,8 +185,8 @@ namespace MaterialTheming.MaterialDesign.HctConversion
         public static int Delinearized(double rgbComponent)
         {
             double normalized = rgbComponent / 100.0;
-            var delinearized = normalized <= 0.0031308 
-                ? normalized * 12.92 
+            var delinearized = normalized <= 0.0031308
+                ? normalized * 12.92
                 : 1.055 * Math.Pow(normalized, 1.0 / 2.4) - 0.055;
             return Math.Clamp((int)Math.Round(delinearized * 255.0), 0, 255);
         }
