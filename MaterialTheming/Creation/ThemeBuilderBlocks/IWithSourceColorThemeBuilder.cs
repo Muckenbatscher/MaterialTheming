@@ -2,7 +2,7 @@
 
 namespace MaterialTheming.Creation.ThemeBuilderBlocks;
 
-public interface IWithSourceColorThemeBuilder<TBuilder> 
+public interface IWithSourceColorThemeBuilder<TBuilder>
     where TBuilder : IBuildableThemeBuilder
 {
     TBuilder WithSourceColor(HctColor color);

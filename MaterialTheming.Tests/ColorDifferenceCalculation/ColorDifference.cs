@@ -9,7 +9,7 @@ internal class ColorDifference
         ColorRoleName = colorRoleName;
         ActualColor = actualColor;
         ExpectedColor = expectedColor;
-        
+
         RedDifference = expectedColor.Red - actualColor.Red;
         GreenDifference = expectedColor.Green - actualColor.Green;
         BlueDifference = expectedColor.Blue - actualColor.Blue;

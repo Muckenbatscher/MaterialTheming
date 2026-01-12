@@ -312,8 +312,8 @@ namespace MaterialTheming.MaterialDesign.HctConversion
         public static double TrueDelinearized(double rgbComponent)
         {
             double normalized = rgbComponent / 100.0;
-            var delinearized = normalized <= 0.0031308 
-                ? normalized * 12.92 
+            var delinearized = normalized <= 0.0031308
+                ? normalized * 12.92
                 : 1.055 * Math.Pow(normalized, 1.0 / 2.4) - 0.055;
             return delinearized * 255.0;
         }

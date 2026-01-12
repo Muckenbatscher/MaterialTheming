@@ -22,7 +22,7 @@ public abstract class TestThemeTests
             Assert.IsTrue(result.IsValid, message: result.GetFailedValidationMessage());
         }
         if (!discoveredAny)
-            Assert.Fail($"No ITestTheme implementations were found: " 
+            Assert.Fail($"No ITestTheme implementations were found: "
                 + $"Variant={ThemeVariant}, Mode={mode}, ContrastLevel={contrastLevel}, specVersion={specVersion}");
     }
 
