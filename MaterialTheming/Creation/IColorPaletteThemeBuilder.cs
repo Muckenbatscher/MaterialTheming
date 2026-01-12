@@ -4,7 +4,7 @@ namespace MaterialTheming.Creation;
 
 public interface IColorPaletteThemeBuilder :
     IBuildableThemeBuilder,
-    IWithColorSpecificationThemeBuilder<IColorPaletteThemeBuilder>,
+    IWithSourceColorThemeBuilder<IColorPaletteThemeBuilder>,
     IWithModeThemeBuilder<IColorPaletteThemeBuilder>,
     IWithContrastLevelThemeBuilder<IColorPaletteThemeBuilder>,
     IWithContrastLevelValueThemeBuilder<IColorPaletteThemeBuilder>,

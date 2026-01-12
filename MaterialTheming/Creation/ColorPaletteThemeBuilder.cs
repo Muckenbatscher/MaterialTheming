@@ -10,35 +10,22 @@ public class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
 {
     public static IColorPaletteThemeBuilder Create() => new ColorPaletteThemeBuilder();
 
-    public static IColorPaletteThemeBuilder CreateFromSourceColor(string htmlColor)
-        => Create().WithPrimaryColor(c => c.WithBaseColor(htmlColor));
-    public static IColorPaletteThemeBuilder CreateFromSourceColor(RgbColor color)
-        => Create().WithPrimaryColor(c => c.WithBaseColor(color));
     public static IColorPaletteThemeBuilder CreateFromSourceColor(HctColor color)
-        => Create().WithPrimaryColor(c => c.WithBaseColor(color));
+        => Create().WithSourceColor(color);
+    public static IColorPaletteThemeBuilder CreateFromSourceColor(RgbColor color)
+        => Create().WithSourceColor(color);
+    public static IColorPaletteThemeBuilder CreateFromSourceColor(string htmlColor)
+        => Create().WithSourceColor(htmlColor);
 
     private ColorPaletteThemeBuilder()
     {
-        _primaryColorSpec = new ColorPaletteSpecification(ColorPaletteType.Primary);
-        _secondaryColorSpec = new NonPrimaryColorPaletteSpecification(ColorPaletteType.Secondary);
-        _tertiaryColorSpec = new NonPrimaryColorPaletteSpecification(ColorPaletteType.Tertiary);
-        _errorColorSpec = new NonPrimaryColorPaletteSpecification(ColorPaletteType.Error);
-        _neutralColorSpec = new NonPrimaryColorPaletteSpecification(ColorPaletteType.Neutral);
-        _neutralVariantColorSpec = new NonPrimaryColorPaletteSpecification(ColorPaletteType.NeutralVariant);
-
         mode = ThemeMode.Light;
         contrastLevel = 0.0;
         variant = Variant.TonalSpot;
         platform = Platform.Phone;
         specVersion = SpecVersion.Spec2021;
     }
-
-    private readonly ColorPaletteSpecification _primaryColorSpec;
-    private readonly NonPrimaryColorPaletteSpecification _secondaryColorSpec;
-    private readonly NonPrimaryColorPaletteSpecification _tertiaryColorSpec;
-    private readonly NonPrimaryColorPaletteSpecification _errorColorSpec;
-    private readonly NonPrimaryColorPaletteSpecification _neutralColorSpec;
-    private readonly NonPrimaryColorPaletteSpecification _neutralVariantColorSpec;
+    private HctColor? sourceColor;
 
     private ThemeMode mode;
     private double contrastLevel;
@@ -46,37 +33,13 @@ public class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
     private Platform platform;
     private SpecVersion specVersion;
 
-    public IColorPaletteThemeBuilder WithPrimaryColor(Action<IColorPaletteSpecification> colorSpecificationOptions)
+    public IColorPaletteThemeBuilder WithSourceColor(HctColor color)
     {
-        colorSpecificationOptions(_primaryColorSpec);
+        sourceColor = color;
         return this;
     }
-    public IColorPaletteThemeBuilder WithSecondaryColor(Action<INonPrimaryColorPaletteSpecification> colorSpecificationOptions)
-    {
-        colorSpecificationOptions(_secondaryColorSpec);
-        return this;
-    }
-    public IColorPaletteThemeBuilder WithTertiaryolor(Action<INonPrimaryColorPaletteSpecification> colorSpecificationOptions)
-    {
-        colorSpecificationOptions(_tertiaryColorSpec);
-        return this;
-    }
-    public IColorPaletteThemeBuilder WithErrorColor(Action<INonPrimaryColorPaletteSpecification> colorSpecificationOptions)
-    {
-        colorSpecificationOptions(_errorColorSpec);
-        return this;
-    }
-    public IColorPaletteThemeBuilder WithNeutralColor(Action<INonPrimaryColorPaletteSpecification> colorSpecificationOptions)
-    {
-        colorSpecificationOptions(_neutralColorSpec);
-        return this;
-
-    }
-    public IColorPaletteThemeBuilder WithNeutralVariantColor(Action<INonPrimaryColorPaletteSpecification> colorSpecificationOptions)
-    {
-        colorSpecificationOptions(_neutralVariantColorSpec);
-        return this;
-    }
+    public IColorPaletteThemeBuilder WithSourceColor(RgbColor color) => WithSourceColor(HctColor.FromRgbColor(color));
+    public IColorPaletteThemeBuilder WithSourceColor(string htmlColor) => WithSourceColor(RgbColor.FromHtml(htmlColor));
 
     public IColorPaletteThemeBuilder WithMode(ThemeMode mode)
     {
@@ -126,29 +89,28 @@ public class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
 
     private ThemeColors BuildThemeColors()
     {
-        if (!_primaryColorSpec.BaseColorSpecified)
+        if (sourceColor == null)
             throw new InvalidOperationException("Primary color must be specified.");
-
-        var primarySourceColor = HctColor.FromRgbColor(_primaryColorSpec.BaseColor);
 
         var specVersionToUse = GetFallbackSpecVersionToUse(specVersion, variant);
         var colorSpec = ColorSpecFactory.Create(specVersionToUse);
         bool isDark = mode == ThemeMode.Dark;
 
-        var primaryPalette = colorSpec.GetPrimaryPalette(variant, primarySourceColor, isDark, platform, contrastLevel);
-        var secondaryPalette = colorSpec.GetSecondaryPalette(variant, primarySourceColor, isDark, platform, contrastLevel);
-        var tertiaryPalette = colorSpec.GetTertiaryPalette(variant, primarySourceColor, isDark, platform, contrastLevel);
-        var errorPalette = colorSpec.GetErrorPalette(variant, primarySourceColor, isDark, platform, contrastLevel);
-        var neutralPalette = colorSpec.GetNeutralPalette(variant, primarySourceColor, isDark, platform, contrastLevel);
-        var neutralVariantPalette = colorSpec.GetNeutralVariantPalette(variant, primarySourceColor, isDark, platform, contrastLevel);
+        var primaryPalette = colorSpec.GetPrimaryPalette(variant, sourceColor, isDark, platform, contrastLevel);
+        var secondaryPalette = colorSpec.GetSecondaryPalette(variant, sourceColor, isDark, platform, contrastLevel);
+        var tertiaryPalette = colorSpec.GetTertiaryPalette(variant, sourceColor, isDark, platform, contrastLevel);
+        var errorPalette = colorSpec.GetErrorPalette(variant, sourceColor, isDark, platform, contrastLevel);
+        var neutralPalette = colorSpec.GetNeutralPalette(variant, sourceColor, isDark, platform, contrastLevel);
+        var neutralVariantPalette = colorSpec.GetNeutralVariantPalette(variant, sourceColor, isDark, platform, contrastLevel);
 
-        var scheme = new DynamicScheme(variant, isDark, contrastLevel, primarySourceColor,
+        var scheme = new DynamicScheme(variant, isDark, contrastLevel, sourceColor,
             primaryPalette, secondaryPalette, tertiaryPalette,
             neutralPalette, neutralVariantPalette, errorPalette,
             platform: platform,
             specVersion: specVersionToUse);
         return CreateThemeColorFromScheme(scheme);
     }
+
     private static SpecVersion GetFallbackSpecVersionToUse(SpecVersion desiredSpecVersion, Variant variant)
     {
         IEnumerable<Variant> spec2025implementedVariants = 
