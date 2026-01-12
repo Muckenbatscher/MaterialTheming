@@ -15,6 +15,8 @@ internal class DynamicScheme
     public SpecVersion ColorSpecVersion { get; }
     public double ContrastLevel { get; }
 
+    public HctColor SourceColor { get; }
+
     public TonalPalette PrimaryPalette { get; }
     public TonalPalette SecondaryPalette { get; }
     public TonalPalette TertiaryPalette { get; }
@@ -26,6 +28,7 @@ internal class DynamicScheme
         Variant variant,
         bool isDark,
         double contrastLevel,
+        HctColor sourceColor,
         TonalPalette primaryPalette,
         TonalPalette secondaryPalette,
         TonalPalette tertiaryPalette,
@@ -40,6 +43,7 @@ internal class DynamicScheme
         ContrastLevel = contrastLevel;
         Platform = platform;
         ColorSpecVersion = specVersion;
+        SourceColor = sourceColor;
 
         PrimaryPalette = primaryPalette;
         SecondaryPalette = secondaryPalette;
@@ -60,6 +64,7 @@ internal class DynamicScheme
             other.Variant,
             isDark,
             contrastLevel,
+            other.SourceColor,
             other.PrimaryPalette,
             other.SecondaryPalette,
             other.TertiaryPalette,

@@ -198,7 +198,7 @@ internal class ColorSpec2021 : IColorSpec
         palette: s => s.PrimaryPalette,
         tone: s =>
         {
-            if (IsFidelity(s)) return s.PrimaryPalette.KeyColor.Tone;
+            if (IsFidelity(s)) return s.SourceColor.Tone;
             if (IsMonochrome(s)) return s.IsDark ? 85.0 : 25.0;
             return s.IsDark ? 30.0 : 90.0;
         },
@@ -340,13 +340,7 @@ internal class ColorSpec2021 : IColorSpec
             if (IsMonochrome(s)) return s.IsDark ? 60.0 : 49.0;
             if (!IsFidelity(s)) return s.IsDark ? 30.0 : 90.0;
 
-            // Note: In C# HctColor is likely the equivalent of Hct.
-            // s.PrimaryPalette.KeyColor is an HctColor? 
-            // The original code uses s.sourceColorHct.
-            // But sourceColorHct isn't directly on DynamicScheme in the provided implementation.
-            // However, the Palette was created from source, so we can use PrimaryPalette.KeyColor.
-            // Assuming KeyColor stores the HCT.
-            var proposedHct = s.TertiaryPalette.GetHct(s.PrimaryPalette.KeyColor.Tone);
+            var proposedHct = s.TertiaryPalette.GetHct(s.SourceColor.Tone);
             return DislikeAnalyzer.FixIfDisliked(proposedHct).Tone;
         },
         isBackground: true,

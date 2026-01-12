@@ -129,19 +129,19 @@ public class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
         if (!_primaryColorSpec.BaseColorSpecified)
             throw new InvalidOperationException("Primary color must be specified.");
 
-        var primaryColorHct = HctColor.FromRgbColor(_primaryColorSpec.BaseColor);
+        var primarySourceColor = HctColor.FromRgbColor(_primaryColorSpec.BaseColor);
 
         bool isDark = mode == ThemeMode.Dark;
         var colorSpec = ColorSpecFactory.Create(specVersion);
 
-        var primaryPalette = colorSpec.GetPrimaryPalette(variant, primaryColorHct, isDark, platform, contrastLevel);
-        var secondaryPalette = colorSpec.GetSecondaryPalette(variant, primaryColorHct, isDark, platform, contrastLevel);
-        var tertiaryPalette = colorSpec.GetTertiaryPalette(variant, primaryColorHct, isDark, platform, contrastLevel);
-        var errorPalette = colorSpec.GetErrorPalette(variant, primaryColorHct, isDark, platform, contrastLevel);
-        var neutralPalette = colorSpec.GetNeutralPalette(variant, primaryColorHct, isDark, platform, contrastLevel);
-        var neutralVariantPalette = colorSpec.GetNeutralVariantPalette(variant, primaryColorHct, isDark, platform, contrastLevel);
+        var primaryPalette = colorSpec.GetPrimaryPalette(variant, primarySourceColor, isDark, platform, contrastLevel);
+        var secondaryPalette = colorSpec.GetSecondaryPalette(variant, primarySourceColor, isDark, platform, contrastLevel);
+        var tertiaryPalette = colorSpec.GetTertiaryPalette(variant, primarySourceColor, isDark, platform, contrastLevel);
+        var errorPalette = colorSpec.GetErrorPalette(variant, primarySourceColor, isDark, platform, contrastLevel);
+        var neutralPalette = colorSpec.GetNeutralPalette(variant, primarySourceColor, isDark, platform, contrastLevel);
+        var neutralVariantPalette = colorSpec.GetNeutralVariantPalette(variant, primarySourceColor, isDark, platform, contrastLevel);
 
-        var scheme = new DynamicScheme(variant, mode == ThemeMode.Dark, contrastLevel,
+        var scheme = new DynamicScheme(variant, mode == ThemeMode.Dark, contrastLevel, primarySourceColor,
             primaryPalette, secondaryPalette, tertiaryPalette,
             neutralPalette, neutralVariantPalette, errorPalette,
             specVersion: specVersion);
