@@ -10,11 +10,10 @@ internal class ThemeValidator
         where TTestTheme : ITestTheme, new()
     {
         var testTheme = new TTestTheme();
-        return ValidateThemeColors<TTestTheme>(testTheme);
+        return ValidateThemeColors(testTheme);
     }
 
-    public static ThemeValidationResult ValidateThemeColors<TTestTheme>(TTestTheme testTheme)
-        where TTestTheme : ITestTheme, new()
+    public static ThemeValidationResult ValidateThemeColors(ITestTheme testTheme)
     {
         var theme = ThemeCreationService.CreateTheme(testTheme);
 
