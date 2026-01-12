@@ -113,7 +113,7 @@ public class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
 
     private static SpecVersion GetFallbackSpecVersionToUse(SpecVersion desiredSpecVersion, Variant variant)
     {
-        IEnumerable<Variant> spec2025implementedVariants = 
+        IEnumerable<Variant> spec2025implementedVariants =
             [Variant.TonalSpot, Variant.Neutral, Variant.Expressive, Variant.Vibrant];
         var variantIsImplementedInSpec2025 = spec2025implementedVariants.Contains(variant);
 

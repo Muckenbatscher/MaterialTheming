@@ -186,7 +186,8 @@ internal class ColorSpec2021 : IColorSpec
         palette: s => s.PrimaryPalette,
         tone: s =>
         {
-            if (IsMonochrome(s)) return s.IsDark ? 10.0 : 90.0;
+            if (IsMonochrome(s))
+                return s.IsDark ? 10.0 : 90.0;
             return s.IsDark ? 20.0 : 100.0;
         },
         background: s => Primary,
@@ -198,8 +199,10 @@ internal class ColorSpec2021 : IColorSpec
         palette: s => s.PrimaryPalette,
         tone: s =>
         {
-            if (IsFidelity(s)) return s.SourceColor.Tone;
-            if (IsMonochrome(s)) return s.IsDark ? 85.0 : 25.0;
+            if (IsFidelity(s))
+                return s.SourceColor.Tone;
+            if (IsMonochrome(s))
+                return s.IsDark ? 85.0 : 25.0;
             return s.IsDark ? 30.0 : 90.0;
         },
         isBackground: true,
@@ -219,7 +222,8 @@ internal class ColorSpec2021 : IColorSpec
                 // This requires PrimaryContainer.Tone to be resolvable.
                 return ForegroundToneCalculation.ForegroundTone(PrimaryContainer.Tone(s), 4.5);
             }
-            if (IsMonochrome(s)) return s.IsDark ? 0.0 : 100.0;
+            if (IsMonochrome(s))
+                return s.IsDark ? 0.0 : 100.0;
             return s.IsDark ? 90.0 : 30.0;
         },
         background: s => PrimaryContainer,
@@ -259,7 +263,8 @@ internal class ColorSpec2021 : IColorSpec
         palette: s => s.SecondaryPalette,
         tone: s =>
         {
-            if (IsMonochrome(s)) return s.IsDark ? 10.0 : 100.0;
+            if (IsMonochrome(s))
+                return s.IsDark ? 10.0 : 100.0;
             return s.IsDark ? 20.0 : 100.0;
         },
         background: s => Secondary,
@@ -272,8 +277,10 @@ internal class ColorSpec2021 : IColorSpec
         tone: s =>
         {
             double initialTone = s.IsDark ? 30.0 : 90.0;
-            if (IsMonochrome(s)) return s.IsDark ? 30.0 : 85.0;
-            if (!IsFidelity(s)) return initialTone;
+            if (IsMonochrome(s))
+                return s.IsDark ? 30.0 : 85.0;
+            if (!IsFidelity(s))
+                return initialTone;
 
             return FindDesiredChromaByTone(
                 s.SecondaryPalette.Hue,
@@ -292,8 +299,10 @@ internal class ColorSpec2021 : IColorSpec
         palette: s => s.SecondaryPalette,
         tone: s =>
         {
-            if (IsMonochrome(s)) return s.IsDark ? 90.0 : 10.0;
-            if (!IsFidelity(s)) return s.IsDark ? 90.0 : 30.0;
+            if (IsMonochrome(s))
+                return s.IsDark ? 90.0 : 10.0;
+            if (!IsFidelity(s))
+                return s.IsDark ? 90.0 : 30.0;
             return ForegroundToneCalculation.ForegroundTone(SecondaryContainer.Tone(s), 4.5);
         },
         background: s => SecondaryContainer,
@@ -309,7 +318,8 @@ internal class ColorSpec2021 : IColorSpec
         palette: s => s.TertiaryPalette,
         tone: s =>
         {
-            if (IsMonochrome(s)) return s.IsDark ? 90.0 : 25.0;
+            if (IsMonochrome(s))
+                return s.IsDark ? 90.0 : 25.0;
             return s.IsDark ? 80.0 : 40.0;
         },
         isBackground: true,
@@ -325,7 +335,8 @@ internal class ColorSpec2021 : IColorSpec
         palette: s => s.TertiaryPalette,
         tone: s =>
         {
-            if (IsMonochrome(s)) return s.IsDark ? 10.0 : 90.0;
+            if (IsMonochrome(s))
+                return s.IsDark ? 10.0 : 90.0;
             return s.IsDark ? 20.0 : 100.0;
         },
         background: s => Tertiary,
@@ -337,8 +348,10 @@ internal class ColorSpec2021 : IColorSpec
         palette: s => s.TertiaryPalette,
         tone: s =>
         {
-            if (IsMonochrome(s)) return s.IsDark ? 60.0 : 49.0;
-            if (!IsFidelity(s)) return s.IsDark ? 30.0 : 90.0;
+            if (IsMonochrome(s))
+                return s.IsDark ? 60.0 : 49.0;
+            if (!IsFidelity(s))
+                return s.IsDark ? 30.0 : 90.0;
 
             var proposedHct = s.TertiaryPalette.GetHct(s.SourceColor.Tone);
             return DislikeAnalyzer.FixIfDisliked(proposedHct).Tone;
@@ -354,8 +367,10 @@ internal class ColorSpec2021 : IColorSpec
         palette: s => s.TertiaryPalette,
         tone: s =>
         {
-            if (IsMonochrome(s)) return s.IsDark ? 0.0 : 100.0;
-            if (!IsFidelity(s)) return s.IsDark ? 90.0 : 30.0;
+            if (IsMonochrome(s))
+                return s.IsDark ? 0.0 : 100.0;
+            if (!IsFidelity(s))
+                return s.IsDark ? 90.0 : 30.0;
             return ForegroundToneCalculation.ForegroundTone(TertiaryContainer.Tone(s), 4.5);
         },
         background: s => TertiaryContainer,
@@ -401,7 +416,8 @@ internal class ColorSpec2021 : IColorSpec
         palette: s => s.ErrorPalette,
         tone: s =>
         {
-            if (IsMonochrome(s)) return s.IsDark ? 90.0 : 10.0;
+            if (IsMonochrome(s))
+                return s.IsDark ? 90.0 : 10.0;
             return s.IsDark ? 90.0 : 30.0;
         },
         background: s => ErrorContainer,
@@ -620,8 +636,10 @@ internal class ColorSpec2021 : IColorSpec
                 answer += byDecreasingTone ? -1.0 : 1.0;
                 HctColor potentialSolution = HctColor.From(hue, chroma, answer);
 
-                if (chromaPeak > potentialSolution.Chroma) break;
-                if (Math.Abs(potentialSolution.Chroma - chroma) < 0.4) break;
+                if (chromaPeak > potentialSolution.Chroma)
+                    break;
+                if (Math.Abs(potentialSolution.Chroma - chroma) < 0.4)
+                    break;
 
                 double potentialDelta = Math.Abs(potentialSolution.Chroma - chroma);
                 double currentDelta = Math.Abs(closestToChroma.Chroma - chroma);
@@ -742,8 +760,10 @@ internal class ColorSpec2021 : IColorSpec
                 }
                 else
                 {
-                    if (expansionDir > 0) fTone = 60;
-                    else fTone = 49;
+                    if (expansionDir > 0)
+                        fTone = 60;
+                    else
+                        fTone = 49;
                 }
             }
 
@@ -761,7 +781,8 @@ internal class ColorSpec2021 : IColorSpec
             DynamicColor? bg = color.Background(scheme);
             ContrastCurve? curve = color.ContrastCurve(scheme);
 
-            if (bg == null || curve == null) return answer;
+            if (bg == null || curve == null)
+                return answer;
 
             double bgTone = bg.GetTone(scheme);
             double desiredRatio = curve.Get(scheme.ContrastLevel);
@@ -788,10 +809,12 @@ internal class ColorSpec2021 : IColorSpec
                 }
             }
 
-            if (color.SecondBackground == null) return answer;
+            if (color.SecondBackground == null)
+                return answer;
 
             DynamicColor? bg2 = color.SecondBackground(scheme);
-            if (bg2 == null) return answer;
+            if (bg2 == null)
+                return answer;
 
             double bgTone1 = bgTone;
             double bgTone2 = bg2.GetTone(scheme);
@@ -809,14 +832,18 @@ internal class ColorSpec2021 : IColorSpec
             double darkOption = Contrast.Darker(lower, desiredRatio);
 
             List<double> availables = new();
-            if (lightOption != -1) availables.Add(lightOption);
-            if (darkOption != -1) availables.Add(darkOption);
+            if (lightOption != -1)
+                availables.Add(lightOption);
+            if (darkOption != -1)
+                availables.Add(darkOption);
 
             bool prefersLight = ForegroundToneCalculation.TonePrefersLightForeground(bgTone1) ||
                                 ForegroundToneCalculation.TonePrefersLightForeground(bgTone2);
 
-            if (prefersLight) return lightOption == -1 ? 100 : lightOption;
-            if (availables.Count == 1) return availables[0];
+            if (prefersLight)
+                return lightOption == -1 ? 100 : lightOption;
+            if (availables.Count == 1)
+                return availables[0];
             return darkOption == -1 ? 0 : darkOption;
         }
     }
