@@ -11,19 +11,19 @@ public class HctColor
     public double Hue
     {
         get => hue;
-        set => SetInternalState(HctSolver.SolveToInt(value, chroma, tone));
+        set => SetInternalState(HctSolver.SolveToRgb(value, chroma, tone));
     }
 
     public double Chroma
     {
         get => chroma;
-        set => SetInternalState(HctSolver.SolveToInt(hue, value, tone));
+        set => SetInternalState(HctSolver.SolveToRgb(hue, value, tone));
     }
 
     public double Tone
     {
         get => tone;
-        set => SetInternalState(HctSolver.SolveToInt(hue, chroma, value));
+        set => SetInternalState(HctSolver.SolveToRgb(hue, chroma, value));
     }
 
     /**
@@ -37,8 +37,8 @@ public class HctColor
      */
     public static HctColor From(double hue, double chroma, double tone)
     {
-        int argb = HctSolver.SolveToInt(hue, chroma, tone);
-        return FromArgb(argb);
+        var rgb = HctSolver.SolveToRgb(hue, chroma, tone);
+        return FromRgbColor(rgb);
     }
     /**
      * Create an HCT color from a color.
@@ -48,34 +48,23 @@ public class HctColor
      */
     public static HctColor FromRgbColor(RgbColor rgb)
     {
-        var argb = rgb.ToArgb();
-        return FromArgb(argb);
-    }
-    /**
-     * Create an HCT color from a color.
-     *
-     * @param argb ARGB representation of a color.
-     * @return HCT representation of a color in default viewing conditions
-     */
-    public static HctColor FromArgb(int argb)
-    {
-        return new HctColor(argb);
+        return new HctColor(rgb);
     }
 
-    private HctColor(int argb)
+    private HctColor(RgbColor rgb)
     {
-        SetInternalState(argb);
+        SetInternalState(rgb);
     }
 
     public RgbColor ToRgbColor()
     {
-        int argb = HctSolver.SolveToInt(hue, chroma, tone);
-        return RgbColor.FromArgb(argb);
+        return HctSolver.SolveToRgb(hue, chroma, tone);
     }
 
     public int ToArgb()
     {
-        return HctSolver.SolveToInt(hue, chroma, tone);
+        var rgb = HctSolver.SolveToRgb(hue, chroma, tone);
+        return rgb.ToArgb();
     }
 
     public override string ToString()
@@ -83,20 +72,28 @@ public class HctColor
         return $"HCT({(int)Math.Round(hue)}, {(int)Math.Round(chroma)}, {(int)Math.Round(tone)})";
     }
 
-    private void SetInternalState(int argb)
+    private void SetInternalState(RgbColor rgb)
     {
-        Cam16 cam = Cam16.FromInt(argb);
+        Cam16 cam = Cam16.FromRgbColor(rgb);
         hue = cam.GetHue();
         chroma = cam.GetChroma();
-        tone = ColorUtils.LstarFromArgb(argb);
+        tone = ColorUtils.LstarFromRgb(rgb);
     }
 
-    public static bool operator ==(HctColor colorOne, HctColor colorTwo)
+    public static bool operator ==(HctColor? colorOne, HctColor? colorTwo)
     {
+        if (colorOne is null && colorTwo is null)
+            return true;
+        if (colorOne is null || colorTwo is null)
+            return false;
         return colorOne.Equals(colorTwo);
     }
-    public static bool operator !=(HctColor colorOne, HctColor colorTwo)
+    public static bool operator !=(HctColor? colorOne, HctColor? colorTwo)
     {
+        if (colorOne is null && colorTwo is null)
+            return false;
+        if (colorOne is null || colorTwo is null)
+            return true;
         return !colorOne.Equals(colorTwo);
     }
     public override bool Equals(object? obj)

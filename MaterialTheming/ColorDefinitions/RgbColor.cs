@@ -41,6 +41,10 @@ public class RgbColor
         byte fixedAlpha = 0xFF;
         return (fixedAlpha << 24) | (Red << 16) | (Green << 8) | Blue;
     }
+    public string ToHtml()
+    {
+        return $"#{Red:X2}{Green:X2}{Blue:X2}";
+    }
 
     public override string ToString()
     {

@@ -1,6 +1,4 @@
-﻿using MaterialTheming.MaterialDesign;
-
-namespace MaterialTheming
+﻿namespace MaterialTheming
 {
     public class Theme
     {

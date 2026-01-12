@@ -1,5 +1,4 @@
 ﻿using MaterialTheming.ColorDefinitions;
-using MaterialTheming.MaterialDesign;
 using MaterialTheming.MaterialThemeBuilderConversion.SerializationModels;
 
 namespace MaterialTheming.MaterialThemeBuilderConversion
