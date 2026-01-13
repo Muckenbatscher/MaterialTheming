@@ -15,15 +15,13 @@ jobs:
       GIT_BRANCH: "main"
       EXPECTED_COMMIT: 158b9c18
     steps:
-    - name: Clone the reference Git repository
+    - name: Get the latest commit hash
+      id: latest_official
       run: | 
         git clone ${{ env.GIT_URL }} \
         --branch ${{ env.GIT_BRANCH }} \
         --origin ${{ env.GIT_DIR_NAME }}
-    - name: Get the latest commit hash
-      id: latest_official
-      working-directory: ./${{ env.GIT_DIR_NAME }}
-      run: |
+        cd ${{ env.GIT_DIR_NAME }}
         echo "$(git rev-parse --short=8 --verify HEAD)"
         echo "commit_hash=$(git rev-parse --short=8 --verify HEAD)" >> $GITHUB_OUTPUT
     - name: Compare to expected commit hash
