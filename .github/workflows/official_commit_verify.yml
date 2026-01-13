@@ -22,7 +22,7 @@ jobs:
         --branch ${{ env.GIT_BRANCH }} \
         --origin ${{ env.GIT_DIR_NAME }}
         cd ${{ env.GIT_DIR_NAME }}
-        echo "$(git rev-parse --short=8 --verify HEAD)"
+        echo "Latest official commit: $(git rev-parse --short=8 --verify HEAD)"
         echo "commit_hash=$(git rev-parse --short=8 --verify HEAD)" >> $GITHUB_OUTPUT
     - name: Compare to expected commit hash
       run: |
@@ -31,5 +31,8 @@ jobs:
           exit 0
         else
           echo "Commit hashes do not match."
+          echo "Expected: ${{ env.EXPECTED_COMMIT }}"
+          echo "Got:      ${{ steps.latest_official.outputs.commit_hash }}"
+          echo "Regenerate test cases based on latest official commit (${{ steps.latest_official.outputs.commit_hash }}) and update this workflow file to acknowledge the updated official implementation."
           exit 1
         fi
