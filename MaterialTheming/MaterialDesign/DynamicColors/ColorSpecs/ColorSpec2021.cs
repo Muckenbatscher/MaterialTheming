@@ -551,60 +551,6 @@ internal class ColorSpec2021 : IColorSpec
     );
 
     // ----------------------------------------------------------------
-    // Android-only
-    // ----------------------------------------------------------------
-
-    public virtual DynamicColor ControlActivated => new(
-        name: "control_activated",
-        palette: s => s.PrimaryPalette,
-        tone: s => s.IsDark ? 30.0 : 90.0,
-        isBackground: true
-    );
-
-    public virtual DynamicColor ControlNormal => new(
-        name: "control_normal",
-        palette: s => s.NeutralVariantPalette,
-        tone: s => s.IsDark ? 80.0 : 30.0
-    );
-
-    public virtual DynamicColor ControlHighlight => new(
-        name: "control_highlight",
-        palette: s => s.NeutralPalette,
-        tone: s => s.IsDark ? 100.0 : 0.0,
-        opacity: s => s.IsDark ? 0.20 : 0.12
-    );
-
-    public virtual DynamicColor TextPrimaryInverse => new(
-        name: "text_primary_inverse",
-        palette: s => s.NeutralPalette,
-        tone: s => s.IsDark ? 10.0 : 90.0
-    );
-
-    public virtual DynamicColor TextSecondaryAndTertiaryInverse => new(
-        name: "text_secondary_and_tertiary_inverse",
-        palette: s => s.NeutralVariantPalette,
-        tone: s => s.IsDark ? 30.0 : 80.0
-    );
-
-    public virtual DynamicColor TextPrimaryInverseDisableOnly => new(
-        name: "text_primary_inverse_disable_only",
-        palette: s => s.NeutralPalette,
-        tone: s => s.IsDark ? 10.0 : 90.0
-    );
-
-    public virtual DynamicColor TextSecondaryAndTertiaryInverseDisabled => new(
-        name: "text_secondary_and_tertiary_inverse_disabled",
-        palette: s => s.NeutralPalette,
-        tone: s => s.IsDark ? 10.0 : 90.0
-    );
-
-    public virtual DynamicColor TextHintInverse => new(
-        name: "text_hint_inverse",
-        palette: s => s.NeutralPalette,
-        tone: s => s.IsDark ? 10.0 : 90.0
-    );
-
-    // ----------------------------------------------------------------
     // Helpers
     // ----------------------------------------------------------------
 

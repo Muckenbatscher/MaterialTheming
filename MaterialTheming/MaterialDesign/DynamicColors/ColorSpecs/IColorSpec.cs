@@ -74,16 +74,6 @@ internal interface IColorSpec
     DynamicColor OnTertiaryFixed { get; }
     DynamicColor OnTertiaryFixedVariant { get; }
 
-    // Android-only
-    DynamicColor ControlActivated { get; }
-    DynamicColor ControlNormal { get; }
-    DynamicColor ControlHighlight { get; }
-    DynamicColor TextPrimaryInverse { get; }
-    DynamicColor TextSecondaryAndTertiaryInverse { get; }
-    DynamicColor TextPrimaryInverseDisableOnly { get; }
-    DynamicColor TextSecondaryAndTertiaryInverseDisabled { get; }
-    DynamicColor TextHintInverse { get; }
-
     // Other
     DynamicColor HighestSurface(DynamicScheme s);
 
