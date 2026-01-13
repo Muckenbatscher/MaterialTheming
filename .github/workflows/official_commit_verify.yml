@@ -7,7 +7,7 @@ on:
     - cron: "15 6 * * *" #every day 06:15 UTC
 
 jobs:
-  build-test:
+  verify-official-commit:
     runs-on: ubuntu-latest
     env:
       GIT_URL: "https://github.com/material-foundation/material-color-utilities.git"
@@ -20,12 +20,12 @@ jobs:
         git clone ${{ env.GIT_URL }} \
         --branch ${{ env.GIT_BRANCH }} \
         --origin ${{ env.GIT_DIR_NAME }}
-        cd ${{ env.GIT_DIR_NAME }}
     - name: Get the latest commit hash
       id: latest_official
+      working-directory: ./${{ env.GIT_DIR_NAME }}
       run: |
         echo "$(git rev-parse --short=8 --verify HEAD)"
-        echo "commit_hash=$(git rev-parse --short=8 --verify HEAD)"
+        echo "commit_hash=$(git rev-parse --short=8 --verify HEAD)" >> $GITHUB_OUTPUT
     - name: Compare to expected commit hash
       run: |
         if [ "${{ steps.latest_official.outputs.commit_hash }}" = "${{ env.EXPECTED_COMMIT }}" ]; then 
