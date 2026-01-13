@@ -1,0 +1,32 @@
+name: Verify latest commit in official implementation
+
+on:
+  pull_request:
+    branches: [ "master" ]
+  schedule:
+    cron: "15 6 * * *" #every day 06:15 UTC
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    env:
+      GIT_URL: "https://github.com/material-foundation/material-color-utilities.git"
+      GIT_BRANCH: "main"
+      EXPECTED_COMMIT: 158b9c18
+    steps:
+    - name: Clone the reference Git repository
+      run: git clone ${{ env.GIT_URL }} --branch ${{ env.GIT_BRANCH }}
+    - name: Get the latest commit hash
+      id: latest_official
+      run: |
+        echo "$(git rev-parse --short=8 --verify HEAD)"
+        echo "commit_hash=$(git rev-parse --short=8 --verify HEAD)"
+    - name: Compare to expected commit hash
+      run: |
+        if [ "${{ steps.latest_official.outputs.commit_hash }}" = "${{ env.EXPECTED_COMMIT }}" ]; then 
+          echo "Commit hashes match."
+          exit 0
+        else
+          echo "Commit hashes do not match."
+          exit 1
+        fi
