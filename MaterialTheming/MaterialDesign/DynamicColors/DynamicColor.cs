@@ -39,20 +39,6 @@ internal class DynamicColor
         ContrastCurve = contrastCurve;
         ToneDeltaPair = toneDeltaPair;
         Opacity = opacity;
-
-        // Validation logic ported from Java Builder.build()
-        if (background == null && secondBackground != null)
-        {
-            throw new ArgumentException($"Color {name} has secondBackground defined, but background is not defined.");
-        }
-        if (background == null && contrastCurve != null)
-        {
-            throw new ArgumentException($"Color {name} has contrastCurve defined, but background is not defined.");
-        }
-        if (background != null && contrastCurve == null)
-        {
-            throw new ArgumentException($"Color {name} has background defined, but contrastCurve is not defined.");
-        }
     }
 
     public HctColor GetHct(DynamicScheme scheme)

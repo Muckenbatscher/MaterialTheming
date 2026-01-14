@@ -1200,11 +1200,11 @@ internal class ColorSpec2025 : ColorSpec2021
     {
         return variant switch
         {
-            Variant.Neutral => TonalPalette.FromHueAndChroma(sourceColorHct.Hue, (platform.IsPhone() ? 1.4 : 6) * 2.2),
-            Variant.TonalSpot => TonalPalette.FromHueAndChroma(sourceColorHct.Hue, (platform.IsPhone() ? 5 : 10) * 1.7),
+            Variant.Neutral => TonalPalette.FromHueAndChroma(sourceColorHct.Hue, platform.IsPhone() ? 3.08 : 13.2),
+            Variant.TonalSpot => TonalPalette.FromHueAndChroma(sourceColorHct.Hue, platform.IsPhone() ? 8.5 : 17),
             Variant.Expressive => TonalPalette.FromHueAndChroma(
                 GetExpressiveNeutralHue(sourceColorHct),
-                GetExpressiveNeutralChroma(sourceColorHct, isDark, platform) * (GetExpressiveNeutralHue(sourceColorHct) is >= 105 and < 125 ? 1.6 : 2.3)),
+                GetExpressiveNeutralChroma(sourceColorHct, isDark, platform) * (HctColorCategorization.IsYellow(GetExpressiveNeutralHue(sourceColorHct)) ? 1.6 : 2.3)),
             Variant.Vibrant => TonalPalette.FromHueAndChroma(
                 GetVibrantNeutralHue(sourceColorHct),
                 GetVibrantNeutralChroma(sourceColorHct, platform) * 1.29),
