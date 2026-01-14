@@ -14,19 +14,16 @@ internal class ColorSpec2025 : ColorSpec2021
     public override DynamicColor Background => CreateBackground().Build();
     private DynamicColorBuilder CreateBackground()
     {
-        return DynamicColorBuilder.Create(Surface)
+        return CreateSurface()
             .WithName("background");
     }
 
     public override DynamicColor OnBackground => CreateOnBackground().Build();
     private DynamicColorBuilder CreateOnBackground()
     {
-        return DynamicColorBuilder.Create()
+        return CreateOnSurface()
             .WithName("on_background")
-            .WithPalette(s => s.NeutralPalette)
-            .WithTone(s => s.Platform.IsWatch() ? 100.0 : base.OnSurface.GetTone(s))
-            .WithBackground(_ => Background)
-            .WithContrastCurve(s => new ContrastCurve(3.0, 3.0, 4.5, 7.0));
+            .WithTone(s => s.Platform.IsWatch() ? 100.0 : OnSurface.GetTone(s));
     }
 
     public override DynamicColor Surface => CreateSurface().Build();
@@ -313,11 +310,8 @@ internal class ColorSpec2025 : ColorSpec2021
     public override DynamicColor SurfaceVariant => CreateSurfaceVariant().Build();
     private DynamicColorBuilder CreateSurfaceVariant()
     {
-        return DynamicColorBuilder.Create()
-            .WithName("surface_variant")
-            .WithPalette(s => s.NeutralVariantPalette)
-            .WithTone(SurfaceContainerHighest.GetTone)
-            .WithIsBackground(true);
+        return CreateSurfaceContainerHighest()
+            .WithName("surface_variant");
     }
 
     public override DynamicColor OnSurfaceVariant => CreateOnSurfaceVariant().Build();
@@ -362,7 +356,6 @@ internal class ColorSpec2025 : ColorSpec2021
         return DynamicColorBuilder.Create()
             .WithName("inverse_on_surface")
             .WithPalette(s => s.NeutralPalette)
-            .WithTone(base.InverseOnSurface.Tone)
             .WithBackground(_ => InverseSurface)
             .WithContrastCurve(_ => GetContrastCurve(7));
     }
@@ -373,7 +366,6 @@ internal class ColorSpec2025 : ColorSpec2021
         return DynamicColorBuilder.Create()
             .WithName("outline")
             .WithPalette(s => s.NeutralPalette)
-            .WithTone(base.Outline.Tone)
             .WithChromaMultiplier(s =>
             {
                 if (s.Platform.IsPhone())
@@ -418,11 +410,8 @@ internal class ColorSpec2025 : ColorSpec2021
     public override DynamicColor SurfaceTint => CreateSurfaceTint().Build();
     private DynamicColorBuilder CreateSurfaceTint()
     {
-        return DynamicColorBuilder.Create()
-            .WithName("surface_tint")
-            .WithPalette(s => s.PrimaryPalette)
-            .WithTone(Primary.GetTone)
-            .WithIsBackground(true);
+        return CreatePrimary()
+            .WithName("surface_tint");
     }
 
     // ----------------------------------------------------------------
@@ -852,7 +841,7 @@ internal class ColorSpec2025 : ColorSpec2021
         return DynamicColorBuilder.Create()
             .WithName("primary_fixed_dim")
             .WithPalette(s => s.PrimaryPalette)
-            .WithTone(s => PrimaryFixed.GetTone(s))
+            .WithTone(PrimaryFixed.GetTone)
             .WithIsBackground(true)
             .WithToneDeltaPair(s => new ToneDeltaPair(PrimaryFixedDim, PrimaryFixed, 5.0, TonePolarity.Darker, ToneDeltaConstraint.Exact));
     }
@@ -863,7 +852,6 @@ internal class ColorSpec2025 : ColorSpec2021
         return DynamicColorBuilder.Create()
             .WithName("on_primary_fixed")
             .WithPalette(s => s.PrimaryPalette)
-            .WithTone(s => base.OnPrimaryFixed.Tone(s))
             .WithBackground(s => PrimaryFixedDim)
             .WithContrastCurve(s => GetContrastCurve(7));
     }
@@ -874,7 +862,6 @@ internal class ColorSpec2025 : ColorSpec2021
         return DynamicColorBuilder.Create()
             .WithName("on_primary_fixed_variant")
             .WithPalette(s => s.PrimaryPalette)
-            .WithTone(s => base.OnPrimaryFixedVariant.Tone(s))
             .WithBackground(s => PrimaryFixedDim)
             .WithContrastCurve(s => GetContrastCurve(4.5));
     }
@@ -901,7 +888,7 @@ internal class ColorSpec2025 : ColorSpec2021
         return DynamicColorBuilder.Create()
             .WithName("secondary_fixed_dim")
             .WithPalette(s => s.SecondaryPalette)
-            .WithTone(s => SecondaryFixed.GetTone(s))
+            .WithTone(SecondaryFixed.GetTone)
             .WithIsBackground(true)
             .WithToneDeltaPair(s => new ToneDeltaPair(SecondaryFixedDim, SecondaryFixed, 5.0, TonePolarity.Darker, ToneDeltaConstraint.Exact));
     }
@@ -912,7 +899,6 @@ internal class ColorSpec2025 : ColorSpec2021
         return DynamicColorBuilder.Create()
             .WithName("on_secondary_fixed")
             .WithPalette(s => s.SecondaryPalette)
-            .WithTone(s => base.OnSecondaryFixed.Tone(s))
             .WithBackground(s => SecondaryFixedDim)
             .WithContrastCurve(s => GetContrastCurve(7));
     }
@@ -923,7 +909,6 @@ internal class ColorSpec2025 : ColorSpec2021
         return DynamicColorBuilder.Create()
             .WithName("on_secondary_fixed_variant")
             .WithPalette(s => s.SecondaryPalette)
-            .WithTone(s => base.OnSecondaryFixedVariant.Tone(s))
             .WithBackground(s => SecondaryFixedDim)
             .WithContrastCurve(s => GetContrastCurve(4.5));
     }
@@ -950,7 +935,7 @@ internal class ColorSpec2025 : ColorSpec2021
         return DynamicColorBuilder.Create()
             .WithName("tertiary_fixed_dim")
             .WithPalette(s => s.TertiaryPalette)
-            .WithTone(s => TertiaryFixed.GetTone(s))
+            .WithTone(TertiaryFixed.GetTone)
             .WithIsBackground(true)
             .WithToneDeltaPair(s => new ToneDeltaPair(TertiaryFixedDim, TertiaryFixed, 5.0, TonePolarity.Darker, ToneDeltaConstraint.Exact));
     }
@@ -961,7 +946,6 @@ internal class ColorSpec2025 : ColorSpec2021
         return DynamicColorBuilder.Create()
             .WithName("on_tertiary_fixed")
             .WithPalette(s => s.TertiaryPalette)
-            .WithTone(s => base.OnTertiaryFixed.Tone(s))
             .WithBackground(s => TertiaryFixedDim)
             .WithContrastCurve(s => GetContrastCurve(7));
     }
@@ -972,7 +956,6 @@ internal class ColorSpec2025 : ColorSpec2021
         return DynamicColorBuilder.Create()
             .WithName("on_tertiary_fixed_variant")
             .WithPalette(s => s.TertiaryPalette)
-            .WithTone(s => base.OnTertiaryFixedVariant.Tone(s))
             .WithBackground(s => TertiaryFixedDim)
             .WithContrastCurve(s => GetContrastCurve(4.5));
     }
