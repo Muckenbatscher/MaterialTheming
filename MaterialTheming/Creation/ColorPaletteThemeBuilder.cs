@@ -147,8 +147,40 @@ public class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
             OnErrorContainer = scheme.OnErrorContainer.ToRgbColor(),
 
             Surface = scheme.Surface.ToRgbColor(),
+            SurfaceVariant = scheme.SurfaceVariant.ToRgbColor(),
             OnSurface = scheme.OnSurface.ToRgbColor(),
             OnSurfaceVariant = scheme.OnSurfaceVariant.ToRgbColor(),
+            SurfaceDim = scheme.SurfaceDim.ToRgbColor(),
+            SurfaceBright = scheme.SurfaceBright.ToRgbColor(),
+            SurfaceTint = scheme.SurfaceTint.ToRgbColor(),
+
+            Background = scheme.Background.ToRgbColor(),
+            OnBackground = scheme.OnBackground.ToRgbColor(),
+
+            Outline = scheme.Outline.ToRgbColor(),
+            OutlineVariant = scheme.OutlineVariant.ToRgbColor(),
+
+            Shadow = scheme.Shadow.ToRgbColor(),
+            Scrim = scheme.Scrim.ToRgbColor(),
+
+            InverseSurface = scheme.InverseSurface.ToRgbColor(),
+            InverseOnSurface = scheme.InverseOnSurface.ToRgbColor(),
+            InversePrimary = scheme.InversePrimary.ToRgbColor(),
+
+            PrimaryFixed = scheme.PrimaryFixed.ToRgbColor(),
+            OnPrimaryFixed = scheme.OnPrimaryFixed.ToRgbColor(),
+            PrimaryFixedDim = scheme.PrimaryFixedDim.ToRgbColor(),
+            OnPrimaryFixedVariant = scheme.OnPrimaryFixedVariant.ToRgbColor(),
+
+            SecondaryFixed = scheme.SecondaryFixed.ToRgbColor(),
+            OnSecondaryFixed = scheme.OnSecondaryFixed.ToRgbColor(),
+            SecondaryFixedDim = scheme.SecondaryFixedDim.ToRgbColor(),
+            OnSecondaryFixedVariant = scheme.OnSecondaryFixedVariant.ToRgbColor(),
+
+            TertiaryFixed = scheme.TertiaryFixed.ToRgbColor(),
+            OnTertiaryFixed = scheme.OnTertiaryFixed.ToRgbColor(),
+            TertiaryFixedDim = scheme.TertiaryFixedDim.ToRgbColor(),
+            OnTertiaryFixedVariant = scheme.OnTertiaryFixedVariant.ToRgbColor(),
 
             SurfaceContainerLowest = scheme.SurfaceContainerLowest.ToRgbColor(),
             SurfaceContainerLow = scheme.SurfaceContainerLow.ToRgbColor(),
