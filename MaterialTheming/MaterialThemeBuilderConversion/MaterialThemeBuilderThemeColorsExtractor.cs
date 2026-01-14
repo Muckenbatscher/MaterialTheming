@@ -11,13 +11,13 @@ internal class MaterialThemeBuilderThemeColorsExtractor
             ?? throw new ArgumentException("Material design theme could not be parsed from the supplied JSON content.");
         Scheme? selectedScheme = null;
         if (mode == ThemeMode.Light && contrastLevel == ContrastLevel.Normal)
-            selectedScheme = materialTheme.Schemes.Light;
+            selectedScheme = materialTheme.Schemes.LightNormalContrast;
         else if (mode == ThemeMode.Light && contrastLevel == ContrastLevel.Medium)
             selectedScheme = materialTheme.Schemes.LightMediumContrast;
         else if (mode == ThemeMode.Light && contrastLevel == ContrastLevel.High)
             selectedScheme = materialTheme.Schemes.LightHighContrast;
         else if (mode == ThemeMode.Dark && contrastLevel == ContrastLevel.Normal)
-            selectedScheme = materialTheme.Schemes.Dark;
+            selectedScheme = materialTheme.Schemes.DarkNormalContrast;
         else if (mode == ThemeMode.Dark && contrastLevel == ContrastLevel.Medium)
             selectedScheme = materialTheme.Schemes.DarkMediumContrast;
         else if (mode == ThemeMode.Dark && contrastLevel == ContrastLevel.High)
