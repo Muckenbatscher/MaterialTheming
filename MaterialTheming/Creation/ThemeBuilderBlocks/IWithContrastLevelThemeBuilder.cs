@@ -9,7 +9,7 @@ public interface IWithContrastLevelThemeBuilder<TBuilder>
     /// Specify the contrast level that is used to build the <see cref="Theme" />.
     /// </summary>
     /// <param name="contrastLevel">The contrast level to use.</param>
-    /// <returns></returns>
+    /// <returns>The <typeparamref name="TBuilder"/> with the specified contrast level.</returns>
     TBuilder WithContrastLevel(ContrastLevel contrastLevel);
 }
 
@@ -28,6 +28,6 @@ public interface IWithContrastLevelValueThemeBuilder<TBuilder>
     /// <c>1.0</c> = High<br/>
     /// </para>
     /// </param>
-    /// <returns></returns>
+    /// <returns>The <typeparamref name="TBuilder"/> with the specified contrast level value.</returns>
     TBuilder WithContrastLevel(double contrastLevel);
 }
