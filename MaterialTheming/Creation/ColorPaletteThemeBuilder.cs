@@ -6,7 +6,7 @@ using System.ComponentModel;
 
 namespace MaterialTheming.Creation;
 
-public class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
+internal class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
 {
     public static IColorPaletteThemeBuilder Create() => new ColorPaletteThemeBuilder();
 

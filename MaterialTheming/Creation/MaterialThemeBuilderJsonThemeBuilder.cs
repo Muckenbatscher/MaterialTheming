@@ -3,7 +3,7 @@ using MaterialTheming.MaterialThemeBuilderConversion;
 
 namespace MaterialTheming.Creation;
 
-public class MaterialThemeBuilderJsonThemeBuilder : IMaterialThemeBuilderJsonThemeBuilder
+internal class MaterialThemeBuilderJsonThemeBuilder : IMaterialThemeBuilderJsonThemeBuilder
 {
     public static IMaterialThemeBuilderJsonThemeBuilder Create() => new MaterialThemeBuilderJsonThemeBuilder();
 
