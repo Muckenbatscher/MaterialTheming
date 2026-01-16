@@ -1,51 +1,72 @@
 ﻿using MaterialTheming.MaterialDesign.HctConversion;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MaterialTheming.ColorDefinitions;
 
+/// <summary>
+/// A color representation in the HCT format.
+/// <para>
+/// Hue - The general color.<br/>
+/// Chroma - How colorful the color appears.<br/>
+/// Tone - How light or dark the color appears.<br/>
+/// </para>
+/// </summary>
 public class HctColor
 {
     private double hue;
     private double chroma;
     private double tone;
 
+    /// <summary>
+    /// The position of the color on the color wheel. <br/>
+    /// Values are degrees and therefore range from <c>0</c> to <c>360</c>.
+    /// </summary>
     public double Hue
     {
         get => hue;
         set => SetInternalState(HctSolver.SolveToRgb(value, chroma, tone));
     }
 
+    /// <summary>
+    /// The percevied of the colorfulness of the color.<br/>
+    /// The maximum is dependendent from the <see cref="Chroma"/> and <see cref="Tone"/>. 
+    /// But generally values are between <c>0</c> (least colorful) and <c>120</c> (most colorful).
+    /// </summary>
     public double Chroma
     {
         get => chroma;
         set => SetInternalState(HctSolver.SolveToRgb(hue, value, tone));
     }
 
+    /// <summary>
+    /// The perceived lightness of the color.<br/>
+    /// Values range from <c>0</c> (darkest) to <c>100</c> (brightest).
+    /// </summary>
     public double Tone
     {
         get => tone;
         set => SetInternalState(HctSolver.SolveToRgb(hue, chroma, value));
     }
 
-    /**
-     * Create an HCT color from hue, chroma, and tone.
-     *
-     * @param hue 0 <= hue < 360; invalid values are corrected.
-     * @param chroma 0 <= chroma < ?; Informally, colorfulness. The color returned may be lower than
-     * the requested chroma. Chroma has a different maximum for any given hue and tone.
-     * @param tone 0 <= tone <= 100; invalid values are corrected.
-     * @return HCT representation of a color in default viewing conditions.
-     */
+    /// <summary>
+    /// Create an HCT color from hue, chroma, and tone
+    /// </summary>
+    /// <param name="hue">Target hue between 0 and 360 degrees. Invalid values are corrected.</param>
+    /// <param name="chroma">Target chroma between 0 and roughly 120. The color returned may be lower than the target chroma.
+    /// Chroma has a different maximum for any given hue and tone.</param>
+    /// <param name="tone">Target tone between 0 and 100. Invalid values are corrected.</param>
+    /// <returns><see cref="HctColor"/> representation of a color in default viewing conditions.</returns>
     public static HctColor From(double hue, double chroma, double tone)
     {
         var rgb = HctSolver.SolveToRgb(hue, chroma, tone);
         return FromRgbColor(rgb);
     }
-    /**
-     * Create an HCT color from a color.
-     *
-     * @param rgb RGB representation of a color.
-     * @return HCT representation of a color in default viewing conditions
-     */
+
+    /// <summary>
+    /// Create an HCT color from a color in RGB representation.
+    /// </summary>
+    /// <param name="rgb">A color in RGB representation</param>
+    /// <returns><see cref="HctColor"/> representation of a color in default viewing conditions.</returns>
     public static HctColor FromRgbColor(RgbColor rgb)
     {
         return new HctColor(rgb);
@@ -56,11 +77,18 @@ public class HctColor
         SetInternalState(rgb);
     }
 
+    /// <summary>
+    /// Create color in RGB representation in default viewing conditions.
+    /// </summary>
+    /// <returns><see cref="RgbColor"/> representation of the <see cref="HctColor"/> in default viewing conditions.</returns>
     public RgbColor ToRgbColor()
     {
         return HctSolver.SolveToRgb(hue, chroma, tone);
     }
-
+    /// <summary>
+    /// Create color in RGB representation in default viewing conditions.
+    /// </summary>
+    /// <returns>ARGB representation of the <see cref="HctColor"/> in default viewing conditions. The alpha value will always be 0xFF.</returns>
     public int ToArgb()
     {
         var rgb = HctSolver.SolveToRgb(hue, chroma, tone);
