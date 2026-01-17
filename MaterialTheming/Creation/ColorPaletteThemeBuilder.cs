@@ -6,32 +6,102 @@ using System.ComponentModel;
 
 namespace MaterialTheming.Creation;
 
-internal class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
+public class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
 {
-    public static IColorPaletteThemeBuilder Create() => new ColorPaletteThemeBuilder();
+    /// <summary>
+    /// Creates a new instance of a <see cref="IColorPaletteThemeBuilder"/> with default settings.
+    /// <para>
+    /// Default settings include:<br/>
+    /// <b>Mode </b>- light<br/>
+    /// <b>Contrast level </b>- <c>0.0</c> (normal)<br/>
+    /// <b>Variant </b>- Tonal Spot<br/>
+    /// <b>Spec Version </b>- Spec 2021<br/>
+    /// <b>Platform </b>- Phone<br/>
+    /// </para>
+    /// </summary>
+    /// <remarks>The returned builder is preconfigured with default settings.
+    /// It can be further customized by chaining additional configuration methods on the returned builder.
+    /// A source color is required to be specified.</remarks>
+    /// <returns>An <see cref="IColorPaletteThemeBuilder"/> instance that can be used to configure and build a theme from a color palette.</returns>
+    public static IColorPaletteThemeBuilder Create()
+        => new ColorPaletteThemeBuilder()
+        .WithMode(ThemeMode.Light)
+        .WithContrastLevel(0.0)
+        .WithVariant(Variant.TonalSpot)
+        .WithSpecVersion(SpecVersion.Spec2021)
+        .WithPlatform(Platform.Phone);
 
+    /// <summary>
+    /// Creates a new instance of a <see cref="IColorPaletteThemeBuilder"/> initialized 
+    /// with the specified source color and the default settings.
+    /// <para>
+    /// Default settings include:<br/>
+    /// <b>Mode </b>- light<br/>
+    /// <b>Contrast level </b>- <c>0.0</c> (normal)<br/>
+    /// <b>Variant </b>- Tonal Spot<br/>
+    /// <b>Spec Version </b>- Spec 2021<br/>
+    /// <b>Platform </b>- Phone<br/>
+    /// </para>
+    /// </summary>
+    /// <remarks>The returned builder is preconfigured with default settings.
+    /// It can be further customized by chaining additional configuration methods on the returned builder.</remarks>
+    /// <param name="color">The source color in HCT representation to use as the basis for the palette.</param>
+    /// <returns>An <see cref="IColorPaletteThemeBuilder"/> instance that can be used to further configure and build 
+    /// a theme from a color palette based on the provided source color.</returns>
     public static IColorPaletteThemeBuilder CreateFromSourceColor(HctColor color)
         => Create().WithSourceColor(color);
+
+    /// <summary>
+    /// Creates a new instance of a <see cref="IColorPaletteThemeBuilder"/> initialized 
+    /// with the specified source color and the default settings.
+    /// <para>
+    /// Default settings include:<br/>
+    /// <b>Mode </b>- light<br/>
+    /// <b>Contrast level </b>- <c>0.0</c> (normal)<br/>
+    /// <b>Variant </b>- Tonal Spot<br/>
+    /// <b>Spec Version </b>- Spec 2021<br/>
+    /// <b>Platform </b>- Phone<br/>
+    /// </para>
+    /// </summary>
+    /// <remarks>The returned builder is preconfigured with default settings.
+    /// It can be further customized by chaining additional configuration methods on the returned builder.</remarks>
+    /// <param name="color">The source color in RGB representation to use as the basis for the palette.</param>
+    /// <returns>An <see cref="IColorPaletteThemeBuilder"/> instance that can be used to further configure and build 
+    /// a theme from a color palette based on the provided source color.</returns>
     public static IColorPaletteThemeBuilder CreateFromSourceColor(RgbColor color)
         => Create().WithSourceColor(color);
+
+    /// <summary>
+    /// Creates a new instance of a <see cref="IColorPaletteThemeBuilder"/> initialized 
+    /// with the specified source color and the default settings.
+    /// <para>
+    /// Default settings include:<br/>
+    /// <b>Mode </b>- light<br/>
+    /// <b>Contrast level </b>- <c>0.0</c> (normal)<br/>
+    /// <b>Variant </b>- Tonal Spot<br/>
+    /// <b>Spec Version </b>- Spec 2021<br/>
+    /// <b>Platform </b>- Phone<br/>
+    /// </para>
+    /// </summary>
+    /// <remarks>The returned builder is preconfigured with default settings.
+    /// It can be further customized by chaining additional configuration methods on the returned builder.</remarks>
+    /// <param name="htmlColor">The source color to use as the basis for the palette. Formatted either as <c>#FFFFFF</c> or <c>FFFFFF</c></param>
+    /// <returns>An <see cref="IColorPaletteThemeBuilder"/> instance that can be used to further configure and build 
+    /// a theme from a color palette based on the provided source color.</returns>
     public static IColorPaletteThemeBuilder CreateFromSourceColor(string htmlColor)
         => Create().WithSourceColor(htmlColor);
 
     private ColorPaletteThemeBuilder()
     {
-        mode = ThemeMode.Light;
-        contrastLevel = 0.0;
-        variant = Variant.TonalSpot;
-        platform = Platform.Phone;
-        specVersion = SpecVersion.Spec2021;
     }
+
     private HctColor? sourceColor;
 
     private ThemeMode mode;
     private double contrastLevel;
     private Variant variant;
-    private Platform platform;
     private SpecVersion specVersion;
+    private Platform platform;
 
     public IColorPaletteThemeBuilder WithSourceColor(HctColor color)
     {

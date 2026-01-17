@@ -1,5 +1,4 @@
 ﻿using MaterialTheming.MaterialDesign.HctConversion;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MaterialTheming.ColorDefinitions;
 

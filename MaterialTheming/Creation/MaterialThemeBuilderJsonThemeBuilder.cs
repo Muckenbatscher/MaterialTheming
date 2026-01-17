@@ -3,20 +3,67 @@ using MaterialTheming.MaterialThemeBuilderConversion;
 
 namespace MaterialTheming.Creation;
 
-internal class MaterialThemeBuilderJsonThemeBuilder : IMaterialThemeBuilderJsonThemeBuilder
+public class MaterialThemeBuilderJsonThemeBuilder : IMaterialThemeBuilderJsonThemeBuilder
 {
-    public static IMaterialThemeBuilderJsonThemeBuilder Create() => new MaterialThemeBuilderJsonThemeBuilder();
+    /// <summary>
+    /// Creates a new instance of <see cref="IMaterialThemeBuilderJsonThemeBuilder"/> with default settings.
+    /// <para>
+    /// Default settings include:<br/>
+    /// <b>Mode </b>- light<br/>
+    /// <b>Contrast level </b>- normal<br/>
+    /// </para>
+    /// </summary>
+    /// <remarks>The returned builder is preconfigured with default settings.
+    /// It can be further customized by chaining additional configuration methods on the returned builder.
+    /// A <see href="https://material-foundation.github.io/material-theme-builder/">Material Theme Builder</see> 
+    /// exported JSON content is required to be specified.</remarks>
+    /// <returns>An <see cref="IMaterialThemeBuilderJsonThemeBuilder"/> initialized with the default settings.</returns>
+    public static IMaterialThemeBuilderJsonThemeBuilder Create()
+        => new MaterialThemeBuilderJsonThemeBuilder()
+        .WithMode(ThemeMode.Light)
+        .WithContrastLevel(ContrastLevel.Normal);
 
+    /// <summary>
+    /// Creates a new instance of <see cref="IMaterialThemeBuilderJsonThemeBuilder"/> 
+    /// with the specifed Material Theme Builder JSON content and with default settings.
+    /// <para>
+    /// Default settings include:<br/>
+    /// <b>Mode </b>- light<br/>
+    /// <b>Contrast level </b>- normal<br/>
+    /// </para>
+    /// </summary>
+    /// <remarks>The returned builder is preconfigured with default settings.
+    /// It can be further customized by chaining additional configuration methods on the returned builder.
+    /// A <see href="https://material-foundation.github.io/material-theme-builder/">Material Theme Builder</see> 
+    /// exported JSON content is required to be specified.</remarks>
+    /// <param name="materialThemeBuilderJson">A JSON string containing the <see href="https://material-foundation.github.io/material-theme-builder/">Material Theme Builder</see> 
+    /// theme definition to initialize the builder with.</param>
+    /// <returns>An instance of <see cref="IMaterialThemeBuilderJsonThemeBuilder"/> initialized with the provided JSON content and with default settings.</returns>
     public static IMaterialThemeBuilderJsonThemeBuilder CreateFromJsonContent(string materialThemeBuilderJson)
         => Create().WithMaterialThemeBuilderJsonContent(materialThemeBuilderJson);
 
+    /// <summary>
+    /// Creates a new instance of <see cref="IMaterialThemeBuilderJsonThemeBuilder"/> 
+    /// with the specifed Material Theme Builder JSON content and with default settings.
+    /// <para>
+    /// Default settings include:<br/>
+    /// <b>Mode </b>- light<br/>
+    /// <b>Contrast level </b>- normal<br/>
+    /// </para>
+    /// </summary>
+    /// <remarks>The returned builder is preconfigured with default settings.
+    /// It can be further customized by chaining additional configuration methods on the returned builder.
+    /// A <see href="https://material-foundation.github.io/material-theme-builder/">Material Theme Builder</see> 
+    /// exported JSON content is required to be specified.</remarks>
+    /// <param name="materialThemeBuilderJsonFilePath">Path to a JSON file containing the <see href="https://material-foundation.github.io/material-theme-builder/">Material Theme Builder</see> 
+    /// theme definition to initialize the builder with.</param>
+    /// <returns>An instance of <see cref="IMaterialThemeBuilderJsonThemeBuilder"/> initialized with the JSON content found 
+    /// at the specified file path and with default settings.</returns>
     public static IMaterialThemeBuilderJsonThemeBuilder CreateFromJsonFilePath(string materialThemeBuilderJsonFilePath)
         => Create().WithMaterialThemeBuilderJsonFilePath(materialThemeBuilderJsonFilePath);
 
     private MaterialThemeBuilderJsonThemeBuilder()
     {
-        mode = ThemeMode.Light;
-        contrastLevel = ContrastLevel.Normal;
     }
 
     private string? materialThemeBuilderJson;
