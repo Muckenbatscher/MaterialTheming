@@ -160,7 +160,7 @@ public class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
     private ThemeColors BuildThemeColors()
     {
         if (sourceColor == null)
-            throw new InvalidOperationException("Primary color must be specified.");
+            throw new InvalidOperationException("Source color must be specified.");
 
         var specVersionToUse = GetFallbackSpecVersionToUse(specVersion, variant);
         var colorSpec = ColorSpecFactory.Create(specVersionToUse);
