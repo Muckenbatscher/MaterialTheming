@@ -1047,11 +1047,6 @@ internal class ColorSpec2025 : ColorSpec2021
         }
         else
         {
-            // Case 1: No tone delta pair; use base logic (which handles self-solving and backgrounds)
-            // Note: The logic in 2025 GetTone for Case 1 is almost identical to 2021,
-            // EXCEPT for the "Awkward Zone" logic at the end.
-            // We will copy the implementation here to ensure the 2025 specific constraints are applied.
-
             double answer = color.Tone(scheme);
 
             if (color.Background == null || color.ContrastCurve == null)

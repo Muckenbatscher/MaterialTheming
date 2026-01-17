@@ -5,9 +5,9 @@ namespace MaterialTheming.ColorDefinitions;
 /// <summary>
 /// A color representation in the HCT format.
 /// <para>
-/// Hue - The general color.<br/>
-/// Chroma - How colorful the color appears.<br/>
-/// Tone - How light or dark the color appears.<br/>
+/// <b>Hue</b> - The general color.<br/>
+/// <b>Chroma</b> - How colorful the color appears.<br/>
+/// <b>Tone</b> - How light or dark the color appears.<br/>
 /// </para>
 /// </summary>
 public class HctColor
@@ -27,10 +27,12 @@ public class HctColor
     }
 
     /// <summary>
-    /// The percevied of the colorfulness of the color.<br/>
+    /// The perceived colorfulness of the color.<br/>
     /// The maximum is dependendent from the <see cref="Chroma"/> and <see cref="Tone"/>. 
     /// But generally values are between <c>0</c> (least colorful) and <c>120</c> (most colorful).
     /// </summary>
+    /// <remarks>If the requested chroma is not reachable based on the set hue and tone 
+    /// the actual value for chroma might be lower.</remarks>
     public double Chroma
     {
         get => chroma;
@@ -48,13 +50,13 @@ public class HctColor
     }
 
     /// <summary>
-    /// Create an HCT color from hue, chroma, and tone
+    /// Create an HCT color from hue, chroma and tone
     /// </summary>
     /// <param name="hue">Target hue between 0 and 360 degrees. Invalid values are corrected.</param>
     /// <param name="chroma">Target chroma between 0 and roughly 120. The color returned may be lower than the target chroma.
-    /// Chroma has a different maximum for any given hue and tone.</param>
+    /// Chroma has a different maximum depending on the requested hue and tone.</param>
     /// <param name="tone">Target tone between 0 and 100. Invalid values are corrected.</param>
-    /// <returns><see cref="HctColor"/> representation of a color in default viewing conditions.</returns>
+    /// <returns>A <see cref="HctColor"/> with values for hue, chroma and tone as close to the specified values as possible.</returns>
     public static HctColor From(double hue, double chroma, double tone)
     {
         var rgb = HctSolver.SolveToRgb(hue, chroma, tone);
@@ -62,7 +64,7 @@ public class HctColor
     }
 
     /// <summary>
-    /// Create an HCT color from a color in RGB representation.
+    /// Create a color in HCT representation from a color in RGB representation.
     /// </summary>
     /// <param name="rgb">A color in RGB representation</param>
     /// <returns><see cref="HctColor"/> representation of a color in default viewing conditions.</returns>
@@ -79,19 +81,10 @@ public class HctColor
     /// <summary>
     /// Create color in RGB representation in default viewing conditions.
     /// </summary>
-    /// <returns><see cref="RgbColor"/> representation of the <see cref="HctColor"/> in default viewing conditions.</returns>
+    /// <returns>A color in RGB representation of the <see cref="HctColor"/> in default viewing conditions.</returns>
     public RgbColor ToRgbColor()
     {
         return HctSolver.SolveToRgb(hue, chroma, tone);
-    }
-    /// <summary>
-    /// Create color in RGB representation in default viewing conditions.
-    /// </summary>
-    /// <returns>ARGB representation of the <see cref="HctColor"/> in default viewing conditions. The alpha value will always be 0xFF.</returns>
-    public int ToArgb()
-    {
-        var rgb = HctSolver.SolveToRgb(hue, chroma, tone);
-        return rgb.ToArgb();
     }
 
     public override string ToString()
