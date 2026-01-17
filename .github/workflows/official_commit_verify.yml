@@ -13,7 +13,7 @@ jobs:
       GIT_URL: "https://github.com/material-foundation/material-color-utilities.git"
       GIT_DIR_NAME: "material-color-utilities"
       GIT_BRANCH: "main"
-      EXPECTED_COMMIT: 158b9c18
+      EXPECTED_COMMIT: b03ef34b
     steps:
     - name: Get the latest commit hash
       id: latest_official
