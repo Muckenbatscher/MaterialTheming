@@ -13,7 +13,8 @@ It provides an additional Fluent API to build your custom theme.
 ## Features
 
 * **Material 3 Compliance**: Full implementation of the Material Design 3 color algorithms. Including the proprietary HCT color space.
-* **Dynamic Color Generation**: Generate complete schemes from a single source color.
+* **Verified Accuracy**: Output results tested against the official Google Java implementation.
+* **Dynamic Color**: Generate complete schemes from a single source color.
 * **High Accessibility**: Uses color math and color theory to ensure accessible contrast ratios and accurate tonal shifts.
 * **Fluent API Builder**: An intuitive, readable syntax for constructing and customizing themes.
 
@@ -61,7 +62,7 @@ var myTheme = ThemeBuilder
 
 ### 2. Customizing the Scheme
 You can control various aspects of the generated theme.
-These include all the options the official Material 3 color implementation provides:
+These include all the options that the official Material 3 color implementation provides:
 - Source color
 - Dark or light mode
 - Contrast level
@@ -77,6 +78,19 @@ var customTheme = ThemeBuilder
     .WithVariant(Variant.Expressive)        // Use the 'Expressive' variant to generate the palettes
     .WithPlatform(Platform.Phone)           // Use phone as platform (also suited for desktop)
     .WithSpecVersion(SpecVerison.Spec2025)  // Use the Spec Version released in 2025
+    .Build();
+```
+
+### 3. Building from Material Theme Builder JSON
+
+If you already created a material theme at the official [Material Theme Builder](https://material-foundation.github.io/material-theme-builder/) you can export it as a JSON file there.
+This JSON file can also be fed into the `ThemeBuilder` to create a `Theme`.
+
+```csharp
+var themeBuilderJsonTheme = ThemeBuilder
+    .CreateFromJsonContent(myJsonContent)    // Use a string that contains the exported JSON content
+    .WithMode(ThemeMode.Dark)                // Build the contained dark theme
+    .WithContrastLevel(ContrastLevel.Normal) // Use the contained normal contrast level
     .Build();
 ```
 
