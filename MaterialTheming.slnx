@@ -2,6 +2,7 @@
   <Folder Name="/Solution Items/">
     <File Path=".editorconfig" />
     <File Path="Directory.Build.props" />
+    <File Path="README.md" />
   </Folder>
   <Project Path="MaterialTheming.Tests/MaterialTheming.Tests.csproj" Id="27021720-86bc-44ed-9452-499e3f3de641" />
   <Project Path="MaterialTheming/MaterialTheming.csproj" />
