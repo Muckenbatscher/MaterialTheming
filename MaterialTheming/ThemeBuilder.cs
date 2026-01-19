@@ -1,5 +1,4 @@
-﻿using MaterialTheming.ColorDefinitions;
-using MaterialTheming.Creation;
+﻿using MaterialTheming.Creation;
 
 namespace MaterialTheming;
 

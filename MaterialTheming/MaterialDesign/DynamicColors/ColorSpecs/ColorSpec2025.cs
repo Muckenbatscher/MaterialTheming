@@ -1,5 +1,4 @@
-﻿using MaterialTheming.ColorDefinitions;
-using MaterialTheming.MaterialDesign.Contrasts;
+﻿using MaterialTheming.MaterialDesign.Contrasts;
 using MaterialTheming.MaterialDesign.Hct;
 using MaterialTheming.MaterialDesign.Palettes;
 

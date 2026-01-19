@@ -1,5 +1,4 @@
-﻿using MaterialTheming.ColorDefinitions;
-using MaterialTheming.MaterialDesign.HctConversion;
+﻿using MaterialTheming.MaterialDesign.HctConversion;
 
 namespace MaterialTheming.MaterialDesign.Temperature;
 

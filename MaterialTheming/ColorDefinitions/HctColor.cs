@@ -1,6 +1,6 @@
 ﻿using MaterialTheming.MaterialDesign.HctConversion;
 
-namespace MaterialTheming.ColorDefinitions;
+namespace MaterialTheming;
 
 /// <summary>
 /// A color representation in the HCT format.

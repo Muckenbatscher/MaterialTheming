@@ -1,6 +1,4 @@
-﻿using MaterialTheming.ColorDefinitions;
-
-namespace MaterialTheming.Creation.ThemeBuilderBlocks;
+﻿namespace MaterialTheming.Creation.ThemeBuilderBlocks;
 
 public interface IWithSourceColorThemeBuilder<TBuilder>
     where TBuilder : IBuildableThemeBuilder
