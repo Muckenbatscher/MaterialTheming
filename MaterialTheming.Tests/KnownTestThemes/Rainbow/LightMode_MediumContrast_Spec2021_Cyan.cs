@@ -1,5 +1,3 @@
-using MaterialTheming.MaterialDesign;
-
 namespace MaterialTheming.Tests.KnownTestThemes.Rainbow;
 
 internal class LightMode_MediumContrast_Spec2021_Cyan : ITestTheme

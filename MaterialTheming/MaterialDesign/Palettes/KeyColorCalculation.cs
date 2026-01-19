@@ -1,6 +1,4 @@
-﻿using MaterialTheming.ColorDefinitions;
-
-namespace MaterialTheming.MaterialDesign.Palettes;
+﻿namespace MaterialTheming.MaterialDesign.Palettes;
 
 /// <summary>
 /// Key color is a color that represents the hue and chroma of a tonal palette.

@@ -1,5 +1,3 @@
-using MaterialTheming.MaterialDesign;
-
 namespace MaterialTheming.Tests.KnownTestThemes.TonalSpot;
 
 internal class LightMode_NormalContrast_Spec2025_Orange : ITestTheme

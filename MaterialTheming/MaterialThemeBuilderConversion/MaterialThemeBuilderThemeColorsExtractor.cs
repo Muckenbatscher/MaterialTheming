@@ -1,5 +1,4 @@
-﻿using MaterialTheming.MaterialDesign;
-using MaterialTheming.MaterialThemeBuilderConversion.SerializationModels;
+﻿using MaterialTheming.MaterialThemeBuilderConversion.SerializationModels;
 
 namespace MaterialTheming.MaterialThemeBuilderConversion;
 

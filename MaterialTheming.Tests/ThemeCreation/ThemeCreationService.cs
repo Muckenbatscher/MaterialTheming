@@ -1,6 +1,4 @@
-﻿using MaterialTheming.Creation;
-using MaterialTheming.MaterialDesign;
-using MaterialTheming.Tests.KnownTestThemes;
+﻿using MaterialTheming.Tests.KnownTestThemes;
 
 namespace MaterialTheming.Tests.ThemeCreation;
 

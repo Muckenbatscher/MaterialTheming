@@ -1,5 +1,3 @@
-using MaterialTheming.MaterialDesign;
-
 namespace MaterialTheming.Tests.KnownTestThemes.Neutral;
 
 internal class DarkMode_MediumContrast_Spec2021_Cyan : ITestTheme

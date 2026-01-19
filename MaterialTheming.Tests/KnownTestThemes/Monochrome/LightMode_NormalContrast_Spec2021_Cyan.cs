@@ -1,5 +1,3 @@
-using MaterialTheming.MaterialDesign;
-
 namespace MaterialTheming.Tests.KnownTestThemes.Monochrome;
 
 internal class LightMode_NormalContrast_Spec2021_Cyan : ITestTheme

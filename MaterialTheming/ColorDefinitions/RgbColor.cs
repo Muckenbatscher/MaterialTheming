@@ -1,4 +1,4 @@
-﻿namespace MaterialTheming.ColorDefinitions;
+﻿namespace MaterialTheming;
 
 /// <summary>
 /// A color representation in the RGB format.

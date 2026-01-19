@@ -1,5 +1,3 @@
-using MaterialTheming.MaterialDesign;
-
 namespace MaterialTheming.Tests.KnownTestThemes.Rainbow;
 
 internal class LightMode_HighContrast_Spec2025_Red : ITestTheme

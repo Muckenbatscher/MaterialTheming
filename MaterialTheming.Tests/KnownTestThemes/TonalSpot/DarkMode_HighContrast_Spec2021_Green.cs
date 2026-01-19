@@ -1,5 +1,3 @@
-using MaterialTheming.MaterialDesign;
-
 namespace MaterialTheming.Tests.KnownTestThemes.TonalSpot;
 
 internal class DarkMode_HighContrast_Spec2021_Green : ITestTheme

@@ -1,6 +1,4 @@
-﻿using MaterialTheming.MaterialDesign;
-
-namespace MaterialTheming.Creation.ThemeBuilderBlocks;
+﻿namespace MaterialTheming.Creation.ThemeBuilderBlocks;
 
 public interface IWithPlatformThemeBuilder<TBuilder>
     where TBuilder : IBuildableThemeBuilder

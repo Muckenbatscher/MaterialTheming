@@ -1,5 +1,3 @@
-using MaterialTheming.MaterialDesign;
-
 namespace MaterialTheming.Tests.KnownTestThemes.Vibrant;
 
 internal class LightMode_MediumContrast_Spec2025_Orange : ITestTheme

@@ -1,4 +1,4 @@
-﻿namespace MaterialTheming.MaterialDesign
+﻿namespace MaterialTheming
 {
     /// <summary>
     /// The available known contrast levels.

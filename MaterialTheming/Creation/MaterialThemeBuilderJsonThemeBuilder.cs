@@ -1,9 +1,8 @@
-﻿using MaterialTheming.MaterialDesign;
-using MaterialTheming.MaterialThemeBuilderConversion;
+﻿using MaterialTheming.MaterialThemeBuilderConversion;
 
 namespace MaterialTheming.Creation;
 
-public class MaterialThemeBuilderJsonThemeBuilder : IMaterialThemeBuilderJsonThemeBuilder
+internal class MaterialThemeBuilderJsonThemeBuilder : IMaterialThemeBuilderJsonThemeBuilder
 {
     /// <summary>
     /// Creates a new instance of <see cref="IMaterialThemeBuilderJsonThemeBuilder"/> with default settings.

@@ -1,5 +1,3 @@
-using MaterialTheming.MaterialDesign;
-
 namespace MaterialTheming.Tests.KnownTestThemes.Vibrant;
 
 internal class DarkMode_NormalContrast_Spec2025_Red : ITestTheme

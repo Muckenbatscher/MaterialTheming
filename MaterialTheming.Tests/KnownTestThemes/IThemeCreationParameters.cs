@@ -1,6 +1,4 @@
-﻿using MaterialTheming.MaterialDesign;
-
-namespace MaterialTheming.Tests.KnownTestThemes;
+﻿namespace MaterialTheming.Tests.KnownTestThemes;
 
 internal interface IThemeCreationParameters
 {

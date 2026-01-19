@@ -1,12 +1,10 @@
-﻿using MaterialTheming.ColorDefinitions;
-using MaterialTheming.MaterialDesign;
-using MaterialTheming.MaterialDesign.DynamicColors;
+﻿using MaterialTheming.MaterialDesign.DynamicColors;
 using MaterialTheming.MaterialDesign.DynamicColors.ColorSpecs;
 using System.ComponentModel;
 
 namespace MaterialTheming.Creation;
 
-public class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
+internal class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
 {
     /// <summary>
     /// Creates a new instance of a <see cref="IColorPaletteThemeBuilder"/> with default settings.
