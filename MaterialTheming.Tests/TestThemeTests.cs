@@ -1,5 +1,4 @@
-﻿using MaterialTheming.MaterialDesign;
-using MaterialTheming.Tests.ColorValidation;
+﻿using MaterialTheming.Tests.ColorValidation;
 using MaterialTheming.Tests.TestThemeTypeDiscovery;
 
 namespace MaterialTheming.Tests;

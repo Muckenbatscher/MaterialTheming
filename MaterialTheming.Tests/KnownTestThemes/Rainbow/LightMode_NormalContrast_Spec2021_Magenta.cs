@@ -1,5 +1,3 @@
-using MaterialTheming.MaterialDesign;
-
 namespace MaterialTheming.Tests.KnownTestThemes.Rainbow;
 
 internal class LightMode_NormalContrast_Spec2021_Magenta : ITestTheme

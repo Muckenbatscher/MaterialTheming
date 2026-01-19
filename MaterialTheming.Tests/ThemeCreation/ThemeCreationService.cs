@@ -1,6 +1,4 @@
-﻿using MaterialTheming.Creation;
-using MaterialTheming.MaterialDesign;
-using MaterialTheming.Tests.KnownTestThemes;
+﻿using MaterialTheming.Tests.KnownTestThemes;
 
 namespace MaterialTheming.Tests.ThemeCreation;
 
@@ -15,7 +13,7 @@ internal class ThemeCreationService
     public static Theme CreateTheme(IThemeCreationParameters parameters)
     {
         var mode = parameters.IsDark ? ThemeMode.Dark : ThemeMode.Light;
-        return ThemeBuilder.CreateForColorPaletteFromSourceColor(parameters.SourceColor)
+        return ThemeBuilder.CreateFromSourceColor(parameters.SourceColor)
             .WithMode(mode)
             .WithContrastLevel(parameters.ContrastLevelValue)
             .WithVariant(parameters.Variant)

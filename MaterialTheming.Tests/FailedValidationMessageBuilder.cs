@@ -1,5 +1,4 @@
-﻿using MaterialTheming.ColorDefinitions;
-using MaterialTheming.Tests.ColorDifferenceCalculation;
+﻿using MaterialTheming.Tests.ColorDifferenceCalculation;
 using MaterialTheming.Tests.ColorValidation;
 
 namespace MaterialTheming.Tests;

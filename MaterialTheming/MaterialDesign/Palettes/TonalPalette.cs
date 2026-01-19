@@ -1,5 +1,4 @@
-﻿using MaterialTheming.ColorDefinitions;
-using MaterialTheming.MaterialDesign.Hct;
+﻿using MaterialTheming.MaterialDesign.Hct;
 
 namespace MaterialTheming.MaterialDesign.Palettes;
 

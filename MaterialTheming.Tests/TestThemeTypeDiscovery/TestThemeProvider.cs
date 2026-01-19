@@ -1,5 +1,4 @@
-﻿using MaterialTheming.MaterialDesign;
-using MaterialTheming.Tests.KnownTestThemes;
+﻿using MaterialTheming.Tests.KnownTestThemes;
 using System.Reflection;
 
 namespace MaterialTheming.Tests.TestThemeTypeDiscovery;

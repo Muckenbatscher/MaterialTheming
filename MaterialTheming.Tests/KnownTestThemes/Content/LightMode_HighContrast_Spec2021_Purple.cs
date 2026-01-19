@@ -1,5 +1,3 @@
-using MaterialTheming.MaterialDesign;
-
 namespace MaterialTheming.Tests.KnownTestThemes.Content;
 
 internal class LightMode_HighContrast_Spec2021_Purple : ITestTheme

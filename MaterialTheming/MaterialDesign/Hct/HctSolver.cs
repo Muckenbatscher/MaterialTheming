@@ -1,6 +1,4 @@
-﻿using MaterialTheming.ColorDefinitions;
-
-namespace MaterialTheming.MaterialDesign.HctConversion
+﻿namespace MaterialTheming.MaterialDesign.HctConversion
 {
     internal class HctSolver
     {

@@ -1,4 +1,4 @@
-﻿namespace MaterialTheming.MaterialDesign;
+﻿namespace MaterialTheming;
 
 /// <summary>
 /// The known variants a Material 3 theme can be built for.

@@ -1,6 +1,4 @@
-﻿using MaterialTheming.ColorDefinitions;
-
-namespace MaterialTheming.MaterialDesign.Dislike;
+﻿namespace MaterialTheming.MaterialDesign.Dislike;
 
 /// <summary>
 /// Check and/or fix universally disliked colors.

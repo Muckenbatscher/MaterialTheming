@@ -1,6 +1,4 @@
-﻿using MaterialTheming.ColorDefinitions;
-
-namespace MaterialTheming.Tests.ColorDifferenceCalculation;
+﻿namespace MaterialTheming.Tests.ColorDifferenceCalculation;
 
 internal class ColorDifference
 {

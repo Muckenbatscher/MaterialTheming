@@ -1,5 +1,3 @@
-using MaterialTheming.MaterialDesign;
-
 namespace MaterialTheming.Tests.KnownTestThemes.Monochrome;
 
 internal class DarkMode_NormalContrast_Spec2021_Purple : ITestTheme
