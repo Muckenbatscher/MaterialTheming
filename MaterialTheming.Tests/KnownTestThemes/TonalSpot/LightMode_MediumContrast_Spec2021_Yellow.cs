@@ -1,5 +1,3 @@
-using MaterialTheming.MaterialDesign;
-
 namespace MaterialTheming.Tests.KnownTestThemes.TonalSpot;
 
 internal class LightMode_MediumContrast_Spec2021_Yellow : ITestTheme

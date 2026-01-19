@@ -1,4 +1,4 @@
-﻿namespace MaterialTheming.MaterialDesign;
+﻿namespace MaterialTheming;
 
 /// <summary>
 /// The known Material 3 spec versions.

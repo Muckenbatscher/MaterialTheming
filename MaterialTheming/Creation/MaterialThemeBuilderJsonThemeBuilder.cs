@@ -1,5 +1,4 @@
-﻿using MaterialTheming.MaterialDesign;
-using MaterialTheming.MaterialThemeBuilderConversion;
+﻿using MaterialTheming.MaterialThemeBuilderConversion;
 
 namespace MaterialTheming.Creation;
 

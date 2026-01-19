@@ -1,5 +1,3 @@
-using MaterialTheming.MaterialDesign;
-
 namespace MaterialTheming.Tests.KnownTestThemes.Neutral;
 
 internal class LightMode_NormalContrast_Spec2025_Green : ITestTheme

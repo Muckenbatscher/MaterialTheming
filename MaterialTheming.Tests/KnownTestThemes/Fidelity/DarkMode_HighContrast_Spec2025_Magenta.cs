@@ -1,5 +1,3 @@
-using MaterialTheming.MaterialDesign;
-
 namespace MaterialTheming.Tests.KnownTestThemes.Fidelity;
 
 internal class DarkMode_HighContrast_Spec2025_Magenta : ITestTheme

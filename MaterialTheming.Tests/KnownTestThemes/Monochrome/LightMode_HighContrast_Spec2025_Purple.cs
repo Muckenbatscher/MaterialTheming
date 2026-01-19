@@ -1,5 +1,3 @@
-using MaterialTheming.MaterialDesign;
-
 namespace MaterialTheming.Tests.KnownTestThemes.Monochrome;
 
 internal class LightMode_HighContrast_Spec2025_Purple : ITestTheme
