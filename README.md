@@ -35,7 +35,7 @@ You can do this manually or, more conveniently, via the Fluent API `ThemeBuilder
 ```csharp
 // Generate a default theme from a single source color
 var theme = ThemeBuilder
-    .FromSourceColor("#6750A4")
+    .CreateFromSourceColor("#6750A4")
     .Build();
 
 // Access generated colors
@@ -51,12 +51,12 @@ This is the recommended way to use the library.
 
 You can customize the generation process by chaining methods to define the various parameters to make the built theme fit your requirements.
 
-### 1. Basic Theme from Source
+### 1. Basic Theme from Source Color
 Generate a standard theme based on a single source color.
 
 ```csharp
 var myTheme = ThemeBuilder
-    .FromSourceColor("#006495") // Your source color
+    .CreateFromSourceColor("#006495") // Your source color
     .Build();
 ```
 
@@ -72,7 +72,7 @@ These include all the options that the official Material 3 color implementation 
 
 ```csharp
 var customTheme = ThemeBuilder
-    .FromSourceColor("#D32F2F")
+    .CreateFromSourceColor("#D32F2F")
     .WithMode(ThemeMode.Dark)               // Use a dark mode
     .WithContrastLevel(ContrastLevel.High)  // Use a high contrast of foregound to background roles
     .WithVariant(Variant.Expressive)        // Use the 'Expressive' variant to generate the palettes
@@ -101,7 +101,7 @@ This library is not just an approximation of Material Design; it is a high-fidel
 The output results are verified to be **fully compliant with the official [Google Material 3 Java implementation](https://github.com/material-foundation/material-color-utilities/tree/main/java)**. 
 The test suite covers an exhaustive matrix of theme creation parameters:
 
-* **Source Colors:** A selection of source colors with different hues
+* **Source Colors:** A selection of 8 source colors with different hues.
 * **Theme Modes:** Light and Dark.
 * **Contrast Levels:** Normal, Medium, and High contrast level.
 * **Variants:** All 9 variants to generate the palettes.
