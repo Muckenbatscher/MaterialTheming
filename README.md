@@ -1,5 +1,7 @@
 # MaterialTheming
-[![NuGet](https://img.shields.io/nuget/v/MaterialTheming.svg)](https://www.nuget.org/packages/MaterialTheming/)
+[![NuGet](https://img.shields.io/nuget/v/MaterialTheming?logo=nuget)](https://www.nuget.org/packages/MaterialTheming/)
+[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/Muckenbatscher/MaterialTheming/official_commit_verify.yml?label=verify%20up-to-date)](https://github.com/Muckenbatscher/MaterialTheming/actions/workflows/Fofficial_commit_verify.yml)
+
 
 **MaterialTheming** is a .NET library that implements the [Google Material 3 (Material You)](https://m3.material.io/styles/color/system/overview) color system. 
 It allows developers to generate color schemes and dynamic themes.
