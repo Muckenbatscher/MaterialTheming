@@ -8,6 +8,8 @@ matrix:
     - .github/workflows/spellcheck-config/wordlist.txt 
   pipeline:
   - pyspelling.filters.markdown:
+      markdown_extensions:
+      - pymdownx.superfences:
   - pyspelling.filters.html:
       comments: false
       ignores:

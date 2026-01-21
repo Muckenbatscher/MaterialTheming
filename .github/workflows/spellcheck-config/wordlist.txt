@@ -8,17 +8,9 @@ WinForms
 NuGet
 CLI
 dotnet
-csharp
 JSON
 
 HCT
-
-ColorScheme
-ThemeBuilder
-OnPrimary
-OnSurface
-
-themeColors
 
 programmatically
 frontend
