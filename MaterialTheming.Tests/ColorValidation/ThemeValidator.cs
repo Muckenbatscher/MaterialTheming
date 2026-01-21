@@ -9,17 +9,17 @@ internal class ThemeValidator
     public static ThemeValidationResult ValidateThemeColors<TTestTheme>()
         where TTestTheme : ITestTheme, new()
     {
-        var theme = ThemeCreationService.CreateTheme<TTestTheme>();
+        var theme = ThemeCreationService.CreateThemeColors<TTestTheme>();
         return CreateFromColorDifferences(
             ColorDifferenceService.GetColorDifferences<TTestTheme>(theme));
     }
 
     public static ThemeValidationResult ValidateThemeColors(ITestTheme testTheme)
     {
-        var theme = ThemeCreationService.CreateTheme(testTheme);
+        var themeColors = ThemeCreationService.CreateThemeColors(testTheme);
 
         return CreateFromColorDifferences(
-            ColorDifferenceService.GetColorDifferences(theme, testTheme));
+            ColorDifferenceService.GetColorDifferences(themeColors, testTheme));
     }
     private static ThemeValidationResult CreateFromColorDifferences(IEnumerable<ColorDifference> colorDifferences)
     {

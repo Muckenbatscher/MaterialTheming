@@ -1,34 +1,12 @@
 ﻿using MaterialTheming.MaterialDesign.DynamicColors;
 using MaterialTheming.MaterialDesign.DynamicColors.ColorSpecs;
+using MaterialTheming.MaterialDesign.HctConversion;
 using System.ComponentModel;
 
 namespace MaterialTheming.Creation;
 
 internal class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
 {
-    /// <summary>
-    /// Creates a new instance of a <see cref="IColorPaletteThemeBuilder"/> with default settings.
-    /// <para>
-    /// Default settings include:<br/>
-    /// <b>Mode </b>- light<br/>
-    /// <b>Contrast level </b>- <c>0.0</c> (normal)<br/>
-    /// <b>Variant </b>- Tonal Spot<br/>
-    /// <b>Spec Version </b>- Spec 2021<br/>
-    /// <b>Platform </b>- Phone<br/>
-    /// </para>
-    /// </summary>
-    /// <remarks>The returned builder is preconfigured with default settings.
-    /// It can be further customized by chaining additional configuration methods on the returned builder.
-    /// A source color is required to be specified.</remarks>
-    /// <returns>An <see cref="IColorPaletteThemeBuilder"/> instance that can be used to configure and build a theme from a color palette.</returns>
-    public static IColorPaletteThemeBuilder Create()
-        => new ColorPaletteThemeBuilder()
-        .WithMode(ThemeMode.Light)
-        .WithContrastLevel(0.0)
-        .WithVariant(Variant.TonalSpot)
-        .WithSpecVersion(SpecVersion.Spec2021)
-        .WithPlatform(Platform.Phone);
-
     /// <summary>
     /// Creates a new instance of a <see cref="IColorPaletteThemeBuilder"/> initialized 
     /// with the specified source color and the default settings.
@@ -47,7 +25,7 @@ internal class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
     /// <returns>An <see cref="IColorPaletteThemeBuilder"/> instance that can be used to further configure and build 
     /// a theme from a color palette based on the provided source color.</returns>
     public static IColorPaletteThemeBuilder CreateFromSourceColor(HctColor color)
-        => Create().WithSourceColor(color);
+        => new ColorPaletteThemeBuilder(color);
 
     /// <summary>
     /// Creates a new instance of a <see cref="IColorPaletteThemeBuilder"/> initialized 
@@ -67,7 +45,10 @@ internal class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
     /// <returns>An <see cref="IColorPaletteThemeBuilder"/> instance that can be used to further configure and build 
     /// a theme from a color palette based on the provided source color.</returns>
     public static IColorPaletteThemeBuilder CreateFromSourceColor(RgbColor color)
-        => Create().WithSourceColor(color);
+    {
+        var hctColor = HctColor.FromRgbColor(color);
+        return new ColorPaletteThemeBuilder(hctColor);
+    }
 
     /// <summary>
     /// Creates a new instance of a <see cref="IColorPaletteThemeBuilder"/> initialized 
@@ -87,13 +68,22 @@ internal class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
     /// <returns>An <see cref="IColorPaletteThemeBuilder"/> instance that can be used to further configure and build 
     /// a theme from a color palette based on the provided source color.</returns>
     public static IColorPaletteThemeBuilder CreateFromSourceColor(string htmlColor)
-        => Create().WithSourceColor(htmlColor);
-
-    private ColorPaletteThemeBuilder()
     {
+        var rgbColor = RgbColor.FromHtml(htmlColor);
+        return CreateFromSourceColor(rgbColor);
     }
 
-    private HctColor? sourceColor;
+    private ColorPaletteThemeBuilder(HctColor color)
+    {
+        sourceColor = color;
+        WithMode(ThemeMode.Light);
+        WithContrastLevel(0.0);
+        WithVariant(Variant.TonalSpot);
+        WithSpecVersion(SpecVersion.Spec2021);
+        WithPlatform(Platform.Phone);
+    }
+
+    private HctColor sourceColor;
 
     private ThemeMode mode;
     private double contrastLevel;
@@ -147,13 +137,7 @@ internal class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
         return this;
     }
 
-    public Theme Build()
-    {
-        var themeColors = BuildThemeColors();
-        return new Theme(
-            isDark: mode == ThemeMode.Dark,
-            colors: themeColors);
-    }
+    public ThemeColors Build() => BuildThemeColors();
 
     private ThemeColors BuildThemeColors()
     {
