@@ -4,12 +4,6 @@ namespace MaterialTheming.Tests.ColorDifferenceCalculation;
 
 internal class ColorDifferenceService
 {
-    public static IEnumerable<ColorDifference> GetColorDifferences<TExpected>(Theme theme)
-        where TExpected : IExpectedThemeColors, new()
-    {
-        var expectedThemeColors = new TExpected();
-        return GetColorDifferences(theme.Colors, expectedThemeColors);
-    }
     public static IEnumerable<ColorDifference> GetColorDifferences<TExpected>(ThemeColors themeColors)
         where TExpected : IExpectedThemeColors, new()
     {
@@ -17,8 +11,6 @@ internal class ColorDifferenceService
         return GetColorDifferences(themeColors, expectedThemeColors);
     }
 
-    public static IEnumerable<ColorDifference> GetColorDifferences(Theme theme, IExpectedThemeColors expectedThemeColors)
-        => GetColorDifferences(theme.Colors, expectedThemeColors);
     public static IEnumerable<ColorDifference> GetColorDifferences(ThemeColors themeColors, IExpectedThemeColors expectedThemeColors)
     {
         // Primary

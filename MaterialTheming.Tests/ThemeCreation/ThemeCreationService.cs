@@ -4,13 +4,13 @@ namespace MaterialTheming.Tests.ThemeCreation;
 
 internal class ThemeCreationService
 {
-    public static Theme CreateTheme<TTestThemeParameters>()
+    public static ThemeColors CreateThemeColors<TTestThemeParameters>()
         where TTestThemeParameters : IThemeCreationParameters, new()
     {
         var parameters = new TTestThemeParameters();
-        return CreateTheme(parameters);
+        return CreateThemeColors(parameters);
     }
-    public static Theme CreateTheme(IThemeCreationParameters parameters)
+    public static ThemeColors CreateThemeColors(IThemeCreationParameters parameters)
     {
         var mode = parameters.IsDark ? ThemeMode.Dark : ThemeMode.Light;
         return ThemeBuilder.CreateFromSourceColor(parameters.SourceColor)
