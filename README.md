@@ -82,7 +82,7 @@ var customThemeColors = ThemeBuilder
     .WithContrastLevel(ContrastLevel.High)  // Use a high contrast of foregound to background roles
     .WithVariant(Variant.Expressive)        // Use the 'Expressive' variant to generate the palettes
     .WithPlatform(Platform.Phone)           // Use phone as platform (also suited for desktop)
-    .WithSpecVersion(SpecVerison.Spec2025)  // Use the Spec Version released in 2025
+    .WithSpecVersion(SpecVersion.Spec2025)  // Use the Spec Version released in 2025
     .Build();
 ```
 
