@@ -1,0 +1,29 @@
+name: Spellcheck README.md
+
+on:
+  pull_request:
+    branches: 
+      - 'master'
+    paths:
+      - 'README.md'
+
+
+jobs:
+  spell-check:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v5
+    - uses: rojopolis/spellcheck-github-actions@v0
+      name: Spellcheck
+      with:
+        task_name: Markdown
+        source_files: README.md
+        output_file: spellcheck-readme.txt
+        config_path: .github/workflows/spellcheck-config/spellcheck.yml
+    - uses: actions/upload-artifact@v4
+      if: '!cancelled()'
+      with:
+        name: Spellcheck Output
+        path: spellcheck-readme.txt
