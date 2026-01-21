@@ -44,10 +44,10 @@ var themeColors = ThemeBuilder
     .Build();
 
 // Access the generated colors
-var surface = theme.Surface;
-var onSurface = theme.OnSurface;
-var primary = theme.Primary;
-var onPrimary = theme.OnPrimary;
+var surface = themeColors.Surface;
+var onSurface = themeColors.OnSurface;
+var primary = themeColors.Primary;
+var onPrimary = themeColors.OnPrimary;
 ```
 
 ## Fluent API Theme Builder
