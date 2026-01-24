@@ -80,9 +80,6 @@ internal class MaterialThemeBuilderJsonThemeBuilder : IMaterialThemeBuilderJsonT
 
     public ThemeColors Build()
     {
-        if (materialThemeBuilderJson == null)
-            throw new InvalidOperationException($"The Material Theme Builder JSON is not configured.");
-
         return MaterialThemeBuilderThemeColorsExtractor
             .CreateFromMaterialDesignJson(materialThemeBuilderJson, mode, contrastLevel);
     }

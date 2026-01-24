@@ -1,6 +1,5 @@
 ﻿using MaterialTheming.MaterialDesign.DynamicColors;
 using MaterialTheming.MaterialDesign.DynamicColors.ColorSpecs;
-using MaterialTheming.MaterialDesign.HctConversion;
 using System.ComponentModel;
 
 namespace MaterialTheming.Creation;
@@ -141,9 +140,6 @@ internal class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
 
     private ThemeColors BuildThemeColors()
     {
-        if (sourceColor == null)
-            throw new InvalidOperationException("Source color must be specified.");
-
         var specVersionToUse = GetFallbackSpecVersionToUse(specVersion, variant);
         var colorSpec = ColorSpecFactory.Create(specVersionToUse);
         bool isDark = mode == ThemeMode.Dark;
