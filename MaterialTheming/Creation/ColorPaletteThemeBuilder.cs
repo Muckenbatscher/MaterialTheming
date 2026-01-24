@@ -1,4 +1,5 @@
-﻿using MaterialTheming.MaterialDesign.DynamicColors;
+﻿using MaterialTheming.Creation.PaletteCustomization;
+using MaterialTheming.MaterialDesign.DynamicColors;
 using MaterialTheming.MaterialDesign.DynamicColors.ColorSpecs;
 using System.ComponentModel;
 
@@ -80,6 +81,13 @@ internal class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
         WithVariant(Variant.TonalSpot);
         WithSpecVersion(SpecVersion.Spec2021);
         WithPlatform(Platform.Phone);
+
+        primaryPaletteOverride = new PaletteOverride();
+        secondaryPaletteOverride = new PaletteOverride();
+        tertiaryPaletteOverride = new PaletteOverride();
+        errorPaletteOverride = new PaletteOverride();
+        neutralPaletteOverride = new PaletteOverride();
+        neutralVariantPaletteOverride = new PaletteOverride();
     }
 
     private HctColor sourceColor;
@@ -89,6 +97,13 @@ internal class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
     private Variant variant;
     private SpecVersion specVersion;
     private Platform platform;
+
+    private PaletteOverride primaryPaletteOverride;
+    private PaletteOverride secondaryPaletteOverride;
+    private PaletteOverride tertiaryPaletteOverride;
+    private PaletteOverride errorPaletteOverride;
+    private PaletteOverride neutralPaletteOverride;
+    private PaletteOverride neutralVariantPaletteOverride;
 
     public IColorPaletteThemeBuilder WithSourceColor(HctColor color)
     {
@@ -133,6 +148,37 @@ internal class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
     public IColorPaletteThemeBuilder WithSpecVersion(SpecVersion specVersion)
     {
         this.specVersion = specVersion;
+        return this;
+    }
+
+    public IColorPaletteThemeBuilder WithPrimaryPalette(Action<IPaletteOverride> paletteOverride)
+    {
+        paletteOverride(primaryPaletteOverride);
+        return this;
+    }
+    public IColorPaletteThemeBuilder WithSecondaryPalette(Action<IPaletteOverride> paletteOverride)
+    {
+        paletteOverride(secondaryPaletteOverride);
+        return this;
+    }
+    public IColorPaletteThemeBuilder WithTertiaryPalette(Action<IPaletteOverride> paletteOverride)
+    {
+        paletteOverride(tertiaryPaletteOverride);
+        return this;
+    }
+    public IColorPaletteThemeBuilder WithErrorPalette(Action<IPaletteOverride> paletteOverride)
+    {
+        paletteOverride(errorPaletteOverride);
+        return this;
+    }
+    public IColorPaletteThemeBuilder WithNeutralPalette(Action<IPaletteOverride> paletteOverride)
+    {
+        paletteOverride(neutralPaletteOverride);
+        return this;
+    }
+    public IColorPaletteThemeBuilder WithNeutralVariantPalette(Action<IPaletteOverride> paletteOverride)
+    {
+        paletteOverride(neutralVariantPaletteOverride);
         return this;
     }
 
