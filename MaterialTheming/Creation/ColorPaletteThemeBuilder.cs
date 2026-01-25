@@ -1,6 +1,7 @@
 ﻿using MaterialTheming.Creation.PaletteCustomization;
 using MaterialTheming.MaterialDesign.DynamicColors;
 using MaterialTheming.MaterialDesign.DynamicColors.ColorSpecs;
+using MaterialTheming.MaterialDesign.Palettes;
 using System.ComponentModel;
 
 namespace MaterialTheming.Creation;
@@ -191,11 +192,17 @@ internal class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
         bool isDark = mode == ThemeMode.Dark;
 
         var primaryPalette = colorSpec.GetPrimaryPalette(variant, sourceColor, isDark, platform, contrastLevel);
+        primaryPalette = ApplyPaletteOverride(primaryPalette, primaryPaletteOverride);
         var secondaryPalette = colorSpec.GetSecondaryPalette(variant, sourceColor, isDark, platform, contrastLevel);
+        secondaryPalette = ApplyPaletteOverride(secondaryPalette, secondaryPaletteOverride);
         var tertiaryPalette = colorSpec.GetTertiaryPalette(variant, sourceColor, isDark, platform, contrastLevel);
+        tertiaryPalette = ApplyPaletteOverride(tertiaryPalette, tertiaryPaletteOverride);
         var errorPalette = colorSpec.GetErrorPalette(variant, sourceColor, isDark, platform, contrastLevel);
+        errorPalette = errorPalette is null ? null : ApplyPaletteOverride(errorPalette, errorPaletteOverride);
         var neutralPalette = colorSpec.GetNeutralPalette(variant, sourceColor, isDark, platform, contrastLevel);
+        neutralPalette = ApplyPaletteOverride(neutralPalette, neutralPaletteOverride);
         var neutralVariantPalette = colorSpec.GetNeutralVariantPalette(variant, sourceColor, isDark, platform, contrastLevel);
+        neutralVariantPalette = ApplyPaletteOverride(neutralVariantPalette, neutralVariantPaletteOverride);
 
         var scheme = new DynamicScheme(variant, isDark, contrastLevel, sourceColor,
             primaryPalette, secondaryPalette, tertiaryPalette,
@@ -214,6 +221,18 @@ internal class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
         return desiredSpecVersion == SpecVersion.Spec2025 && variantIsImplementedInSpec2025
             ? desiredSpecVersion
             : SpecVersion.Spec2021;
+    }
+    private TonalPalette ApplyPaletteOverride(TonalPalette palette, IPaletteOverrideResult paletteOverride)
+    {
+        var chromaModification = paletteOverride.GetChromaModificationFunction();
+        var hueModification = paletteOverride.GetHueModificationFunction();
+        double newChroma = chromaModification != null
+            ? chromaModification(palette.Chroma)
+            : palette.Chroma;
+        double newHue = hueModification != null
+            ? hueModification(palette.Hue)
+            : palette.Hue;
+        return TonalPalette.FromHueAndChroma(newHue, newChroma);
     }
 
     private static ThemeColors CreateThemeColorFromScheme(DynamicScheme scheme)
