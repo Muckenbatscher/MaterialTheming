@@ -4,7 +4,7 @@ public interface IWithModeThemeBuilder<TBuilder>
     where TBuilder : IBuildableThemeBuilder
 {
     /// <summary>
-    /// Specify the mode that is used to build the <see cref="Theme" />.
+    /// Specify the mode that is used to build the <see cref="ThemeColors" />.
     /// </summary>
     /// <param name="mode">The mode to use.</param>
     /// <returns>The <typeparamref name="TBuilder"/> with the specified mode.</returns>

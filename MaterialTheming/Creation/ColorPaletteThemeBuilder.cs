@@ -222,7 +222,7 @@ internal class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
             ? desiredSpecVersion
             : SpecVersion.Spec2021;
     }
-    private TonalPalette ApplyPaletteOverride(TonalPalette palette, IPaletteOverrideResult paletteOverride)
+    private static TonalPalette ApplyPaletteOverride(TonalPalette palette, IPaletteOverrideResult paletteOverride)
     {
         var chromaModification = paletteOverride.GetChromaModificationFunction();
         var hueModification = paletteOverride.GetHueModificationFunction();
