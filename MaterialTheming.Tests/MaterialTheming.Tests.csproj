@@ -1,5 +1,5 @@
 ﻿<Project Sdk="MSTest.Sdk">
-
+	
 	<ItemGroup>
 		<ProjectReference Include="..\MaterialTheming\MaterialTheming.csproj" />
 	</ItemGroup>
