@@ -28,7 +28,7 @@ internal class TemperatureCache
     /// </summary>
     public HctColor GetComplement()
     {
-        if (_precomputedComplement != null)
+        if (_precomputedComplement is not null)
             return _precomputedComplement;
 
         double coldestHue = GetColdest().Hue;

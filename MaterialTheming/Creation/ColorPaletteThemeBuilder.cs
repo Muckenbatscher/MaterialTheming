@@ -141,7 +141,7 @@ internal class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
 
     private ThemeColors BuildThemeColors()
     {
-        if (sourceColor == null)
+        if (sourceColor is null)
             throw new InvalidOperationException("Source color must be specified.");
 
         var specVersionToUse = GetFallbackSpecVersionToUse(specVersion, variant);

@@ -16,4 +16,7 @@
 		<None Include="..\README.md" Pack="true" PackagePath="\" />
 		<None Include="..\material-design-primary-container.png" Pack="true" PackagePath="\" />
 	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'net48' Or '$(TargetFramework)' == 'netstandard2.1'">
+		<PackageReference Include="System.Text.Json" />
+	</ItemGroup>
 </Project>

@@ -12,6 +12,7 @@
   </Folder>
   <Folder Name="/Solution Items/Global Properties/">
     <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
     <File Path="global.json" />
   </Folder>
   <Project Path="MaterialTheming.Tests/MaterialTheming.Tests.csproj" Id="27021720-86bc-44ed-9452-499e3f3de641" />

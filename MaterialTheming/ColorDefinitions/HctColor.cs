@@ -100,22 +100,6 @@ public class HctColor
         tone = ColorUtils.LstarFromRgb(rgb);
     }
 
-    public static bool operator ==(HctColor? colorOne, HctColor? colorTwo)
-    {
-        if (colorOne is null && colorTwo is null)
-            return true;
-        if (colorOne is null || colorTwo is null)
-            return false;
-        return colorOne.Equals(colorTwo);
-    }
-    public static bool operator !=(HctColor? colorOne, HctColor? colorTwo)
-    {
-        if (colorOne is null && colorTwo is null)
-            return false;
-        if (colorOne is null || colorTwo is null)
-            return true;
-        return !colorOne.Equals(colorTwo);
-    }
     public override bool Equals(object? obj)
     {
         return obj is HctColor color
