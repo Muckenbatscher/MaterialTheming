@@ -1,7 +1,11 @@
 ﻿<Project Sdk="MSTest.Sdk">
-	
+
 	<ItemGroup>
 		<ProjectReference Include="..\MaterialTheming\MaterialTheming.csproj" />
 	</ItemGroup>
 
+	<ItemGroup Condition="'$(TargetFramework)' == 'net48'">
+		<PackageReference Include="PolySharp" />
+	</ItemGroup>
+	
 </Project>

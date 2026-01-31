@@ -25,7 +25,11 @@ internal static class FailedValidationMessageBuilder
     {
         var enumerationMark = "- ";
         var message = GetOutOfSpecColorDifferencesMessage(difference, maxColorRoleNameLength);
+#if NETFRAMEWORK
+        var messageLines = message.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+#else
         var messageLines = message.Split(Environment.NewLine);
+#endif
         var indentedMessageLines = new List<string>();
         for (int messageIndex = 0; messageIndex < messageLines.Length; messageIndex++)
         {
