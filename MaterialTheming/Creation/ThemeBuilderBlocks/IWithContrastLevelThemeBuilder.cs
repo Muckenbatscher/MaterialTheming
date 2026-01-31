@@ -4,7 +4,7 @@ public interface IWithContrastLevelThemeBuilder<TBuilder>
     where TBuilder : IBuildableThemeBuilder
 {
     /// <summary>
-    /// Specify the contrast level that is used to build the <see cref="Theme" />.
+    /// Specify the contrast level that is used to build the <see cref="ThemeColors" />.
     /// </summary>
     /// <param name="contrastLevel">The contrast level to use.</param>
     /// <returns>The <typeparamref name="TBuilder"/> with the specified contrast level.</returns>
@@ -15,7 +15,7 @@ public interface IWithContrastLevelValueThemeBuilder<TBuilder>
     where TBuilder : IBuildableThemeBuilder
 {
     /// <summary>
-    /// Specify the contrast level value that is used to build the <see cref="Theme" />.
+    /// Specify the contrast level value that is used to build the <see cref="ThemeColors" />.
     /// </summary>
     /// <param name="contrastLevel">
     /// The contrast level value to use.<br/>

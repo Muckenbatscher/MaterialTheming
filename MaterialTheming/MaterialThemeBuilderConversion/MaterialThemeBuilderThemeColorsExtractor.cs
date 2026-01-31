@@ -8,6 +8,7 @@ internal class MaterialThemeBuilderThemeColorsExtractor
     {
         var materialTheme = MaterialThemeDeserializer.Deserialize(materialDesignJson)
             ?? throw new ArgumentException("Material design theme could not be parsed from the supplied JSON content.");
+
         Scheme? selectedScheme = null;
         if (mode == ThemeMode.Light && contrastLevel == ContrastLevel.Normal)
             selectedScheme = materialTheme.Schemes.LightNormalContrast;

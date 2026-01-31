@@ -1,29 +1,26 @@
 name: Publish NuGet packages
 
 on:
-  push:
-    tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+' 
-      - 'v[0-9]+.[0-9]+.[0-9]+-*'
+  release:
+    types:
+      - published
       
 env:
-  PACKAGES_ARTIFACT: nuget-package-${{ github.ref_name }}
+  PACKAGES_ARTIFACT: nuget-package-${{ github.event.release.tag_name }}
 
 jobs:
   version:
     runs-on: ubuntu-latest
     outputs:
-      version: ${{ steps.version.outputs.full_without_prefix }}
-      valid: ${{ steps.version.outputs.is_valid }}
+      version: ${{ steps.version.outputs.version }}
     steps:
     - name: Check Version Format in Tag
-      uses: nowsprinting/check-version-format-action@v4.0.7
+      uses: matt-usurp/validate-semver@v2
       id: version
       with:
-        prefix: 'v'
+        version: ${{ github.event.release.tag_name }}
         
   build-package:
-    if: ${{ needs.version.outputs.valid == 'true' }}
     needs: version 
     runs-on: ubuntu-latest
     
@@ -58,9 +55,29 @@ jobs:
         name: ${{ env.PACKAGES_ARTIFACT }}-${{ matrix.project.name }}
         path: ${{ env.OUTDIR }}/*.nupkg
         retention-days: 1
-        
+
+  upload-release-asset:
+    needs: 
+      - version
+      - build-package
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: write
+      
+    env:
+      PACKAGE_DIR: 'packages'
+
+    steps:
+    - uses: actions/download-artifact@v4
+      with:
+        path: ${{ env.PACKAGE_DIR }}
+    - uses: shogo82148/actions-upload-release-asset@v1
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: ${{ env.PACKAGE_DIR }}/*/*.nupkg
+
   publish-package:
-    if: ${{ needs.version.outputs.valid == 'true' }}
     needs: 
       - version
       - build-package

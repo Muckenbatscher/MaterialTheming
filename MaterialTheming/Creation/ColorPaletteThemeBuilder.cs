@@ -1,6 +1,7 @@
-﻿using MaterialTheming.MaterialDesign.DynamicColors;
+﻿using MaterialTheming.Creation.PaletteCustomization;
+using MaterialTheming.MaterialDesign.DynamicColors;
 using MaterialTheming.MaterialDesign.DynamicColors.ColorSpecs;
-using MaterialTheming.MaterialDesign.HctConversion;
+using MaterialTheming.MaterialDesign.Palettes;
 using System.ComponentModel;
 
 namespace MaterialTheming.Creation;
@@ -81,6 +82,13 @@ internal class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
         WithVariant(Variant.TonalSpot);
         WithSpecVersion(SpecVersion.Spec2021);
         WithPlatform(Platform.Phone);
+
+        primaryPaletteOverride = new PaletteOverride();
+        secondaryPaletteOverride = new PaletteOverride();
+        tertiaryPaletteOverride = new PaletteOverride();
+        errorPaletteOverride = new PaletteOverride();
+        neutralPaletteOverride = new PaletteOverride();
+        neutralVariantPaletteOverride = new PaletteOverride();
     }
 
     private HctColor sourceColor;
@@ -90,6 +98,13 @@ internal class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
     private Variant variant;
     private SpecVersion specVersion;
     private Platform platform;
+
+    private PaletteOverride primaryPaletteOverride;
+    private PaletteOverride secondaryPaletteOverride;
+    private PaletteOverride tertiaryPaletteOverride;
+    private PaletteOverride errorPaletteOverride;
+    private PaletteOverride neutralPaletteOverride;
+    private PaletteOverride neutralVariantPaletteOverride;
 
     public IColorPaletteThemeBuilder WithSourceColor(HctColor color)
     {
@@ -137,23 +152,57 @@ internal class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
         return this;
     }
 
+    public IColorPaletteThemeBuilder WithPrimaryPalette(Action<IPaletteOverride> paletteOverride)
+    {
+        paletteOverride(primaryPaletteOverride);
+        return this;
+    }
+    public IColorPaletteThemeBuilder WithSecondaryPalette(Action<IPaletteOverride> paletteOverride)
+    {
+        paletteOverride(secondaryPaletteOverride);
+        return this;
+    }
+    public IColorPaletteThemeBuilder WithTertiaryPalette(Action<IPaletteOverride> paletteOverride)
+    {
+        paletteOverride(tertiaryPaletteOverride);
+        return this;
+    }
+    public IColorPaletteThemeBuilder WithErrorPalette(Action<IPaletteOverride> paletteOverride)
+    {
+        paletteOverride(errorPaletteOverride);
+        return this;
+    }
+    public IColorPaletteThemeBuilder WithNeutralPalette(Action<IPaletteOverride> paletteOverride)
+    {
+        paletteOverride(neutralPaletteOverride);
+        return this;
+    }
+    public IColorPaletteThemeBuilder WithNeutralVariantPalette(Action<IPaletteOverride> paletteOverride)
+    {
+        paletteOverride(neutralVariantPaletteOverride);
+        return this;
+    }
+
     public ThemeColors Build() => BuildThemeColors();
 
     private ThemeColors BuildThemeColors()
     {
-        if (sourceColor is null)
-            throw new InvalidOperationException("Source color must be specified.");
-
         var specVersionToUse = GetFallbackSpecVersionToUse(specVersion, variant);
         var colorSpec = ColorSpecFactory.Create(specVersionToUse);
         bool isDark = mode == ThemeMode.Dark;
 
         var primaryPalette = colorSpec.GetPrimaryPalette(variant, sourceColor, isDark, platform, contrastLevel);
+        primaryPalette = ApplyPaletteOverride(primaryPalette, primaryPaletteOverride);
         var secondaryPalette = colorSpec.GetSecondaryPalette(variant, sourceColor, isDark, platform, contrastLevel);
+        secondaryPalette = ApplyPaletteOverride(secondaryPalette, secondaryPaletteOverride);
         var tertiaryPalette = colorSpec.GetTertiaryPalette(variant, sourceColor, isDark, platform, contrastLevel);
+        tertiaryPalette = ApplyPaletteOverride(tertiaryPalette, tertiaryPaletteOverride);
         var errorPalette = colorSpec.GetErrorPalette(variant, sourceColor, isDark, platform, contrastLevel);
+        errorPalette = errorPalette is null ? null : ApplyPaletteOverride(errorPalette, errorPaletteOverride);
         var neutralPalette = colorSpec.GetNeutralPalette(variant, sourceColor, isDark, platform, contrastLevel);
+        neutralPalette = ApplyPaletteOverride(neutralPalette, neutralPaletteOverride);
         var neutralVariantPalette = colorSpec.GetNeutralVariantPalette(variant, sourceColor, isDark, platform, contrastLevel);
+        neutralVariantPalette = ApplyPaletteOverride(neutralVariantPalette, neutralVariantPaletteOverride);
 
         var scheme = new DynamicScheme(variant, isDark, contrastLevel, sourceColor,
             primaryPalette, secondaryPalette, tertiaryPalette,
@@ -172,6 +221,18 @@ internal class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
         return desiredSpecVersion == SpecVersion.Spec2025 && variantIsImplementedInSpec2025
             ? desiredSpecVersion
             : SpecVersion.Spec2021;
+    }
+    private static TonalPalette ApplyPaletteOverride(TonalPalette palette, IPaletteOverrideResult paletteOverride)
+    {
+        var chromaModification = paletteOverride.GetChromaModificationFunction();
+        var hueModification = paletteOverride.GetHueModificationFunction();
+        double newChroma = chromaModification != null
+            ? chromaModification(palette.Chroma)
+            : palette.Chroma;
+        double newHue = hueModification != null
+            ? hueModification(palette.Hue)
+            : palette.Hue;
+        return TonalPalette.FromHueAndChroma(newHue, newChroma);
     }
 
     private static ThemeColors CreateThemeColorFromScheme(DynamicScheme scheme)
