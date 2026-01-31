@@ -3,7 +3,7 @@ namespace MaterialTheming.System.Double.Extension;
 
 internal static class DoubleExtension
 {
-    extension (double)
+    extension(double)
     {
         public static double Clamp(double value, double min, double max)
         {
@@ -13,7 +13,7 @@ internal static class DoubleExtension
             if (double.IsNaN(value))
                 return double.NaN;
 
-            if (value < min) 
+            if (value < min)
                 return min;
             if (value > max)
                 return max;

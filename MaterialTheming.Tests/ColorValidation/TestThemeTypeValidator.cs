@@ -13,10 +13,10 @@ internal class TestThemeTypeValidator
 #if NETFRAMEWORK
         var methodInfo = typeof(ThemeValidator)
             .GetMethod(
-                name: nameof(ThemeValidator.ValidateThemeColors), 
-                bindingAttr: BindingFlags.Public | BindingFlags.Static, 
+                name: nameof(ThemeValidator.ValidateThemeColors),
+                bindingAttr: BindingFlags.Public | BindingFlags.Static,
                 binder: null,
-                types: [], 
+                types: [],
                 modifiers: null);
 #else
         var methodInfo = typeof(ThemeValidator)
