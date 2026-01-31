@@ -44,14 +44,14 @@ public class RgbColor
     public static RgbColor FromHtml(string hexString)
     {
         if (hexString.StartsWith("#"))
-            hexString = hexString[1..];
+            hexString = hexString.Substring(1);
         if (hexString.Length == 8)
-            hexString = hexString[2..8];
+            hexString = hexString.Substring(2, 8);
         if (hexString.Length != 6)
             throw new ArgumentException("Hex string must be 6 characters long. After the optionally prefixed '#'", nameof(hexString));
-        byte red = Convert.ToByte(hexString[0..2], 16);
-        byte green = Convert.ToByte(hexString[2..4], 16);
-        byte blue = Convert.ToByte(hexString[4..6], 16);
+        byte red = Convert.ToByte(hexString.Substring(0, 2), 16);
+        byte green = Convert.ToByte(hexString.Substring(2, 2), 16);
+        byte blue = Convert.ToByte(hexString.Substring(4, 2), 16);
         return new RgbColor(red, green, blue);
     }
 

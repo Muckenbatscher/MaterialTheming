@@ -1,4 +1,6 @@
-﻿using MaterialTheming.MaterialDesign.HctConversion;
+﻿#if NETFRAMEWORK || NETSTANDARD
+using MaterialTheming.System.Double.Extension;
+#endif
 
 namespace MaterialTheming.MaterialDesign.DynamicColors;
 

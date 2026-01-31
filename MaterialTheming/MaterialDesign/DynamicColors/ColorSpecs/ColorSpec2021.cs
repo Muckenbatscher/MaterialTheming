@@ -3,6 +3,9 @@ using MaterialTheming.MaterialDesign.Dislike;
 using MaterialTheming.MaterialDesign.HctConversion;
 using MaterialTheming.MaterialDesign.Palettes;
 using MaterialTheming.MaterialDesign.Temperature;
+#if NETFRAMEWORK || NETSTANDARD
+using MaterialTheming.System.Double.Extension;
+#endif
 
 namespace MaterialTheming.MaterialDesign.DynamicColors.ColorSpecs;
 
@@ -809,10 +812,10 @@ internal class ColorSpec2021 : IColorSpec
 
             if ((fTone - nTone) * expansionDir < delta)
             {
-                fTone = Math.Clamp(nTone + delta * expansionDir, 0, 100);
+                fTone = double.Clamp(nTone + delta * expansionDir, 0, 100);
                 if ((fTone - nTone) * expansionDir < delta)
                 {
-                    nTone = Math.Clamp(fTone - delta * expansionDir, 0, 100);
+                    nTone = double.Clamp(fTone - delta * expansionDir, 0, 100);
                 }
             }
 
