@@ -1,6 +1,6 @@
 ﻿using MaterialTheming.MaterialThemeBuilderConversion;
 
-namespace MaterialTheming.Creation;
+namespace MaterialTheming;
 
 internal class MaterialThemeBuilderJsonThemeBuilder : IMaterialThemeBuilderJsonThemeBuilder
 {

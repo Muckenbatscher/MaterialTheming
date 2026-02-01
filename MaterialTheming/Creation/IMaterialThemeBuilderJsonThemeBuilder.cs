@@ -1,6 +1,4 @@
-﻿using MaterialTheming.Creation.ThemeBuilderBlocks;
-
-namespace MaterialTheming.Creation;
+﻿namespace MaterialTheming;
 
 public interface IMaterialThemeBuilderJsonThemeBuilder :
     IBuildableThemeBuilder,

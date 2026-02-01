@@ -1,6 +1,4 @@
-﻿using MaterialTheming.Creation.PaletteCustomization;
-
-namespace MaterialTheming.Creation.ThemeBuilderBlocks;
+﻿namespace MaterialTheming;
 
 public interface IWithPaletteOverrideThemeBuilder<TBuilder>
     where TBuilder : IBuildableThemeBuilder
