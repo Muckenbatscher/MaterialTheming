@@ -1,4 +1,5 @@
 ﻿namespace MaterialTheming;
+
 /// <summary>
 /// A representation of the color roles defined in the Material 3 specification. <br/>
 /// <see href="https://m3.material.io/styles/color/roles"/>

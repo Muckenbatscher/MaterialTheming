@@ -1,4 +1,4 @@
-﻿namespace MaterialTheming.Creation.PaletteCustomization;
+﻿namespace MaterialTheming;
 
 public interface IPaletteOverride
 {

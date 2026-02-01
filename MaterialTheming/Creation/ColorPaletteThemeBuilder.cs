@@ -4,7 +4,7 @@ using MaterialTheming.MaterialDesign.DynamicColors.ColorSpecs;
 using MaterialTheming.MaterialDesign.Palettes;
 using System.ComponentModel;
 
-namespace MaterialTheming.Creation;
+namespace MaterialTheming;
 
 internal class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
 {
