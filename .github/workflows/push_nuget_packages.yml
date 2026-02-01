@@ -44,9 +44,10 @@ jobs:
       run: dotnet restore ${{ matrix.project.path }}
 
     - name: Build package file
+      shell: pwsh
       run: |
-        dotnet pack ${{ matrix.project.path }} --no-restore \
-          -c Release -o ${{ env.OUTDIR }} \
+        dotnet pack ${{ matrix.project.path }} --no-restore `
+          -c Release -o ${{ env.OUTDIR }} `
           -p:PackageVersion=$VERSION
 
     - name: Upload built packages as artifacts
