@@ -1,4 +1,9 @@
-﻿namespace MaterialTheming.MaterialDesign.HctConversion
+﻿#if NETFRAMEWORK || NETSTANDARD
+using MaterialTheming.System.Double.Extension;
+using MaterialTheming.System.Math.Extension;
+#endif
+
+namespace MaterialTheming.MaterialDesign.HctConversion
 {
     internal sealed class ViewingConditions
     {
@@ -74,8 +79,8 @@
             double f = 0.8 + (surround / 10.0);
             double c =
                 (f >= 0.9)
-                    ? double.Lerp(0.59, 0.69, ((f - 0.9) * 10.0))
-                    : double.Lerp(0.525, 0.59, ((f - 0.8) * 10.0));
+                    ? double.Lerp(0.59, 0.69, (f - 0.9) * 10.0)
+                    : double.Lerp(0.525, 0.59, (f - 0.8) * 10.0);
             double d =
                 discountingIlluminant
                     ? 1.0
@@ -87,9 +92,14 @@
                 d * (100.0 / rW) + 1.0 - d, d * (100.0 / gW) + 1.0 - d, d * (100.0 / bW) + 1.0 - d
                 };
             double k = 1.0 / (5.0 * adaptingLuminance + 1.0);
-            double k4 = k * k * k * k;
+            double k4 = Math.Pow(k, 4);
             double k4F = 1.0 - k4;
-            double fl = (k4 * adaptingLuminance) + (0.1 * k4F * k4F * Math.Cbrt(5.0 * adaptingLuminance));
+#if NETFRAMEWORK || NETSTANDARD
+            double cbrt = MathExtension.Cbrt(5.0 * adaptingLuminance);
+#else
+            double cbrt = Math.Cbrt(5.0 * adaptingLuminance);
+#endif
+            double fl = (k4 * adaptingLuminance) + (0.1 * k4F * k4F * cbrt);
             double n = (ColorUtils.YFromLstar(backgroundLstar) / whitePoint[1]);
             double z = 1.48 + Math.Sqrt(n);
             double nbb = 0.725 / Math.Pow(n, 0.2);

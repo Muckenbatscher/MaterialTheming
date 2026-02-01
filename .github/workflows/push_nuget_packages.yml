@@ -22,7 +22,7 @@ jobs:
         
   build-package:
     needs: version 
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     
     strategy:
       matrix:
@@ -41,12 +41,12 @@ jobs:
         dotnet-version: 10.0.x
 
     - name: Restore project dependencies
-      run: dotnet restore ${{ matrix.project.path }} -p:EnableWindowsTargeting=true
+      run: dotnet restore ${{ matrix.project.path }}
 
     - name: Build package file
       run: |
         dotnet pack ${{ matrix.project.path }} --no-restore \
-          -c Release -o ${{ env.OUTDIR }} -p:EnableWindowsTargeting=true \
+          -c Release -o ${{ env.OUTDIR }} \
           -p:PackageVersion=$VERSION
 
     - name: Upload built packages as artifacts

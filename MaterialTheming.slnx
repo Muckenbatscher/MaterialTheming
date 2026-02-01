@@ -6,12 +6,13 @@
   <Folder Name="/Solution Items/GitHub/">
     <File Path=".github/workflows/build_test.yml" />
     <File Path=".github/workflows/official_commit_verify.yml" />
-    <File Path=".github/workflows/push_github_packages.yml" />
+    <File Path=".github/workflows/push_nuget_packages.yml" />
     <File Path=".github/workflows/spell_check_readme.yml" />
     <File Path=".github/workflows/style_check.yml" />
   </Folder>
   <Folder Name="/Solution Items/Global Properties/">
     <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
     <File Path="global.json" />
   </Folder>
   <Project Path="MaterialTheming.Tests/MaterialTheming.Tests.csproj" Id="27021720-86bc-44ed-9452-499e3f3de641" />

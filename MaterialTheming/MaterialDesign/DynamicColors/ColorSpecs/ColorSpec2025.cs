@@ -1,6 +1,9 @@
 ﻿using MaterialTheming.MaterialDesign.Contrasts;
 using MaterialTheming.MaterialDesign.Hct;
 using MaterialTheming.MaterialDesign.Palettes;
+#if NETFRAMEWORK || NETSTANDARD
+using MaterialTheming.System.Double.Extension;
+#endif
 
 namespace MaterialTheming.MaterialDesign.DynamicColors.ColorSpecs;
 
@@ -1001,19 +1004,19 @@ internal class ColorSpec2025 : ColorSpec2021
             switch (constraint)
             {
                 case ToneDeltaConstraint.Exact:
-                    selfTone = Math.Clamp(referenceTone + relativeDelta, 0, 100);
+                    selfTone = double.Clamp(referenceTone + relativeDelta, 0, 100);
                     break;
                 case ToneDeltaConstraint.Nearer:
                     if (relativeDelta > 0)
-                        selfTone = Math.Clamp(Math.Clamp(selfTone, referenceTone, referenceTone + relativeDelta), 0, 100);
+                        selfTone = double.Clamp(double.Clamp(selfTone, referenceTone, referenceTone + relativeDelta), 0, 100);
                     else
-                        selfTone = Math.Clamp(Math.Clamp(selfTone, referenceTone + relativeDelta, referenceTone), 0, 100);
+                        selfTone = double.Clamp(double.Clamp(selfTone, referenceTone + relativeDelta, referenceTone), 0, 100);
                     break;
                 case ToneDeltaConstraint.Farther:
                     if (relativeDelta > 0)
-                        selfTone = Math.Clamp(selfTone, referenceTone + relativeDelta, 100);
+                        selfTone = double.Clamp(selfTone, referenceTone + relativeDelta, 100);
                     else
-                        selfTone = Math.Clamp(selfTone, 0, referenceTone + relativeDelta);
+                        selfTone = double.Clamp(selfTone, 0, referenceTone + relativeDelta);
                     break;
             }
 
@@ -1037,9 +1040,9 @@ internal class ColorSpec2025 : ColorSpec2021
             if (color.IsBackground && !color.Name.EndsWith("_fixed_dim"))
             {
                 if (selfTone >= 57)
-                    selfTone = Math.Clamp(selfTone, 65, 100);
+                    selfTone = double.Clamp(selfTone, 65, 100);
                 else
-                    selfTone = Math.Clamp(selfTone, 0, 49);
+                    selfTone = double.Clamp(selfTone, 0, 49);
             }
 
             return selfTone;
@@ -1070,8 +1073,8 @@ internal class ColorSpec2025 : ColorSpec2021
             if (color.IsBackground && !color.Name.EndsWith("_fixed_dim"))
             {
                 answer = answer >= 57
-                    ? Math.Clamp(answer, 65, 100)
-                    : Math.Clamp(answer, 0, 49);
+                    ? double.Clamp(answer, 65, 100)
+                    : double.Clamp(answer, 0, 49);
             }
 
             DynamicColor? bg2 = color.SecondBackground?.Invoke(scheme);
@@ -1238,7 +1241,7 @@ internal class ColorSpec2025 : ColorSpec2021
     private static double TMaxC(TonalPalette palette, double lowerBound, double upperBound, double chromaMultiplier)
     {
         double answer = FindBestToneForChroma(palette.Hue, palette.Chroma * chromaMultiplier, 100, true);
-        return Math.Clamp(answer, lowerBound, upperBound);
+        return double.Clamp(answer, lowerBound, upperBound);
     }
 
     private static double TMinC(TonalPalette palette) => TMinC(palette, 0, 100);
@@ -1246,7 +1249,7 @@ internal class ColorSpec2025 : ColorSpec2021
     private static double TMinC(TonalPalette palette, double lowerBound, double upperBound)
     {
         double answer = FindBestToneForChroma(palette.Hue, palette.Chroma, 0, false);
-        return Math.Clamp(answer, lowerBound, upperBound);
+        return double.Clamp(answer, lowerBound, upperBound);
     }
 
     private static ContrastCurve GetContrastCurve(double defaultContrast)
