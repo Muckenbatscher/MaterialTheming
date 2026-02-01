@@ -48,7 +48,7 @@ jobs:
       run: |
         dotnet pack ${{ matrix.project.path }} --no-restore `
           -c Release -o ${{ env.OUTDIR }} `
-          -p:PackageVersion=$VERSION
+          -p:PackageVersion=${{ env.VERSION }}
 
     - name: Upload built packages as artifacts
       uses: actions/upload-artifact@v4
