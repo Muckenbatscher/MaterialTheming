@@ -34,7 +34,6 @@ jobs:
           echo "status=match" >> $GITHUB_OUTPUT
         else
           echo "Commit hashes do not match."
-          echo "Regenerate test cases based on latest official commit (${{ steps.latest_official.outputs.commit_hash }}) and update this workflow file to acknowledge the updated official implementation."
           echo "status=no_match" >> $GITHUB_OUTPUT 
         fi
     - name: Verify no changes to reference java implementation
@@ -43,6 +42,7 @@ jobs:
         cd ${{ env.GIT_DIR_NAME }}
         if ! git diff --exit-code ${{ env.EXPECTED_COMMIT }} HEAD -- ${{ env.JAVA_IMPL_PATH }}; then
             echo "Error: Changes detected in "${{ env.JAVA_IMPL_PATH }}" compared to expected commit hash "${{ env.EXPECTED_COMMIT }}"."
+            echo "Regenerate test cases based on latest official commit (${{ steps.latest_official.outputs.commit_hash }}) and update this workflow file to acknowledge the updated official implementation."
             exit 1
         else
             echo "No changes detected."
