@@ -13,26 +13,37 @@ jobs:
       GIT_URL: "https://github.com/material-foundation/material-color-utilities.git"
       GIT_DIR_NAME: "material-color-utilities"
       GIT_BRANCH: "main"
+      JAVA_IMPL_PATH: "java"
       EXPECTED_COMMIT: eeaf82b8
     steps:
     - name: Get the latest commit hash
       id: latest_official
       run: | 
-        git clone ${{ env.GIT_URL }} \
-        --branch ${{ env.GIT_BRANCH }} \
-        --origin ${{ env.GIT_DIR_NAME }}
+        git clone ${{ env.GIT_URL }} ${{ env.GIT_DIR_NAME }} \
+        --branch ${{ env.GIT_BRANCH }}
         cd ${{ env.GIT_DIR_NAME }}
         echo "Latest official commit: $(git rev-parse --short=8 --verify HEAD)"
         echo "commit_hash=$(git rev-parse --short=8 --verify HEAD)" >> $GITHUB_OUTPUT
     - name: Compare to expected commit hash
+      id: compare_commits
       run: |
         echo "Expected: ${{ env.EXPECTED_COMMIT }}"
         echo "Got:      ${{ steps.latest_official.outputs.commit_hash }}"
         if [ "${{ steps.latest_official.outputs.commit_hash }}" = "${{ env.EXPECTED_COMMIT }}" ]; then 
           echo "Commit hashes match."
-          exit 0
+          echo "status=match" >> $GITHUB_OUTPUT
         else
           echo "Commit hashes do not match."
           echo "Regenerate test cases based on latest official commit (${{ steps.latest_official.outputs.commit_hash }}) and update this workflow file to acknowledge the updated official implementation."
-          exit 1
+          echo "status=no_match" >> $GITHUB_OUTPUT 
+        fi
+    - name: Verify no changes to reference java implementation
+      if: steps.compare_commits.outputs.status != 'match'
+      run: |
+        cd ${{ env.GIT_DIR_NAME }}
+        if ! git diff --exit-code ${{ env.EXPECTED_COMMIT }} HEAD -- ${{ env.JAVA_IMPL_PATH }}; then
+            echo "Error: Changes detected in "${{ env.JAVA_IMPL_PATH }}" compared to expected commit hash "${{ env.EXPECTED_COMMIT }}"."
+            exit 1
+        else
+            echo "No changes detected."
         fi
