@@ -1,5 +1,8 @@
 ﻿namespace MaterialTheming;
 
+/// <summary>
+/// EDefines a contract for theme builders that can build a <see cref="ThemeColors"/> object with the given input parameters.
+/// </summary>
 public interface IBuildableThemeBuilder
 {
     /// <summary>

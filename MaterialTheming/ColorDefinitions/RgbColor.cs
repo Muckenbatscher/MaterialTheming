@@ -115,19 +115,23 @@ public class RgbColor
         return HctColor.FromRgbColor(this);
     }
 
+    ///<inheritdoc />
     public override string ToString()
     {
         return $"RGB({Red}, {Green}, {Blue})";
     }
 
+    ///<inheritdoc />
     public static bool operator ==(RgbColor colorOne, RgbColor colorTwo)
     {
         return colorOne.Equals(colorTwo);
     }
+    ///<inheritdoc />
     public static bool operator !=(RgbColor colorOne, RgbColor colorTwo)
     {
         return !colorOne.Equals(colorTwo);
     }
+    ///<inheritdoc />
     public override bool Equals(object? obj)
     {
         return obj is RgbColor color
@@ -135,5 +139,6 @@ public class RgbColor
             && Green == color.Green
             && Blue == color.Blue;
     }
+    ///<inheritdoc />
     public override int GetHashCode() => HashCode.Combine(Red, Green, Blue);
 }

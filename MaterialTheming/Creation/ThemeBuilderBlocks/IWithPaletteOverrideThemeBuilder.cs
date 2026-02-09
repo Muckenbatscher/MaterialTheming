@@ -1,5 +1,11 @@
 ﻿namespace MaterialTheming;
 
+
+/// <summary>
+/// Defines a contract for theme builders that support overriding parts of the parameters used to generate the palettes.
+/// The palettes will then be used to generate the <see cref="ThemeColors" />.
+/// </summary>
+/// <typeparam name="TBuilder">The type of the theme builder that implements the <see cref="IBuildableThemeBuilder"/> interface.</typeparam>
 public interface IWithPaletteOverrideThemeBuilder<TBuilder>
     where TBuilder : IBuildableThemeBuilder
 {

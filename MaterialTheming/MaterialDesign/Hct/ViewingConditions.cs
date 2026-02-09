@@ -7,7 +7,9 @@ namespace MaterialTheming.MaterialDesign.HctConversion
 {
     internal sealed class ViewingConditions
     {
-        /** sRGB-like viewing conditions. */
+        /// <summary>
+        /// sRGB-like viewing conditions.
+        /// </summary>
         public static readonly ViewingConditions DEFAULT =
             ViewingConditions.DefaultWithBackgroundLstar(50.0);
 
@@ -42,24 +44,23 @@ namespace MaterialTheming.MaterialDesign.HctConversion
 
         public double Z => z;
 
-        /**
-         * Create ViewingConditions from a simple, physically relevant, set of parameters.
-         *
-         * @param whitePoint White point, measured in the XYZ color space. default = D65, or sunny day
-         * afternoon
-         * @param adaptingLuminance The luminance of the adapting field. Informally, how bright it is in
-         * the room where the color is viewed. Can be calculated from lux by multiplying lux by
-         * 0.0586. default = 11.72, or 200 lux.
-         * @param backgroundLstar The lightness of the area surrounding the color. measured by L* in
-         * L*a*b*. default = 50.0
-         * @param surround A general description of the lighting surrounding the color. 0 is pitch dark,
-         * like watching a movie in a theater. 1.0 is a dimly light room, like watching TV at home at
-         * night. 2.0 means there is no difference between the lighting on the color and around it.
-         * default = 2.0
-         * @param discountingIlluminant Whether the eye accounts for the tint of the ambient lighting,
-         * such as knowing an apple is still red in green light. default = false, the eye does not
-         * perform this process on self-luminous objects like displays.
-         */
+        /// <summary>
+        /// Create ViewingConditions from a simple, physically relevant, set of parameters.
+        /// </summary>
+        /// <param name="whitePoint">White point, measured in the XYZ color space. default = D65, or sunny day afternoon</param>
+        /// <param name="adaptingLuminance">The luminance of the adapting field. Informally, how bright it is in 
+        /// the room where the color is viewed. Can be calculated from lux by multiplying lux by
+        /// 0.0586. default = 11.72, or 200 lux.</param>
+        /// <param name="backgroundLstar">The lightness of the area surrounding the color. measured by L* in
+        /// L*a*b*. default = 50.0</param>
+        /// <param name="surround">A general description of the lighting surrounding the color. 0 is pitch dark,
+        /// like watching a movie in a theater. 1.0 is a dimly light room, like watching TV at home at
+        /// night. 2.0 means there is no difference between the lighting on the color and around it.
+        /// default = 2.0</param>
+        /// <param name="discountingIlluminant">Whether the eye accounts for the tint of the ambient lighting,
+        /// such as knowing an apple is still red in green light. default = false, the eye does not
+        /// perform this process on self-luminous objects like displays.</param>
+        /// <returns></returns>
         public static ViewingConditions Make(
             double[] whitePoint,
             double adaptingLuminance,
@@ -122,11 +123,10 @@ namespace MaterialTheming.MaterialDesign.HctConversion
             return new ViewingConditions(n, aw, nbb, ncb, c, nc, rgbD, fl, Math.Pow(fl, 0.25), z);
         }
 
-        /**
-         * Create sRGB-like viewing conditions with a custom background lstar.
-         *
-         * <p>Default viewing conditions have a lstar of 50, midgray.
-         */
+        /// <summary>
+        /// Create sRGB-like viewing conditions with a custom background lstar.
+        /// <para>Default viewing conditions have a lstar of 50, midgray.</para>
+        /// </summary>
         public static ViewingConditions DefaultWithBackgroundLstar(double lstar)
         {
             return ViewingConditions.Make(
@@ -137,12 +137,12 @@ namespace MaterialTheming.MaterialDesign.HctConversion
                 false);
         }
 
-        /**
-         * Parameters are intermediate values of the CAM16 conversion process. Their names are shorthand
-         * for technical color science terminology, this class would not benefit from documenting them
-         * individually. A brief overview is available in the CAM16 specification, and a complete overview
-         * requires a color science textbook, such as Fairchild's Color Appearance Models.
-         */
+        /// <summary>
+        /// Parameters are intermediate values of the CAM16 conversion process. Their names are shorthand
+        /// for technical color science terminology, this class would not benefit from documenting them
+        /// individually. A brief overview is available in the CAM16 specification, and a complete overview
+        /// requires a color science textbook, such as Fairchild's Color Appearance Models.
+        /// </summary>
         private ViewingConditions(
             double n,
             double aw,

@@ -14,4 +14,10 @@
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="!$(MSBuildProjectName.EndsWith('.Tests'))">
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<!-- to not require every public facing method to have an xml-doc comment -->
+		<WarningsNotAsErrors>$(WarningsNotAsErrors);1591</WarningsNotAsErrors>
+	</PropertyGroup>
+
 </Project>

@@ -1,5 +1,10 @@
 ﻿namespace MaterialTheming;
 
+/// <summary>
+/// Defines a contract for theme builders that support configuring a 
+/// <see href="https://material-foundation.github.io/material-theme-builder/">Material Theme Builder</see> JSON that is used to extract the <see cref="ThemeColors" />.
+/// </summary>
+/// <typeparam name="TBuilder">The type of the theme builder that implements the <see cref="IBuildableThemeBuilder"/> interface.</typeparam>
 public interface IWithMaterialThemeBuilderJsonThemeBuilder<TBuilder>
     where TBuilder : IBuildableThemeBuilder
 {

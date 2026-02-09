@@ -1,5 +1,8 @@
 ﻿namespace MaterialTheming;
 
+/// <summary>
+/// Defines the contracts for customizing color palette generation by overriding or modifying chroma and hue values.
+/// </summary>
 public interface IPaletteOverride
 {
     /// <summary>
