@@ -87,6 +87,7 @@ public class HctColor
         return HctSolver.SolveToRgb(hue, chroma, tone);
     }
 
+    ///<inheritdoc />
     public override string ToString()
     {
         return $"HCT({(int)Math.Round(hue)}, {(int)Math.Round(chroma)}, {(int)Math.Round(tone)})";
@@ -100,6 +101,7 @@ public class HctColor
         tone = ColorUtils.LstarFromRgb(rgb);
     }
 
+    ///<inheritdoc />
     public override bool Equals(object? obj)
     {
         return obj is HctColor color
@@ -107,5 +109,6 @@ public class HctColor
             && Chroma == color.Chroma
             && Tone == color.Tone;
     }
+    ///<inheritdoc />
     public override int GetHashCode() => HashCode.Combine(Hue, Chroma, Tone);
 }

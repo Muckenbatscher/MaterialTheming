@@ -1,5 +1,9 @@
 ﻿namespace MaterialTheming;
 
+/// <summary>
+/// Defines a contract for theme builders that support configuring the <see cref="Platform"/> used when generating <see cref="ThemeColors" />.
+/// </summary>
+/// <typeparam name="TBuilder">The type of the theme builder that implements the <see cref="IBuildableThemeBuilder"/> interface.</typeparam>
 public interface IWithPlatformThemeBuilder<TBuilder>
     where TBuilder : IBuildableThemeBuilder
 {

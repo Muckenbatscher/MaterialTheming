@@ -1,7 +1,8 @@
-﻿using MaterialTheming.Creation;
+﻿namespace MaterialTheming;
 
-namespace MaterialTheming;
-
+/// <summary>
+/// Provides static methods for creating theme builders from various color sources or JSON content.
+/// </summary>
 public class ThemeBuilder
 {
     /// <inheritdoc cref="ColorPaletteThemeBuilder.CreateFromSourceColor(string)"/>

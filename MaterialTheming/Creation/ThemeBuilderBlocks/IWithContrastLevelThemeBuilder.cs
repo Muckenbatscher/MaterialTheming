@@ -1,5 +1,9 @@
 ﻿namespace MaterialTheming;
 
+/// <summary>
+/// Defines a contract for theme builders that support configuring the <see cref="ContrastLevel"/> used when generating <see cref="ThemeColors" />.
+/// </summary>
+/// <typeparam name="TBuilder">The type of the theme builder that implements the <see cref="IBuildableThemeBuilder"/> interface.</typeparam>
 public interface IWithContrastLevelThemeBuilder<TBuilder>
     where TBuilder : IBuildableThemeBuilder
 {
@@ -11,6 +15,10 @@ public interface IWithContrastLevelThemeBuilder<TBuilder>
     TBuilder WithContrastLevel(ContrastLevel contrastLevel);
 }
 
+/// <summary>
+/// Defines a contract for theme builders that support configuring the contrast level value used when generating <see cref="ThemeColors" />.
+/// </summary>
+/// <typeparam name="TBuilder">The type of the theme builder that implements the <see cref="IBuildableThemeBuilder"/> interface.</typeparam>
 public interface IWithContrastLevelValueThemeBuilder<TBuilder>
     where TBuilder : IBuildableThemeBuilder
 {
