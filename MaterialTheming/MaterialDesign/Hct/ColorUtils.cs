@@ -30,7 +30,11 @@ internal class ColorUtils
 
     static readonly double[] WHITE_POINT_D65 = new double[] { 95.047, 100.0, 108.883 };
 
-    /** Converts a color from linear RGB components to RGB format. */
+    /// <summary>
+    /// Converts a color from linear RGB components to RGB format.
+    /// </summary>
+    /// <param name="linrgb">Linear RGB reprensentation</param>
+    /// <returns></returns>
     public static RgbColor RgbFromLinrgb(double[] linrgb)
     {
         var r = (byte)Delinearized(linrgb[0]);
@@ -39,7 +43,9 @@ internal class ColorUtils
         return RgbColor.FromRgb(r, g, b);
     }
 
-    /** Converts a color from RGB to XYZ. */
+    /// <summary>
+    /// Converts a color from RGB to XYZ.
+    /// </summary>
     public static RgbColor RgbFromXyz(double x, double y, double z)
     {
         double[][] matrix = XyzToSrgb;
@@ -52,7 +58,9 @@ internal class ColorUtils
         return RgbColor.FromRgb(r, g, b);
     }
 
-    /** Converts a color from XYZ to RGB. */
+    /// <summary>
+    /// Converts a color from XYZ to RGB.
+    /// </summary>
     public static double[] XyzFromRgb(RgbColor rgb)
     {
         double r = Linearized(rgb.Red);
@@ -61,7 +69,7 @@ internal class ColorUtils
         return MathUtils.MatrixMultiply(new double[] { r, g, b }, SrgbToXyz);
     }
 
-    // <summary>
+    /// <summary>
     /// Converts a color represented in Lab color space into an RGB color.
     /// </summary>
     public static RgbColor RgbFromLab(double l, double a, double b)
@@ -82,8 +90,8 @@ internal class ColorUtils
     /// <summary>
     /// Converts a color from RGB representation to L*a*b* representation.
     /// </summary>
-    /// <param name="argb">the RGB representation of a color</param>
-    /// <returns>a double array representing the color in Lab space</returns>
+    /// <param name="rgb">The RGB representation of a color</param>
+    /// <returns>A double array representing the color in Lab space</returns>
     public static double[] LabFromRgb(RgbColor rgb)
     {
         double linearR = Linearized(rgb.Red);
@@ -106,12 +114,11 @@ internal class ColorUtils
         return [l, a, b];
     }
 
-    /**
-     * Converts an L* value to an RGB representation.
-     *
-     * @param lstar L* in L*a*b*
-     * @return RGB representation of grayscale color with lightness matching L*
-     */
+    /// <summary>
+    /// Converts an L* value to an RGB representation.
+    /// </summary>
+    /// <param name="lstar">L* in L*a*b*</param>
+    /// <returns>RGB representation of grayscale color with lightness matching L*</returns>
     public static RgbColor RgbFromLstar(double lstar)
     {
         var y = YFromLstar(lstar);
@@ -120,56 +127,46 @@ internal class ColorUtils
         return RgbColor.FromRgb(componentByte, componentByte, componentByte);
     }
 
-    /**
-     * Computes the L* value of a color in RGB representation.
-     *
-     * @param rgb RGB representation of a color
-     * @return L*, from L*a*b*, coordinate of the color
-     */
+    /// <summary>
+    /// Computes the L* value of a color in RGB representation.
+    /// </summary>
+    /// <param name="rgb">RGB representation of a color</param>
+    /// <returns>L*, from L*a*b*, coordinate of the color</returns>
     public static double LstarFromRgb(RgbColor rgb)
     {
         double y = XyzFromRgb(rgb)[1];
         return LabF(y / 100.0) * 116.0 - 16.0;
     }
 
-    /**
-     * Converts an L* value to a Y value.
-     *
-     * <p>L* in L*a*b* and Y in XYZ measure the same quantity, luminance.
-     *
-     * <p>L* measures perceptual luminance, a linear scale. Y in XYZ measures relative luminance, a
-     * logarithmic scale.
-     *
-     * @param lstar L* in L*a*b*
-     * @return Y in XYZ
-     */
+    /// <summary>
+    /// Converts an L* value to a Y value.
+    /// <para>L* in L*a*b* and Y in XYZ measure the same quantity, luminance.</para>
+    /// <para>L* measures perceptual luminance, a linear scale. Y in XYZ measures relative luminance, a logarithmic scale.</para>
+    /// </summary>
+    /// <param name="lstar">L* in L*a*b*</param>
+    /// <returns>Y in XYZ</returns>
     public static double YFromLstar(double lstar)
     {
         return 100.0 * LabInvf((lstar + 16.0) / 116.0);
     }
 
-    /**
-     * Converts a Y value to an L* value.
-     *
-     * <p>L* in L*a*b* and Y in XYZ measure the same quantity, luminance.
-     *
-     * <p>L* measures perceptual luminance, a linear scale. Y in XYZ measures relative luminance, a
-     * logarithmic scale.
-     *
-     * @param y Y in XYZ
-     * @return L* in L*a*b*
-     */
+    /// <summary>
+    /// Converts a Y value to an L* value.
+    /// <para>L* in L*a*b* and Y in XYZ measure the same quantity, luminance.</para>
+    /// <para>L* measures perceptual luminance, a linear scale. Y in XYZ measures relative luminance, a logarithmic scale.</para>
+    /// </summary>
+    /// <param name="y">Y in XYZ</param>
+    /// <returns>L* in L*a*b*</returns>
     public static double LstarFromY(double y)
     {
         return LabF(y / 100.0) * 116.0 - 16.0;
     }
 
-    /**
-     * Linearizes an RGB component.
-     *
-     * @param rgbComponent 0 <= rgb_component <= 255, represents R/G/B channel
-     * @return 0.0 <= output <= 100.0, color channel converted to linear RGB space
-     */
+    /// <summary>
+    /// Linearizes an RGB component.
+    /// </summary>
+    /// <param name="rgbComponent">0 &lt;= rgb_component &lt;= 255, represents R/G/B channel</param>
+    /// <returns>Color channel converted to linear RGB space; 0.0 &lt;= output &lt;= 100.0, c</returns>
     public static double Linearized(int rgbComponent)
     {
         double normalized = rgbComponent / 255.0;
@@ -178,12 +175,13 @@ internal class ColorUtils
             : Math.Pow((normalized + 0.055) / 1.055, 2.4) * 100.0;
     }
 
-    /**
-     * Delinearizes an RGB component.
-     *
-     * @param rgbComponent 0.0 <= rgb_component <= 100.0, represents linear R/G/B channel
-     * @return 0 <= output <= 255, color channel converted to regular RGB space
-     */
+    /// <summary>
+    /// Delinearizes an RGB component.
+    /// </summary>
+    /// <param name="rgbComponent"></param>
+    /// <returns>color channel converted to regular RGB space<br/>
+    /// 0 &lt;= output &lt;= 255
+    /// </returns>
     public static int Delinearized(double rgbComponent)
     {
         double normalized = rgbComponent / 100.0;
@@ -193,11 +191,10 @@ internal class ColorUtils
         return (int)double.Clamp(Math.Round(delinearized * 255.0), 0, 255);
     }
 
-    /**
-     * Returns the standard white point; white on a sunny day.
-     *
-     * @return The white point
-     */
+    /// <summary>
+    /// The standard white point. White on a sunny day.
+    /// </summary>
+    /// <returns>The white point</returns>
     public static double[] WhitePointD65()
     {
         return WHITE_POINT_D65;
