@@ -11,7 +11,8 @@ public abstract class TestThemeTests
     private void TestDiscoveredThemes(ThemeMode mode, ContrastLevel contrastLevel, SpecVersion specVersion)
     {
         var permutation = new TestThemePermutation(ThemeVariant, mode, contrastLevel, specVersion);
-        var testThemes = TestThemeProvider.GetTestThemes(permutation);
+        var testThemeProvider = TestThemeProvider.CreateForPermutation(permutation);
+        var testThemes = testThemeProvider.GetTestThemes();
         bool discoveredAny = false;
         foreach (var theme in testThemes)
         {
