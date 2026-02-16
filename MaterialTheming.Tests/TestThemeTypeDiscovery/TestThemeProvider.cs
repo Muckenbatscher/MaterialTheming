@@ -5,23 +5,33 @@ namespace MaterialTheming.Tests.TestThemeTypeDiscovery;
 
 internal class TestThemeProvider
 {
-    public static IEnumerable<ITestTheme> GetTestThemes(TestThemePermutation testThemePermutation)
+    private readonly TestThemePermutation _testThemePermutation;
+
+    private TestThemeProvider(TestThemePermutation testThemePermutation)
+    {
+        _testThemePermutation = testThemePermutation;
+    }
+
+    public static TestThemeProvider CreateForPermutation(TestThemePermutation testThemePermutation)
+        => new(testThemePermutation);
+
+    public IEnumerable<ITestTheme> GetTestThemes()
     {
         return GetAllTestThemes()
-            .Where(theme => MatchesTestThemePermutation(theme, testThemePermutation))
+            .Where(MatchesTestThemePermutation)
             .ToArray();
     }
-    private static bool MatchesTestThemePermutation(ITestTheme testTheme, TestThemePermutation testThemePermutation)
+    private bool MatchesTestThemePermutation(ITestTheme testTheme)
     {
-        var permutationVariant = testThemePermutation.Variant;
-        var permutationIsDark = testThemePermutation.Mode == ThemeMode.Dark;
-        var permutationContrastLevelValue = testThemePermutation.ContrastLevel switch
+        var permutationVariant = _testThemePermutation.Variant;
+        var permutationIsDark = _testThemePermutation.Mode == ThemeMode.Dark;
+        var permutationContrastLevelValue = _testThemePermutation.ContrastLevel switch
         {
             ContrastLevel.High => 1.0,
             ContrastLevel.Medium => 0.5,
             _ => 0.0
         };
-        var permutationSpec = testThemePermutation.SpecVersion;
+        var permutationSpec = _testThemePermutation.SpecVersion;
 
         return testTheme.Variant == permutationVariant
             && testTheme.IsDark == permutationIsDark
@@ -29,14 +39,14 @@ internal class TestThemeProvider
             && testTheme.SpecVersion == permutationSpec;
     }
 
-    private static IEnumerable<ITestTheme> GetAllTestThemes()
+    private IEnumerable<ITestTheme> GetAllTestThemes()
     {
         var types = Assembly.GetCallingAssembly().GetTypes();
         var testThemeTypes = types.Where(IsTestThemeType);
         return testThemeTypes.Select(InstantiateTestTheme);
     }
 
-    private static bool IsTestThemeType(Type type)
+    private bool IsTestThemeType(Type type)
     {
         var testThemeType = typeof(ITestTheme);
         var isTestThemeImplementation = !type.IsAbstract && !type.IsInterface
@@ -45,7 +55,7 @@ internal class TestThemeProvider
         return isTestThemeImplementation && hasEmptyConstructors;
     }
 
-    private static ITestTheme InstantiateTestTheme(Type testThemeType)
+    private ITestTheme InstantiateTestTheme(Type testThemeType)
     {
         var constructor = testThemeType.GetConstructor([]);
         return (ITestTheme)constructor!.Invoke([]);
