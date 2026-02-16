@@ -28,7 +28,9 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 10.0.x
+    - name: Restore
+      run: dotnet restore -p:TargetFramework=${{ matrix.framework }}
     - name: Build
-      run: dotnet build --framework ${{ matrix.framework }}
+      run: dotnet build --no-restore --framework ${{ matrix.framework }}
     - name: Test
       run: dotnet test --no-build --framework ${{ matrix.framework }}
