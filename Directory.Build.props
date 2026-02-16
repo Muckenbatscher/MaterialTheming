@@ -4,7 +4,7 @@
 		<TargetFrameworks>netstandard2.1;net48;net8.0;net10.0</TargetFrameworks>
 	</PropertyGroup>
 	<PropertyGroup Condition="$(MSBuildProjectName.EndsWith('.Tests'))">
-		<TargetFrameworks>net48;net10.0</TargetFrameworks>
+		<TargetFrameworks>net48;net8.0;net10.0</TargetFrameworks>
 	</PropertyGroup>
 	
 	<PropertyGroup>

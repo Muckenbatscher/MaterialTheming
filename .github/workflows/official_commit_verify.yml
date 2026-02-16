@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [ "master" ]
   schedule:
-    - cron: "15 3 * * *" #every day 03:15 UTC
+    - cron: "15 3 * * *" #every day, 03:15 UTC
 
 jobs:
   verify-official-commit:
@@ -14,7 +14,7 @@ jobs:
       GIT_DIR_NAME: "material-color-utilities"
       GIT_BRANCH: "main"
       JAVA_IMPL_PATH: "java"
-      EXPECTED_COMMIT: fca2a5b6
+      EXPECTED_COMMIT: a285736f
     steps:
     - name: Get the latest commit hash
       id: latest_official
