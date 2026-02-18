@@ -214,14 +214,31 @@ internal class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
 
     private static SpecVersion GetFallbackSpecVersionToUse(SpecVersion desiredSpecVersion, Variant variant)
     {
+        var specVersionToUs = desiredSpecVersion;
+
+        IEnumerable<Variant> spec2026implementedVariants = 
+            [Variant.CMF];
         IEnumerable<Variant> spec2025implementedVariants =
             [Variant.TonalSpot, Variant.Neutral, Variant.Expressive, Variant.Vibrant];
-        var variantIsImplementedInSpec2025 = spec2025implementedVariants.Contains(variant);
 
-        return desiredSpecVersion == SpecVersion.Spec2025 && variantIsImplementedInSpec2025
-            ? desiredSpecVersion
-            : SpecVersion.Spec2021;
+        specVersionToUs = GetFallbackSpecVersion(specVersionToUs, variant, SpecVersion.Spec2026, spec2026implementedVariants, SpecVersion.Spec2025);
+        specVersionToUs = GetFallbackSpecVersion(specVersionToUs, variant, SpecVersion.Spec2025, spec2025implementedVariants, SpecVersion.Spec2021);
+
+        return specVersionToUs;
     }
+    private static SpecVersion GetFallbackSpecVersion(SpecVersion desiredSpecVersion, Variant variant, 
+        SpecVersion validatingSpecVersion,
+        IEnumerable<Variant> validatingSpecImplementedVariants, 
+        SpecVersion fallbackWhenNotImplementedSpecVersion)
+    {
+        var variantIsImplementedInSpec = validatingSpecImplementedVariants.Contains(variant);
+        var fallbackRequired = desiredSpecVersion == validatingSpecVersion && !variantIsImplementedInSpec;
+
+        return fallbackRequired
+            ? fallbackWhenNotImplementedSpecVersion
+            : desiredSpecVersion;
+    }
+
     private static TonalPalette ApplyPaletteOverride(TonalPalette palette, IPaletteOverrideResult paletteOverride)
     {
         var chromaModification = paletteOverride.GetChromaModificationFunction();
