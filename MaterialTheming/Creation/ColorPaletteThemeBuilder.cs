@@ -1,7 +1,5 @@
-﻿using MaterialTheming.Creation.PaletteCustomization;
-using MaterialTheming.MaterialDesign.DynamicColors;
+﻿using MaterialTheming.MaterialDesign.DynamicColors;
 using MaterialTheming.MaterialDesign.DynamicColors.ColorSpecs;
-using MaterialTheming.MaterialDesign.Palettes;
 using System.ComponentModel;
 
 namespace MaterialTheming;
@@ -82,13 +80,6 @@ internal class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
         WithVariant(Variant.TonalSpot);
         WithSpecVersion(SpecVersion.Spec2021);
         WithPlatform(Platform.Phone);
-
-        primaryPaletteOverride = new PaletteOverride();
-        secondaryPaletteOverride = new PaletteOverride();
-        tertiaryPaletteOverride = new PaletteOverride();
-        errorPaletteOverride = new PaletteOverride();
-        neutralPaletteOverride = new PaletteOverride();
-        neutralVariantPaletteOverride = new PaletteOverride();
     }
 
     private HctColor sourceColor;
@@ -98,13 +89,6 @@ internal class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
     private Variant variant;
     private SpecVersion specVersion;
     private Platform platform;
-
-    private PaletteOverride primaryPaletteOverride;
-    private PaletteOverride secondaryPaletteOverride;
-    private PaletteOverride tertiaryPaletteOverride;
-    private PaletteOverride errorPaletteOverride;
-    private PaletteOverride neutralPaletteOverride;
-    private PaletteOverride neutralVariantPaletteOverride;
 
     public IColorPaletteThemeBuilder WithSourceColor(HctColor color)
     {
@@ -152,37 +136,6 @@ internal class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
         return this;
     }
 
-    public IColorPaletteThemeBuilder WithPrimaryPalette(Action<IPaletteOverride> paletteOverride)
-    {
-        paletteOverride(primaryPaletteOverride);
-        return this;
-    }
-    public IColorPaletteThemeBuilder WithSecondaryPalette(Action<IPaletteOverride> paletteOverride)
-    {
-        paletteOverride(secondaryPaletteOverride);
-        return this;
-    }
-    public IColorPaletteThemeBuilder WithTertiaryPalette(Action<IPaletteOverride> paletteOverride)
-    {
-        paletteOverride(tertiaryPaletteOverride);
-        return this;
-    }
-    public IColorPaletteThemeBuilder WithErrorPalette(Action<IPaletteOverride> paletteOverride)
-    {
-        paletteOverride(errorPaletteOverride);
-        return this;
-    }
-    public IColorPaletteThemeBuilder WithNeutralPalette(Action<IPaletteOverride> paletteOverride)
-    {
-        paletteOverride(neutralPaletteOverride);
-        return this;
-    }
-    public IColorPaletteThemeBuilder WithNeutralVariantPalette(Action<IPaletteOverride> paletteOverride)
-    {
-        paletteOverride(neutralVariantPaletteOverride);
-        return this;
-    }
-
     public ThemeColors Build() => BuildThemeColors();
 
     private ThemeColors BuildThemeColors()
@@ -191,32 +144,18 @@ internal class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
         var colorSpec = ColorSpecFactory.Create(specVersionToUse);
         bool isDark = mode == ThemeMode.Dark;
 
-        var primaryPalette = colorSpec.GetPrimaryPalette(variant, sourceColor, isDark, platform, contrastLevel);
-        primaryPalette = ApplyPaletteOverride(primaryPalette, primaryPaletteOverride);
-        var secondaryPalette = colorSpec.GetSecondaryPalette(variant, sourceColor, isDark, platform, contrastLevel);
-        secondaryPalette = ApplyPaletteOverride(secondaryPalette, secondaryPaletteOverride);
-        var tertiaryPalette = colorSpec.GetTertiaryPalette(variant, sourceColor, isDark, platform, contrastLevel);
-        tertiaryPalette = ApplyPaletteOverride(tertiaryPalette, tertiaryPaletteOverride);
-        var errorPalette = colorSpec.GetErrorPalette(variant, sourceColor, isDark, platform, contrastLevel);
-        errorPalette = errorPalette is null ? null : ApplyPaletteOverride(errorPalette, errorPaletteOverride);
-        var neutralPalette = colorSpec.GetNeutralPalette(variant, sourceColor, isDark, platform, contrastLevel);
-        neutralPalette = ApplyPaletteOverride(neutralPalette, neutralPaletteOverride);
-        var neutralVariantPalette = colorSpec.GetNeutralVariantPalette(variant, sourceColor, isDark, platform, contrastLevel);
-        neutralVariantPalette = ApplyPaletteOverride(neutralVariantPalette, neutralVariantPaletteOverride);
+        DynamicScheme dynamicScheme = variant == Variant.CMF
+            ? new DynamicSchemeCmf(isDark, contrastLevel, sourceColor, platform, specVersionToUse)
+            : new DynamicSchemeColorSpecPalette(variant, isDark, contrastLevel, sourceColor, platform, specVersionToUse);
 
-        var scheme = new DynamicScheme(variant, isDark, contrastLevel, sourceColor,
-            primaryPalette, secondaryPalette, tertiaryPalette,
-            neutralPalette, neutralVariantPalette, errorPalette,
-            platform: platform,
-            specVersion: specVersionToUse);
-        return CreateThemeColorFromScheme(scheme);
+        return CreateThemeColorFromScheme(dynamicScheme);
     }
 
     private static SpecVersion GetFallbackSpecVersionToUse(SpecVersion desiredSpecVersion, Variant variant)
     {
         var specVersionToUs = desiredSpecVersion;
 
-        IEnumerable<Variant> spec2026implementedVariants = 
+        IEnumerable<Variant> spec2026implementedVariants =
             [Variant.CMF];
         IEnumerable<Variant> spec2025implementedVariants =
             [Variant.TonalSpot, Variant.Neutral, Variant.Expressive, Variant.Vibrant];
@@ -226,9 +165,9 @@ internal class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
 
         return specVersionToUs;
     }
-    private static SpecVersion GetFallbackSpecVersion(SpecVersion desiredSpecVersion, Variant variant, 
+    private static SpecVersion GetFallbackSpecVersion(SpecVersion desiredSpecVersion, Variant variant,
         SpecVersion validatingSpecVersion,
-        IEnumerable<Variant> validatingSpecImplementedVariants, 
+        IEnumerable<Variant> validatingSpecImplementedVariants,
         SpecVersion fallbackWhenNotImplementedSpecVersion)
     {
         var variantIsImplementedInSpec = validatingSpecImplementedVariants.Contains(variant);
@@ -237,19 +176,6 @@ internal class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
         return fallbackRequired
             ? fallbackWhenNotImplementedSpecVersion
             : desiredSpecVersion;
-    }
-
-    private static TonalPalette ApplyPaletteOverride(TonalPalette palette, IPaletteOverrideResult paletteOverride)
-    {
-        var chromaModification = paletteOverride.GetChromaModificationFunction();
-        var hueModification = paletteOverride.GetHueModificationFunction();
-        double newChroma = chromaModification != null
-            ? chromaModification(palette.Chroma)
-            : palette.Chroma;
-        double newHue = hueModification != null
-            ? hueModification(palette.Hue)
-            : palette.Hue;
-        return TonalPalette.FromHueAndChroma(newHue, newChroma);
     }
 
     private static ThemeColors CreateThemeColorFromScheme(DynamicScheme scheme)
