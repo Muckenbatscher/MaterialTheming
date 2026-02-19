@@ -14,19 +14,26 @@ public abstract class TestThemeTests
         var permutation = new TestThemePermutation(ThemeVariant, mode, contrastLevel, specVersion);
         var testThemeProvider = TestThemeProvider.CreateForPermutation(permutation);
         var testThemes = testThemeProvider.GetTestThemes();
+
+        var resultCollection = new TestThemeResultCollection();
         bool discoveredAny = false;
         foreach (var theme in testThemes)
         {
             discoveredAny = true;
             TestContext.WriteLine($"[{ThemeVariant}] Discovered: {theme.GetType().Name}");
             var result = ThemeValidator.ValidateThemeColors(theme);
-            Assert.IsTrue(result.IsValid, message: result.GetFailedValidationMessage());
+            resultCollection.AddResult(result);
         }
         if (!discoveredAny)
         {
             TestContext.WriteLine($"No {nameof(ITestTheme)} implementations were found");
             TestContext.WriteLine($"Variant={ThemeVariant}, Mode={mode}, ContrastLevel={contrastLevel}, specVersion={specVersion}");
+            return;
         }
+
+        Assert.IsFalse(
+            condition: resultCollection.HasInvalidResults,
+            message: resultCollection.GetConcatenatedFailedResultMessage());
     }
 
     [TestMethod]
