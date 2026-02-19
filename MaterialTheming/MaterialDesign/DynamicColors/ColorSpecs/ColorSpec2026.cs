@@ -12,6 +12,21 @@ internal class ColorSpec2026 : ColorSpec2025
     // Surfaces
     // ----------------------------------------------------------------
 
+    public override DynamicColor Background => CreateBackground().Build();
+    private DynamicColorBuilder CreateBackground()
+    {
+        return CreateSurface()
+            .WithName("background");
+    }
+
+    public override DynamicColor OnBackground => CreateOnBackground().Build();
+    private DynamicColorBuilder CreateOnBackground()
+    {
+        return CreateOnSurface()
+            .WithName("on_background")
+            .WithTone(s => s.Platform.IsWatch() ? 100.0 : OnSurface.GetTone(s));
+    }
+
     public override DynamicColor Surface => CreateSurface().Build();
     private DynamicColorBuilder CreateSurface()
     {
@@ -184,6 +199,13 @@ internal class ColorSpec2026 : ColorSpec2025
             .WithContrastCurve(s => s.IsDark ? GetContrastCurve(11) : GetContrastCurve(9));
     }
 
+    public override DynamicColor SurfaceVariant => CreateSurfaceVariant().Build();
+    private DynamicColorBuilder CreateSurfaceVariant()
+    {
+        return CreateSurfaceContainerHighest()
+            .WithName("surface_variant");
+    }
+
     public override DynamicColor OnSurfaceVariant => CreateOnSurfaceVariant().Build();
     private DynamicColorBuilder CreateOnSurfaceVariant()
     {
@@ -261,6 +283,13 @@ internal class ColorSpec2026 : ColorSpec2025
             .WithPalette(s => s.NeutralPalette)
             .WithBackground(_ => InverseSurface)
             .WithContrastCurve(s => GetContrastCurve(7));
+    }
+
+    public override DynamicColor SurfaceTint => CreateSurfaceTint().Build();
+    private DynamicColorBuilder CreateSurfaceTint()
+    {
+        return CreatePrimary()
+            .WithName("surface_tint");
     }
 
     // ----------------------------------------------------------------
