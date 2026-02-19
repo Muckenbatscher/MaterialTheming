@@ -1,7 +1,5 @@
-﻿using MaterialTheming.Creation.PaletteCustomization;
-using MaterialTheming.MaterialDesign.DynamicColors;
+﻿using MaterialTheming.MaterialDesign.DynamicColors;
 using MaterialTheming.MaterialDesign.DynamicColors.ColorSpecs;
-using MaterialTheming.MaterialDesign.Palettes;
 using System.ComponentModel;
 
 namespace MaterialTheming;
@@ -9,8 +7,8 @@ namespace MaterialTheming;
 internal class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
 {
     /// <summary>
-    /// Creates a new instance of a <see cref="IColorPaletteThemeBuilder"/> initialized 
-    /// with the specified source color and the default settings.
+    /// Creates a new instance of a <see cref="IColorPaletteThemeBuilder"/>, 
+    /// initialized with the specified source color and the default settings.
     /// <para>
     /// Default settings include:<br/>
     /// <b>Mode </b>- light<br/>
@@ -28,83 +26,89 @@ internal class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
     public static IColorPaletteThemeBuilder CreateFromSourceColor(HctColor color)
         => new ColorPaletteThemeBuilder(color);
 
-    /// <summary>
-    /// Creates a new instance of a <see cref="IColorPaletteThemeBuilder"/> initialized 
-    /// with the specified source color and the default settings.
-    /// <para>
-    /// Default settings include:<br/>
-    /// <b>Mode </b>- light<br/>
-    /// <b>Contrast level </b>- <c>0.0</c> (normal)<br/>
-    /// <b>Variant </b>- Tonal Spot<br/>
-    /// <b>Spec Version </b>- Spec 2021<br/>
-    /// <b>Platform </b>- Phone<br/>
-    /// </para>
-    /// </summary>
-    /// <remarks>The returned builder is preconfigured with default settings.
-    /// It can be further customized by chaining additional configuration methods on the returned builder.</remarks>
+    /// <summary><inheritdoc cref="CreateFromSourceColor(HctColor)" path="/summary"/></summary>
+    /// <remarks><inheritdoc cref="CreateFromSourceColor(HctColor)" path="/remarks"/></remarks>
     /// <param name="color">The source color in RGB representation to use as the basis for the palette.</param>
-    /// <returns>An <see cref="IColorPaletteThemeBuilder"/> instance that can be used to further configure and build 
-    /// a theme from a color palette based on the provided source color.</returns>
+    /// <returns><inheritdoc cref="CreateFromSourceColor(HctColor)" path="/returns"/></returns>
     public static IColorPaletteThemeBuilder CreateFromSourceColor(RgbColor color)
     {
         var hctColor = HctColor.FromRgbColor(color);
         return new ColorPaletteThemeBuilder(hctColor);
     }
 
-    /// <summary>
-    /// Creates a new instance of a <see cref="IColorPaletteThemeBuilder"/> initialized 
-    /// with the specified source color and the default settings.
-    /// <para>
-    /// Default settings include:<br/>
-    /// <b>Mode </b>- light<br/>
-    /// <b>Contrast level </b>- <c>0.0</c> (normal)<br/>
-    /// <b>Variant </b>- Tonal Spot<br/>
-    /// <b>Spec Version </b>- Spec 2021<br/>
-    /// <b>Platform </b>- Phone<br/>
-    /// </para>
-    /// </summary>
-    /// <remarks>The returned builder is preconfigured with default settings.
-    /// It can be further customized by chaining additional configuration methods on the returned builder.</remarks>
+    /// <summary><inheritdoc cref="CreateFromSourceColor(HctColor)" path="/summary"/></summary>
+    /// <remarks><inheritdoc cref="CreateFromSourceColor(HctColor)" path="/remarks"/></remarks>
     /// <param name="htmlColor">The source color to use as the basis for the palette. Formatted either as <c>#FFFFFF</c> or <c>FFFFFF</c></param>
-    /// <returns>An <see cref="IColorPaletteThemeBuilder"/> instance that can be used to further configure and build 
-    /// a theme from a color palette based on the provided source color.</returns>
+    /// <returns><inheritdoc cref="CreateFromSourceColor(HctColor)" path="/returns"/></returns>
     public static IColorPaletteThemeBuilder CreateFromSourceColor(string htmlColor)
     {
         var rgbColor = RgbColor.FromHtml(htmlColor);
         return CreateFromSourceColor(rgbColor);
     }
 
-    private ColorPaletteThemeBuilder(HctColor color)
+    /// <summary>
+    /// Creates a new instance of a <see cref="IColorPaletteThemeBuilder"/> initialized 
+    /// with the specified first and second source color and the default settings.
+    /// <para>
+    /// Default settings include:<br/>
+    /// <b>Mode </b>- light<br/>
+    /// <b>Contrast level </b>- <c>0.0</c> (normal)<br/>
+    /// <b>Variant </b>- CMF<br/>
+    /// <b>Spec Version </b>- Spec 2026<br/>
+    /// <b>Platform </b>- Phone<br/>
+    /// </para>
+    /// </summary>
+    /// <remarks>The returned builder is preconfigured with default settings.
+    /// It can be further customized by chaining additional configuration methods on the returned builder.<br/>
+    /// The second source color is currently only taken into account when building a theme with <see cref="Variant.CMF"/>. 
+    /// If the second source color is provided but the theme is built with a different variant or spec version, the second source color will be ignored."
+    /// </remarks>
+    /// <param name="firstSourceColor">The first source color in HCT representation to use as the basis for the palette.</param>
+    /// <param name="secondSourceColor">The second source color in HCT representation to use as the basis for the palette.</param>
+    /// <returns><inheritdoc cref="CreateFromSourceColor(HctColor)" path="/returns"/></returns>
+    public static IColorPaletteThemeBuilder CreateFromSourceColors(HctColor firstSourceColor, HctColor secondSourceColor)
+        => new ColorPaletteThemeBuilder(firstSourceColor, secondSourceColor)
+            .WithVariant(Variant.CMF)
+            .WithSpecVersion(SpecVersion.Spec2026);
+
+    /// <summary><inheritdoc cref="CreateFromSourceColors(HctColor, HctColor)" path="/summary"/></summary>
+    /// <remarks><inheritdoc cref="CreateFromSourceColors(HctColor, HctColor)" path="/remarks"/></remarks>
+    /// <param name="firstSourceColor">The first source color in RGB representation to use as the basis for the palette.</param>
+    /// <param name="secondSourceColor">The second source color in RGB representation to use as the basis for the palette.</param>
+    /// <returns><inheritdoc cref="CreateFromSourceColors(HctColor, HctColor)" path="/returns"/></returns>
+    public static IColorPaletteThemeBuilder CreateFromSourceColors(RgbColor firstSourceColor, RgbColor secondSourceColor)
+        => CreateFromSourceColors(HctColor.FromRgbColor(firstSourceColor), HctColor.FromRgbColor(secondSourceColor));
+
+    /// <summary><inheritdoc cref="CreateFromSourceColors(HctColor, HctColor)" path="/summary"/></summary>
+    /// <remarks><inheritdoc cref="CreateFromSourceColors(HctColor, HctColor)" path="/remarks"/></remarks>
+    /// <param name="firstSourceColorHtml">The first source color to use as the basis for the palette. Formatted either as <c>#FFFFFF</c> or <c>FFFFFF</c></param>
+    /// <param name="secondSourceColorHtml">The second source color to use as the basis for the palette. Formatted either as <c>#FFFFFF</c> or <c>FFFFFF</c></param>
+    /// <returns><inheritdoc cref="CreateFromSourceColors(HctColor, HctColor)" path="/returns"/></returns>
+    public static IColorPaletteThemeBuilder CreateFromSourceColors(string firstSourceColorHtml, string secondSourceColorHtml)
+        => CreateFromSourceColors(RgbColor.FromHtml(firstSourceColorHtml), RgbColor.FromHtml(secondSourceColorHtml));
+
+    private ColorPaletteThemeBuilder(HctColor firstSourceColor, HctColor? secondSourceColor)
     {
-        sourceColor = color;
+        sourceColor = firstSourceColor;
+        this.secondSourceColor = secondSourceColor;
         WithMode(ThemeMode.Light);
         WithContrastLevel(0.0);
         WithVariant(Variant.TonalSpot);
         WithSpecVersion(SpecVersion.Spec2021);
         WithPlatform(Platform.Phone);
-
-        primaryPaletteOverride = new PaletteOverride();
-        secondaryPaletteOverride = new PaletteOverride();
-        tertiaryPaletteOverride = new PaletteOverride();
-        errorPaletteOverride = new PaletteOverride();
-        neutralPaletteOverride = new PaletteOverride();
-        neutralVariantPaletteOverride = new PaletteOverride();
+    }
+    private ColorPaletteThemeBuilder(HctColor sourceColor) : this(sourceColor, null)
+    {
     }
 
     private HctColor sourceColor;
+    private HctColor? secondSourceColor;
 
     private ThemeMode mode;
     private double contrastLevel;
     private Variant variant;
     private SpecVersion specVersion;
     private Platform platform;
-
-    private PaletteOverride primaryPaletteOverride;
-    private PaletteOverride secondaryPaletteOverride;
-    private PaletteOverride tertiaryPaletteOverride;
-    private PaletteOverride errorPaletteOverride;
-    private PaletteOverride neutralPaletteOverride;
-    private PaletteOverride neutralVariantPaletteOverride;
 
     public IColorPaletteThemeBuilder WithSourceColor(HctColor color)
     {
@@ -113,6 +117,21 @@ internal class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
     }
     public IColorPaletteThemeBuilder WithSourceColor(RgbColor color) => WithSourceColor(HctColor.FromRgbColor(color));
     public IColorPaletteThemeBuilder WithSourceColor(string htmlColor) => WithSourceColor(RgbColor.FromHtml(htmlColor));
+
+    public IColorPaletteThemeBuilder WithSecondSourceColor(HctColor color)
+    {
+        secondSourceColor = color;
+        return this;
+    }
+    public IColorPaletteThemeBuilder WithSecondSourceColor(RgbColor color) => WithSecondSourceColor(HctColor.FromRgbColor(color));
+    public IColorPaletteThemeBuilder WithSecondSourceColor(string htmlColor) => WithSecondSourceColor(RgbColor.FromHtml(htmlColor));
+
+    public IColorPaletteThemeBuilder WithSourceColors(HctColor firstSourceColor, HctColor secondSourceColor)
+        => WithSourceColor(firstSourceColor).WithSecondSourceColor(secondSourceColor);
+    public IColorPaletteThemeBuilder WithSourceColors(RgbColor firstSourceColor, RgbColor secondSourceColor)
+        => WithSourceColor(firstSourceColor).WithSecondSourceColor(secondSourceColor);
+    public IColorPaletteThemeBuilder WithSourceColors(string firstSourceColorHtml, string secondSourceColorHtml)
+        => WithSourceColor(firstSourceColorHtml).WithSecondSourceColor(secondSourceColorHtml);
 
     public IColorPaletteThemeBuilder WithMode(ThemeMode mode)
     {
@@ -152,37 +171,6 @@ internal class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
         return this;
     }
 
-    public IColorPaletteThemeBuilder WithPrimaryPalette(Action<IPaletteOverride> paletteOverride)
-    {
-        paletteOverride(primaryPaletteOverride);
-        return this;
-    }
-    public IColorPaletteThemeBuilder WithSecondaryPalette(Action<IPaletteOverride> paletteOverride)
-    {
-        paletteOverride(secondaryPaletteOverride);
-        return this;
-    }
-    public IColorPaletteThemeBuilder WithTertiaryPalette(Action<IPaletteOverride> paletteOverride)
-    {
-        paletteOverride(tertiaryPaletteOverride);
-        return this;
-    }
-    public IColorPaletteThemeBuilder WithErrorPalette(Action<IPaletteOverride> paletteOverride)
-    {
-        paletteOverride(errorPaletteOverride);
-        return this;
-    }
-    public IColorPaletteThemeBuilder WithNeutralPalette(Action<IPaletteOverride> paletteOverride)
-    {
-        paletteOverride(neutralPaletteOverride);
-        return this;
-    }
-    public IColorPaletteThemeBuilder WithNeutralVariantPalette(Action<IPaletteOverride> paletteOverride)
-    {
-        paletteOverride(neutralVariantPaletteOverride);
-        return this;
-    }
-
     public ThemeColors Build() => BuildThemeColors();
 
     private ThemeColors BuildThemeColors()
@@ -191,48 +179,42 @@ internal class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
         var colorSpec = ColorSpecFactory.Create(specVersionToUse);
         bool isDark = mode == ThemeMode.Dark;
 
-        var primaryPalette = colorSpec.GetPrimaryPalette(variant, sourceColor, isDark, platform, contrastLevel);
-        primaryPalette = ApplyPaletteOverride(primaryPalette, primaryPaletteOverride);
-        var secondaryPalette = colorSpec.GetSecondaryPalette(variant, sourceColor, isDark, platform, contrastLevel);
-        secondaryPalette = ApplyPaletteOverride(secondaryPalette, secondaryPaletteOverride);
-        var tertiaryPalette = colorSpec.GetTertiaryPalette(variant, sourceColor, isDark, platform, contrastLevel);
-        tertiaryPalette = ApplyPaletteOverride(tertiaryPalette, tertiaryPaletteOverride);
-        var errorPalette = colorSpec.GetErrorPalette(variant, sourceColor, isDark, platform, contrastLevel);
-        errorPalette = errorPalette is null ? null : ApplyPaletteOverride(errorPalette, errorPaletteOverride);
-        var neutralPalette = colorSpec.GetNeutralPalette(variant, sourceColor, isDark, platform, contrastLevel);
-        neutralPalette = ApplyPaletteOverride(neutralPalette, neutralPaletteOverride);
-        var neutralVariantPalette = colorSpec.GetNeutralVariantPalette(variant, sourceColor, isDark, platform, contrastLevel);
-        neutralVariantPalette = ApplyPaletteOverride(neutralVariantPalette, neutralVariantPaletteOverride);
+        var sourceColors = new List<HctColor> { sourceColor };
+        if (secondSourceColor is not null)
+            sourceColors.Add(secondSourceColor);
 
-        var scheme = new DynamicScheme(variant, isDark, contrastLevel, sourceColor,
-            primaryPalette, secondaryPalette, tertiaryPalette,
-            neutralPalette, neutralVariantPalette, errorPalette,
-            platform: platform,
-            specVersion: specVersionToUse);
-        return CreateThemeColorFromScheme(scheme);
+        DynamicScheme dynamicScheme = variant == Variant.CMF
+            ? new DynamicSchemeCmf(isDark, contrastLevel, sourceColors, platform, specVersionToUse)
+            : new DynamicSchemeColorSpecPalette(variant, isDark, contrastLevel, sourceColor, platform, specVersionToUse);
+
+        return CreateThemeColorFromScheme(dynamicScheme);
     }
 
     private static SpecVersion GetFallbackSpecVersionToUse(SpecVersion desiredSpecVersion, Variant variant)
     {
+        var specVersionToUs = desiredSpecVersion;
+
+        IEnumerable<Variant> spec2026implementedVariants =
+            [Variant.CMF];
         IEnumerable<Variant> spec2025implementedVariants =
             [Variant.TonalSpot, Variant.Neutral, Variant.Expressive, Variant.Vibrant];
-        var variantIsImplementedInSpec2025 = spec2025implementedVariants.Contains(variant);
 
-        return desiredSpecVersion == SpecVersion.Spec2025 && variantIsImplementedInSpec2025
-            ? desiredSpecVersion
-            : SpecVersion.Spec2021;
+        specVersionToUs = GetFallbackSpecVersion(specVersionToUs, variant, SpecVersion.Spec2026, spec2026implementedVariants, SpecVersion.Spec2025);
+        specVersionToUs = GetFallbackSpecVersion(specVersionToUs, variant, SpecVersion.Spec2025, spec2025implementedVariants, SpecVersion.Spec2021);
+
+        return specVersionToUs;
     }
-    private static TonalPalette ApplyPaletteOverride(TonalPalette palette, IPaletteOverrideResult paletteOverride)
+    private static SpecVersion GetFallbackSpecVersion(SpecVersion desiredSpecVersion, Variant variant,
+        SpecVersion validatingSpecVersion,
+        IEnumerable<Variant> validatingSpecImplementedVariants,
+        SpecVersion fallbackWhenNotImplementedSpecVersion)
     {
-        var chromaModification = paletteOverride.GetChromaModificationFunction();
-        var hueModification = paletteOverride.GetHueModificationFunction();
-        double newChroma = chromaModification != null
-            ? chromaModification(palette.Chroma)
-            : palette.Chroma;
-        double newHue = hueModification != null
-            ? hueModification(palette.Hue)
-            : palette.Hue;
-        return TonalPalette.FromHueAndChroma(newHue, newChroma);
+        var variantIsImplementedInSpec = validatingSpecImplementedVariants.Contains(variant);
+        var fallbackRequired = desiredSpecVersion == validatingSpecVersion && !variantIsImplementedInSpec;
+
+        return fallbackRequired
+            ? fallbackWhenNotImplementedSpecVersion
+            : desiredSpecVersion;
     }
 
     private static ThemeColors CreateThemeColorFromScheme(DynamicScheme scheme)

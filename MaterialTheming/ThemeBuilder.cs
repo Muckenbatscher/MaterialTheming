@@ -5,10 +5,6 @@
 /// </summary>
 public class ThemeBuilder
 {
-    /// <inheritdoc cref="ColorPaletteThemeBuilder.CreateFromSourceColor(string)"/>
-    public static IColorPaletteThemeBuilder CreateFromSourceColor(string htmlColor)
-        => ColorPaletteThemeBuilder.CreateFromSourceColor(htmlColor);
-
     /// <inheritdoc cref="ColorPaletteThemeBuilder.CreateFromSourceColor(HctColor)"/>
     public static IColorPaletteThemeBuilder CreateFromSourceColor(HctColor color)
         => ColorPaletteThemeBuilder.CreateFromSourceColor(color);
@@ -16,6 +12,22 @@ public class ThemeBuilder
     /// <inheritdoc cref="ColorPaletteThemeBuilder.CreateFromSourceColor(RgbColor)"/>
     public static IColorPaletteThemeBuilder CreateFromSourceColor(RgbColor color)
         => ColorPaletteThemeBuilder.CreateFromSourceColor(color);
+
+    /// <inheritdoc cref="ColorPaletteThemeBuilder.CreateFromSourceColor(string)"/>
+    public static IColorPaletteThemeBuilder CreateFromSourceColor(string htmlColor)
+        => ColorPaletteThemeBuilder.CreateFromSourceColor(htmlColor);
+
+    /// <inheritdoc cref="ColorPaletteThemeBuilder.CreateFromSourceColors(HctColor, HctColor)"/>
+    public static IColorPaletteThemeBuilder CreateFromSourceColors(HctColor firstSourceColor, HctColor secondSourceColor)
+        => ColorPaletteThemeBuilder.CreateFromSourceColors(firstSourceColor, secondSourceColor);
+
+    /// <inheritdoc cref="ColorPaletteThemeBuilder.CreateFromSourceColors(RgbColor, RgbColor)"/>
+    public static IColorPaletteThemeBuilder CreateFromSourceColors(RgbColor firstSourceColor, RgbColor secondSourceColor)
+        => ColorPaletteThemeBuilder.CreateFromSourceColors(firstSourceColor, secondSourceColor);
+
+    /// <inheritdoc cref="ColorPaletteThemeBuilder.CreateFromSourceColors(string, string)"/>
+    public static IColorPaletteThemeBuilder CreateFromSourceColors(string firstSourceColorHtml, string secondSourceColorHtml)
+        => ColorPaletteThemeBuilder.CreateFromSourceColors(firstSourceColorHtml, secondSourceColorHtml);
 
     /// <inheritdoc cref="MaterialThemeBuilderJsonThemeBuilder.CreateFromJsonContent(string)"/>
     public static IMaterialThemeBuilderJsonThemeBuilder CreateFromJsonContent(string materialThemeBuilderJson)

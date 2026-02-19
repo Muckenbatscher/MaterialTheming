@@ -102,6 +102,16 @@ public class HctColor
     }
 
     ///<inheritdoc />
+    public static bool operator ==(HctColor colorOne, HctColor colorTwo)
+    {
+        return colorOne.Equals(colorTwo);
+    }
+    ///<inheritdoc />
+    public static bool operator !=(HctColor colorOne, HctColor colorTwo)
+    {
+        return !colorOne.Equals(colorTwo);
+    }
+    ///<inheritdoc />
     public override bool Equals(object? obj)
     {
         return obj is HctColor color

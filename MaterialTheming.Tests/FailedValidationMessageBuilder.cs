@@ -16,9 +16,10 @@ internal static class FailedValidationMessageBuilder
             var differenceInfos = themeValidationResult.OutOfSpecColorDifferences
                 .Select(difference => GetDashEnumeratedColorDifferenceInfo(difference, maxColorRoleNameLength));
 
-            var messageLines = differenceInfos
-                .Prepend("Theme validation failed. The following color differences are out of specification:");
-            return string.Join(Environment.NewLine, messageLines);
+            IEnumerable<string> messageLines = [
+                $"[{themeValidationResult.TestThemeType.Name}]",
+                "Theme validation failed. The following color differences are out of specification:" ];
+            return string.Join(Environment.NewLine, messageLines.Concat(differenceInfos));
         }
     }
     private static string GetDashEnumeratedColorDifferenceInfo(ColorDifference difference, int maxColorRoleNameLength)
