@@ -14,7 +14,9 @@ internal class DynamicScheme
     public SpecVersion ColorSpecVersion { get; }
     public double ContrastLevel { get; }
 
-    public HctColor SourceColor { get; }
+    private readonly HctColor[] _sourceColors;
+    public HctColor SourceColor => _sourceColors[0];
+    public HctColor? SecondarySourceColor => _sourceColors.Length > 1 ? _sourceColors[1] : null;
 
     public TonalPalette PrimaryPalette { get; }
     public TonalPalette SecondaryPalette { get; }
@@ -27,7 +29,7 @@ internal class DynamicScheme
         Variant variant,
         bool isDark,
         double contrastLevel,
-        HctColor sourceColor,
+        IEnumerable<HctColor> sourceColors,
         TonalPalette primaryPalette,
         TonalPalette secondaryPalette,
         TonalPalette tertiaryPalette,
@@ -42,7 +44,7 @@ internal class DynamicScheme
         ContrastLevel = contrastLevel;
         Platform = platform;
         ColorSpecVersion = specVersion;
-        SourceColor = sourceColor;
+        _sourceColors = sourceColors.ToArray();
 
         PrimaryPalette = primaryPalette;
         SecondaryPalette = secondaryPalette;
@@ -50,6 +52,33 @@ internal class DynamicScheme
         NeutralPalette = neutralPalette;
         NeutralVariantPalette = neutralVariantPalette;
         ErrorPalette = errorPalette ?? TonalPalette.FromHueAndChroma(25.0, 84.0);
+    }
+    public DynamicScheme(
+        Variant variant,
+        bool isDark,
+        double contrastLevel,
+        HctColor sourceColor,
+        TonalPalette primaryPalette,
+        TonalPalette secondaryPalette,
+        TonalPalette tertiaryPalette,
+        TonalPalette neutralPalette,
+        TonalPalette neutralVariantPalette,
+        TonalPalette? errorPalette = null,
+        Platform platform = DefaultPlatform,
+        SpecVersion specVersion = DefaultSpecVersion)
+        : this(variant,
+              isDark,
+              contrastLevel,
+              [sourceColor],
+              primaryPalette,
+              secondaryPalette,
+              tertiaryPalette,
+              neutralPalette,
+              neutralVariantPalette,
+              errorPalette,
+              platform,
+              specVersion)
+    {
     }
 
     public static DynamicScheme From(DynamicScheme other, bool isDark)

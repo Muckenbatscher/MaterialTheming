@@ -1,4 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+	<!--Package metadata-->
 	<PropertyGroup>
 		<PackageId>MaterialTheming</PackageId>
 		<Description>Create customized themes with the Material 3 color system.</Description>
@@ -7,17 +8,29 @@
 		<PackageIcon>material-design-primary-container.png</PackageIcon>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageTags>material;theme;ui</PackageTags>
+	</PropertyGroup>
+	
+	<!--Package resources-->
+	<ItemGroup>
+		<None Include="..\README.md" Pack="true" PackagePath="\" />
+		<None Include="..\material-design-primary-container.png" Pack="true" PackagePath="\" />
+	</ItemGroup>
+
+	<!--SourceLink-->
+	<PropertyGroup>
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/Muckenbatscher/MaterialTheming</RepositoryUrl>
 		<PackageProjectUrl>https://github.com/Muckenbatscher/MaterialTheming</PackageProjectUrl>
 	</PropertyGroup>
-	<ItemGroup>
-		<None Include="..\README.md" Pack="true" PackagePath="\" />
-		<None Include="..\material-design-primary-container.png" Pack="true" PackagePath="\" />
-	</ItemGroup>
-	
-	<!-- packages that are dependent of target framework -->
+	<PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+		<Deterministic>true</Deterministic>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+		<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+	</PropertyGroup>
+
+	<!--dependencies that are only required in specific target frameworks-->
 	<ItemGroup Condition="'$(TargetFramework)' == 'net48' Or '$(TargetFramework)' == 'netstandard2.1'">
 		<PackageReference Include="System.Text.Json" />
 	</ItemGroup>
