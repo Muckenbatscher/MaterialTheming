@@ -44,5 +44,9 @@ public enum Variant
     /// <summary>
     /// A playful theme. The source color's hue does not appear in the theme.
     /// </summary>
-    FruitSalad
+    FruitSalad,
+    /// <summary>
+    /// A Dynamic Color theme with 2 source colors.
+    /// </summary>
+    CMF
 }

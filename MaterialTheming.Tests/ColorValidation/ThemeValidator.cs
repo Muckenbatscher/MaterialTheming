@@ -11,6 +11,7 @@ internal class ThemeValidator
     {
         var theme = ThemeCreationService.CreateThemeColors<TTestTheme>();
         return CreateFromColorDifferences(
+            typeof(TTestTheme),
             ColorDifferenceService.GetColorDifferences<TTestTheme>(theme));
     }
 
@@ -19,11 +20,12 @@ internal class ThemeValidator
         var themeColors = ThemeCreationService.CreateThemeColors(testTheme);
 
         return CreateFromColorDifferences(
+            testTheme.GetType(),
             ColorDifferenceService.GetColorDifferences(themeColors, testTheme));
     }
-    private static ThemeValidationResult CreateFromColorDifferences(IEnumerable<ColorDifference> colorDifferences)
+    private static ThemeValidationResult CreateFromColorDifferences(Type testThemeType, IEnumerable<ColorDifference> colorDifferences)
     {
         var outOfSpecColorDifferences = ColorDifferenceValidationService.FilterToOutOfSpecColorDifferences(colorDifferences);
-        return new ThemeValidationResult(outOfSpecColorDifferences);
+        return new ThemeValidationResult(testThemeType, outOfSpecColorDifferences);
     }
 }
