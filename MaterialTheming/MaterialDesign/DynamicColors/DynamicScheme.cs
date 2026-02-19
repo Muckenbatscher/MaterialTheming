@@ -16,7 +16,7 @@ internal class DynamicScheme
 
     private readonly HctColor[] _sourceColors;
     public HctColor SourceColor => _sourceColors[0];
-    public HctColor SecondarySourceColor => _sourceColors[1];
+    public HctColor? SecondarySourceColor => _sourceColors.Length > 1 ? _sourceColors[1] : null;
 
     public TonalPalette PrimaryPalette { get; }
     public TonalPalette SecondaryPalette { get; }
