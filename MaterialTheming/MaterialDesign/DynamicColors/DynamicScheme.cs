@@ -88,11 +88,14 @@ internal class DynamicScheme
 
     public static DynamicScheme From(DynamicScheme other, bool isDark, double contrastLevel)
     {
+        var otherSourceColors = new List<HctColor>() { other.SourceColor };
+        if (other.SecondarySourceColor is not null)
+            otherSourceColors.Add(other.SecondarySourceColor);
         return new DynamicScheme(
             other.Variant,
             isDark,
             contrastLevel,
-            other.SourceColor,
+            otherSourceColors,
             other.PrimaryPalette,
             other.SecondaryPalette,
             other.TertiaryPalette,
