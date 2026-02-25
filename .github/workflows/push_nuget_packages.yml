@@ -88,7 +88,6 @@ jobs:
       packages: write
 
     env:
-      GITHUB_USER: ${{ github.repository_owner }}
       PACKAGE_DIR: 'packages'
 
     steps:
@@ -106,7 +105,7 @@ jobs:
         do
           echo "Pushing $f to GitHub Packages source..."
           dotnet nuget push "$f" \ 
-            --source "https://nuget.pkg.github.com/${{ env.GITHUB_USER }}/index.json" \
+            --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
             --api-key ${{ secrets.GITHUB_TOKEN }} 
         done
 
