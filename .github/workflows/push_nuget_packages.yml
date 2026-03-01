@@ -104,7 +104,7 @@ jobs:
         for f in ${{ env.PACKAGE_DIR }}/*/*.nupkg
         do
           echo "Pushing $f to GitHub Packages source..."
-          dotnet nuget push "$f" \ 
+          dotnet nuget push "$f" \
             --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
             --api-key ${{ secrets.GITHUB_TOKEN }} 
         done
@@ -116,5 +116,7 @@ jobs:
         for f in ${{ env.PACKAGE_DIR }}/*/*.nupkg
         do
           echo "Pushing $f to NuGet.org source..."
-          dotnet nuget push "$f" --source "nuget.org" --api-key ${{ env.API_KEY }}
+          dotnet nuget push "$f" \
+            --source "nuget.org" \
+            --api-key ${{ env.API_KEY }}
         done
