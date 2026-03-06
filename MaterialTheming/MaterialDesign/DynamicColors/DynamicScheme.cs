@@ -5,8 +5,8 @@ namespace MaterialTheming.MaterialDesign.DynamicColors;
 
 internal class DynamicScheme
 {
-    public const Platform DefaultPlatform = Platform.Phone;
-    public const SpecVersion DefaultSpecVersion = SpecVersion.Spec2021;
+    private const Platform DefaultPlatform = Platform.Phone;
+    private const SpecVersion DefaultSpecVersion = SpecVersion.Spec2021;
 
     public Variant Variant { get; }
     public bool IsDark { get; }
