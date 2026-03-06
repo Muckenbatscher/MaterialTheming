@@ -304,13 +304,27 @@ internal class ColorSpec2026 : ColorSpec2025
             .WithPalette(s => s.PrimaryPalette)
             .WithTone(s =>
             {
-                if (s.Variant == Variant.CMF)
-                    return s.SourceColor.Chroma <= 12 ? (s.IsDark ? 80.0 : 40.0) : s.SourceColor.Tone;
-                return 0.0; // undefined use case
+                if (s.SourceColor.Chroma <= 12)
+                    return s.IsDark ? 80.0 : 40.0;
+                else
+                    return s.SourceColor.Tone;
             })
             .WithIsBackground(true)
             .WithBackground(HighestSurface)
-            .WithContrastCurve(s => GetContrastCurve(4.5));
+            .WithContrastCurve(s => GetContrastCurve(4.5))
+            .WithToneDeltaPair(s =>
+            {
+                return s.Platform.IsPhone()
+                    ? new ToneDeltaPair(PrimaryContainer, Primary, 5, TonePolarity.RelativeLighter, ToneDeltaConstraint.Farther)
+                    : null;
+            });
+    }
+
+    public override DynamicColor PrimaryDim => CreatePrimaryDim().Build();
+    private DynamicColorBuilder CreatePrimaryDim()
+    {
+        return CreatePrimary()
+            .WithName("primary_dim");
     }
 
     public override DynamicColor OnPrimary => CreateOnPrimary().Build();
@@ -339,7 +353,6 @@ internal class ColorSpec2026 : ColorSpec2025
             })
             .WithIsBackground(true)
             .WithBackground(HighestSurface)
-            .WithToneDeltaPair(s => new ToneDeltaPair(PrimaryContainer, Primary, 5, TonePolarity.RelativeLighter, ToneDeltaConstraint.Farther))
             .WithContrastCurve(s => s.ContrastLevel > 0 ? GetContrastCurve(1.5) : null);
     }
 
@@ -397,7 +410,7 @@ internal class ColorSpec2026 : ColorSpec2025
         return DynamicColorBuilder.Create()
             .WithName("on_primary_fixed")
             .WithPalette(s => s.PrimaryPalette)
-            .WithBackground(_ => PrimaryFixedDim)
+            .WithBackground(s => PrimaryFixed.GetTone(s) > 57 ? PrimaryFixedDim : PrimaryFixed)
             .WithContrastCurve(s => GetContrastCurve(7));
     }
 
@@ -407,7 +420,7 @@ internal class ColorSpec2026 : ColorSpec2025
         return DynamicColorBuilder.Create()
             .WithName("on_primary_fixed_variant")
             .WithPalette(s => s.PrimaryPalette)
-            .WithBackground(_ => PrimaryFixedDim)
+            .WithBackground(s => PrimaryFixed.GetTone(s) > 57 ? PrimaryFixedDim : PrimaryFixed)
             .WithContrastCurve(s => GetContrastCurve(4.5));
     }
 
@@ -429,7 +442,20 @@ internal class ColorSpec2026 : ColorSpec2025
             })
             .WithIsBackground(true)
             .WithBackground(HighestSurface)
-            .WithContrastCurve(s => GetContrastCurve(4.5));
+            .WithContrastCurve(s => GetContrastCurve(4.5))
+            .WithToneDeltaPair(s =>
+            {
+                return s.Platform.IsPhone()
+                    ? new ToneDeltaPair(SecondaryContainer, Secondary, 5, TonePolarity.RelativeLighter, ToneDeltaConstraint.Farther)
+                    : null;
+            });
+    }
+
+    public override DynamicColor SecondaryDim => CreateSecondaryDim().Build();
+    private DynamicColorBuilder CreateSecondaryDim()
+    {
+        return CreateSecondary()
+            .WithName("secondary_dim");
     }
 
     public override DynamicColor OnSecondary => CreateOnSecondary().Build();
@@ -456,7 +482,6 @@ internal class ColorSpec2026 : ColorSpec2025
             })
             .WithIsBackground(true)
             .WithBackground(HighestSurface)
-            .WithToneDeltaPair(s => new ToneDeltaPair(SecondaryContainer, Secondary, 5, TonePolarity.RelativeLighter, ToneDeltaConstraint.Farther))
             .WithContrastCurve(s => s.ContrastLevel > 0 ? GetContrastCurve(1.5) : null);
     }
 
@@ -505,7 +530,7 @@ internal class ColorSpec2026 : ColorSpec2025
         return DynamicColorBuilder.Create()
             .WithName("on_secondary_fixed")
             .WithPalette(s => s.SecondaryPalette)
-            .WithBackground(_ => SecondaryFixedDim)
+            .WithBackground(s => SecondaryFixed.GetTone(s) > 57 ? SecondaryFixedDim : SecondaryFixed)
             .WithContrastCurve(_ => GetContrastCurve(7));
     }
 
@@ -515,13 +540,8 @@ internal class ColorSpec2026 : ColorSpec2025
         return DynamicColorBuilder.Create()
             .WithName("on_secondary_fixed_variant")
             .WithPalette(s => s.SecondaryPalette)
-            .WithBackground(_ => SecondaryFixedDim)
-            .WithContrastCurve(s =>
-            {
-                if (s.Variant == Variant.CMF)
-                    return GetContrastCurve(4.5);
-                return base.OnSecondaryFixedVariant.ContrastCurve?.Invoke(s);
-            });
+            .WithBackground(s => SecondaryFixed.GetTone(s) > 57 ? SecondaryFixedDim : SecondaryFixed)
+            .WithContrastCurve(_ => GetContrastCurve(4.5));
     }
 
     // ----------------------------------------------------------------
@@ -543,7 +563,20 @@ internal class ColorSpec2026 : ColorSpec2025
             })
             .WithIsBackground(true)
             .WithBackground(HighestSurface)
-            .WithContrastCurve(s => GetContrastCurve(4.5));
+            .WithContrastCurve(s => GetContrastCurve(4.5))
+            .WithToneDeltaPair(s =>
+            {
+                return s.Platform.IsPhone() 
+                    ? new ToneDeltaPair(TertiaryContainer, Tertiary, 5, TonePolarity.RelativeLighter, ToneDeltaConstraint.Farther) 
+                    : null;
+            });
+    }
+
+    public override DynamicColor TertiaryDim => CreateTertiaryDim().Build();
+    private DynamicColorBuilder CreateTertiaryDim()
+    {
+        return CreateTertiary()
+            .WithName("tertiary_dim");
     }
 
     public override DynamicColor OnTertiary => CreateOnTertiary().Build();
@@ -574,7 +607,6 @@ internal class ColorSpec2026 : ColorSpec2025
             })
             .WithIsBackground(true)
             .WithBackground(HighestSurface)
-            .WithToneDeltaPair(s => new ToneDeltaPair(TertiaryContainer, Tertiary, 5, TonePolarity.RelativeLighter, ToneDeltaConstraint.Farther))
             .WithContrastCurve(s => s.ContrastLevel > 0 ? GetContrastCurve(1.5) : null);
     }
 
@@ -623,8 +655,8 @@ internal class ColorSpec2026 : ColorSpec2025
         return DynamicColorBuilder.Create()
             .WithName("on_tertiary_fixed")
             .WithPalette(s => s.TertiaryPalette)
-            .WithBackground(_ => TertiaryFixedDim)
-            .WithContrastCurve(s => GetContrastCurve(7));
+            .WithBackground(s => TertiaryFixed.GetTone(s) > 57 ? TertiaryFixedDim : TertiaryFixed)
+            .WithContrastCurve(_ => GetContrastCurve(7));
     }
 
     public override DynamicColor OnTertiaryFixedVariant => CreateOnTertiaryFixedVariant().Build();
@@ -633,7 +665,7 @@ internal class ColorSpec2026 : ColorSpec2025
         return DynamicColorBuilder.Create()
             .WithName("on_tertiary_fixed_variant")
             .WithPalette(s => s.TertiaryPalette)
-            .WithBackground(_ => TertiaryFixedDim)
+            .WithBackground(s => TertiaryFixed.GetTone(s) > 57 ? TertiaryFixedDim : TertiaryFixed)
             .WithContrastCurve(s => GetContrastCurve(4.5));
     }
 
@@ -650,7 +682,20 @@ internal class ColorSpec2026 : ColorSpec2025
             .WithTone(s => TMaxC(s.ErrorPalette))
             .WithIsBackground(true)
             .WithBackground(HighestSurface)
-            .WithContrastCurve(s => GetContrastCurve(4.5));
+            .WithContrastCurve(s => GetContrastCurve(4.5))
+            .WithToneDeltaPair(s =>
+            {
+                return s.Platform.IsPhone()
+                    ? new ToneDeltaPair(ErrorContainer, Error, 5, TonePolarity.RelativeDarker, ToneDeltaConstraint.Farther)
+                    : null;
+            });
+    }
+
+    public override DynamicColor ErrorDim => CreateErrorDim().Build();
+    private DynamicColorBuilder CreateErrorDim()
+    {
+        return CreateError()
+            .WithName("error");
     }
 
     public override DynamicColor OnError => CreateOnError().Build();
@@ -677,7 +722,6 @@ internal class ColorSpec2026 : ColorSpec2025
             })
             .WithIsBackground(true)
             .WithBackground(HighestSurface)
-            .WithToneDeltaPair(s => new ToneDeltaPair(ErrorContainer, Error, 5, TonePolarity.RelativeLighter, ToneDeltaConstraint.Farther))
             .WithContrastCurve(s => s.ContrastLevel > 0 ? GetContrastCurve(1.5) : null);
     }
 
