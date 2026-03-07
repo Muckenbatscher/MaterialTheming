@@ -10,25 +10,25 @@ internal class DarkMode_NormalContrast_Spec2026_Yellow_Cyan : ITestThemeSecondSo
     public SpecVersion SpecVersion => SpecVersion.Spec2026;
 
     // Primary
-    public string Primary => "#B2B037";
-    public string OnPrimary => "#2F2E00";
-    public string PrimaryContainer => "#A4A22A";
-    public string OnPrimaryContainer => "#222100";
+    public string Primary => "#C0BE44";
+    public string OnPrimary => "#393900";
+    public string PrimaryContainer => "#B2B037";
+    public string OnPrimaryContainer => "#2F2E00";
     // Secondary
     public string Secondary => "#A2A06B";
     public string OnSecondary => "#222100";
     public string SecondaryContainer => "#333207";
     public string OnSecondaryContainer => "#B5B37B";
     // Tertiary
-    public string Tertiary => "#00BCD1";
-    public string OnTertiary => "#003138";
-    public string TertiaryContainer => "#00AEC1";
-    public string OnTertiaryContainer => "#00242A";
+    public string Tertiary => "#2DCADF";
+    public string OnTertiary => "#003D44";
+    public string TertiaryContainer => "#00BCD1";
+    public string OnTertiaryContainer => "#003138";
     // Error
-    public string Error => "#FB877F";
-    public string OnError => "#570B0D";
-    public string ErrorContainer => "#480005";
-    public string OnErrorContainer => "#EE7D75";
+    public string Error => "#FE8B70";
+    public string OnError => "#5A1001";
+    public string ErrorContainer => "#5C1202";
+    public string OnErrorContainer => "#FF8F74";
     // Surface
     public string Surface => "#0F0F04";
     public string SurfaceVariant => "#27270D";
@@ -36,7 +36,7 @@ internal class DarkMode_NormalContrast_Spec2026_Yellow_Cyan : ITestThemeSecondSo
     public string OnSurfaceVariant => "#AFAD88";
     public string SurfaceDim => "#0F0F04";
     public string SurfaceBright => "#2E2D13";
-    public string SurfaceTint => "#B2B037";
+    public string SurfaceTint => "#C0BE44";
     // Background
     public string Background => "#0F0F04";
     public string OnBackground => "#EAE7BF";

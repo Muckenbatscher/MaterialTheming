@@ -10,10 +10,10 @@ internal class LightMode_NormalContrast_Spec2026_Blue_Orange : ITestThemeSecondS
     public SpecVersion SpecVersion => SpecVersion.Spec2026;
 
     // Primary
-    public string Primary => "#185FAA";
-    public string OnPrimary => "#F6F7FF";
-    public string PrimaryContainer => "#2B6CB7";
-    public string OnPrimaryContainer => "#FFFFFF";
+    public string Primary => "#00539B";
+    public string OnPrimary => "#D6E4FF";
+    public string PrimaryContainer => "#185FAA";
+    public string OnPrimaryContainer => "#F6F7FF";
     // Secondary
     public string Secondary => "#4C607F";
     public string OnSecondary => "#F8F8FF";
@@ -22,13 +22,13 @@ internal class LightMode_NormalContrast_Spec2026_Blue_Orange : ITestThemeSecondS
     // Tertiary
     public string Tertiary => "#994805";
     public string OnTertiary => "#FFF7F5";
-    public string TertiaryContainer => "#E78543";
-    public string OnTertiaryContainer => "#391600";
+    public string TertiaryContainer => "#DA7A39";
+    public string OnTertiaryContainer => "#250C00";
     // Error
-    public string Error => "#9F403C";
+    public string Error => "#9F413A";
     public string OnError => "#FFF7F6";
-    public string ErrorContainer => "#FB877F";
-    public string OnErrorContainer => "#570B0D";
+    public string ErrorContainer => "#FB877D";
+    public string OnErrorContainer => "#570B0B";
     // Surface
     public string Surface => "#F9F9FF";
     public string SurfaceVariant => "#D8E3FA";
@@ -36,7 +36,7 @@ internal class LightMode_NormalContrast_Spec2026_Blue_Orange : ITestThemeSecondS
     public string OnSurfaceVariant => "#546073";
     public string SurfaceDim => "#CFDAF1";
     public string SurfaceBright => "#F9F9FF";
-    public string SurfaceTint => "#185FAA";
+    public string SurfaceTint => "#00539B";
     // Background
     public string Background => "#F9F9FF";
     public string OnBackground => "#283344";
@@ -51,9 +51,9 @@ internal class LightMode_NormalContrast_Spec2026_Blue_Orange : ITestThemeSecondS
     public string InverseOnSurface => "#989DA8";
     public string InversePrimary => "#6CA5F5";
     // Primary Fixed
-    public string PrimaryFixed => "#2B6CB7";
+    public string PrimaryFixed => "#185FAA";
     public string OnPrimaryFixed => "#FFFFFF";
-    public string PrimaryFixedDim => "#185FAA";
+    public string PrimaryFixedDim => "#00539B";
     public string OnPrimaryFixedVariant => "#C5DAFF";
     // Secondary Fixed
     public string SecondaryFixed => "#C1D5F9";
@@ -61,10 +61,10 @@ internal class LightMode_NormalContrast_Spec2026_Blue_Orange : ITestThemeSecondS
     public string SecondaryFixedDim => "#B3C7EB";
     public string OnSecondaryFixedVariant => "#405371";
     // Tertiary Fixed
-    public string TertiaryFixed => "#E78543";
+    public string TertiaryFixed => "#DA7A39";
     public string OnTertiaryFixed => "#000000";
-    public string TertiaryFixedDim => "#D77837";
-    public string OnTertiaryFixedVariant => "#481E00";
+    public string TertiaryFixedDim => "#CA6E2E";
+    public string OnTertiaryFixedVariant => "#371500";
     // Surface Container
     public string SurfaceContainerLowest => "#FFFFFF";
     public string SurfaceContainerLow => "#F0F3FF";

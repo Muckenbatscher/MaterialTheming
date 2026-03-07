@@ -27,7 +27,7 @@ internal class DynamicSchemeCmf : DynamicScheme
         double contrastLevel,
         HctColor sourceColor,
         Platform platform = Platform.Phone,
-        SpecVersion specVersion = SpecVersion.Spec2021)
+        SpecVersion specVersion = SpecVersion.Spec2026)
         : this(isDark, contrastLevel, [sourceColor], platform, specVersion)
     {
     }
@@ -58,8 +58,27 @@ internal class DynamicSchemeCmf : DynamicScheme
     }
     private static TonalPalette GetErrorPalette(IEnumerable<HctColor> sourceColors)
     {
+        var hue = GetErrorHue(sourceColors);
         var sourceColor = sourceColors.First();
         var chroma = Math.Max(sourceColor.Chroma, 50.0);
-        return TonalPalette.FromHueAndChroma(23.0, chroma);
+        return TonalPalette.FromHueAndChroma(hue, chroma);
+    }
+
+    private static double GetErrorHue(IEnumerable<HctColor> sourceColors)
+    {
+        var firstSourceColorHue = sourceColors.First().Hue;
+        var tertiaryHue = GetTertiaryPalette(sourceColors).Hue;
+        return firstSourceColorHue switch
+        {
+            <= 8 => tertiaryHue <= 24 ? 28 : tertiaryHue <= 32 ? 16 : 20,
+            <= 16 => tertiaryHue <= 24 ? 32 : tertiaryHue <= 32 ? 20 : 24,
+            <= 20 => tertiaryHue <= 28 ? 32 : tertiaryHue <= 32 ? 24 : 28,
+            <= 28 => tertiaryHue <= 24 ? 32 : 16,
+            <= 32 => tertiaryHue <= 20 ? 24 : tertiaryHue <= 28 ? 16 : 20,
+            <= 40 => tertiaryHue > 20 && tertiaryHue <= 28 ? 16 : 24,
+            <= 152 => tertiaryHue > 24 && tertiaryHue <= 36 ? 20 : 32,
+            <= 272 => tertiaryHue > 20 && tertiaryHue <= 28 ? 16 : 24,
+            _ => tertiaryHue > 12 && tertiaryHue <= 28 ? 32 : 16
+        };
     }
 }

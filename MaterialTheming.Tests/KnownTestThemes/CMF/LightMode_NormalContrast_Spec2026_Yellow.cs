@@ -24,10 +24,10 @@ internal class LightMode_NormalContrast_Spec2026_Yellow : ITestTheme
     public string TertiaryContainer => "#B1AF5A";
     public string OnTertiaryContainer => "#2F2E00";
     // Error
-    public string Error => "#9F403C";
+    public string Error => "#9E422C";
     public string OnError => "#FFF7F6";
-    public string ErrorContainer => "#FB877F";
-    public string OnErrorContainer => "#570B0D";
+    public string ErrorContainer => "#FE8B70";
+    public string OnErrorContainer => "#5A1001";
     // Surface
     public string Surface => "#FEFAE3";
     public string SurfaceVariant => "#E7E4BD";

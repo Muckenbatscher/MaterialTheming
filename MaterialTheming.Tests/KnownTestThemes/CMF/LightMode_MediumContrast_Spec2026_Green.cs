@@ -24,9 +24,9 @@ internal class LightMode_MediumContrast_Spec2026_Green : ITestTheme
     public string TertiaryContainer => "#4A8050";
     public string OnTertiaryContainer => "#FFFFFF";
     // Error
-    public string Error => "#7A2522";
-    public string OnError => "#FFCECA";
-    public string ErrorContainer => "#BB554F";
+    public string Error => "#792713";
+    public string OnError => "#FFCFC4";
+    public string ErrorContainer => "#BA573F";
     public string OnErrorContainer => "#FFFFFF";
     // Surface
     public string Surface => "#F2FCEE";

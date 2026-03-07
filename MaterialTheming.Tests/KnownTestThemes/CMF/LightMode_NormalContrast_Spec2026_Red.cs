@@ -24,10 +24,10 @@ internal class LightMode_NormalContrast_Spec2026_Red : ITestTheme
     public string TertiaryContainer => "#BD534A";
     public string OnTertiaryContainer => "#FFFFFF";
     // Error
-    public string Error => "#B12D2D";
+    public string Error => "#B12B3D";
     public string OnError => "#FFF7F6";
-    public string ErrorContainer => "#FF7169";
-    public string OnErrorContainer => "#490004";
+    public string ErrorContainer => "#FF6472";
+    public string OnErrorContainer => "#3E000B";
     // Surface
     public string Surface => "#FFF8F7";
     public string SurfaceVariant => "#FFDAD6";
@@ -53,7 +53,7 @@ internal class LightMode_NormalContrast_Spec2026_Red : ITestTheme
     public string PrimaryFixed => "#CF443B";
     public string OnPrimaryFixed => "#FFFFFF";
     public string PrimaryFixedDim => "#BD3730";
-    public string OnPrimaryFixedVariant => "#FFE2DE";
+    public string OnPrimaryFixedVariant => "#FFFBFF";
     // Secondary Fixed
     public string SecondaryFixed => "#FCA59B";
     public string OnSecondaryFixed => "#44110E";
@@ -63,7 +63,7 @@ internal class LightMode_NormalContrast_Spec2026_Red : ITestTheme
     public string TertiaryFixed => "#BD534A";
     public string OnTertiaryFixed => "#FFFFFF";
     public string TertiaryFixedDim => "#AD473F";
-    public string OnTertiaryFixedVariant => "#FFE2DE";
+    public string OnTertiaryFixedVariant => "#FFFBFF";
     // Surface Container
     public string SurfaceContainerLowest => "#FFFFFF";
     public string SurfaceContainerLow => "#FFF0EE";

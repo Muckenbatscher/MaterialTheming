@@ -10,25 +10,25 @@ internal class DarkMode_NormalContrast_Spec2026_Cyan_Orange : ITestThemeSecondSo
     public SpecVersion SpecVersion => SpecVersion.Spec2026;
 
     // Primary
-    public string Primary => "#00BCD1";
-    public string OnPrimary => "#003138";
-    public string PrimaryContainer => "#00AEC1";
-    public string OnPrimaryContainer => "#00242A";
+    public string Primary => "#2DCADF";
+    public string OnPrimary => "#003D44";
+    public string PrimaryContainer => "#00BCD1";
+    public string OnPrimaryContainer => "#003138";
     // Secondary
     public string Secondary => "#77A5AE";
     public string OnSecondary => "#00242A";
     public string SecondaryContainer => "#013B42";
     public string OnSecondaryContainer => "#8FBEC7";
     // Tertiary
-    public string Tertiary => "#E78543";
-    public string OnTertiary => "#391600";
-    public string TertiaryContainer => "#E78543";
-    public string OnTertiaryContainer => "#391600";
+    public string Tertiary => "#EA8745";
+    public string OnTertiary => "#3D1800";
+    public string TertiaryContainer => "#DA7A39";
+    public string OnTertiaryContainer => "#250C00";
     // Error
-    public string Error => "#FB877F";
-    public string OnError => "#570B0D";
-    public string ErrorContainer => "#480005";
-    public string OnErrorContainer => "#EE7D75";
+    public string Error => "#FB877D";
+    public string OnError => "#570B0B";
+    public string ErrorContainer => "#4B0205";
+    public string OnErrorContainer => "#F07F75";
     // Surface
     public string Surface => "#051012";
     public string SurfaceVariant => "#0E292E";
@@ -36,7 +36,7 @@ internal class DarkMode_NormalContrast_Spec2026_Cyan_Orange : ITestThemeSecondSo
     public string OnSurfaceVariant => "#94B0B5";
     public string SurfaceDim => "#051012";
     public string SurfaceBright => "#153034";
-    public string SurfaceTint => "#00BCD1";
+    public string SurfaceTint => "#2DCADF";
     // Background
     public string Background => "#051012";
     public string OnBackground => "#CEEBF0";
@@ -61,10 +61,10 @@ internal class DarkMode_NormalContrast_Spec2026_Cyan_Orange : ITestThemeSecondSo
     public string SecondaryFixedDim => "#ADDCE6";
     public string OnSecondaryFixedVariant => "#34626A";
     // Tertiary Fixed
-    public string TertiaryFixed => "#E78543";
+    public string TertiaryFixed => "#DA7A39";
     public string OnTertiaryFixed => "#000000";
-    public string TertiaryFixedDim => "#D77837";
-    public string OnTertiaryFixedVariant => "#481E00";
+    public string TertiaryFixedDim => "#CA6E2E";
+    public string OnTertiaryFixedVariant => "#371500";
     // Surface Container
     public string SurfaceContainerLowest => "#000000";
     public string SurfaceContainerLow => "#051619";

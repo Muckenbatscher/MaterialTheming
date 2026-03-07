@@ -24,9 +24,9 @@ internal class DarkMode_MediumContrast_Spec2026_Purple : ITestTheme
     public string TertiaryContainer => "#8A64B0";
     public string OnTertiaryContainer => "#FFFFFF";
     // Error
-    public string Error => "#FF9F97";
-    public string OnError => "#600008";
-    public string ErrorContainer => "#C54D47";
+    public string Error => "#FF9EA2";
+    public string OnError => "#600015";
+    public string ErrorContainer => "#C54B56";
     public string OnErrorContainer => "#FFFFFF";
     // Surface
     public string Surface => "#120C18";

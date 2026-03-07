@@ -25,10 +25,10 @@ internal class LightMode_NormalContrast_Spec2026_Cyan_Red : ITestThemeSecondSour
     public string TertiaryContainer => "#CF443B";
     public string OnTertiaryContainer => "#FFFFFF";
     // Error
-    public string Error => "#9F403C";
+    public string Error => "#9F3F47";
     public string OnError => "#FFF7F6";
-    public string ErrorContainer => "#FB877F";
-    public string OnErrorContainer => "#570B0D";
+    public string ErrorContainer => "#FA868D";
+    public string OnErrorContainer => "#580817";
     // Surface
     public string Surface => "#EEFCFF";
     public string SurfaceVariant => "#CBE8ED";
@@ -64,7 +64,7 @@ internal class LightMode_NormalContrast_Spec2026_Cyan_Red : ITestThemeSecondSour
     public string TertiaryFixed => "#CF443B";
     public string OnTertiaryFixed => "#FFFFFF";
     public string TertiaryFixedDim => "#BD3730";
-    public string OnTertiaryFixedVariant => "#FFE2DE";
+    public string OnTertiaryFixedVariant => "#FFFBFF";
     // Surface Container
     public string SurfaceContainerLowest => "#FFFFFF";
     public string SurfaceContainerLow => "#E4F7FB";

@@ -25,9 +25,9 @@ internal class DarkMode_MediumContrast_Spec2026_Magenta_Magenta : ITestThemeSeco
     public string TertiaryContainer => "#E47CB4";
     public string OnTertiaryContainer => "#290019";
     // Error
-    public string Error => "#FF9F97";
-    public string OnError => "#600008";
-    public string ErrorContainer => "#CE4340";
+    public string Error => "#FF9EA2";
+    public string OnError => "#600015";
+    public string ErrorContainer => "#CE4151";
     public string OnErrorContainer => "#FFFFFF";
     // Surface
     public string Surface => "#190911";

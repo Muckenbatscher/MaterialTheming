@@ -25,9 +25,9 @@ internal class LightMode_HighContrast_Spec2026_Yellow_Red : ITestThemeSecondSour
     public string TertiaryContainer => "#9E201D";
     public string OnTertiaryContainer => "#FFFFFF";
     // Error
-    public string Error => "#4F0407";
-    public string OnError => "#FFCFCA";
-    public string ErrorContainer => "#8E3430";
+    public string Error => "#4F030C";
+    public string OnError => "#FFCFCC";
+    public string ErrorContainer => "#8E3335";
     public string OnErrorContainer => "#FFFFFF";
     // Surface
     public string Surface => "#FEFAE3";

@@ -25,9 +25,9 @@ internal class DarkMode_MediumContrast_Spec2026_Magenta_Red : ITestThemeSecondSo
     public string TertiaryContainer => "#CF443B";
     public string OnTertiaryContainer => "#FFFFFF";
     // Error
-    public string Error => "#FF9F97";
-    public string OnError => "#600008";
-    public string ErrorContainer => "#CE4340";
+    public string Error => "#FFA089";
+    public string OnError => "#5A0E00";
+    public string ErrorContainer => "#CD4727";
     public string OnErrorContainer => "#FFFFFF";
     // Surface
     public string Surface => "#190911";

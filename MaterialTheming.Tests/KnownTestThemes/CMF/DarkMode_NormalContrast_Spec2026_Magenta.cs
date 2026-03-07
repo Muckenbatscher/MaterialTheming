@@ -9,25 +9,25 @@ internal class DarkMode_NormalContrast_Spec2026_Magenta : ITestTheme
     public SpecVersion SpecVersion => SpecVersion.Spec2026;
 
     // Primary
-    public string Primary => "#F86ABC";
-    public string OnPrimary => "#45002E";
-    public string PrimaryContainer => "#F86ABC";
-    public string OnPrimaryContainer => "#45002E";
+    public string Primary => "#FC6DBF";
+    public string OnPrimary => "#490031";
+    public string PrimaryContainer => "#EB60B1";
+    public string OnPrimaryContainer => "#2E001D";
     // Secondary
     public string Secondary => "#CE89AB";
     public string OnSecondary => "#3D0D2A";
     public string SecondaryContainer => "#511E3B";
     public string OnSecondaryContainer => "#E39BBE";
     // Tertiary
-    public string Tertiary => "#E47CB4";
-    public string OnTertiary => "#45002E";
-    public string TertiaryContainer => "#E47CB4";
-    public string OnTertiaryContainer => "#45002E";
+    public string Tertiary => "#E77EB6";
+    public string OnTertiary => "#490031";
+    public string TertiaryContainer => "#D871A9";
+    public string OnTertiaryContainer => "#2E001D";
     // Error
-    public string Error => "#FF7169";
-    public string OnError => "#490004";
-    public string ErrorContainer => "#7D010E";
-    public string OnErrorContainer => "#FFA9A2";
+    public string Error => "#FF6F7A";
+    public string OnError => "#49000E";
+    public string ErrorContainer => "#880524";
+    public string OnErrorContainer => "#FFB7B9";
     // Surface
     public string Surface => "#190911";
     public string SurfaceVariant => "#3B1B2C";
@@ -35,7 +35,7 @@ internal class DarkMode_NormalContrast_Spec2026_Magenta : ITestTheme
     public string OnSurfaceVariant => "#CE9EB4";
     public string SurfaceDim => "#190911";
     public string SurfaceBright => "#422133";
-    public string SurfaceTint => "#F86ABC";
+    public string SurfaceTint => "#FC6DBF";
     // Background
     public string Background => "#190911";
     public string OnBackground => "#FFDCEA";
@@ -50,20 +50,20 @@ internal class DarkMode_NormalContrast_Spec2026_Magenta : ITestTheme
     public string InverseOnSurface => "#664F59";
     public string InversePrimary => "#A9287A";
     // Primary Fixed
-    public string PrimaryFixed => "#F86ABC";
+    public string PrimaryFixed => "#EB60B1";
     public string OnPrimaryFixed => "#000000";
-    public string PrimaryFixedDim => "#E85DAE";
-    public string OnPrimaryFixedVariant => "#56003A";
+    public string PrimaryFixedDim => "#DB53A3";
+    public string OnPrimaryFixedVariant => "#43002C";
     // Secondary Fixed
     public string SecondaryFixed => "#FBB1D5";
     public string OnSecondaryFixed => "#4C1A37";
     public string SecondaryFixedDim => "#ECA3C7";
     public string OnSecondaryFixedVariant => "#6E3755";
     // Tertiary Fixed
-    public string TertiaryFixed => "#E47CB4";
+    public string TertiaryFixed => "#D871A9";
     public string OnTertiaryFixed => "#000000";
-    public string TertiaryFixedDim => "#D56FA6";
-    public string OnTertiaryFixedVariant => "#56013A";
+    public string TertiaryFixedDim => "#C8659B";
+    public string OnTertiaryFixedVariant => "#43002C";
     // Surface Container
     public string SurfaceContainerLowest => "#000000";
     public string SurfaceContainerLow => "#210C18";

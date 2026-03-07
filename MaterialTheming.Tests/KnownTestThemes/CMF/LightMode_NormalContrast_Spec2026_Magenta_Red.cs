@@ -12,8 +12,8 @@ internal class LightMode_NormalContrast_Spec2026_Magenta_Red : ITestThemeSecondS
     // Primary
     public string Primary => "#AA287A";
     public string OnPrimary => "#FFF7F8";
-    public string PrimaryContainer => "#F86ABC";
-    public string OnPrimaryContainer => "#45002E";
+    public string PrimaryContainer => "#EB60B1";
+    public string OnPrimaryContainer => "#2E001D";
     // Secondary
     public string Secondary => "#874C6B";
     public string OnSecondary => "#FFF7F8";
@@ -25,10 +25,10 @@ internal class LightMode_NormalContrast_Spec2026_Magenta_Red : ITestThemeSecondS
     public string TertiaryContainer => "#CF443B";
     public string OnTertiaryContainer => "#FFFFFF";
     // Error
-    public string Error => "#B12E2D";
+    public string Error => "#AF3214";
     public string OnError => "#FFF7F6";
-    public string ErrorContainer => "#FF7169";
-    public string OnErrorContainer => "#490004";
+    public string ErrorContainer => "#FA6744";
+    public string OnErrorContainer => "#350500";
     // Surface
     public string Surface => "#FFF8F8";
     public string SurfaceVariant => "#FFD8E8";
@@ -51,10 +51,10 @@ internal class LightMode_NormalContrast_Spec2026_Magenta_Red : ITestThemeSecondS
     public string InverseOnSurface => "#B196A1";
     public string InversePrimary => "#FC6DBF";
     // Primary Fixed
-    public string PrimaryFixed => "#F86ABC";
+    public string PrimaryFixed => "#EB60B1";
     public string OnPrimaryFixed => "#000000";
-    public string PrimaryFixedDim => "#E85DAE";
-    public string OnPrimaryFixedVariant => "#56003A";
+    public string PrimaryFixedDim => "#DB53A3";
+    public string OnPrimaryFixedVariant => "#43002C";
     // Secondary Fixed
     public string SecondaryFixed => "#FBB1D5";
     public string OnSecondaryFixed => "#4C1A37";
@@ -64,7 +64,7 @@ internal class LightMode_NormalContrast_Spec2026_Magenta_Red : ITestThemeSecondS
     public string TertiaryFixed => "#CF443B";
     public string OnTertiaryFixed => "#FFFFFF";
     public string TertiaryFixedDim => "#BD3730";
-    public string OnTertiaryFixedVariant => "#FFE2DE";
+    public string OnTertiaryFixedVariant => "#FFFBFF";
     // Surface Container
     public string SurfaceContainerLowest => "#FFFFFF";
     public string SurfaceContainerLow => "#FFF0F4";

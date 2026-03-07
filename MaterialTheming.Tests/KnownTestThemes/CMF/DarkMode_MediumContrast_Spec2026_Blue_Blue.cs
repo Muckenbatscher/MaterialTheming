@@ -25,9 +25,9 @@ internal class DarkMode_MediumContrast_Spec2026_Blue_Blue : ITestThemeSecondSour
     public string TertiaryContainer => "#5276AA";
     public string OnTertiaryContainer => "#FFFFFF";
     // Error
-    public string Error => "#FF9F97";
-    public string OnError => "#5A0D0E";
-    public string ErrorContainer => "#BB554F";
+    public string Error => "#FF9F96";
+    public string OnError => "#5A0D0D";
+    public string ErrorContainer => "#BB554D";
     public string OnErrorContainer => "#FFFFFF";
     // Surface
     public string Surface => "#090E17";

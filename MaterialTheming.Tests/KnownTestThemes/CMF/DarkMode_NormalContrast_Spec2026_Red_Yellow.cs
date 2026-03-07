@@ -20,15 +20,15 @@ internal class DarkMode_NormalContrast_Spec2026_Red_Yellow : ITestThemeSecondSou
     public string SecondaryContainer => "#561E1A";
     public string OnSecondaryContainer => "#EF9A91";
     // Tertiary
-    public string Tertiary => "#B2B037";
-    public string OnTertiary => "#2F2E00";
-    public string TertiaryContainer => "#A4A22A";
-    public string OnTertiaryContainer => "#222100";
+    public string Tertiary => "#C0BE44";
+    public string OnTertiary => "#393900";
+    public string TertiaryContainer => "#B2B037";
+    public string OnTertiaryContainer => "#2F2E00";
     // Error
-    public string Error => "#FF7169";
-    public string OnError => "#490004";
-    public string ErrorContainer => "#7D000D";
-    public string OnErrorContainer => "#FFA9A2";
+    public string Error => "#FF6F7A";
+    public string OnError => "#49000E";
+    public string ErrorContainer => "#880424";
+    public string OnErrorContainer => "#FFB7B9";
     // Surface
     public string Surface => "#1B0907";
     public string SurfaceVariant => "#3F1B17";
@@ -54,7 +54,7 @@ internal class DarkMode_NormalContrast_Spec2026_Red_Yellow : ITestThemeSecondSou
     public string PrimaryFixed => "#CF443B";
     public string OnPrimaryFixed => "#FFFFFF";
     public string PrimaryFixedDim => "#BD3730";
-    public string OnPrimaryFixedVariant => "#FFE2DE";
+    public string OnPrimaryFixedVariant => "#FFFBFF";
     // Secondary Fixed
     public string SecondaryFixed => "#FCA59B";
     public string OnSecondaryFixed => "#44110E";
