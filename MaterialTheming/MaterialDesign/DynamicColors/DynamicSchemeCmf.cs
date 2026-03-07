@@ -27,7 +27,7 @@ internal class DynamicSchemeCmf : DynamicScheme
         double contrastLevel,
         HctColor sourceColor,
         Platform platform = Platform.Phone,
-        SpecVersion specVersion = SpecVersion.Spec2021)
+        SpecVersion specVersion = SpecVersion.Spec2026)
         : this(isDark, contrastLevel, [sourceColor], platform, specVersion)
     {
     }
@@ -66,9 +66,9 @@ internal class DynamicSchemeCmf : DynamicScheme
 
     private static double GetErrorHue(IEnumerable<HctColor> sourceColors)
     {
-        var primaryHue = GetPrimaryPalette(sourceColors).Hue;
+        var firstSourceColorHue = sourceColors.First().Hue;
         var tertiaryHue = GetTertiaryPalette(sourceColors).Hue;
-        return primaryHue switch
+        return firstSourceColorHue switch
         {
             <= 8 => tertiaryHue <= 24 ? 28 : tertiaryHue <= 32 ? 16 : 20,
             <= 16 => tertiaryHue <= 24 ? 32 : tertiaryHue <= 32 ? 20 : 24,

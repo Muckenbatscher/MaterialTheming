@@ -566,8 +566,8 @@ internal class ColorSpec2026 : ColorSpec2025
             .WithContrastCurve(s => GetContrastCurve(4.5))
             .WithToneDeltaPair(s =>
             {
-                return s.Platform.IsPhone() 
-                    ? new ToneDeltaPair(TertiaryContainer, Tertiary, 5, TonePolarity.RelativeLighter, ToneDeltaConstraint.Farther) 
+                return s.Platform.IsPhone()
+                    ? new ToneDeltaPair(TertiaryContainer, Tertiary, 5, TonePolarity.RelativeLighter, ToneDeltaConstraint.Farther)
                     : null;
             });
     }
@@ -686,7 +686,7 @@ internal class ColorSpec2026 : ColorSpec2025
             .WithToneDeltaPair(s =>
             {
                 return s.Platform.IsPhone()
-                    ? new ToneDeltaPair(ErrorContainer, Error, 5, TonePolarity.RelativeDarker, ToneDeltaConstraint.Farther)
+                    ? new ToneDeltaPair(ErrorContainer, Error, 5, TonePolarity.RelativeLighter, ToneDeltaConstraint.Farther)
                     : null;
             });
     }
@@ -695,7 +695,7 @@ internal class ColorSpec2026 : ColorSpec2025
     private DynamicColorBuilder CreateErrorDim()
     {
         return CreateError()
-            .WithName("error");
+            .WithName("error_dim");
     }
 
     public override DynamicColor OnError => CreateOnError().Build();
