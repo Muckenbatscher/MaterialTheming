@@ -25,9 +25,9 @@ internal class LightMode_MediumContrast_Spec2026_Purple_Red : ITestThemeSecondSo
     public string TertiaryContainer => "#CF443B";
     public string OnTertiaryContainer => "#FFFFFF";
     // Error
-    public string Error => "#811B1C";
-    public string OnError => "#FFCECA";
-    public string ErrorContainer => "#C54D47";
+    public string Error => "#801F07";
+    public string OnError => "#FFCFC4";
+    public string ErrorContainer => "#C44F34";
     public string OnErrorContainer => "#FFFFFF";
     // Surface
     public string Surface => "#FFF7FE";

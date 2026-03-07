@@ -25,9 +25,9 @@ internal class LightMode_HighContrast_Spec2026_Magenta_Red : ITestThemeSecondSou
     public string TertiaryContainer => "#9E201D";
     public string OnTertiaryContainer => "#FFFFFF";
     // Error
-    public string Error => "#510005";
-    public string OnError => "#FFCFCA";
-    public string ErrorContainer => "#9E2022";
+    public string Error => "#4C0A00";
+    public string OnError => "#FFCFC4";
+    public string ErrorContainer => "#9C2506";
     public string OnErrorContainer => "#FFFFFF";
     // Surface
     public string Surface => "#FFF8F8";

@@ -25,9 +25,9 @@ internal class LightMode_HighContrast_Spec2026_Blue_Blue : ITestThemeSecondSourc
     public string TertiaryContainer => "#2D5385";
     public string OnTertiaryContainer => "#FFFFFF";
     // Error
-    public string Error => "#4F0407";
+    public string Error => "#4F0406";
     public string OnError => "#FFCFCA";
-    public string ErrorContainer => "#8E3430";
+    public string ErrorContainer => "#8E342E";
     public string OnErrorContainer => "#FFFFFF";
     // Surface
     public string Surface => "#F9F9FF";

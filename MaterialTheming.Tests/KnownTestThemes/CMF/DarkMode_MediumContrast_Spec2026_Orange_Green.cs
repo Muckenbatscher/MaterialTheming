@@ -25,9 +25,9 @@ internal class DarkMode_MediumContrast_Spec2026_Orange_Green : ITestThemeSecondS
     public string TertiaryContainer => "#308443";
     public string OnTertiaryContainer => "#FFFFFF";
     // Error
-    public string Error => "#FF9F97";
-    public string OnError => "#5B0D0E";
-    public string ErrorContainer => "#BB554F";
+    public string Error => "#FFA089";
+    public string OnError => "#591001";
+    public string ErrorContainer => "#BA573F";
     public string OnErrorContainer => "#FFFFFF";
     // Surface
     public string Surface => "#170B05";

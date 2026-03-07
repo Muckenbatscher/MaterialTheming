@@ -19,14 +19,14 @@ internal class DarkMode_MediumContrast_Spec2026_Cyan : ITestTheme
     public string SecondaryContainer => "#4E7C84";
     public string OnSecondaryContainer => "#FFFFFF";
     // Tertiary
-    public string Tertiary => "#70C5D4";
+    public string Tertiary => "#6FC5D4";
     public string OnTertiary => "#003138";
     public string TertiaryContainer => "#61B7C6";
     public string OnTertiaryContainer => "#00242A";
     // Error
-    public string Error => "#FF9F97";
-    public string OnError => "#5A0D0E";
-    public string ErrorContainer => "#BB554F";
+    public string Error => "#FF9F96";
+    public string OnError => "#5A0D0D";
+    public string ErrorContainer => "#BB554D";
     public string OnErrorContainer => "#FFFFFF";
     // Surface
     public string Surface => "#051012";

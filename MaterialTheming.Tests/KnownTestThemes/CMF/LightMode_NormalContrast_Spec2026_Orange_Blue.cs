@@ -12,23 +12,23 @@ internal class LightMode_NormalContrast_Spec2026_Orange_Blue : ITestThemeSecondS
     // Primary
     public string Primary => "#994805";
     public string OnPrimary => "#FFF7F5";
-    public string PrimaryContainer => "#E78543";
-    public string OnPrimaryContainer => "#391600";
+    public string PrimaryContainer => "#DA7A39";
+    public string OnPrimaryContainer => "#250C00";
     // Secondary
     public string Secondary => "#815539";
     public string OnSecondary => "#FFF7F5";
     public string SecondaryContainer => "#FABF9D";
     public string OnSecondaryContainer => "#623A21";
     // Tertiary
-    public string Tertiary => "#185FAA";
-    public string OnTertiary => "#F6F7FF";
-    public string TertiaryContainer => "#2B6CB7";
-    public string OnTertiaryContainer => "#FFFFFF";
+    public string Tertiary => "#00539B";
+    public string OnTertiary => "#D6E4FF";
+    public string TertiaryContainer => "#185FAA";
+    public string OnTertiaryContainer => "#F6F7FF";
     // Error
-    public string Error => "#9F403C";
+    public string Error => "#9E422C";
     public string OnError => "#FFF7F6";
-    public string ErrorContainer => "#F8847C";
-    public string OnErrorContainer => "#54080A";
+    public string ErrorContainer => "#FE8B70";
+    public string OnErrorContainer => "#5A1001";
     // Surface
     public string Surface => "#FFF8F5";
     public string SurfaceVariant => "#FFDBC8";
@@ -51,19 +51,19 @@ internal class LightMode_NormalContrast_Spec2026_Orange_Blue : ITestThemeSecondS
     public string InverseOnSurface => "#AF988C";
     public string InversePrimary => "#FE9753";
     // Primary Fixed
-    public string PrimaryFixed => "#E78543";
+    public string PrimaryFixed => "#DA7A39";
     public string OnPrimaryFixed => "#000000";
-    public string PrimaryFixedDim => "#D77837";
-    public string OnPrimaryFixedVariant => "#481E00";
+    public string PrimaryFixedDim => "#CA6E2E";
+    public string OnPrimaryFixedVariant => "#371500";
     // Secondary Fixed
     public string SecondaryFixed => "#FABF9D";
     public string OnSecondaryFixed => "#4B270F";
     public string SecondaryFixedDim => "#EBB290";
     public string OnSecondaryFixedVariant => "#6C4329";
     // Tertiary Fixed
-    public string TertiaryFixed => "#2B6CB7";
+    public string TertiaryFixed => "#185FAA";
     public string OnTertiaryFixed => "#FFFFFF";
-    public string TertiaryFixedDim => "#185FAA";
+    public string TertiaryFixedDim => "#00539B";
     public string OnTertiaryFixedVariant => "#C5DAFF";
     // Surface Container
     public string SurfaceContainerLowest => "#FFFFFF";

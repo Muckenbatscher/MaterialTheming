@@ -25,9 +25,9 @@ internal class DarkMode_HighContrast_Spec2026_Yellow_Red : ITestThemeSecondSourc
     public string TertiaryContainer => "#FF7C70";
     public string OnTertiaryContainer => "#000000";
     // Error
-    public string Error => "#FFDEDB";
-    public string OnError => "#5A0D0E";
-    public string ErrorContainer => "#F5827A";
+    public string Error => "#FFDEDC";
+    public string OnError => "#5B0C13";
+    public string ErrorContainer => "#F58280";
     public string OnErrorContainer => "#000000";
     // Surface
     public string Surface => "#0F0F04";

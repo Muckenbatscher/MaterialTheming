@@ -10,10 +10,10 @@ internal class DarkMode_NormalContrast_Spec2026_Cyan_Purple : ITestThemeSecondSo
     public SpecVersion SpecVersion => SpecVersion.Spec2026;
 
     // Primary
-    public string Primary => "#00BCD1";
-    public string OnPrimary => "#003138";
-    public string PrimaryContainer => "#00AEC1";
-    public string OnPrimaryContainer => "#00242A";
+    public string Primary => "#2DCADF";
+    public string OnPrimary => "#003D44";
+    public string PrimaryContainer => "#00BCD1";
+    public string OnPrimaryContainer => "#003138";
     // Secondary
     public string Secondary => "#77A5AE";
     public string OnSecondary => "#00242A";
@@ -25,10 +25,10 @@ internal class DarkMode_NormalContrast_Spec2026_Cyan_Purple : ITestThemeSecondSo
     public string TertiaryContainer => "#925ACA";
     public string OnTertiaryContainer => "#FFFFFF";
     // Error
-    public string Error => "#FB877F";
-    public string OnError => "#570B0D";
-    public string ErrorContainer => "#480005";
-    public string OnErrorContainer => "#EE7D75";
+    public string Error => "#FB877D";
+    public string OnError => "#570B0B";
+    public string ErrorContainer => "#4B0205";
+    public string OnErrorContainer => "#F07F75";
     // Surface
     public string Surface => "#051012";
     public string SurfaceVariant => "#0E292E";
@@ -36,7 +36,7 @@ internal class DarkMode_NormalContrast_Spec2026_Cyan_Purple : ITestThemeSecondSo
     public string OnSurfaceVariant => "#94B0B5";
     public string SurfaceDim => "#051012";
     public string SurfaceBright => "#153034";
-    public string SurfaceTint => "#00BCD1";
+    public string SurfaceTint => "#2DCADF";
     // Background
     public string Background => "#051012";
     public string OnBackground => "#CEEBF0";
@@ -64,7 +64,7 @@ internal class DarkMode_NormalContrast_Spec2026_Cyan_Purple : ITestThemeSecondSo
     public string TertiaryFixed => "#925ACA";
     public string OnTertiaryFixed => "#FFFFFF";
     public string TertiaryFixedDim => "#844DBD";
-    public string OnTertiaryFixedVariant => "#F4E2FF";
+    public string OnTertiaryFixedVariant => "#FFFBFF";
     // Surface Container
     public string SurfaceContainerLowest => "#000000";
     public string SurfaceContainerLow => "#051619";

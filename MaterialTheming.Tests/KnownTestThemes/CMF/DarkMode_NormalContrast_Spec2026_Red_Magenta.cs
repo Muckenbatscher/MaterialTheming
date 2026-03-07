@@ -20,15 +20,15 @@ internal class DarkMode_NormalContrast_Spec2026_Red_Magenta : ITestThemeSecondSo
     public string SecondaryContainer => "#561E1A";
     public string OnSecondaryContainer => "#EF9A91";
     // Tertiary
-    public string Tertiary => "#F86ABC";
-    public string OnTertiary => "#45002E";
-    public string TertiaryContainer => "#F86ABC";
-    public string OnTertiaryContainer => "#45002E";
+    public string Tertiary => "#FC6DBF";
+    public string OnTertiary => "#490031";
+    public string TertiaryContainer => "#EB60B1";
+    public string OnTertiaryContainer => "#2E001D";
     // Error
-    public string Error => "#FF7169";
-    public string OnError => "#490004";
-    public string ErrorContainer => "#7D000D";
-    public string OnErrorContainer => "#FFA9A2";
+    public string Error => "#FF6F7A";
+    public string OnError => "#49000E";
+    public string ErrorContainer => "#880424";
+    public string OnErrorContainer => "#FFB7B9";
     // Surface
     public string Surface => "#1B0907";
     public string SurfaceVariant => "#3F1B17";
@@ -54,17 +54,17 @@ internal class DarkMode_NormalContrast_Spec2026_Red_Magenta : ITestThemeSecondSo
     public string PrimaryFixed => "#CF443B";
     public string OnPrimaryFixed => "#FFFFFF";
     public string PrimaryFixedDim => "#BD3730";
-    public string OnPrimaryFixedVariant => "#FFE2DE";
+    public string OnPrimaryFixedVariant => "#FFFBFF";
     // Secondary Fixed
     public string SecondaryFixed => "#FCA59B";
     public string OnSecondaryFixed => "#44110E";
     public string SecondaryFixedDim => "#EC988E";
     public string OnSecondaryFixedVariant => "#6B2F29";
     // Tertiary Fixed
-    public string TertiaryFixed => "#F86ABC";
+    public string TertiaryFixed => "#EB60B1";
     public string OnTertiaryFixed => "#000000";
-    public string TertiaryFixedDim => "#E85DAE";
-    public string OnTertiaryFixedVariant => "#56003A";
+    public string TertiaryFixedDim => "#DB53A3";
+    public string OnTertiaryFixedVariant => "#43002C";
     // Surface Container
     public string SurfaceContainerLowest => "#000000";
     public string SurfaceContainerLow => "#240C0A";

@@ -19,14 +19,14 @@ internal class DarkMode_MediumContrast_Spec2026_Yellow : ITestTheme
     public string SecondaryContainer => "#787745";
     public string OnSecondaryContainer => "#FFFFFF";
     // Tertiary
-    public string Tertiary => "#BFBD65";
+    public string Tertiary => "#BFBD66";
     public string OnTertiary => "#2E2E00";
-    public string TertiaryContainer => "#B1AF59";
+    public string TertiaryContainer => "#B1AF5A";
     public string OnTertiaryContainer => "#222200";
     // Error
-    public string Error => "#FF9F97";
-    public string OnError => "#5A0D0E";
-    public string ErrorContainer => "#BB554F";
+    public string Error => "#FFA089";
+    public string OnError => "#591001";
+    public string ErrorContainer => "#BA573F";
     public string OnErrorContainer => "#FFFFFF";
     // Surface
     public string Surface => "#0F0F04";

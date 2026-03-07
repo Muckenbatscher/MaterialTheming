@@ -25,9 +25,9 @@ internal class DarkMode_HighContrast_Spec2026_Orange_Blue : ITestThemeSecondSour
     public string TertiaryContainer => "#6DA5F5";
     public string OnTertiaryContainer => "#000000";
     // Error
-    public string Error => "#FFDEDB";
-    public string OnError => "#5A0D0E";
-    public string ErrorContainer => "#F5827A";
+    public string Error => "#FFDED7";
+    public string OnError => "#591001";
+    public string ErrorContainer => "#F58469";
     public string OnErrorContainer => "#000000";
     // Surface
     public string Surface => "#170B05";

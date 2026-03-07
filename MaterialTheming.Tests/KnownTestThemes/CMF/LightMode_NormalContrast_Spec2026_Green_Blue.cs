@@ -20,15 +20,15 @@ internal class LightMode_NormalContrast_Spec2026_Green_Blue : ITestThemeSecondSo
     public string SecondaryContainer => "#C8ECC6";
     public string OnSecondaryContainer => "#3A593C";
     // Tertiary
-    public string Tertiary => "#185FAA";
-    public string OnTertiary => "#F6F7FF";
-    public string TertiaryContainer => "#2B6CB7";
-    public string OnTertiaryContainer => "#FFFFFF";
+    public string Tertiary => "#00539B";
+    public string OnTertiary => "#D6E4FF";
+    public string TertiaryContainer => "#185FAA";
+    public string OnTertiaryContainer => "#F6F7FF";
     // Error
-    public string Error => "#9F403C";
+    public string Error => "#9E422C";
     public string OnError => "#FFF7F6";
-    public string ErrorContainer => "#F8847C";
-    public string OnErrorContainer => "#54080A";
+    public string ErrorContainer => "#FE8B70";
+    public string OnErrorContainer => "#5A1001";
     // Surface
     public string Surface => "#F2FCEE";
     public string SurfaceVariant => "#D3E8CF";
@@ -54,16 +54,16 @@ internal class LightMode_NormalContrast_Spec2026_Green_Blue : ITestThemeSecondSo
     public string PrimaryFixed => "#308443";
     public string OnPrimaryFixed => "#FFFFFF";
     public string PrimaryFixedDim => "#217737";
-    public string OnPrimaryFixedVariant => "#A5FCAD";
+    public string OnPrimaryFixedVariant => "#F7FFF2";
     // Secondary Fixed
     public string SecondaryFixed => "#C8ECC6";
     public string OnSecondaryFixed => "#28462B";
     public string SecondaryFixedDim => "#BADEB9";
     public string OnSecondaryFixedVariant => "#446345";
     // Tertiary Fixed
-    public string TertiaryFixed => "#2B6CB7";
+    public string TertiaryFixed => "#185FAA";
     public string OnTertiaryFixed => "#FFFFFF";
-    public string TertiaryFixedDim => "#185FAA";
+    public string TertiaryFixedDim => "#00539B";
     public string OnTertiaryFixedVariant => "#C5DAFF";
     // Surface Container
     public string SurfaceContainerLowest => "#FFFFFF";
