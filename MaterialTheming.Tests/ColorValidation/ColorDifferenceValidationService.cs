@@ -4,8 +4,8 @@ namespace MaterialTheming.Tests.ColorValidation;
 
 internal class ColorDifferenceValidationService
 {
-    public const int MaxAllowedDifferencePerChannel = 1;
-    public const int MaxAllowedTotalDifference = 2;
+    public const int MaxAllowedDifferencePerChannel = 0;
+    public const int MaxAllowedTotalDifference = 0;
 
     public static IEnumerable<ColorDifference> FilterToOutOfSpecColorDifferences(IEnumerable<ColorDifference> colorDifferences)
     {
