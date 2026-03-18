@@ -175,7 +175,9 @@ internal class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
 
     private ThemeColors BuildThemeColors()
     {
-        var specVersionToUse = GetFallbackSpecVersionToUse(specVersion, variant);
+        var specVersionToUse = variant == Variant.CMF
+            ? SpecVersion.Spec2026
+            : GetFallbackSpecVersionToUse(specVersion, variant);
         var colorSpec = ColorSpecFactory.Create(specVersionToUse);
         bool isDark = mode == ThemeMode.Dark;
 
