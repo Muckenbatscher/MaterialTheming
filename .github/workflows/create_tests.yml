@@ -1,0 +1,55 @@
+name: Generate Testcasese from Java implementation
+
+on:
+  workflow_dispatch: 
+  push:
+  schedule:
+    - cron: '30 3 * * *'
+
+env:
+    TEST_GEN_REPO_NAME: Muckenbatscher/material-color-utilities-testcases-generation
+    TEST_GEN_REPO_BRANCH: main
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  generate-and-pr:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: dotnet-repo
+
+      - name: Checkout reference Java implementation Repository
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ env.TEST_GEN_REPO_NAME }} 
+          ref: ${{ env.TEST_GEN_REPO_BRANCH }}
+          path: java-repo 
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Compile and Run MyTest.java
+        run: |
+          cd java-repo/java
+          
+          javac MyTest.java
+          
+          java MyTest "$GITHUB_WORKSPACE/dotnet-repo/MaterialTheming.Tests/KnownTestThemes"
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          path: dotnet-repo
+          branch: test-generation
+          base: master
+          title: "feat: Auto-generierte C# Dateien aktualisiert"
+          commit-message: "feat: Update C# testcase files. Generated from Java reference implementation."
+          body: |
+            Automatically generated the testcases from the java reference implementation.
