@@ -19,12 +19,12 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           path: dotnet-repo
 
       - name: Checkout reference Java implementation Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: ${{ env.TEST_GEN_REPO_NAME }} 
           ref: ${{ env.TEST_GEN_REPO_BRANCH }}
@@ -38,9 +38,15 @@ jobs:
       - name: Compile and Run MyTest.java
         run: |
           cd java-repo/java
+
+          echo "Downloading required dependencies..."
+          curl -fSL -O https://repo1.maven.org/maven2/androidx/annotation/annotation-jvm/1.9.1/annotation-jvm-1.9.1.jar
+          curl -fSL -O https://repo1.maven.org/maven2/com/google/errorprone/error_prone_annotations/2.45.0/error_prone_annotations-2.45.0.jar
           
-          javac MyTest.java
+          echo "Compiling MyTest.java..."
+          javac -cp ".:annotation-jvm-1.9.1.jar:error_prone_annotations-2.45.0.jar" MyTest.java
           
+          echo "Executing MyTest.java..."
           java MyTest "$GITHUB_WORKSPACE/dotnet-repo/MaterialTheming.Tests/KnownTestThemes"
 
       - name: Create Pull Request
