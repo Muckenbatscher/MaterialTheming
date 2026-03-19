@@ -6,29 +6,26 @@ on:
   schedule:
     - cron: '30 3 * * *'
 
-env:
-    TEST_GEN_REPO_NAME: Muckenbatscher/material-color-utilities-testcases-generation
-    TEST_GEN_REPO_BRANCH: main
 
 permissions:
   contents: write
   pull-requests: write
 
 jobs:
-  generate-and-pr:
+  build-java:
     runs-on: ubuntu-latest
     
+    env:
+      TEST_GEN_REPO_NAME: Muckenbatscher/material-color-utilities-testcases-generation
+      TEST_GEN_REPO_BRANCH: main
+      OUTPUT_PATH: ${{ github.workspace }}/generated-output
+    
     steps:
-      - uses: actions/checkout@v6
-        with:
-          path: dotnet-repo
-
       - name: Checkout reference Java implementation Repository
         uses: actions/checkout@v6
         with:
           repository: ${{ env.TEST_GEN_REPO_NAME }} 
           ref: ${{ env.TEST_GEN_REPO_BRANCH }}
-          path: java-repo 
 
       - uses: actions/setup-java@v4
         with:
@@ -37,7 +34,7 @@ jobs:
 
       - name: Compile and Run MyTest.java
         run: |
-          cd java-repo/java
+          cd java
 
           echo "Downloading required dependencies..."
           curl -fSL -O https://maven.google.com/androidx/annotation/annotation-jvm/1.9.1/annotation-jvm-1.9.1.jar
@@ -46,9 +43,32 @@ jobs:
           echo "Compiling MyTest.java..."
           javac -cp ".:annotation-jvm-1.9.1.jar:error_prone_annotations-2.45.0.jar" MyTest.java
           
+          echo "Ensure output path exists..."
+          mkdir -p "${{ env.OUTPUT_PATH }}"
+
           echo "Executing MyTest.java..."
           java -cp ".:annotation-jvm-1.9.1.jar:error_prone_annotations-2.45.0.jar" \
-            MyTest "$GITHUB_WORKSPACE/dotnet-repo/MaterialTheming.Tests/KnownTestThemes"
+            MyTest "${{ env.OUTPUT_PATH }}"
+
+          ls -a ${{ env.OUTPUT_PATH }}
+  
+      - uses: actions/upload-artifact@v4
+        with:
+          name: generated-testcase-cs-files 
+          path: ${{ env.OUTPUT_PATH }}
+          retention-days: 1 
+  
+  generate-pr:
+    needs: build-java
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: generated-cs-files 
+          path: MaterialTheming.Tests/KnownTestThemes
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
