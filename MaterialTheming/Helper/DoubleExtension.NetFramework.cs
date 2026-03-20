@@ -22,7 +22,6 @@ internal static class DoubleExtension
 
         public static double Lerp(double start, double end, double amount)
         {
-            // Diese Formel ist präziser als (1 - amount) * start + amount * end
             return start + (end - start) * amount;
         }
     }
