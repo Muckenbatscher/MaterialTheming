@@ -11,27 +11,50 @@
     <MudGrid Spacing="4">
         
         <MudItem xs="12" sm="6" lg="3">
-            <ColorWithContainerDisplay ColorRoleName="Primary"
-                                       RoleColor="Theme.Primary" 
-                                       OnRoleColor="Theme.OnPrimary"
-                                       ContainerRoleColor="Theme.PrimaryContainer" 
-                                       OnContainerRoleColor="Theme.OnPrimaryContainer" />
+            <MudStack Spacing="4">
+                <ColorWithContainerDisplay ColorRoleName="Primary"
+                                           RoleColor="Theme.Primary"
+                                           OnRoleColor="Theme.OnPrimary"
+                                           ContainerRoleColor="Theme.PrimaryContainer"
+                                           OnContainerRoleColor="Theme.OnPrimaryContainer" />
+                
+                <FixedColorCombinationDisplay ColorRoleName="Primary Fixed"
+                                              RoleColor="Theme.PrimaryFixed"
+                                              RoleColorDim="Theme.PrimaryFixedDim"
+                                              OnRoleColor="Theme.OnPrimaryFixed"
+                                              OnRoleVariantColor="Theme.OnPrimaryFixedVariant" />
+            </MudStack>
         </MudItem>
 
         <MudItem xs="12" sm="6" lg="3">
-            <ColorWithContainerDisplay ColorRoleName="Secondary"
-                                       RoleColor="Theme.Secondary"
-                                       OnRoleColor="Theme.OnSecondary"
-                                       ContainerRoleColor="Theme.SecondaryContainer"
-                                       OnContainerRoleColor="Theme.OnSecondaryContainer" />
+            <MudStack Spacing="4">
+                <ColorWithContainerDisplay ColorRoleName="Secondary"
+                                           RoleColor="Theme.Secondary"
+                                           OnRoleColor="Theme.OnSecondary"
+                                           ContainerRoleColor="Theme.SecondaryContainer"
+                                           OnContainerRoleColor="Theme.OnSecondaryContainer" />
+                <FixedColorCombinationDisplay ColorRoleName="Secondary Fixed"
+                                              RoleColor="Theme.SecondaryFixed"
+                                              RoleColorDim="Theme.SecondaryFixedDim"
+                                              OnRoleColor="Theme.OnSecondaryFixed"
+                                              OnRoleVariantColor="Theme.OnSecondaryFixedVariant" />
+            </MudStack>
         </MudItem>
 
         <MudItem xs="12" sm="6" lg="3">
-            <ColorWithContainerDisplay ColorRoleName="Tertiary"
-                                       RoleColor="Theme.Tertiary"
-                                       OnRoleColor="Theme.OnTertiary"
-                                       ContainerRoleColor="Theme.TertiaryContainer"
-                                       OnContainerRoleColor="Theme.OnTertiaryContainer" />
+            <MudStack Spacing="4">
+                <ColorWithContainerDisplay ColorRoleName="Tertiary"
+                                           RoleColor="Theme.Tertiary"
+                                           OnRoleColor="Theme.OnTertiary"
+                                           ContainerRoleColor="Theme.TertiaryContainer"
+                                           OnContainerRoleColor="Theme.OnTertiaryContainer" />
+
+                <FixedColorCombinationDisplay ColorRoleName="Tertiary Fixed"
+                                              RoleColor="Theme.TertiaryFixed"
+                                              RoleColorDim="Theme.TertiaryFixedDim"
+                                              OnRoleColor="Theme.OnTertiaryFixed"
+                                              OnRoleVariantColor="Theme.OnTertiaryFixedVariant" />
+            </MudStack>
         </MudItem>
 
         <MudItem xs="12" sm="6" lg="3">
@@ -42,32 +65,6 @@
                                        OnContainerRoleColor="Theme.OnErrorContainer" />
         </MudItem>
 
-
-        <MudItem xs="12" sm="6" lg="3">
-            <FixedColorCombinationDisplay ColorRoleName="Primary Fixed"
-                                          RoleColor="Theme.PrimaryFixed"
-                                          RoleColorDim="Theme.PrimaryFixedDim"
-                                          OnRoleColor="Theme.OnPrimaryFixed"
-                                          OnRoleVariantColor="Theme.OnPrimaryFixedVariant" />
-        </MudItem>
-
-        <MudItem xs="12" sm="6" lg="3">
-            <FixedColorCombinationDisplay ColorRoleName="Secondary Fixed"
-                                          RoleColor="Theme.SecondaryFixed"
-                                          RoleColorDim="Theme.SecondaryFixedDim"
-                                          OnRoleColor="Theme.OnSecondaryFixed"
-                                          OnRoleVariantColor="Theme.OnSecondaryFixedVariant" />
-        </MudItem>
-
-        <MudItem xs="12" sm="6" lg="3">
-            <FixedColorCombinationDisplay ColorRoleName="Tertiary Fixed"
-                                          RoleColor="Theme.TertiaryFixed"
-                                          RoleColorDim="Theme.TertiaryFixedDim"
-                                          OnRoleColor="Theme.OnTertiaryFixed"
-                                          OnRoleVariantColor="Theme.OnTertiaryFixedVariant" />
-        </MudItem>
-        
-        <MudFlexBreak /> @* Missing element for Error Fixed*@
 
         <MudItem xs="12" md="6" lg="9">
             <MudStack Spacing="4">
@@ -110,7 +107,7 @@
                     <ColorRoleDisplay Height="ColorRoleDisplay.HeightStyle.Small" ColorRoleName="Inverse On Surface" Background="Theme.InverseOnSurface" Foreground="Theme.InverseSurface" />
                 </MudStack>
 
-                <ColorRoleDisplay Height="ColorRoleDisplay.HeightStyle.Small" ColorRoleName="Inverse Primary" Background="Theme.InversePrimary" Foreground="Theme.Primary" />
+                <ColorRoleDisplay Height="ColorRoleDisplay.HeightStyle.Small" ColorRoleName="Inverse Primary" Background="Theme.InversePrimary" Foreground="Theme.InverseSurface" />
             </MudStack>
         </MudItem>
 
