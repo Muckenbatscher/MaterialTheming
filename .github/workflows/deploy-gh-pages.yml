@@ -30,14 +30,14 @@ jobs:
       - name: Replace base href in index.html
         run: sed -i 's/<base href="\/" \/>/<base href="\/${{ env.repo-name }}\/" \/>/g' ${{ env.release-output }}/wwwroot/index.html
         
-      - name: Fix GitHub Pages routing and Jekyll issues
+      - name: Add .nojekyll and fix GitHub Pages routing
         run: |
           touch ${{ env.release-output }}/wwwroot/.nojekyll
           cp ${{ env.release-output }}/wwwroot/index.html ${{ env.release-output }}/wwwroot/404.html
-          
-      - name: Commit and Push to gh-pages branch
-        uses: JamesIves/github-pages-deploy-action@v4
+      
+      - uses: actions/upload-pages-artifact@v4
         with:
-          branch: gh-pages
-          folder: ${{ env.release-output }}/wwwroot
+          path: '${{ env.release-output }}/wwwroot'
+
+      - uses: actions/deploy-pages@v4
 
