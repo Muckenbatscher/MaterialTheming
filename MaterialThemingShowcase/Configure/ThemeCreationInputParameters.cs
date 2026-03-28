@@ -1,6 +1,6 @@
 ﻿using MaterialTheming;
 
-namespace MaterialThemingShowcase.Components;
+namespace MaterialThemingShowcase.Configure;
 
 public class ThemeCreationInputParameters
 {
