@@ -5,9 +5,11 @@
 <ThemeCreationInputs OnInputsChanged="OnThemeInputsChanged" />
 
 <ThemeDisplay Theme="_theme"/>
+<MudBlazorThemeApplier ThemeColors="_theme" />
 
 @code {
-    private ThemeColors? _theme = ThemeBuilder.CreateFromSourceColor("#512BD4").Build(); // .NET brand color
+    private const string DotNetBrandColor = "#512BD4";
+    private ThemeColors? _theme = ThemeBuilder.CreateFromSourceColor(DotNetBrandColor).Build();
 
     private ThemeCreationInputParameters themeInput;
 
