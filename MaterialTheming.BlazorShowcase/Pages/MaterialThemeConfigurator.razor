@@ -1,0 +1,43 @@
+﻿@page "/"
+
+<PageTitle>Material Theming</PageTitle>
+
+<ThemeCreationInputs OnInputsChanged="OnThemeInputsChanged" />
+
+<ThemeDisplay Theme="_theme"/>
+<MudBlazorThemeApplier ThemeColors="_theme" />
+
+@code {
+    private const string DotNetBrandColor = "#512BD4";
+    private ThemeColors? _theme = ThemeBuilder.CreateFromSourceColor(DotNetBrandColor).Build();
+
+    private ThemeCreationInputParameters themeInput;
+
+    public MaterialThemeConfigurator()
+    {
+        themeInput = new ThemeCreationInputParameters()
+        {
+            SourceColor = RgbColor.FromHtml("#512BD4"),
+            Variant = MaterialTheming.Variant.TonalSpot,
+            Mode = ThemeMode.Light,
+            Contrast = ContrastLevel.Normal
+        };
+        GenerateTheme();
+    }
+    private async Task OnThemeInputsChanged(ThemeCreationInputParameters args)
+    {
+        themeInput = args;
+        GenerateTheme();
+    }
+
+    private void GenerateTheme()
+    {
+        _theme = ThemeBuilder
+            .CreateFromSourceColor(themeInput.SourceColor)
+            .WithVariant(themeInput.Variant)
+            .WithMode(themeInput.Mode)
+            .WithContrastLevel(themeInput.Contrast)
+            .WithSpecVersion(SpecVersion.Spec2026)
+            .Build();
+    }
+}

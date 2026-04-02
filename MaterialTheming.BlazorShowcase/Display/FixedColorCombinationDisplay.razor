@@ -1,0 +1,44 @@
+﻿<MudStack Spacing="0">
+    <MudGrid Spacing="0">
+        <MudItem xs="12" md="6">
+            <ColorRoleDisplay Height="ColorRoleDisplay.HeightStyle.Normal" ColorRoleName="@(ColorRoleName)" Background="@(RoleColor)" Foreground="@(OnRoleColor)" />
+        </MudItem>
+
+        <MudItem xs="12" md="6">
+            <ColorRoleDisplay Height="ColorRoleDisplay.HeightStyle.Normal" ColorRoleName="@(ColorDimRoleName)" Background="@(RoleColorDim)" Foreground="@(OnRoleColor)" />
+        </MudItem>
+    </MudGrid>
+
+    <ColorRoleDisplay Height="ColorRoleDisplay.HeightStyle.Small" ColorRoleName="@(OnColorRoleName)" Background="@(OnRoleColor)" Foreground="@(RoleColor)" />
+    <ColorRoleDisplay Height="ColorRoleDisplay.HeightStyle.Small" ColorRoleName="@(OnColorVariantRoleName)" Background="@(OnRoleVariantColor)" Foreground="@(RoleColor)" />
+</MudStack>
+
+@code {
+    [Parameter]
+    public RgbColor RoleColor { get; set; } = RgbColor.FromArgb(0xFFFFFF);
+    [Parameter]
+    public RgbColor RoleColorDim { get; set; } = RgbColor.FromArgb(0xCFCFCF);
+    [Parameter]
+    public RgbColor OnRoleColor { get; set; } = RgbColor.FromArgb(0x000000);
+    [Parameter]
+    public RgbColor OnRoleVariantColor { get; set; } = RgbColor.FromArgb(0x404040);
+
+    [Parameter]
+    public string ColorRoleName { get; set; } = string.Empty;
+    [Parameter]
+    public string ColorDimRoleName { get; set; } = string.Empty;
+    [Parameter]
+    public string OnColorRoleName { get; set; } = string.Empty;
+    [Parameter]
+    public string OnColorVariantRoleName { get; set; } = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        if (string.IsNullOrEmpty(OnColorRoleName))
+            OnColorRoleName = $"On {ColorRoleName}";
+        if (string.IsNullOrEmpty(ColorDimRoleName))
+            ColorDimRoleName = $"{ColorRoleName} Dim";
+        if (string.IsNullOrEmpty(OnColorVariantRoleName))
+            OnColorVariantRoleName = $"On {ColorRoleName} Variant";
+    }
+}

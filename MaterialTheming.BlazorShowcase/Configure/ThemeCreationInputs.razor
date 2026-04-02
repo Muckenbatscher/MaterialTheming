@@ -1,0 +1,91 @@
+﻿<MudColorPicker ShowToolbar="false" ShowAlpha="false" ShowInputs="false" ThrottleInterval="300" DragEffect="true" PickerVariant="PickerVariant.Static" Value="SelectedColor" ValueChanged="OnSelectedColorChanged" />
+
+<MudSelect T="MaterialTheming.Variant" @bind-Value="SelectedVariant">
+    @foreach (var variant in _variants)
+    {
+        <MudSelectItem Value="@variant">@(variant.ToString())</MudSelectItem>
+    }
+</MudSelect>
+
+<MudCheckBox @bind-Value="DarkMode">Dark Mode</MudCheckBox>
+
+<MudToggleGroup T="ContrastLevel" @bind-Value="SelectedContrast" Outlined="true" Delimiters="true">
+    <MudToggleItem Value="@(ContrastLevel.Normal)">Normal (0.0)</MudToggleItem>
+    <MudToggleItem Value="@(ContrastLevel.Medium)">Medium (0.5)</MudToggleItem>
+    <MudToggleItem Value="@(ContrastLevel.High)">High (1.0)</MudToggleItem>
+</MudToggleGroup>
+
+@code {
+
+    [Parameter] 
+    public EventCallback<ThemeCreationInputParameters> OnInputsChanged { get; set; }
+
+    private async Task NotifyInputsChanged()
+    {
+        var inputs = new ThemeCreationInputParameters()
+        {
+            SourceColor = RgbColor.FromRgb(SelectedColor.R, SelectedColor.G, SelectedColor.B),
+            Variant = SelectedVariant,
+            Mode = DarkMode ? ThemeMode.Dark : ThemeMode.Light,
+            Contrast = SelectedContrast
+        };
+        await OnInputsChanged.InvokeAsync(inputs);
+    }
+
+    private MudColor SelectedColor
+    {
+        get;
+        set
+        {
+            field = value;
+            _ = NotifyInputsChanged();
+        }
+    } = "#512BD4";
+
+    private async Task OnSelectedColorChanged(MudColor args)
+    {
+        SelectedColor = args;
+    }
+
+    private List<MaterialTheming.Variant> _variants = [
+        MaterialTheming.Variant.TonalSpot,
+        MaterialTheming.Variant.Neutral,
+        MaterialTheming.Variant.Monochrome,
+        MaterialTheming.Variant.Vibrant,
+        MaterialTheming.Variant.Fidelity,
+        MaterialTheming.Variant.Content,
+        MaterialTheming.Variant.Rainbow,
+        MaterialTheming.Variant.FruitSalad,
+        MaterialTheming.Variant.Expressive,
+        MaterialTheming.Variant.CMF,
+    ];
+    private MaterialTheming.Variant SelectedVariant
+    {
+        get;
+        set
+        {
+            field = value;
+            _ = NotifyInputsChanged();
+        }
+    } = MaterialTheming.Variant.TonalSpot;
+
+    private bool DarkMode
+    {
+        get;
+        set
+        {
+            field = value;
+            _ = NotifyInputsChanged();
+        }
+    } = false;
+
+    private ContrastLevel SelectedContrast
+    {
+        get;
+        set
+        {
+            field = value;
+            _ = NotifyInputsChanged();
+        }
+    } = ContrastLevel.Normal;
+}

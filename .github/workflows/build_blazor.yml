@@ -1,0 +1,25 @@
+name: Build - MaterialTheming Blazor Showcase
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+    
+env:
+  PROJECT: MaterialTheming.BlazorShowcase
+
+jobs:
+  build-blazor:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v6
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v5
+      with:
+        dotnet-version: 10.0.x
+    - name: Restore
+      run: dotnet restore ${{ env.PROJECT }}
+    - name: Build
+      run: dotnet build ${{ env.PROJECT }} --no-restore
