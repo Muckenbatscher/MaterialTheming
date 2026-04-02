@@ -1,6 +1,6 @@
 ﻿using MaterialTheming;
 
-namespace MaterialThemingShowcase.Configure;
+namespace MaterialTheming.BlazorShowcase.Configure;
 
 public class ThemeCreationInputParameters
 {

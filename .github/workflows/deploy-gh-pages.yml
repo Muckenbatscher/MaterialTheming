@@ -12,8 +12,8 @@ permissions:
   id-token: write
 
 env:
-  project-name: MaterialThemingShowcase
-  repo-name: MaterialTheming-BlazorShowcase
+  project-name: MaterialTheming.BlazorShowcase
+  repo-name: MaterialTheming
   release-output: release
   
 jobs:
