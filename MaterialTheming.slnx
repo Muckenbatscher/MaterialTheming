@@ -9,6 +9,7 @@
     <File Path=".github/workflows/push_nuget_packages.yml" />
     <File Path=".github/workflows/spell_check_readme.yml" />
     <File Path=".github/workflows/style_check.yml" />
+	<File Path=".github/workflows/deploy-gh-pages.yml" />
   </Folder>
   <Folder Name="/Solution Items/Global Properties/">
     <File Path="Directory.Build.props" />
@@ -17,4 +18,5 @@
   </Folder>
   <Project Path="MaterialTheming.Tests/MaterialTheming.Tests.csproj" />
   <Project Path="MaterialTheming/MaterialTheming.csproj" />
+  <Project Path="MaterialTheming.BlazorShowcase/MaterialThemingShowcase.csproj" />
 </Solution>

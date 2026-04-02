@@ -2,9 +2,18 @@
 	<PropertyGroup>
 		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
 	</PropertyGroup>
+  
+  <!--Backward compatibility with older versions of .NET and .NET Framework-->
 	<ItemGroup>
 		<PackageVersion Include="Microsoft.Bcl.HashCode" Version="6.0.0" />
 		<PackageVersion Include="System.Text.Json" Version="10.0.3" />
 		<PackageVersion Include="PolySharp" Version="1.15.0" />
 	</ItemGroup>
+  
+  <!--MudBlazorShowcase-->
+  <ItemGroup>
+    <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.5" />
+    <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.5" />
+    <PackageVersion Include="MudBlazor" Version="9.1.0" />
+  </ItemGroup>
 </Project>

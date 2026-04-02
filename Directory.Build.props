@@ -1,24 +1,11 @@
 <Project>
 	
-	<PropertyGroup Condition="!$(MSBuildProjectName.EndsWith('.Tests'))">
-		<TargetFrameworks>netstandard2.1;net48;net8.0;net10.0</TargetFrameworks>
-	</PropertyGroup>
-	<PropertyGroup Condition="$(MSBuildProjectName.EndsWith('.Tests'))">
-		<TargetFrameworks>net48;net8.0;net10.0</TargetFrameworks>
-	</PropertyGroup>
-	
 	<PropertyGroup>
 		<ProduceReferenceAssembly>true</ProduceReferenceAssembly>
 		<LangVersion>14</LangVersion>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="!$(MSBuildProjectName.EndsWith('.Tests'))">
-		<GenerateDocumentationFile>true</GenerateDocumentationFile>
-		<!-- to not require every public facing method to have an xml-doc comment -->
-		<WarningsNotAsErrors>$(WarningsNotAsErrors);1591</WarningsNotAsErrors>
 	</PropertyGroup>
 
 </Project>
