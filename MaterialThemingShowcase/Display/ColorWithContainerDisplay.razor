@@ -1,0 +1,36 @@
+﻿<MudStack Spacing="0">
+    <ColorCombinationDisplay ColorRoleName="@(ColorRoleName)" OnColorRoleName="@(OnColorRoleName)"
+                             RoleColor="RoleColor" OnRoleColor="OnRoleColor" />
+    <div class="mt-4" />
+    <ColorCombinationDisplay ColorRoleName="@(ContainerColorRoleName)" OnColorRoleName="@(OnContainerColorRoleName)"
+                             RoleColor="ContainerRoleColor" OnRoleColor="OnContainerRoleColor" />
+</MudStack>
+@code {
+    [Parameter]
+    public RgbColor RoleColor { get; set; } = RgbColor.FromArgb(0xFFFFFF);
+    [Parameter]
+    public RgbColor OnRoleColor { get; set; } = RgbColor.FromArgb(0x000000);
+    [Parameter]
+    public RgbColor ContainerRoleColor { get; set; } = RgbColor.FromArgb(0x000000);
+    [Parameter]
+    public RgbColor OnContainerRoleColor { get; set; } = RgbColor.FromArgb(0xFFFFFF);
+
+    [Parameter]
+    public string ColorRoleName { get; set; } = string.Empty;
+    [Parameter]
+    public string OnColorRoleName { get; set; } = string.Empty;
+    [Parameter]
+    public string ContainerColorRoleName { get; set; } = string.Empty;
+    [Parameter]
+    public string OnContainerColorRoleName { get; set; } = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        if (string.IsNullOrEmpty(OnColorRoleName))
+            OnColorRoleName = $"On {ColorRoleName}";
+        if (string.IsNullOrEmpty(ContainerColorRoleName))
+            ContainerColorRoleName = $"{ColorRoleName} Container";
+        if (string.IsNullOrEmpty(OnContainerColorRoleName))
+            OnContainerColorRoleName = $"On {ContainerColorRoleName}";
+    }
+}
