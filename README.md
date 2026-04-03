@@ -101,7 +101,7 @@ var themeBuilderJsonThemeColors = ThemeBuilder
 
 ## Correctness & Compliance
 
-[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/Muckenbatscher/MaterialTheming/build_test.yml?label=verified%20compliance)](https://github.com/Muckenbatscher/MaterialTheming/actions/workflows/build_test.yml)
+[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/Muckenbatscher/MaterialTheming/build_test_library.yml?label=verified%20compliance)](https://github.com/Muckenbatscher/MaterialTheming/actions/workflows/build_test_library.yml)
 
 This library is not just an approximation of Material Design. 
 It is a full re-implementation tested against the source of truth.
