@@ -15,7 +15,8 @@
     <MudOverlay Visible="_isOpen" OnClick="ClosePicker" LockScroll="false" ZIndex="100" />
 
     <MudPopover Open="_isOpen" AnchorOrigin="Origin.BottomCenter" TransformOrigin="Origin.TopCenter" Fixed="true" Class="pa-4">
-        <MudColorPicker Value="ColorValue"
+        <MudColorPicker @key="@ColorValue"
+                        Value="ColorValue"
                         ValueChanged="OnColorChanged"
                         PickerVariant="PickerVariant.Static"
                         ShowToolbar="false" 
@@ -46,21 +47,23 @@
         _colorString = newColorString;
         try
         {
-            ColorValue = new MudColor(_colorString);
-            await ColorValueChanged.InvokeAsync(ColorValue);
+            var newColor = new MudColor(_colorString);
+            ColorValue = newColor;
             _isValidColor = true;
+            await ColorValueChanged.InvokeAsync(ColorValue);
         }
         catch
         {
             ColorValue = "#FFFFFF";
             _isValidColor = false;
         }
+        StateHasChanged();
     }
 
     private async Task OnColorChanged(MudColor newColor)
     {
         ColorValue = newColor;
-        _colorString = $"#{newColor.R:X2}{newColor.G:X2}{newColor.B:X2}".ToUpper(); 
+        _colorString = $"#{newColor.R:X2}{newColor.G:X2}{newColor.B:X2}".ToUpper();
         await ColorValueChanged.InvokeAsync(ColorValue);
     }
 
