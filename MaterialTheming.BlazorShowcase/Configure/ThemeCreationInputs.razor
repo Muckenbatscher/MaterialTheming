@@ -15,10 +15,14 @@
     <MudToggleItem Value="@(ContrastLevel.High)">High (1.0)</MudToggleItem>
 </MudToggleGroup>
 
-@code {
-
+    @code {
     [Parameter] 
     public EventCallback<ThemeCreationInputParameters> OnInputsChanged { get; set; }
+
+    protected override void OnInitialized()
+    {
+        SelectedColor = new MudColor("#512BD4");
+    }
 
     private async Task NotifyInputsChanged()
     {
@@ -41,11 +45,6 @@
             _ = NotifyInputsChanged();
         }
     } = "#512BD4";
-
-    private async Task OnSelectedColorChanged(MudColor args)
-    {
-        SelectedColor = args;
-    }
 
     private List<MaterialTheming.Variant> _variants = [
         MaterialTheming.Variant.TonalSpot,

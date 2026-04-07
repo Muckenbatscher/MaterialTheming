@@ -39,8 +39,16 @@
     public EventCallback<MudColor> ColorValueChanged { get; set; }
 
     private bool _isOpen;
-    private string _colorString = "#594AE2";
+    private string _colorString = string.Empty;
     private bool _isValidColor = true;
+
+    protected override void OnParametersSet()
+    {
+        if (_isOpen && !string.IsNullOrEmpty(_colorString))
+            return;
+            
+        _colorString = $"#{ColorValue.R:X2}{ColorValue.G:X2}{ColorValue.B:X2}".ToUpper();
+    }
 
     private async Task OnTextValueChanged(string newColorString)
     {
