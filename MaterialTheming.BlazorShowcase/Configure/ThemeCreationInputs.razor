@@ -1,4 +1,4 @@
-﻿<MudColorPicker ShowToolbar="false" ShowAlpha="false" ShowInputs="false" ThrottleInterval="300" DragEffect="true" PickerVariant="PickerVariant.Static" Value="SelectedColor" ValueChanged="OnSelectedColorChanged" />
+﻿<MaterialColorPicker @bind-ColorValue="SelectedColor" />
 
 <MudSelect T="MaterialTheming.Variant" @bind-Value="SelectedVariant">
     @foreach (var variant in _variants)
