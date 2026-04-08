@@ -71,6 +71,12 @@ jobs:
           name: generated-testcase-cs-files 
           path: ${{ env.TEST_THEME_DIR }}
 
+      - name: Set up Git config as github-actions
+        if: steps.check_diff.outputs.has_changes == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
       - name: Create branch with generated tests
         run: |
           git checkout -B ${{ env.PR_BRANCH_NAME }}
