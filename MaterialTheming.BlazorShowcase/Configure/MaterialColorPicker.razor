@@ -1,0 +1,81 @@
+﻿<div class="relative" style="width: 300px;">
+    <MudTextField Label="Color Picker"
+                  T="string"
+                  Value="_colorString"
+                  ValueChanged="OnTextValueChanged"
+                  Variant="MudBlazor.Variant.Outlined"
+                  @onclick="OpenPicker"
+                  Style="@($"color: {(_isValidColor ? "inherit" : "red")};")" />
+
+    <div @onclick="TogglePicker"
+         @onclick:stopPropagation="true"
+         style="@($"cursor: pointer; position: absolute; right: 12px; top: 12px; width: 28px; height: 28px; border-radius: 50%; background-color: {_colorString}; border: 1px solid #ccc; pointer-events: auto; z-index: 5;")">
+    </div>
+
+    <MudOverlay Visible="_isOpen" OnClick="ClosePicker" LockScroll="false" ZIndex="100" />
+
+    <MudPopover Open="_isOpen" AnchorOrigin="Origin.BottomCenter" TransformOrigin="Origin.TopCenter" Fixed="true" Class="pa-4">
+        <MudColorPicker @key="@ColorValue"
+                        Value="ColorValue"
+                        ValueChanged="OnColorChanged"
+                        PickerVariant="PickerVariant.Static"
+                        ShowToolbar="false" 
+                        ShowAlpha="false" 
+                        ShowInputs="false" 
+                        ThrottleInterval="300" 
+                        DragEffect="true"
+                        Style="box-shadow: none;" />
+        <div class="d-flex justify-end">
+            <MudButton OnClick="ClosePicker" Color="MudBlazor.Color.Primary">Close</MudButton>
+        </div>
+    </MudPopover>
+</div>
+
+@code {
+    [Parameter] 
+    public MudColor ColorValue { get; set; } = "#594AE2";
+
+    [Parameter] 
+    public EventCallback<MudColor> ColorValueChanged { get; set; }
+
+    private bool _isOpen;
+    private string _colorString = string.Empty;
+    private bool _isValidColor = true;
+
+    protected override void OnParametersSet()
+    {
+        if (_isOpen && !string.IsNullOrEmpty(_colorString))
+            return;
+            
+        _colorString = $"#{ColorValue.R:X2}{ColorValue.G:X2}{ColorValue.B:X2}".ToUpper();
+    }
+
+    private async Task OnTextValueChanged(string newColorString)
+    {
+        _colorString = newColorString;
+        try
+        {
+            var newColor = new MudColor(_colorString);
+            ColorValue = newColor;
+            _isValidColor = true;
+            await ColorValueChanged.InvokeAsync(ColorValue);
+        }
+        catch
+        {
+            ColorValue = "#FFFFFF";
+            _isValidColor = false;
+        }
+        StateHasChanged();
+    }
+
+    private async Task OnColorChanged(MudColor newColor)
+    {
+        ColorValue = newColor;
+        _colorString = $"#{newColor.R:X2}{newColor.G:X2}{newColor.B:X2}".ToUpper();
+        await ColorValueChanged.InvokeAsync(ColorValue);
+    }
+
+    private void TogglePicker() => _isOpen = !_isOpen;
+    private void OpenPicker() => _isOpen = true;
+    private void ClosePicker() => _isOpen = false;
+}
