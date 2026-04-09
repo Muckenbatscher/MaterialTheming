@@ -71,20 +71,36 @@ jobs:
           name: generated-testcase-cs-files 
           path: ${{ env.TEST_THEME_DIR }}
 
+      - name: Check for changes in the testcases
+        id: check_diff
+        run: |
+          CHANGES=$(git diff --name-only -- ${{ env.TEST_THEME_DIR }})
+
+          if [ -z "$CHANGES" ]; then
+            echo "No changes found in '${{ env.TEST_THEME_DIR }}'"
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "Changes detected in '${{ env.TEST_THEME_DIR }}'!"
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          fi
+
       - name: Set up Git config as github-actions
+        if: steps.check_diff.outputs.has_changes == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Create branch with generated tests
+        if: steps.check_diff.outputs.has_changes == 'true'
         run: |
           git checkout -B ${{ env.PR_BRANCH_NAME }}
           
           git add ${{ env.TEST_THEME_DIR }}
           git commit -m "Update C# testcase files. Generated from Java reference implementation."
-          git push --force origin ${{ env.SYNC_BRANCH_NAME }}
+          git push --set-upstream origin ${{ env.PR_BRANCH_NAME }} --force
           
       - name: Create Pull Request
+        if: steps.check_diff.outputs.has_changes == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
