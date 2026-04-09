@@ -5,8 +5,22 @@ on:
   schedule:
     - cron: '30 3 * * *'
 
+env:
+  PR_TARGET_BRANCH_NAME: master
+  PR_SOURCE_BRANCH_NAME: test-generation
+
 jobs:
+  validate-ref:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          if [ "${{ github.ref }}" != "refs/heads/${{ env.PR_TARGET_BRANCH_NAME }}" ]; then 
+            echo "Can only be run for branch ${{ env.PR_TARGET_BRANCH_NAME }}"
+            exit 1
+          fi
+
   build-java:
+    needs: validate-ref
     runs-on: ubuntu-latest
     
     env:
@@ -60,8 +74,6 @@ jobs:
       pull-requests: write
 
     env:
-      PR_TARGET_BRANCH_NAME: main
-      PR_SOURCE_BRANCH_NAME: test-generation
       TEST_THEME_DIR: MaterialTheming.Tests/KnownTestThemes
 
     steps:
