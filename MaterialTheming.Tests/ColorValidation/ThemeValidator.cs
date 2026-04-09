@@ -6,15 +6,6 @@ namespace MaterialTheming.Tests.ColorValidation;
 
 internal class ThemeValidator
 {
-    public static ThemeValidationResult ValidateThemeColors<TTestTheme>()
-        where TTestTheme : ITestTheme, new()
-    {
-        var theme = ThemeCreationService.CreateThemeColors<TTestTheme>();
-        return CreateFromColorDifferences(
-            typeof(TTestTheme),
-            ColorDifferenceService.GetColorDifferences<TTestTheme>(theme));
-    }
-
     public static ThemeValidationResult ValidateThemeColors(ITestTheme testTheme)
     {
         var themeColors = ThemeCreationService.CreateThemeColors(testTheme);
