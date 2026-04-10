@@ -96,8 +96,8 @@ public class HctColor
     private void SetInternalState(RgbColor rgb)
     {
         Cam16 cam = Cam16.FromRgbColor(rgb);
-        hue = cam.GetHue();
-        chroma = cam.GetChroma();
+        hue = cam.Hue;
+        chroma = cam.Chroma;
         tone = ColorUtils.LstarFromRgb(rgb);
     }
 

@@ -16,31 +16,21 @@
             [0.38752654,  0.62144744, -0.00897398],
             [-0.01584150, -0.03412294, 1.0499644]
         };
-
-        private readonly double hue;
-        private readonly double chroma;
-        private readonly double j;
-        private readonly double q;
-        private readonly double m;
-        private readonly double s;
-
-        /** Hue in CAM16 */
-        public double GetHue()
-        {
-            return hue;
-        }
-
-        /** Chroma in CAM16 */
-        public double GetChroma()
-        {
-            return chroma;
-        }
-
-        /** Lightness in CAM16 */
-        public double GetJ()
-        {
-            return j;
-        }
+        /// <summary>
+        /// Hue in CAM16
+        /// </summary>
+        public double Hue { get; private set; }
+        /// <summary>
+        /// Chroma in CAM16
+        /// </summary>
+        public double Chroma { get; private set; }
+        /// <summary>
+        /// Lightness in CAM16
+        /// </summary>
+        public double J { get; private set; }
+        public double Q { get; private set; }
+        public double M { get; private set; }
+        public double S { get; private set; }
 
         /**
          * All of the CAM16 dimensions can be calculated from 3 of the dimensions, in the following
@@ -67,12 +57,12 @@
             double m,
             double s)
         {
-            this.hue = hue;
-            this.chroma = chroma;
-            this.j = j;
-            this.q = q;
-            this.m = m;
-            this.s = s;
+            this.Hue = hue;
+            this.Chroma = chroma;
+            this.J = j;
+            this.Q = q;
+            this.M = m;
+            this.S = s;
         }
 
         /**
@@ -177,89 +167,6 @@
                 50.0 * Math.Sqrt((alpha * viewingConditions.C) / (viewingConditions.Aw + 4.0));
 
             return new Cam16(hue, c, j, q, m, s);
-        }
-
-        /**
-         * @param j CAM16 lightness
-         * @param c CAM16 chroma
-         * @param h CAM16 hue
-         * @param viewingConditions Information about the environment where the color was observed.
-         */
-        private static Cam16 FromJchInViewingConditions(
-            double j, double c, double h, ViewingConditions viewingConditions)
-        {
-            double q =
-                4.0
-                    / viewingConditions.C
-                    * Math.Sqrt(j / 100.0)
-                    * (viewingConditions.Aw + 4.0)
-                    * viewingConditions.FlRoot;
-            double m = c * viewingConditions.FlRoot;
-            double alpha = c / Math.Sqrt(j / 100.0);
-            double s =
-                50.0 * Math.Sqrt((alpha * viewingConditions.C) / (viewingConditions.Aw + 4.0));
-
-            return new Cam16(h, c, j, q, m, s);
-        }
-
-        /**
-         * RGB representation of the color, in defined viewing conditions.
-         *
-         * @param viewingConditions Information about the environment where the color will be viewed.
-         * @return RGB representation of color
-         */
-        RgbColor Viewed(ViewingConditions viewingConditions)
-        {
-            double[] xyz = XyzInViewingConditions(viewingConditions);
-            return ColorUtils.RgbFromXyz(xyz[0], xyz[1], xyz[2]);
-        }
-
-        internal double[] XyzInViewingConditions(ViewingConditions viewingConditions)
-        {
-            double alpha =
-                (GetChroma() == 0.0 || GetJ() == 0.0) ? 0.0 : GetChroma() / Math.Sqrt(GetJ() / 100.0);
-
-            double t =
-                Math.Pow(
-                    alpha / Math.Pow(1.64 - Math.Pow(0.29, viewingConditions.N), 0.73), 1.0 / 0.9);
-            double hRad = GetHue() * (Math.PI / 180.0);
-
-            double eHue = 0.25 * (Math.Cos(hRad + 2.0) + 3.8);
-            double ac =
-                viewingConditions.Aw
-                    * Math.Pow(GetJ() / 100.0, 1.0 / viewingConditions.C / viewingConditions.Z);
-            double p1 = eHue * (50000.0 / 13.0) * viewingConditions.Nc * viewingConditions.Ncb;
-            double p2 = (ac / viewingConditions.Nbb);
-
-            double hSin = Math.Sin(hRad);
-            double hCos = Math.Cos(hRad);
-
-            double gamma = 23.0 * (p2 + 0.305) * t / (23.0 * p1 + 11.0 * t * hCos + 108.0 * t * hSin);
-            double a = gamma * hCos;
-            double b = gamma * hSin;
-            double rA = (460.0 * p2 + 451.0 * a + 288.0 * b) / 1403.0;
-            double gA = (460.0 * p2 - 891.0 * a - 261.0 * b) / 1403.0;
-            double bA = (460.0 * p2 - 220.0 * a - 6300.0 * b) / 1403.0;
-
-            double rCBase = Math.Max(0, (27.13 * Math.Abs(rA)) / (400.0 - Math.Abs(rA)));
-            double rC =
-                Math.Sign(rA) * (100.0 / viewingConditions.Fl) * Math.Pow(rCBase, 1.0 / 0.42);
-            double gCBase = Math.Max(0, (27.13 * Math.Abs(gA)) / (400.0 - Math.Abs(gA)));
-            double gC =
-                Math.Sign(gA) * (100.0 / viewingConditions.Fl) * Math.Pow(gCBase, 1.0 / 0.42);
-            double bCBase = Math.Max(0, (27.13 * Math.Abs(bA)) / (400.0 - Math.Abs(bA)));
-            double bC =
-                Math.Sign(bA) * (100.0 / viewingConditions.Fl) * Math.Pow(bCBase, 1.0 / 0.42);
-            double rF = rC / viewingConditions.RgbD[0];
-            double gF = gC / viewingConditions.RgbD[1];
-            double bF = bC / viewingConditions.RgbD[2];
-
-            double[][] matrix = CAM16RGB_TO_XYZ;
-            double x = (rF * matrix[0][0]) + (gF * matrix[0][1]) + (bF * matrix[0][2]);
-            double y = (rF * matrix[1][0]) + (gF * matrix[1][1]) + (bF * matrix[1][2]);
-            double z = (rF * matrix[2][0]) + (gF * matrix[2][1]) + (bF * matrix[2][2]);
-
-            return [x, y, z];
         }
     }
 }
