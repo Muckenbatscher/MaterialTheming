@@ -65,16 +65,19 @@ jobs:
           path: ${{ env.OUTPUT_PATH }}
           retention-days: 1 
   
-  generate-pr:
+  create-refs:
     needs: build-java
     runs-on: ubuntu-latest
 
     permissions:
       contents: write
-      pull-requests: write
 
     env:
       TEST_THEME_DIR: MaterialTheming.Tests/KnownTestThemes
+
+    outputs:
+      existing_branch: ${{ steps.existing_branch.outputs.exists }}
+      has_changes: ${{ steps.check_diff.outputs.has_changes }}
 
     steps:
       - uses: actions/checkout@v6
@@ -133,8 +136,15 @@ jobs:
           git commit -m "Update C# testcase files. Generated from Java reference implementation."
           git push
 
+  generate-pr:
+    needs: create-refs
+    runs-on: ubuntu-latest
+
+    permissions:
+      pull-requests: write
+
+    steps:
       - name: Check for existing PR
-        if: steps.check_diff.outputs.has_changes == 'true'
         id: exsting_pr
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -149,7 +159,7 @@ jobs:
           fi
           
       - name: Create Pull Request
-        if: steps.check_diff.outputs.has_changes == 'true' && steps.exsting_pr.outputs.exists != 'true'
+        if:  steps.exsting_pr.outputs.exists != 'true' && (needs.create-refs.outputs.existing_branch == 'true' || needs.create-refs.outputs.has_changes == 'true')
         env:
           GH_TOKEN: ${{ secrets.GH_PAT_WORKFLOW }}
         run: |
