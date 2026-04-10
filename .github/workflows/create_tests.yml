@@ -144,6 +144,8 @@ jobs:
       pull-requests: write
 
     steps:
+      - uses: actions/checkout@v6
+      
       - name: Check for existing PR
         id: exsting_pr
         env:
