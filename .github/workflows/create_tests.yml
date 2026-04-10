@@ -121,7 +121,7 @@ jobs:
           path: ${{ env.TEST_THEME_DIR }}
 
       - name: Update offical commit hash the testcases are based on
-        run: cat ${{ needs.build-java.outputs.offical_commit }} > .github/workflows/official-commit/sha
+        run: echo "${{ needs.build-java.outputs.offical_commit }}" > .github/workflows/official-commit/sha
 
       - name: Check for changes in the testcases
         id: check_diff
