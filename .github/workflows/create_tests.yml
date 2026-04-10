@@ -43,7 +43,7 @@ jobs:
         run: |
           COMMIT=$(cat .upstream-commit)
           echo "Testcase generation is based on official commit: $COMMIT"
-          echo "sha=$COMMIT"
+          echo "sha=$COMMIT" >> $GITHUB_OUTPUT
 
       - uses: actions/setup-java@v5
         with:
