@@ -10,26 +10,42 @@ jobs:
   verify-official-commit:
     runs-on: ubuntu-latest
     env:
-      GIT_URL: "https://github.com/material-foundation/material-color-utilities.git"
+      GIT_REPO: "material-foundation/material-color-utilities"
       GIT_DIR_NAME: "material-color-utilities"
       GIT_BRANCH: "main"
       JAVA_IMPL_PATH: "java"
-      EXPECTED_COMMIT: 91da30d8
+      OWN_GIT_DIR_NAME: "material-theming"
+
     steps:
+    - name: Checkout official Java repository
+      uses: actions/checkout@v6
+      with:
+        repository: ${{ env.GIT_REPO }} 
+        ref: ${{ env.GIT_BRANCH }}
+        path: ${{ env.GIT_DIR_NAME }}
+        fetch-depth: 0 # full history, required to diff on potentially old commit 
+        
     - name: Get the latest commit hash
       id: latest_official
-      run: | 
-        git clone ${{ env.GIT_URL }} ${{ env.GIT_DIR_NAME }} \
-        --branch ${{ env.GIT_BRANCH }}
+      run: |
         cd ${{ env.GIT_DIR_NAME }}
-        echo "Latest official commit: $(git rev-parse --short=8 --verify HEAD)"
-        echo "commit_hash=$(git rev-parse --short=8 --verify HEAD)" >> $GITHUB_OUTPUT
+        echo "Latest official commit: $(git rev-parse --verify HEAD)"
+        echo "commit_hash=$(git rev-parse --verify HEAD)" >> $GITHUB_OUTPUT
+       
+    - name: Checkout MaterialTheming repository
+      uses: actions/checkout@v6
+      with:
+        path: ${{ env.OWN_GIT_DIR_NAME }}
+
     - name: Compare to expected commit hash
       id: compare_commits
       run: |
-        echo "Expected: ${{ env.EXPECTED_COMMIT }}"
+        EXPECTED_COMMIT=$(cat ${{ env.OWN_GIT_DIR_NAME }}/.github/workflows/official-commit/.sha)
+        echo "expected=$EXPECTED_COMMIT" >> $GITHUB_OUTPUT
+
+        echo "Expected: $EXPECTED_COMMIT"
         echo "Got:      ${{ steps.latest_official.outputs.commit_hash }}"
-        if [ "${{ steps.latest_official.outputs.commit_hash }}" = "${{ env.EXPECTED_COMMIT }}" ]; then 
+        if [ "${{ steps.latest_official.outputs.commit_hash }}" = "$EXPECTED_COMMIT" ]; then 
           echo "Commit hashes match."
           echo "status=match" >> $GITHUB_OUTPUT
         else
@@ -39,9 +55,10 @@ jobs:
     - name: Verify no changes to reference java implementation
       if: steps.compare_commits.outputs.status != 'match'
       run: |
+        EXPECTED_COMMIT=${{ steps.compare_commits.outputs.expected }}
         cd ${{ env.GIT_DIR_NAME }}
-        if ! git diff --exit-code ${{ env.EXPECTED_COMMIT }} HEAD -- ${{ env.JAVA_IMPL_PATH }}; then
-            echo "Error: Changes detected in "${{ env.JAVA_IMPL_PATH }}" compared to expected commit hash "${{ env.EXPECTED_COMMIT }}"."
+        if ! git diff --exit-code $EXPECTED_COMMIT HEAD -- ${{ env.JAVA_IMPL_PATH }}; then
+            echo "Error: Changes detected in "${{ env.JAVA_IMPL_PATH }}" compared to expected commit hash "$EXPECTED_COMMIT"."
             echo "Regenerate test cases based on latest official commit (${{ steps.latest_official.outputs.commit_hash }}) and update this workflow file to acknowledge the updated official implementation."
             exit 1
         else
