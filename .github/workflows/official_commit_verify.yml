@@ -10,23 +10,37 @@ jobs:
   verify-official-commit:
     runs-on: ubuntu-latest
     env:
-      GIT_URL: "https://github.com/material-foundation/material-color-utilities.git"
+      GIT_REPO: "material-foundation/material-color-utilities"
       GIT_DIR_NAME: "material-color-utilities"
       GIT_BRANCH: "main"
       JAVA_IMPL_PATH: "java"
-      EXPECTED_COMMIT: 91da30d8
+      OWN_GIT_DIR_NAME: "material-theming"
+
     steps:
+    - name: Checkout official Java repository
+      uses: actions/checkout@v6
+      with:
+        repository: ${{ env.GIT_REPO }} 
+        ref: ${{ env.GIT_BRANCH }}
+        path: ${{ env.GIT_DIR_NAME }}
+        fetch-depth: 0 # full history, required to diff on potentially old commit 
+        
     - name: Get the latest commit hash
       id: latest_official
       run: |
-        git clone ${{ env.GIT_URL }} ${{ env.GIT_DIR_NAME }} --branch ${{ env.GIT_BRANCH }}
         cd ${{ env.GIT_DIR_NAME }}
-        echo "Latest official commit: $(git rev-parse --short=8 --verify HEAD)"
+        echo "Latest official commit: $(git rev-parse --verify HEAD)"
         echo "commit_hash=$(git rev-parse --verify HEAD)" >> $GITHUB_OUTPUT
+       
+    - name: Checkout MaterialTheming repository
+      uses: actions/checkout@v6
+      with:
+        path: ${{ env.OWN_GIT_DIR_NAME }}
+
     - name: Compare to expected commit hash
       id: compare_commits
       run: |
-        EXPECTED_COMMIT=$(cat .github/workflows/official-commit/.sha)
+        EXPECTED_COMMIT=$(cat ${{ env.OWN_GIT_DIR_NAME }}/.github/workflows/official-commit/.sha)
         echo "expected=$EXPECTED_COMMIT" >> $GITHUB_OUTPUT
 
         echo "Expected: $EXPECTED_COMMIT"
