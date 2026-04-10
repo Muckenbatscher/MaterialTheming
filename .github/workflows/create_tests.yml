@@ -23,6 +23,9 @@ jobs:
     needs: validate-ref
     runs-on: ubuntu-latest
     
+    outputs:
+      offical_commit: ${{ steps.offical_commit.outputs.sha }}
+
     env:
       TEST_GEN_REPO_NAME: Muckenbatscher/material-color-utilities-testcases-generation
       TEST_GEN_REPO_BRANCH: main
@@ -34,6 +37,13 @@ jobs:
         with:
           repository: ${{ env.TEST_GEN_REPO_NAME }} 
           ref: ${{ env.TEST_GEN_REPO_BRANCH }}
+
+      - name: Get official commit hash
+        id: offical_commit
+        run: |
+          COMMIT=$(cat .upstream-commit)
+          echo "Testcase generation is based on official commit: $COMMIT"
+          echo "sha=$COMMIT"
 
       - uses: actions/setup-java@v5
         with:
@@ -64,7 +74,7 @@ jobs:
           name: generated-testcase-cs-files 
           path: ${{ env.OUTPUT_PATH }}
           retention-days: 1 
-  
+      
   create-refs:
     needs: build-java
     runs-on: ubuntu-latest
@@ -110,10 +120,13 @@ jobs:
           name: generated-testcase-cs-files 
           path: ${{ env.TEST_THEME_DIR }}
 
+      - name: Update offical commit hash the testcases are based on
+        run: cat ${{ needs.build-java.outputs.offical_commit }} > .github/workflows/official-commit/.sha
+
       - name: Check for changes in the testcases
         id: check_diff
         run: |
-          CHANGES=$(git diff --name-only -- ${{ env.TEST_THEME_DIR }})
+          CHANGES=$(git diff --name-only -- ${{ env.TEST_THEME_DIR }} .github/workflows/official-commit/)
 
           if [ -z "$CHANGES" ]; then
             echo "No changes found in '${{ env.TEST_THEME_DIR }}'"
