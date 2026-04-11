@@ -29,15 +29,15 @@ internal class LightMode_HighContrast_Spec2025_Yellow : ITestTheme
     public string ErrorContainer => "#9C331A";
     public string OnErrorContainer => "#FFFFFF";
     // Surface
-    public string Surface => "#FFFBFF";
+    public string Surface => "#FEFCF7";
     public string SurfaceVariant => "#ECE9D5";
     public string OnSurface => "#000000";
     public string OnSurfaceVariant => "#2B2B1E";
     public string SurfaceDim => "#E6E3D0";
-    public string SurfaceBright => "#FFFBFF";
+    public string SurfaceBright => "#FEFCF7";
     public string SurfaceTint => "#2C2C00";
     // Background
-    public string Background => "#FFFBFF";
+    public string Background => "#FEFCF7";
     public string OnBackground => "#000000";
     // Outline
     public string Outline => "#4A483A";
