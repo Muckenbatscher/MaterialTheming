@@ -83,6 +83,7 @@ jobs:
       - uses: actions/checkout@v6
         with:
           ref: ${{ env.PR_TARGET_BRANCH_NAME }}
+          token: ${{ secrets.GH_PAT_WORKFLOW }} # so the actions will run when pushing to the PR branch
 
       - name: Check for existing branch
         id: existing_branch
