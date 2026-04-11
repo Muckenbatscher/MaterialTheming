@@ -10,17 +10,7 @@ env:
   PR_SOURCE_BRANCH_NAME: test-generation
 
 jobs:
-  validate-ref:
-    runs-on: ubuntu-latest
-    steps:
-      - run: |
-          if [ "${{ github.ref }}" != "refs/heads/${{ env.PR_TARGET_BRANCH_NAME }}" ]; then 
-            echo "Can only be run for branch ${{ env.PR_TARGET_BRANCH_NAME }}"
-            exit 1
-          fi
-
   build-java:
-    needs: validate-ref
     runs-on: ubuntu-latest
     
     outputs:
@@ -91,6 +81,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ env.PR_TARGET_BRANCH_NAME }}
 
       - name: Check for existing branch
         id: existing_branch
