@@ -1,4 +1,6 @@
-﻿namespace MaterialTheming.MaterialDesign.Palettes;
+﻿using MaterialTheming.MaterialDesign.Hct;
+
+namespace MaterialTheming.MaterialDesign.Palettes;
 
 internal class TonalPalette
 {
@@ -44,6 +46,17 @@ internal class TonalPalette
     /// </summary>
     public HctColor GetHct(double tone)
     {
-        return HctColor.From(Hue, Chroma, tone);
+        if (tone == 99.0 && HctColorCategorization.IsYellow(Hue))
+            return GetHighToneYellowColor();
+        else
+            return HctColor.From(Hue, Chroma, tone);
+    }
+
+    private HctColor GetHighToneYellowColor() 
+    {
+        var tone98 = HctColor.From(Hue, Chroma, 98).ToRgbColor();
+        var tone100 = HctColor.From(Hue, Chroma, 100).ToRgbColor();
+        var average = RgbColor.AverageColor(tone98, tone100);
+        return average.ToHct();
     }
 }
