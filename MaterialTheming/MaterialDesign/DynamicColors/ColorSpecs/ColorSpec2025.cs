@@ -972,7 +972,11 @@ internal class ColorSpec2025 : ColorSpec2021
         double tone = GetTone(scheme, color);
         double hue = palette.Hue;
         double chromaMultiplier = color.ChromaMultiplier?.Invoke(scheme) ?? 1.0;
+        if (chromaMultiplier == 1.0)
+            return palette.GetHct(tone);
         double chroma = palette.Chroma * chromaMultiplier;
+        if (tone == 99.0 && HctColorCategorization.IsYellow(hue))
+            return TonalPalette.FromHueAndChroma(hue, chroma).GetHct(tone);
 
         return HctColor.From(hue, chroma, tone);
     }
