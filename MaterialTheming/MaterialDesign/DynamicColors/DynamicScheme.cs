@@ -129,9 +129,4 @@ internal class DynamicScheme
         double calculatedRotation = GetPiecewiseValue(sourceHue, hueBreakpoints, rotations);
         return MathUtils.SanitizeDegrees(sourceHue + calculatedRotation);
     }
-
-    public HctColor GetHct(DynamicColor dynamicColor)
-    {
-        return dynamicColor.GetHct(this);
-    }
 }
