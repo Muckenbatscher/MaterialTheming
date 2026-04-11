@@ -52,7 +52,7 @@ internal class TonalPalette
             return HctColor.From(Hue, Chroma, tone);
     }
 
-    private HctColor GetHighToneYellowColor() 
+    private HctColor GetHighToneYellowColor()
     {
         var tone98 = HctColor.From(Hue, Chroma, 98).ToRgbColor();
         var tone100 = HctColor.From(Hue, Chroma, 100).ToRgbColor();

@@ -6,10 +6,15 @@ internal static class RgbColorExtensions
     {
         public static RgbColor AverageColor(RgbColor colorOne, RgbColor colorTwo)
         {
-            var averageRed = (byte)Math.Round((colorOne.Red + colorTwo.Red) / 2.0);
-            var averageGreen = (byte)Math.Round((colorOne.Green + colorTwo.Green) / 2.0);
-            var averageBlue = (byte)Math.Round((colorOne.Blue + colorTwo.Blue) / 2.0);
+            var averageRed = GetAverageComponent(colorOne.Red, colorTwo.Red);
+            var averageGreen = GetAverageComponent(colorOne.Green, colorTwo.Green);
+            var averageBlue = GetAverageComponent(colorOne.Blue, colorTwo.Blue);
             return RgbColor.FromRgb(averageRed, averageGreen, averageBlue);
+        }
+        private static byte GetAverageComponent(byte componentOne, byte componentTwo)
+        {
+            // MidpointRounding.AwayFromZero - To ensure that .5 always rounds up to the next integer (like in Java)
+            return (byte)Math.Round((componentOne + componentTwo) / 2.0, MidpointRounding.AwayFromZero);
         }
     }
 }
