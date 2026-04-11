@@ -113,12 +113,12 @@ jobs:
           path: ${{ env.TEST_THEME_DIR }}
 
       - name: Update offical commit hash the testcases are based on
-        run: echo "${{ needs.build-java.outputs.offical_commit }}" > .github/workflows/official-commit/sha
+        run: echo "${{ needs.build-java.outputs.offical_commit }}" > .official-commit-sha
 
       - name: Check for changes in the testcases
         id: check_diff
         run: |
-          CHANGES=$(git diff --name-only -- ${{ env.TEST_THEME_DIR }} .github/workflows/official-commit/)
+          CHANGES=$(git diff --name-only -- ${{ env.TEST_THEME_DIR }} .official-commit-sha)
 
           if [ -z "$CHANGES" ]; then
             echo "No changes found in '${{ env.TEST_THEME_DIR }}'"
@@ -138,7 +138,7 @@ jobs:
         if: steps.check_diff.outputs.has_changes == 'true'
         run: |
           git add ${{ env.TEST_THEME_DIR }}
-          git add .github/workflows/official-commit/sha
+          git add .official-commit-sha
           git commit -m "Update C# testcase files. Generated from Java reference implementation."
           git push
 
