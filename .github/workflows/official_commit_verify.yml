@@ -40,7 +40,7 @@ jobs:
     - name: Compare to expected commit hash
       id: compare_commits
       run: |
-        EXPECTED_COMMIT=$(cat ${{ env.OWN_GIT_DIR_NAME }}/.github/workflows/official-commit/.sha)
+        EXPECTED_COMMIT=$(cat ${{ env.OWN_GIT_DIR_NAME }}/.github/workflows/official-commit/sha)
         echo "expected=$EXPECTED_COMMIT" >> $GITHUB_OUTPUT
 
         echo "Expected: $EXPECTED_COMMIT"
