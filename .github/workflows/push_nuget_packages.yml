@@ -51,7 +51,7 @@ jobs:
           -p:PackageVersion=${{ env.VERSION }}
 
     - name: Upload built packages as artifacts
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: ${{ env.PACKAGES_ARTIFACT }}-${{ matrix.project.name }}
         path: ${{ env.OUTDIR }}/*.nupkg
