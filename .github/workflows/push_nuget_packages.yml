@@ -51,7 +51,7 @@ jobs:
           -p:PackageVersion=${{ env.VERSION }}
 
     - name: Upload built packages as artifacts
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: ${{ env.PACKAGES_ARTIFACT }}-${{ matrix.project.name }}
         path: ${{ env.OUTDIR }}/*.nupkg
@@ -70,7 +70,7 @@ jobs:
       PACKAGE_DIR: 'packages'
 
     steps:
-    - uses: actions/download-artifact@v4
+    - uses: actions/download-artifact@v8
       with:
         path: ${{ env.PACKAGE_DIR }}
     - uses: shogo82148/actions-upload-release-asset@v1
@@ -91,11 +91,11 @@ jobs:
       PACKAGE_DIR: 'packages'
 
     steps:
-    - uses: actions/download-artifact@v4
+    - uses: actions/download-artifact@v8
       with:
         path: ${{ env.PACKAGE_DIR }}
 
-    - uses: actions/setup-dotnet@v4
+    - uses: actions/setup-dotnet@v5
       with:
         dotnet-version: 10.0.x
 

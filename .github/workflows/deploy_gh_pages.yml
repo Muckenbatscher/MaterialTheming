@@ -37,9 +37,9 @@ jobs:
           touch ${{ env.release-output }}/wwwroot/.nojekyll
           cp ${{ env.release-output }}/wwwroot/index.html ${{ env.release-output }}/wwwroot/404.html
       
-      - uses: actions/upload-pages-artifact@v4
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: '${{ env.release-output }}/wwwroot'
 
-      - uses: actions/deploy-pages@v4
+      - uses: actions/deploy-pages@v5
 
