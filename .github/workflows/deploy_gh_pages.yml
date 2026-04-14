@@ -41,5 +41,5 @@ jobs:
         with:
           path: '${{ env.release-output }}/wwwroot'
 
-      - uses: actions/deploy-pages@v4
+      - uses: actions/deploy-pages@v5
 
