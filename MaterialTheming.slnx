@@ -4,8 +4,11 @@
     <File Path="README.md" />
   </Folder>
   <Folder Name="/Solution Items/GitHub/">
-    <File Path=".github/workflows/build_test_library.yml" />
+    <File Path=".github/dependabot.yml" />
+  </Folder>
+  <Folder Name="/Solution Items/GitHub/Workflows/">
     <File Path=".github/workflows/build_blazor.yml" />
+    <File Path=".github/workflows/build_test_library.yml" />
     <File Path=".github/workflows/create_tests.yml" />
     <File Path=".github/workflows/deploy_gh_pages.yml" />
     <File Path=".github/workflows/official_commit_verify.yml" />

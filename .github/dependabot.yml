@@ -1,0 +1,20 @@
+version: 2
+updates:
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    assignees:
+    - Muckenbatscher
+    labels:
+    - dependencies
+
+  - package-ecosystem: nuget
+    directory: "/"
+    schedule:
+      interval: "daily"
+    assignees:
+    - Muckenbatscher
+    labels:
+    - dependencies
