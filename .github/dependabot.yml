@@ -10,7 +10,7 @@ updates:
     labels:
     - dependencies
 
-  - package-ecosystem: nuget
+  - package-ecosystem: "nuget"
     directory: "/"
     schedule:
       interval: "daily"
@@ -18,3 +18,11 @@ updates:
     - Muckenbatscher
     labels:
     - dependencies
+    groups:
+      mstest:
+        patterns:
+          - "MSTest*"
+      core:
+        patterns:
+          - "Microsoft*"
+          - "System*"
