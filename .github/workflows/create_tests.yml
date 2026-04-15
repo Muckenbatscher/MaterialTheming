@@ -64,7 +64,7 @@ jobs:
           name: generated-testcase-cs-files 
           path: ${{ env.OUTPUT_PATH }}
           retention-days: 1 
-      
+  
   create-refs:
     needs: build-java
     runs-on: ubuntu-latest
@@ -76,7 +76,6 @@ jobs:
       TEST_THEME_DIR: MaterialTheming.Tests/KnownTestThemes
 
     outputs:
-      existing_branch: ${{ steps.existing_branch.outputs.exists }}
       has_changes: ${{ steps.check_diff.outputs.has_changes }}
 
     steps:
@@ -102,11 +101,9 @@ jobs:
           git fetch origin ${{ env.PR_SOURCE_BRANCH_NAME }}
           git checkout -B ${{ env.PR_SOURCE_BRANCH_NAME }} origin/${{ env.PR_SOURCE_BRANCH_NAME }}
 
-      - name: Create and push new branch
+      - name: Create new branch
         if: steps.existing_branch.outputs.exists != 'true'
-        run: |
-          git checkout -B ${{ env.PR_SOURCE_BRANCH_NAME }}
-          git push --set-upstream origin ${{ env.PR_SOURCE_BRANCH_NAME }}
+        run: git checkout -B ${{ env.PR_SOURCE_BRANCH_NAME }}
 
       - uses: actions/download-artifact@v8
         with:
@@ -119,7 +116,10 @@ jobs:
       - name: Check for changes in the testcases
         id: check_diff
         run: |
-          CHANGES=$(git diff --name-only -- ${{ env.TEST_THEME_DIR }} .official-commit-sha)
+          git add ${{ env.TEST_THEME_DIR }}
+          git add .official-commit-sha
+
+          CHANGES=$(git diff --staged --name-only)
 
           if [ -z "$CHANGES" ]; then
             echo "No changes found in '${{ env.TEST_THEME_DIR }}'"
@@ -135,13 +135,11 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Commit generated tests
+      - name: Commit and push generated tests
         if: steps.check_diff.outputs.has_changes == 'true'
         run: |
-          git add ${{ env.TEST_THEME_DIR }}
-          git add .official-commit-sha
           git commit -m "Update C# testcase files. Generated from Java reference implementation."
-          git push
+          git push -u origin ${{ env.PR_SOURCE_BRANCH_NAME }}
 
   generate-pr:
     needs: create-refs
@@ -152,9 +150,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0 # fetch whole history, to be able to compare 
       
       - name: Check for existing PR
-        id: exsting_pr
+        id: existing_pr
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -166,9 +166,33 @@ jobs:
             echo "Existing PR found for the branch ${{ env.PR_SOURCE_BRANCH_NAME }}."
             echo "exists=true" >> $GITHUB_OUTPUT
           fi
-          
+
+      - name: Check for differences in existing branch
+        id: branch_diff
+        if: steps.existing_pr.outputs.exists == 'false'
+        run: |
+          if git ls-remote --exit-code --heads origin ${{ env.PR_SOURCE_BRANCH_NAME }}; then
+            echo "Branch '${{ env.PR_SOURCE_BRANCH_NAME }}' exists on remote. Fetching latest changes..."
+            
+            git fetch origin ${{ env.PR_TARGET_BRANCH_NAME }}
+            git fetch origin ${{ env.PR_SOURCE_BRANCH_NAME }}
+            
+            CHANGES=$(git diff origin/${{ env.PR_TARGET_BRANCH_NAME }}..origin/${{ env.PR_SOURCE_BRANCH_NAME }} --name-only)
+
+            if [ -z "$CHANGES" ]; then
+              echo "Branch '${{ env.PR_SOURCE_BRANCH_NAME }}' is identical to '${{ env.PR_TARGET_BRANCH_NAME }}'."
+              echo "has_diff=false" >> $GITHUB_OUTPUT
+            else
+              echo "Branch '${{ env.PR_SOURCE_BRANCH_NAME }}' has differences to '${{ env.PR_TARGET_BRANCH_NAME }}'."
+              echo "has_diff=true" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "Branch '${{ env.PR_SOURCE_BRANCH_NAME }}' does not exist on remote."
+            echo "has_diff=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Create Pull Request
-        if:  steps.exsting_pr.outputs.exists != 'true' && (needs.create-refs.outputs.existing_branch == 'true' || needs.create-refs.outputs.has_changes == 'true')
+        if: steps.existing_pr.outputs.exists == 'false' && steps.branch_diff.outputs.has_diff == 'true'
         env:
           GH_TOKEN: ${{ secrets.GH_PAT_WORKFLOW }}
         run: |
