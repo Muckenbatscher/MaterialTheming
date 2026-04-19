@@ -138,7 +138,7 @@ jobs:
       - name: Update official commit hash the testcases are based on
         run: echo "${{ needs.determine-based-commit.outputs.offical_commit }}" > .official-commit-sha
 
-      - name: Check for changes in the testcases
+      - name: Check for changes
         id: check_diff
         run: |
           git add ${{ env.TEST_THEME_DIR }}
@@ -147,10 +147,10 @@ jobs:
           CHANGES=$(git diff --staged --name-only)
 
           if [ -z "$CHANGES" ]; then
-            echo "No changes found in '${{ env.TEST_THEME_DIR }}'"
+            echo "No changes found."
             echo "has_changes=false" >> $GITHUB_OUTPUT
           else
-            echo "Changes detected in '${{ env.TEST_THEME_DIR }}'!"
+            echo "Changes detected!"
             echo "has_changes=true" >> $GITHUB_OUTPUT
           fi
 
@@ -163,7 +163,9 @@ jobs:
       - name: Commit and push generated tests
         if: steps.check_diff.outputs.has_changes == 'true'
         run: |
-          git commit -m "Update C# testcase files. Generated from Java reference implementation."
+          git commit \
+            -m "Update C# testcase files. Generated from Java reference implementation." \
+            -m "Based on official commit: ${{ needs.determine-based-commit.outputs.offical_commit }}"
           git push -u origin ${{ env.PR_SOURCE_BRANCH_NAME }}
 
   generate-pr:
