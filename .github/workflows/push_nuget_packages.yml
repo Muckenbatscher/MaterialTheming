@@ -15,7 +15,7 @@ jobs:
       version: ${{ steps.version.outputs.version }}
     steps:
     - name: Check Version Format in Tag
-      uses: matt-usurp/validate-semver@v2
+      uses: matt-usurp/validate-semver@v3
       id: version
       with:
         version: ${{ github.event.release.tag_name }}
