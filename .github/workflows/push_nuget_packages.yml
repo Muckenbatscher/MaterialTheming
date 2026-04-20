@@ -76,7 +76,7 @@ jobs:
     - uses: shogo82148/actions-upload-release-asset@v1
       with:
         upload_url: ${{ github.event.release.upload_url }}
-        asset_path: ${{ env.PACKAGE_DIR }}/*/*.nupkg
+        asset_path: ${{ env.PACKAGE_DIR }}/**/*.nupkg
 
   publish-package:
     needs: 
@@ -101,7 +101,7 @@ jobs:
 
     - name: Push all to GitHub Packages
       run: |
-        for f in ${{ env.PACKAGE_DIR }}/*/*.nupkg
+        for f in ${{ env.PACKAGE_DIR }}/**/*.nupkg
         do
           echo "Pushing $f to GitHub Packages source..."
           dotnet nuget push "$f" \
@@ -113,7 +113,7 @@ jobs:
       env:
         API_KEY: ${{ secrets.MATERIAL_THEMING_NUGET_KEY }}
       run: |
-        for f in ${{ env.PACKAGE_DIR }}/*/*.nupkg
+        for f in ${{ env.PACKAGE_DIR }}/**/*.nupkg
         do
           echo "Pushing $f to NuGet.org source..."
           dotnet nuget push "$f" \
