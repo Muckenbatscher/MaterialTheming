@@ -16,6 +16,6 @@ jobs:
       with:
         dotnet-version: 10.0.x
     - name: Restore dependencies
-      run: dotnet restore --property:EnableWindowsTargeting=true
+      run: dotnet restore
     - name: Verify Format with .editorconfig
       run: dotnet format --verify-no-changes --verbosity detailed --no-restore
