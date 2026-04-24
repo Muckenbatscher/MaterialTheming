@@ -46,14 +46,57 @@ jobs:
     - name: Upload build artifacts
       uses: actions/upload-artifact@v7
       with:
-        name: build-${{ matrix.os }}-${{ matrix.framework }}
+        name: build-library-${{ matrix.os }}-${{ matrix.framework }}
         path: |
           '**/bin/**/*'
           '**/*.csproj'
 
-  test-library:
+  build-test:
+    needs: 
+    - build-library
+    strategy:  
+      fail-fast: false
+      matrix:  
+        framework:
+        - net48
+        - net8.0
+        - net10.0
+        os: 
+        - ubuntu-latest 
+        - windows-latest  
+        exclude:
+          - os: ubuntu-latest
+            framework: net48
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - uses: actions/checkout@v6
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v5
+      with:
+        dotnet-version: 10.0.x
+    - name: Download library build artifacts
+      uses: actions/download-artifact@v8
+      with:
+        name: build-library-${{ matrix.os }}-${{ matrix.framework }}
+    - name: Restore
+      run: |
+        dotnet restore ${{ env.TEST_PROJECT }} -p:TargetFramework=${{ matrix.framework }}
+    - name: Build
+      run: |
+        dotnet build ${{ env.TEST_PROJECT }} --no-restore --framework ${{ matrix.framework }}
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v7
+      with:
+        name: build-test-${{ matrix.os }}-${{ matrix.framework }}
+        path: |
+          '**/bin/**/*'
+          '**/*.csproj'
+
+  run-test:
     needs:
-      - build-library
+    - build-test
     strategy:  
       fail-fast: false
       matrix:  
@@ -78,6 +121,6 @@ jobs:
     - name: Download build artifacts
       uses: actions/download-artifact@v8
       with:
-        name: build-${{ matrix.os }}-${{ matrix.framework }}
+        name: build-test-${{ matrix.os }}-${{ matrix.framework }}
     - name: Test
       run: dotnet test --project ${{ env.TEST_PROJECT }} --no-build --framework ${{ matrix.framework }}
