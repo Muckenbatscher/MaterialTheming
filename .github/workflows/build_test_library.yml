@@ -11,7 +11,7 @@ env:
   TEST_PROJECT: MaterialTheming.Tests
 
 jobs:
-  build-test-library:
+  build-library:
     strategy:  
       fail-fast: false
       matrix:  
@@ -19,12 +19,14 @@ jobs:
         - net48
         - net8.0
         - net10.0
+        - netstandard2.1 
         os: 
         - ubuntu-latest 
         - windows-latest  
         exclude:
           - os: ubuntu-latest
             framework: net48
+
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -41,5 +43,41 @@ jobs:
       run: |
         dotnet build ${{ env.PROJECT }} --no-restore --framework ${{ matrix.framework }}
         dotnet build ${{ env.TEST_PROJECT }} --no-restore --framework ${{ matrix.framework }}
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v7
+      with:
+        name: build-${{ matrix.os }}-${{ matrix.framework }}
+        path: |
+          '**/bin/**/*'
+          '**/*.csproj'
+
+  test-library:
+    needs:
+      - build-library
+    strategy:  
+      fail-fast: false
+      matrix:  
+        framework:
+        - net48
+        - net8.0
+        - net10.0
+        os: 
+        - ubuntu-latest 
+        - windows-latest  
+        exclude:
+          - os: ubuntu-latest
+            framework: net48
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v5
+      with:
+        dotnet-version: 10.0.x
+    - name: Download build artifacts
+      uses: actions/download-artifact@v8
+      with:
+        name: build-${{ matrix.os }}-${{ matrix.framework }}
     - name: Test
       run: dotnet test --project ${{ env.TEST_PROJECT }} --no-build --framework ${{ matrix.framework }}
