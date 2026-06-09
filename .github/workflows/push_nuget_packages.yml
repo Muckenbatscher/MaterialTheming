@@ -70,10 +70,12 @@ jobs:
       PACKAGE_DIR: 'packages'
 
     steps:
-    - uses: actions/download-artifact@v8
+    - name: Download built packages artifacts
+      uses: actions/download-artifact@v8
       with:
         path: ${{ env.PACKAGE_DIR }}
-    - uses: shogo82148/actions-upload-release-asset@v1
+    - name: Upload to referenced GitHUb release
+      uses: shogo82148/actions-upload-release-asset@v1
       with:
         upload_url: ${{ github.event.release.upload_url }}
         asset_path: ${{ env.PACKAGE_DIR }}/**/*.nupkg
@@ -91,7 +93,8 @@ jobs:
       PACKAGE_DIR: 'packages'
 
     steps:
-    - uses: actions/download-artifact@v8
+    - name: Download built packages artifacts
+      uses: actions/download-artifact@v8
       with:
         path: ${{ env.PACKAGE_DIR }}
 
