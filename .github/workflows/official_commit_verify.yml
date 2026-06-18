@@ -18,7 +18,7 @@ jobs:
 
     steps:
     - name: Checkout official Java repository
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
       with:
         repository: ${{ env.GIT_REPO }} 
         ref: ${{ env.GIT_BRANCH }}
@@ -33,7 +33,7 @@ jobs:
         echo "commit_hash=$(git rev-parse --verify HEAD)" >> $GITHUB_OUTPUT
        
     - name: Checkout MaterialTheming repository
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
       with:
         path: ${{ env.OWN_GIT_DIR_NAME }}
 

@@ -24,7 +24,7 @@ jobs:
 
     steps:
       - name: Checkout Test generation repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0 # fetch whole history, to be able to compare and find the common commit with official repository
           repository: ${{ env.TEST_GEN_REPO }}
@@ -52,7 +52,7 @@ jobs:
     
     steps:
       - name: Checkout Test-Generation Java repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: ${{ env.TEST_GEN_REPO_NAME }} 
           ref: ${{ env.TEST_GEN_REPO_BRANCH }}
@@ -103,7 +103,7 @@ jobs:
       has_changes: ${{ steps.check_diff.outputs.has_changes }}
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0 # fetch whole history, to be able to compare 
           ref: ${{ env.PR_TARGET_BRANCH_NAME }}
@@ -176,7 +176,7 @@ jobs:
       pull-requests: write
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       
       - name: Check for existing PR
         id: existing_pr
