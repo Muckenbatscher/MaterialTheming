@@ -20,7 +20,8 @@
             SourceColor = RgbColor.FromHtml("#512BD4"),
             Variant = MaterialTheming.Variant.TonalSpot,
             Mode = ThemeMode.Light,
-            Contrast = ContrastLevel.Normal
+            Contrast = ContrastLevel.Normal,
+            SpecVersion = SpecVersion.Spec2021
         };
         GenerateTheme();
     }
@@ -37,7 +38,7 @@
             .WithVariant(themeInput.Variant)
             .WithMode(themeInput.Mode)
             .WithContrastLevel(themeInput.Contrast)
-            .WithSpecVersion(SpecVersion.Spec2026)
+            .WithSpecVersion(themeInput.SpecVersion)
             .Build();
     }
 }

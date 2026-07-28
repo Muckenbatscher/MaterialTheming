@@ -15,6 +15,12 @@
     <MudToggleItem Value="@(ContrastLevel.High)">High (1.0)</MudToggleItem>
 </MudToggleGroup>
 
+<MudToggleGroup T="SpecVersion" @bind-Value="SelectedSpecVersion" Outlined="true" Delimiters="true">
+    <MudToggleItem Value="@(SpecVersion.Spec2021)">Spec 2021</MudToggleItem>
+    <MudToggleItem Value="@(SpecVersion.Spec2025)">Spec 2025</MudToggleItem>
+    <MudToggleItem Value="@(SpecVersion.Spec2026)">Spec 2026</MudToggleItem>
+</MudToggleGroup>
+
     @code {
     [Parameter] 
     public EventCallback<ThemeCreationInputParameters> OnInputsChanged { get; set; }
@@ -31,7 +37,8 @@
             SourceColor = RgbColor.FromRgb(SelectedColor.R, SelectedColor.G, SelectedColor.B),
             Variant = SelectedVariant,
             Mode = DarkMode ? ThemeMode.Dark : ThemeMode.Light,
-            Contrast = SelectedContrast
+            Contrast = SelectedContrast,
+            SpecVersion = SelectedSpecVersion
         };
         await OnInputsChanged.InvokeAsync(inputs);
     }
@@ -87,4 +94,15 @@
             _ = NotifyInputsChanged();
         }
     } = ContrastLevel.Normal;
+
+    
+    private SpecVersion SelectedSpecVersion
+    {
+        get;
+        set
+        {
+            field = value;
+            _ = NotifyInputsChanged();
+        }
+    } = SpecVersion.Spec2021;
 }
