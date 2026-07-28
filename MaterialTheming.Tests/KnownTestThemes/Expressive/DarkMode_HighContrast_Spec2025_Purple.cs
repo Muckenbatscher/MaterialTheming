@@ -11,8 +11,8 @@ internal class DarkMode_HighContrast_Spec2025_Purple : ITestTheme
     // Primary
     public string Primary => "#F2DFFF";
     public string OnPrimary => "#391F54";
-    public string PrimaryContainer => "#DDBCFC";
-    public string OnPrimaryContainer => "#21043B";
+    public string PrimaryContainer => "#B697D4";
+    public string OnPrimaryContainer => "#000000";
     // Secondary
     public string Secondary => "#D9EBD1";
     public string OnSecondary => "#21301F";

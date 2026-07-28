@@ -11,8 +11,8 @@ internal class DarkMode_HighContrast_Spec2025_Magenta : ITestTheme
     // Primary
     public string Primary => "#FFDCEA";
     public string OnPrimary => "#4C1937";
-    public string PrimaryContainer => "#F9ADD2";
-    public string OnPrimaryContainer => "#230015";
+    public string PrimaryContainer => "#D68EB2";
+    public string OnPrimaryContainer => "#000000";
     // Secondary
     public string Secondary => "#CFEBE7";
     public string OnSecondary => "#17302E";

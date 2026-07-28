@@ -9,10 +9,10 @@ internal class DarkMode_NormalContrast_Spec2026_Blue : ITestTheme
     public SpecVersion SpecVersion => SpecVersion.Spec2026;
 
     // Primary
-    public string Primary => "#BED6FF";
-    public string OnPrimary => "#264A79";
-    public string PrimaryContainer => "#A6C8FF";
-    public string OnPrimaryContainer => "#1B416F";
+    public string Primary => "#A6C8FF";
+    public string OnPrimary => "#1B416F";
+    public string PrimaryContainer => "#234776";
+    public string OnPrimaryContainer => "#B7D2FF";
     // Secondary
     public string Secondary => "#B4CCBC";
     public string OnSecondary => "#304539";
@@ -35,7 +35,7 @@ internal class DarkMode_NormalContrast_Spec2026_Blue : ITestTheme
     public string OnSurfaceVariant => "#9BACCA";
     public string SurfaceDim => "#060E1B";
     public string SurfaceBright => "#192D48";
-    public string SurfaceTint => "#BED6FF";
+    public string SurfaceTint => "#A6C8FF";
     // Background
     public string Background => "#060E1B";
     public string OnBackground => "#D9E6FF";

@@ -448,7 +448,10 @@ internal class ColorSpec2025 : ColorSpec2021
                 {
                     if (s.Platform.IsPhone())
                     {
-                        return TMaxC(s.PrimaryPalette, 0, HctColorCategorization.IsYellow(s.PrimaryPalette.Hue) ? 25 : HctColorCategorization.IsCyan(s.PrimaryPalette.Hue) ? 88 : 98);
+                        var upperbound = s.IsDark
+                            ? (HctColorCategorization.IsCyan(s.PrimaryPalette.Hue) ? 88 : 98)
+                            : (HctColorCategorization.IsYellow(s.PrimaryPalette.Hue) ? 25 : 98);
+                        return TMaxC(s.PrimaryPalette, 0, upperbound);
                     }
                     return TMaxC(s.PrimaryPalette); //Watch
                 }
@@ -514,7 +517,7 @@ internal class ColorSpec2025 : ColorSpec2021
                 if (s.Variant == Variant.Expressive)
                 {
                     return s.IsDark
-                        ? TMaxC(s.PrimaryPalette, 30, 93)
+                        ? TMinC(s.PrimaryPalette, 30, 93)
                         : TMaxC(s.PrimaryPalette, 78, HctColorCategorization.IsCyan(s.PrimaryPalette.Hue) ? 88 : 90);
                 }
                 // Vibrant
