@@ -1,4 +1,8 @@
 ﻿<MaterialColorPicker @bind-ColorValue="SelectedColor" />
+@if (SelectedVariantIsSecondSourceEligible)
+{
+    <MaterialColorPicker @bind-ColorValue="SelectedSecondColor" />
+}
 
 <MudSelect T="MaterialTheming.Variant" @bind-Value="SelectedVariant">
     @foreach (var variant in _variants)
@@ -9,7 +13,7 @@
 
 <MudCheckBox @bind-Value="DarkMode">Dark Mode</MudCheckBox>
 
-<MudToggleGroup T="ContrastLevel" @bind-Value="SelectedContrast" Outlined="true" Delimiters="true">
+<MudToggleGroup T="ContrastLevel" @bind-Value="SelectedContrast" Outlined="true" Delimiters="true" >
     <MudToggleItem Value="@(ContrastLevel.Normal)">Normal (0.0)</MudToggleItem>
     <MudToggleItem Value="@(ContrastLevel.Medium)">Medium (0.5)</MudToggleItem>
     <MudToggleItem Value="@(ContrastLevel.High)">High (1.0)</MudToggleItem>
@@ -33,6 +37,7 @@
     protected override void OnInitialized()
     {
         SelectedColor = new MudColor("#512BD4");
+        SelectedSecondColor = new MudColor("#512BD4");
     }
 
     private async Task NotifyInputsChanged()
@@ -46,6 +51,9 @@
             SpecVersion = SelectedSpecVersion,
             Platform = SelectedPlatform
         };
+        if (SelectedVariantIsSecondSourceEligible)
+            inputs.SecondSourceColor = RgbColor.FromRgb(SelectedSecondColor.R, SelectedSecondColor.G, SelectedSecondColor.B);
+
         await OnInputsChanged.InvokeAsync(inputs);
     }
 
@@ -59,7 +67,18 @@
         }
     } = "#512BD4";
 
-    private List<MaterialTheming.Variant> _variants = [
+    private MudColor SelectedSecondColor
+    {
+        get;
+        set
+        {
+            field = value;
+            _ = NotifyInputsChanged();
+        }
+    } = "#512BD4";
+
+    private readonly List<MaterialTheming.Variant> _variants = 
+    [
         MaterialTheming.Variant.TonalSpot,
         MaterialTheming.Variant.Neutral,
         MaterialTheming.Variant.Monochrome,
@@ -71,6 +90,10 @@
         MaterialTheming.Variant.Expressive,
         MaterialTheming.Variant.CMF,
     ];
+    private readonly List<MaterialTheming.Variant> _secondSourceEligibleVariants = 
+    [
+        MaterialTheming.Variant.CMF,
+    ];
     private MaterialTheming.Variant SelectedVariant
     {
         get;
@@ -80,6 +103,8 @@
             _ = NotifyInputsChanged();
         }
     } = MaterialTheming.Variant.TonalSpot;
+
+    private bool SelectedVariantIsSecondSourceEligible => _secondSourceEligibleVariants.Contains(SelectedVariant);
 
     private bool DarkMode
     {

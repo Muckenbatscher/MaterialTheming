@@ -18,6 +18,7 @@
         themeInput = new ThemeCreationInputParameters()
         {
             SourceColor = RgbColor.FromHtml("#512BD4"),
+            SecondSourceColor = RgbColor.FromHtml("#512BD4"),
             Variant = MaterialTheming.Variant.TonalSpot,
             Mode = ThemeMode.Light,
             Contrast = ContrastLevel.Normal,
@@ -34,13 +35,16 @@
 
     private void GenerateTheme()
     {
-        _theme = ThemeBuilder
+        var builder = ThemeBuilder
             .CreateFromSourceColor(themeInput.SourceColor)
             .WithVariant(themeInput.Variant)
             .WithMode(themeInput.Mode)
             .WithContrastLevel(themeInput.Contrast)
             .WithSpecVersion(themeInput.SpecVersion)
-            .WithPlatform(themeInput.Platform)
-            .Build();
+            .WithPlatform(themeInput.Platform);
+        if (themeInput.SecondSourceColor is not null)
+            builder.WithSecondSourceColor(themeInput.SecondSourceColor);
+        
+        _theme = builder.Build();
     }
 }
