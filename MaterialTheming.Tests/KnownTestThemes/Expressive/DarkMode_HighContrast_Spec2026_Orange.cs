@@ -11,8 +11,8 @@ internal class DarkMode_HighContrast_Spec2026_Orange : ITestTheme
     // Primary
     public string Primary => "#FFDFCE";
     public string OnPrimary => "#4B1F00";
-    public string PrimaryContainer => "#FFAF7E";
-    public string OnPrimaryContainer => "#140500";
+    public string PrimaryContainer => "#DD9264";
+    public string OnPrimaryContainer => "#000000";
     // Secondary
     public string Secondary => "#D8E7FA";
     public string OnSecondary => "#1F2D3B";

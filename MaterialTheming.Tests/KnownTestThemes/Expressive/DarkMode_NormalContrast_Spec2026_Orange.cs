@@ -9,10 +9,10 @@ internal class DarkMode_NormalContrast_Spec2026_Orange : ITestTheme
     public SpecVersion SpecVersion => SpecVersion.Spec2026;
 
     // Primary
-    public string Primary => "#FFC29E";
-    public string OnPrimary => "#6D3710";
-    public string PrimaryContainer => "#FFAF7E";
-    public string OnPrimaryContainer => "#622E07";
+    public string Primary => "#FFAF7E";
+    public string OnPrimary => "#622E07";
+    public string PrimaryContainer => "#6F3811";
+    public string OnPrimaryContainer => "#FFC4A1";
     // Secondary
     public string Secondary => "#B9C8DA";
     public string OnSecondary => "#344150";
@@ -35,7 +35,7 @@ internal class DarkMode_NormalContrast_Spec2026_Orange : ITestTheme
     public string OnSurfaceVariant => "#CFA27E";
     public string SurfaceDim => "#190B01";
     public string SurfaceBright => "#432507";
-    public string SurfaceTint => "#FFC29E";
+    public string SurfaceTint => "#FFAF7E";
     // Background
     public string Background => "#190B01";
     public string OnBackground => "#FFE0C8";

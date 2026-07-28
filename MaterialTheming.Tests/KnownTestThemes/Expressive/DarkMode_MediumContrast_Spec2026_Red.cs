@@ -9,10 +9,10 @@ internal class DarkMode_MediumContrast_Spec2026_Red : ITestTheme
     public SpecVersion SpecVersion => SpecVersion.Spec2026;
 
     // Primary
-    public string Primary => "#FFB8AF";
-    public string OnPrimary => "#602520";
-    public string PrimaryContainer => "#FDA49A";
-    public string OnPrimaryContainer => "#541C17";
+    public string Primary => "#FDA49A";
+    public string OnPrimary => "#541C17";
+    public string PrimaryContainer => "#AA6058";
+    public string OnPrimaryContainer => "#FFFFFF";
     // Secondary
     public string Secondary => "#B3CAD5";
     public string OnSecondary => "#243942";
@@ -35,7 +35,7 @@ internal class DarkMode_MediumContrast_Spec2026_Red : ITestTheme
     public string OnSurfaceVariant => "#E4AC9C";
     public string SurfaceDim => "#1B0905";
     public string SurfaceBright => "#472116";
-    public string SurfaceTint => "#FFB8AF";
+    public string SurfaceTint => "#FDA49A";
     // Background
     public string Background => "#1B0905";
     public string OnBackground => "#FFFFFF";

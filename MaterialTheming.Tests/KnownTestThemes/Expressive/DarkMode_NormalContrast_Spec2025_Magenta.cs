@@ -9,10 +9,10 @@ internal class DarkMode_NormalContrast_Spec2025_Magenta : ITestTheme
     public SpecVersion SpecVersion => SpecVersion.Spec2025;
 
     // Primary
-    public string Primary => "#FFC0DD";
-    public string OnPrimary => "#6D3453";
-    public string PrimaryContainer => "#F9ADD2";
-    public string OnPrimaryContainer => "#622B4A";
+    public string Primary => "#F9ADD2";
+    public string OnPrimary => "#622B4A";
+    public string PrimaryContainer => "#6C3353";
+    public string OnPrimaryContainer => "#FFBEDC";
     // Secondary
     public string Secondary => "#B0CCC8";
     public string OnSecondary => "#2C4542";
@@ -35,7 +35,7 @@ internal class DarkMode_NormalContrast_Spec2025_Magenta : ITestTheme
     public string OnSurfaceVariant => "#CC9FB3";
     public string SurfaceDim => "#190911";
     public string SurfaceBright => "#432133";
-    public string SurfaceTint => "#FFC0DD";
+    public string SurfaceTint => "#F9ADD2";
     // Background
     public string Background => "#190911";
     public string OnBackground => "#FFDCEA";
