@@ -11,7 +11,11 @@
     }
 </MudSelect>
 
-<MudCheckBox @bind-Value="DarkMode">Dark Mode</MudCheckBox>
+
+<MudToggleGroup T="ThemeMode" @bind-Value="SelectedThemeMode" Outlined="true" Delimiters="true">
+    <MudToggleItem Value="@(ThemeMode.Dark)">Dark Mode</MudToggleItem>
+    <MudToggleItem Value="@(ThemeMode.Light)">Light Mode</MudToggleItem>
+</MudToggleGroup>
 
 <MudToggleGroup T="ContrastLevel" @bind-Value="SelectedContrast" Outlined="true" Delimiters="true" >
     <MudToggleItem Value="@(ContrastLevel.Normal)">Normal (0.0)</MudToggleItem>
@@ -46,7 +50,7 @@
         {
             SourceColor = RgbColor.FromRgb(SelectedColor.R, SelectedColor.G, SelectedColor.B),
             Variant = SelectedVariant,
-            Mode = DarkMode ? ThemeMode.Dark : ThemeMode.Light,
+            Mode = SelectedThemeMode,
             Contrast = SelectedContrast,
             SpecVersion = SelectedSpecVersion,
             Platform = SelectedPlatform
@@ -106,7 +110,7 @@
 
     private bool SelectedVariantIsSecondSourceEligible => _secondSourceEligibleVariants.Contains(SelectedVariant);
 
-    private bool DarkMode
+    private ThemeMode SelectedThemeMode
     {
         get;
         set
@@ -114,7 +118,7 @@
             field = value;
             _ = NotifyInputsChanged();
         }
-    } = false;
+    } = ThemeMode.Light;
 
     private ContrastLevel SelectedContrast
     {
@@ -135,7 +139,6 @@
             _ = NotifyInputsChanged();
         }
     } = SpecVersion.Spec2021;
-
     
     private Platform SelectedPlatform
     {
