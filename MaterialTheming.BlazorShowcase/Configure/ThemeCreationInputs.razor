@@ -21,6 +21,11 @@
     <MudToggleItem Value="@(SpecVersion.Spec2026)">Spec 2026</MudToggleItem>
 </MudToggleGroup>
 
+<MudToggleGroup T="Platform" @bind-Value="SelectedPlatform" Outlined="true" Delimiters="true">
+    <MudToggleItem Value="@(Platform.Phone)">Phone</MudToggleItem>
+    <MudToggleItem Value="@(Platform.Watch)">Watch</MudToggleItem>
+</MudToggleGroup>
+
     @code {
     [Parameter] 
     public EventCallback<ThemeCreationInputParameters> OnInputsChanged { get; set; }
@@ -38,7 +43,8 @@
             Variant = SelectedVariant,
             Mode = DarkMode ? ThemeMode.Dark : ThemeMode.Light,
             Contrast = SelectedContrast,
-            SpecVersion = SelectedSpecVersion
+            SpecVersion = SelectedSpecVersion,
+            Platform = SelectedPlatform
         };
         await OnInputsChanged.InvokeAsync(inputs);
     }
@@ -95,7 +101,6 @@
         }
     } = ContrastLevel.Normal;
 
-    
     private SpecVersion SelectedSpecVersion
     {
         get;
@@ -105,4 +110,15 @@
             _ = NotifyInputsChanged();
         }
     } = SpecVersion.Spec2021;
+
+    
+    private Platform SelectedPlatform
+    {
+        get;
+        set
+        {
+            field = value;
+            _ = NotifyInputsChanged();
+        }
+    } = Platform.Phone;
 }

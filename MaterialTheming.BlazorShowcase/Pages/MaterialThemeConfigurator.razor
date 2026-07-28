@@ -21,7 +21,8 @@
             Variant = MaterialTheming.Variant.TonalSpot,
             Mode = ThemeMode.Light,
             Contrast = ContrastLevel.Normal,
-            SpecVersion = SpecVersion.Spec2021
+            SpecVersion = SpecVersion.Spec2021,
+            Platform = Platform.Phone
         };
         GenerateTheme();
     }
@@ -39,6 +40,7 @@
             .WithMode(themeInput.Mode)
             .WithContrastLevel(themeInput.Contrast)
             .WithSpecVersion(themeInput.SpecVersion)
+            .WithPlatform(themeInput.Platform)
             .Build();
     }
 }

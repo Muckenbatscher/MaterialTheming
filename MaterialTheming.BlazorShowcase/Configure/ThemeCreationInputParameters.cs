@@ -9,4 +9,5 @@ public class ThemeCreationInputParameters
     public ThemeMode Mode { get; set; }
     public ContrastLevel Contrast { get; set; }
     public SpecVersion SpecVersion { get; set; }
+    public Platform Platform { get; set; }
 }
