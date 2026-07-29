@@ -1,19 +1,53 @@
-﻿<MaterialColorPicker @bind-ColorValue="SelectedColor" />
+﻿<MudGrid Spacing="4" Class="pa-4">
+    <MudItem xs="12" md="6">
+        <MaterialColorPicker @bind-ColorValue="SelectedColor" />
+    </MudItem>
+    <MudItem xs="12" md="6">
+        @if (SelectedVariantIsSecondSourceEligible)
+        {
+            <MaterialColorPicker @bind-ColorValue="SelectedSecondColor" />
+        }
+    </MudItem>
 
-<MudSelect T="MaterialTheming.Variant" @bind-Value="SelectedVariant">
-    @foreach (var variant in _variants)
-    {
-        <MudSelectItem Value="@variant">@(variant.ToString())</MudSelectItem>
-    }
-</MudSelect>
+    <MudItem xs="12">
+        <MudSelect T="MaterialTheming.Variant" @bind-Value="SelectedVariant">
+            @foreach (var variant in _variants)
+            {
+                <MudSelectItem Value="@variant">@(variant.ToString())</MudSelectItem>
+            }
+        </MudSelect>
+    </MudItem>
 
-<MudCheckBox @bind-Value="DarkMode">Dark Mode</MudCheckBox>
+    <MudItem xs="12" md="6" lg="3">
+        <MudToggleGroup T="ThemeMode" @bind-Value="SelectedThemeMode" Outlined="true" Delimiters="true">
+            <MudToggleItem Value="@(ThemeMode.Dark)">Dark Mode</MudToggleItem>
+            <MudToggleItem Value="@(ThemeMode.Light)">Light Mode</MudToggleItem>
+        </MudToggleGroup>
+    </MudItem>
 
-<MudToggleGroup T="ContrastLevel" @bind-Value="SelectedContrast" Outlined="true" Delimiters="true">
-    <MudToggleItem Value="@(ContrastLevel.Normal)">Normal (0.0)</MudToggleItem>
-    <MudToggleItem Value="@(ContrastLevel.Medium)">Medium (0.5)</MudToggleItem>
-    <MudToggleItem Value="@(ContrastLevel.High)">High (1.0)</MudToggleItem>
-</MudToggleGroup>
+    <MudItem xs="12" md="6" lg="3">
+        <MudToggleGroup T="ContrastLevel" @bind-Value="SelectedContrast" Outlined="true" Delimiters="true">
+            <MudToggleItem Value="@(ContrastLevel.Normal)">Normal (0.0)</MudToggleItem>
+            <MudToggleItem Value="@(ContrastLevel.Medium)">Medium (0.5)</MudToggleItem>
+            <MudToggleItem Value="@(ContrastLevel.High)">High (1.0)</MudToggleItem>
+        </MudToggleGroup>
+    </MudItem>
+
+    <MudItem xs="12" md="6" lg="3">
+        <MudToggleGroup T="SpecVersion" @bind-Value="SelectedSpecVersion" Outlined="true" Delimiters="true">
+            <MudToggleItem Value="@(SpecVersion.Spec2021)">Spec 2021</MudToggleItem>
+            <MudToggleItem Value="@(SpecVersion.Spec2025)">Spec 2025</MudToggleItem>
+            <MudToggleItem Value="@(SpecVersion.Spec2026)">Spec 2026</MudToggleItem>
+        </MudToggleGroup>
+    </MudItem>
+
+    <MudItem xs="12" md="6" lg="3">
+        <MudToggleGroup T="Platform" @bind-Value="SelectedPlatform" Outlined="true" Delimiters="true">
+            <MudToggleItem Value="@(Platform.Phone)">Phone</MudToggleItem>
+            <MudToggleItem Value="@(Platform.Watch)">Watch</MudToggleItem>
+        </MudToggleGroup>
+    </MudItem>
+</MudGrid>
 
     @code {
     [Parameter] 
@@ -22,6 +56,7 @@
     protected override void OnInitialized()
     {
         SelectedColor = new MudColor("#512BD4");
+        SelectedSecondColor = new MudColor("#512BD4");
     }
 
     private async Task NotifyInputsChanged()
@@ -30,9 +65,14 @@
         {
             SourceColor = RgbColor.FromRgb(SelectedColor.R, SelectedColor.G, SelectedColor.B),
             Variant = SelectedVariant,
-            Mode = DarkMode ? ThemeMode.Dark : ThemeMode.Light,
-            Contrast = SelectedContrast
+            Mode = SelectedThemeMode,
+            Contrast = SelectedContrast,
+            SpecVersion = SelectedSpecVersion,
+            Platform = SelectedPlatform
         };
+        if (SelectedVariantIsSecondSourceEligible)
+            inputs.SecondSourceColor = RgbColor.FromRgb(SelectedSecondColor.R, SelectedSecondColor.G, SelectedSecondColor.B);
+
         await OnInputsChanged.InvokeAsync(inputs);
     }
 
@@ -46,7 +86,18 @@
         }
     } = "#512BD4";
 
-    private List<MaterialTheming.Variant> _variants = [
+    private MudColor SelectedSecondColor
+    {
+        get;
+        set
+        {
+            field = value;
+            _ = NotifyInputsChanged();
+        }
+    } = "#512BD4";
+
+    private readonly List<MaterialTheming.Variant> _variants = 
+    [
         MaterialTheming.Variant.TonalSpot,
         MaterialTheming.Variant.Neutral,
         MaterialTheming.Variant.Monochrome,
@@ -56,6 +107,10 @@
         MaterialTheming.Variant.Rainbow,
         MaterialTheming.Variant.FruitSalad,
         MaterialTheming.Variant.Expressive,
+        MaterialTheming.Variant.CMF,
+    ];
+    private readonly List<MaterialTheming.Variant> _secondSourceEligibleVariants = 
+    [
         MaterialTheming.Variant.CMF,
     ];
     private MaterialTheming.Variant SelectedVariant
@@ -68,7 +123,9 @@
         }
     } = MaterialTheming.Variant.TonalSpot;
 
-    private bool DarkMode
+    private bool SelectedVariantIsSecondSourceEligible => _secondSourceEligibleVariants.Contains(SelectedVariant);
+
+    private ThemeMode SelectedThemeMode
     {
         get;
         set
@@ -76,7 +133,7 @@
             field = value;
             _ = NotifyInputsChanged();
         }
-    } = false;
+    } = ThemeMode.Light;
 
     private ContrastLevel SelectedContrast
     {
@@ -87,4 +144,24 @@
             _ = NotifyInputsChanged();
         }
     } = ContrastLevel.Normal;
+
+    private SpecVersion SelectedSpecVersion
+    {
+        get;
+        set
+        {
+            field = value;
+            _ = NotifyInputsChanged();
+        }
+    } = SpecVersion.Spec2021;
+    
+    private Platform SelectedPlatform
+    {
+        get;
+        set
+        {
+            field = value;
+            _ = NotifyInputsChanged();
+        }
+    } = Platform.Phone;
 }
