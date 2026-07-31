@@ -57,7 +57,7 @@ jobs:
           repository: ${{ env.TEST_GEN_REPO_NAME }} 
           ref: ${{ env.TEST_GEN_REPO_BRANCH }}
 
-      - uses: actions/setup-java@v5
+      - uses: actions/setup-java@v5.6.0
         with:
           distribution: 'temurin'
           java-version: '17'
