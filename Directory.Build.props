@@ -1,7 +1,6 @@
 <Project>
 	
 	<PropertyGroup>
-		<ProduceReferenceAssembly>true</ProduceReferenceAssembly>
 		<LangVersion>14</LangVersion>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
