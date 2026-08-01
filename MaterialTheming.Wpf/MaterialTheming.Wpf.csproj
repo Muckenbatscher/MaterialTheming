@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net48;net8.0-windows;net10.0-windows</TargetFrameworks>
+    <UseWPF>true</UseWPF>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+  </PropertyGroup>
+
+  <!--Package metadata-->
+  <Import Project="..\NugetPackage.props" />
+
+  <PropertyGroup>
+    <PackageId>MaterialTheming.Wpf</PackageId>
+    <Description>Create customized themes with the Material 3 color system for WPF applications.</Description>
+    <PackageTags>$PackageTags;wpf</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MaterialTheming\MaterialTheming.csproj" />
+  </ItemGroup>
+
+</Project>
