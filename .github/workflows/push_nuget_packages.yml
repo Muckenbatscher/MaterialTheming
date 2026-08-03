@@ -31,6 +31,8 @@ jobs:
             path: 'MaterialTheming/MaterialTheming.csproj'
           - name: MaterialTheming.Winforms
             path: 'MaterialTheming.Winforms/MaterialTheming.Winforms.csproj'
+          - name: MaterialTheming.Wpf
+            path: 'MaterialTheming.Wpf/MaterialTheming.Wpf.csproj'
 
     env:
       VERSION: ${{ needs.version.outputs.version }} 

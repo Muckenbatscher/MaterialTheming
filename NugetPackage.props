@@ -1,0 +1,38 @@
+<Project>
+
+	<!--Package metadata-->
+	<PropertyGroup>
+		<Authors>Muckenbatscher</Authors>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageIcon>material-design-primary-container.png</PackageIcon>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageTags>material;theme;ui</PackageTags>
+	</PropertyGroup>
+
+	<!--XML Doc Comments-->
+	<PropertyGroup>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<!-- to not require every public facing method to have an xml-doc comment -->
+		<WarningsNotAsErrors>$(WarningsNotAsErrors);1591</WarningsNotAsErrors>
+	</PropertyGroup>
+
+	<!--Package resources-->
+	<ItemGroup>
+		<None Include="..\README.md" Pack="true" PackagePath="\" />
+		<None Include="..\material-design-primary-container.png" Pack="true" PackagePath="\" />
+	</ItemGroup>
+
+	<!--SourceLink-->
+	<PropertyGroup>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<RepositoryUrl>https://github.com/Muckenbatscher/MaterialTheming</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/Muckenbatscher/MaterialTheming</PackageProjectUrl>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+		<Deterministic>true</Deterministic>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+		<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+	</PropertyGroup>
+</Project>
