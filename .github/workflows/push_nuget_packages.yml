@@ -29,6 +29,8 @@ jobs:
         project: 
           - name: MaterialTheming
             path: 'MaterialTheming/MaterialTheming.csproj'
+          - name: MaterialTheming.Winforms
+            path: 'MaterialTheming.Winforms/MaterialTheming.Winforms.csproj'
           - name: MaterialTheming.Wpf
             path: 'MaterialTheming.Wpf/MaterialTheming.Wpf.csproj'
 

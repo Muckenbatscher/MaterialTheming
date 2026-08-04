@@ -7,7 +7,6 @@ on:
     paths:
       - 'README.md'
 
-
 jobs:
   spell-check:
 
