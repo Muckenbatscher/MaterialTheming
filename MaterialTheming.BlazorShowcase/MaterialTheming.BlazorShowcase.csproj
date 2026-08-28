@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MaterialTheming.MudBlazor\MaterialTheming.MudBlazor.csproj" />
     <ProjectReference Include="..\MaterialTheming\MaterialTheming.csproj" />
   </ItemGroup>
 

@@ -49,14 +49,16 @@
     </MudItem>
 </MudGrid>
 
-    @code {
+@code {
     [Parameter] 
     public EventCallback<ThemeCreationInputParameters> OnInputsChanged { get; set; }
 
+    private const string DotNetBrandColor = "#512BD4";
+
     protected override void OnInitialized()
     {
-        SelectedColor = new MudColor("#512BD4");
-        SelectedSecondColor = new MudColor("#512BD4");
+        SelectedColor = new MudColor(DotNetBrandColor);
+        SelectedSecondColor = new MudColor(DotNetBrandColor);
     }
 
     private async Task NotifyInputsChanged()
@@ -84,7 +86,7 @@
             field = value;
             _ = NotifyInputsChanged();
         }
-    } = "#512BD4";
+    } = DotNetBrandColor;
 
     private MudColor SelectedSecondColor
     {
@@ -94,7 +96,7 @@
             field = value;
             _ = NotifyInputsChanged();
         }
-    } = "#512BD4";
+    } = DotNetBrandColor;
 
     private readonly List<MaterialTheming.Variant> _variants = 
     [

@@ -4,12 +4,15 @@
 
 <ThemeCreationInputs OnInputsChanged="OnThemeInputsChanged" />
 
-<ThemeDisplay Theme="_theme"/>
-<MudBlazorThemeApplier ThemeColors="_theme" />
+<ThemeDisplay Theme="_theme" />
+<MudThemeProvider Theme="@_mudTheme" IsDarkMode="_isDarkMode" />
 
 @code {
     private const string DotNetBrandColor = "#512BD4";
     private ThemeColors? _theme = ThemeBuilder.CreateFromSourceColor(DotNetBrandColor).Build();
+    private MudTheme? _mudTheme;
+    private bool _isDarkMode;
+
 
     private ThemeCreationInputParameters themeInput;
 
@@ -44,7 +47,10 @@
             .WithPlatform(themeInput.Platform);
         if (themeInput.SecondSourceColor is not null)
             builder.WithSecondSourceColor(themeInput.SecondSourceColor);
-        
+
         _theme = builder.Build();
+
+        _mudTheme = builder.BuildMudTheme();
+        _isDarkMode = themeInput.Mode == ThemeMode.Dark;
     }
 }
