@@ -58,7 +58,9 @@ jobs:
       uses: actions/upload-artifact@v7
       with:
         name: ${{ env.PACKAGES_ARTIFACT }}-${{ matrix.project.name }}
-        path: ${{ env.OUTDIR }}/*.nupkg
+        path: |
+          ${{ env.OUTDIR }}/*.nupkg
+          ${{ env.OUTDIR }}/*.snupkg
         retention-days: 1
 
   upload-release-asset:
@@ -113,7 +115,8 @@ jobs:
           echo "Pushing $f to GitHub Packages source..."
           dotnet nuget push "$f" \
             --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
-            --api-key ${{ secrets.GITHUB_TOKEN }} 
+            --api-key ${{ secrets.GITHUB_TOKEN }} \
+            --no-symbols
         done
 
     - name: Push all to NuGet.org
