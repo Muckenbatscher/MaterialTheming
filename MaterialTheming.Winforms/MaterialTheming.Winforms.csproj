@@ -2,8 +2,18 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.1;net48;net8.0;net10.0</TargetFrameworks>
+    <RootNamespace>MaterialTheming</RootNamespace>
   </PropertyGroup>
+  
+  <!--Package metadata-->
+  <Import Project="..\NugetPackage.props" />
 
+  <PropertyGroup>
+    <PackageId>MaterialTheming.Winforms</PackageId>
+    <Description>Create customized themes with the Material 3 color system for Windows Forms applications.</Description>
+    <PackageTags>$PackageTags;winforms</PackageTags>
+  </PropertyGroup>
+  
   <ItemGroup>
     <ProjectReference Include="..\MaterialTheming\MaterialTheming.csproj" />
   </ItemGroup>
