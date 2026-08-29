@@ -1,6 +1,4 @@
-﻿using MaterialTheming;
-
-namespace MaterialTheming.BlazorShowcase.Configure;
+﻿namespace MaterialTheming.BlazorShowcase.Configure;
 
 public record ThemeCreationInputParameters
 {

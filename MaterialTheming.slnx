@@ -22,6 +22,7 @@
     <File Path="global.json" />
   </Folder>
   <Project Path="MaterialTheming.BlazorShowcase/MaterialTheming.BlazorShowcase.csproj" />
+  <Project Path="MaterialTheming.MudBlazor/MaterialTheming.MudBlazor.csproj" />
   <Project Path="MaterialTheming.Tests/MaterialTheming.Tests.csproj" />
   <Project Path="MaterialTheming.Winforms/MaterialTheming.Winforms.csproj" />
   <Project Path="MaterialTheming.Wpf/MaterialTheming.Wpf.csproj" />

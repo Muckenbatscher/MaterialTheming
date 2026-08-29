@@ -28,11 +28,9 @@ jobs:
       matrix:
         project: 
           - name: MaterialTheming
-            path: 'MaterialTheming/MaterialTheming.csproj'
           - name: MaterialTheming.Winforms
-            path: 'MaterialTheming.Winforms/MaterialTheming.Winforms.csproj'
           - name: MaterialTheming.Wpf
-            path: 'MaterialTheming.Wpf/MaterialTheming.Wpf.csproj'
+          - name: MaterialTheming.MudBlazor
 
     env:
       VERSION: ${{ needs.version.outputs.version }} 
@@ -45,12 +43,13 @@ jobs:
         dotnet-version: 10.0.x
 
     - name: Restore project dependencies
-      run: dotnet restore ${{ matrix.project.path }}
+      run: dotnet restore ${{ matrix.project.name }}/${{ matrix.project.name }}.csproj
 
     - name: Build package file
       shell: pwsh
       run: |
-        dotnet pack ${{ matrix.project.path }} --no-restore `
+        dotnet pack ${{ matrix.project.name }}/${{ matrix.project.name }}.csproj `
+          --no-restore `
           -c Release -o ${{ env.OUTDIR }} `
           -p:PackageVersion=${{ env.VERSION }}
 

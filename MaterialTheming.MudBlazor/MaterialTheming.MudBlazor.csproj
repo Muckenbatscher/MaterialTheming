@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
+    <RootNamespace>MaterialTheming</RootNamespace>
+  </PropertyGroup>
+
+  <!--Package metadata-->
+  <Import Project="..\NugetPackage.props" />
+
+  <PropertyGroup>
+    <PackageId>MaterialTheming.MudBlazor</PackageId>
+    <Description>Create customized themes with the Material 3 color system for MudBlazor applications.</Description>
+    <PackageTags>$PackageTags;blazor;mudblazor;</PackageTags>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\MaterialTheming\MaterialTheming.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MudBlazor" />
+  </ItemGroup>
+</Project>
