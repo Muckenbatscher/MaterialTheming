@@ -55,5 +55,10 @@ public static class MudThemeExtensions
         palette.DrawerIcon = materialThemeColors.OnSurface.ToMudColor();
         palette.AppbarBackground = materialThemeColors.SurfaceContainerHigh.ToMudColor();
         palette.AppbarText = materialThemeColors.OnSurface.ToMudColor();
+        palette.TableLines = materialThemeColors.Outline.ToMudColor();
+        palette.LinesDefault = materialThemeColors.Outline.ToMudColor();
+        palette.LinesInputs = materialThemeColors.Outline.ToMudColor();
+        palette.Divider = materialThemeColors.Outline.ToMudColor();
+        palette.DividerLight = materialThemeColors.OutlineVariant.ToMudColor();
     }
 }
