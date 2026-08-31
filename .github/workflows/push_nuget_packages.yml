@@ -50,6 +50,7 @@ jobs:
       run: dotnet build ${{ matrix.project.name }}/${{ matrix.project.name }}.csproj `
         --no-restore `
         -c Release `
+        -p:BuildInParallel=false `
         -p:PackageVersion=${{ env.VERSION }}
 
     - name: Build package file
