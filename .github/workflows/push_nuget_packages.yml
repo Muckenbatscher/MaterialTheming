@@ -45,11 +45,18 @@ jobs:
     - name: Restore project dependencies
       run: dotnet restore ${{ matrix.project.name }}/${{ matrix.project.name }}.csproj
 
+    - name: Build project
+      shell: pwsh
+      run: dotnet build ${{ matrix.project.name }}/${{ matrix.project.name }}.csproj `
+        --no-restore `
+        -c Release `
+        -p:PackageVersion=${{ env.VERSION }}
+
     - name: Build package file
       shell: pwsh
       run: |
         dotnet pack ${{ matrix.project.name }}/${{ matrix.project.name }}.csproj `
-          --no-restore `
+          --no-build `
           -c Release -o ${{ env.OUTDIR }} `
           -p:PackageVersion=${{ env.VERSION }}
 
@@ -79,7 +86,7 @@ jobs:
       uses: actions/download-artifact@v8
       with:
         path: ${{ env.PACKAGE_DIR }}
-    - name: Upload to referenced GitHUb release
+    - name: Upload to referenced GitHub release
       uses: shogo82148/actions-upload-release-asset@v1
       with:
         upload_url: ${{ github.event.release.upload_url }}
