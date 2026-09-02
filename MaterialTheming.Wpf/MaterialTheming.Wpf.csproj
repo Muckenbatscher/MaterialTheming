@@ -13,7 +13,7 @@
   <PropertyGroup>
     <PackageId>MaterialTheming.Wpf</PackageId>
     <Description>Create customized themes with the Material 3 color system for WPF applications.</Description>
-    <PackageTags>$PackageTags;wpf</PackageTags>
+    <PackageTags>$(PackageTags);wpf</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
