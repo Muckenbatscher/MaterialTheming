@@ -11,7 +11,7 @@
   <PropertyGroup>
     <PackageId>MaterialTheming.Winforms</PackageId>
     <Description>Create customized themes with the Material 3 color system for Windows Forms applications.</Description>
-    <PackageTags>$PackageTags;winforms</PackageTags>
+    <PackageTags>$(PackageTags);winforms</PackageTags>
   </PropertyGroup>
   
   <ItemGroup>

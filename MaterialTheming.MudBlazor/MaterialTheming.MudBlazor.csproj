@@ -10,7 +10,7 @@
   <PropertyGroup>
     <PackageId>MaterialTheming.MudBlazor</PackageId>
     <Description>Create customized themes with the Material 3 color system for MudBlazor applications.</Description>
-    <PackageTags>$PackageTags;blazor;mudblazor;</PackageTags>
+    <PackageTags>$(PackageTags);blazor;mudblazor;</PackageTags>
   </PropertyGroup>
   
   <ItemGroup>
