@@ -1,10 +1,6 @@
 name: Verify latest commit in official implementation
 
 on:
-  pull_request:
-    branches: [ "master" ]
-  push:
-    branches: [ "master" ] #verify again after PR was merged
   schedule:
     - cron: "15 3 * * *" #every day, 03:15 UTC
 
