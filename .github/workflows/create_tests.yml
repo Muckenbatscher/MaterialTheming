@@ -121,7 +121,7 @@ jobs:
         run: git checkout -B ${{ env.PR_SOURCE_BRANCH_NAME }}
 
       - name: Remove existing generated testcases
-        run: find "${{ env.TEST_THEME_DIR }}" -mindepth 1 -maxdepth 1 -exec rm -rf -- {} +
+        run: find "${{ env.TEST_THEME_DIR }}" -mindepth 2 -type f -name '*.cs' -delete
 
       - uses: actions/download-artifact@v8
         with:
