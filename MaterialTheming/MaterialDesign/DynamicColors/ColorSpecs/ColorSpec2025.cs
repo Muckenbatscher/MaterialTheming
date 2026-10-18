@@ -1219,6 +1219,82 @@ internal class ColorSpec2025 : ColorSpec2021
     // Helpers
     // ----------------------------------------------------------------
 
+    private static bool IsCloseToChroma(HctColor hct, double chroma)
+    {
+        return Math.Abs(hct.Chroma - chroma) < 0.4;
+    }
+
+    private static double FindDesiredChromaByTone(
+        double hue, double chroma, double startingTone, double endingTone)
+    {
+        if (endingTone == startingTone)
+        {
+            return startingTone;
+        }
+
+        double answer = startingTone;
+        double potentialAnswer = answer;
+
+        var closestToChroma = HctColor.From(hue, chroma, startingTone);
+        if (closestToChroma.Chroma < chroma && !IsCloseToChroma(closestToChroma, chroma))
+        {
+            while (closestToChroma.Chroma < chroma)
+            {
+                double increment = endingTone < startingTone ? -1.0 : 1.0;
+                potentialAnswer += increment;
+
+                if (potentialAnswer < endingTone && endingTone < startingTone)
+                {
+                    return answer;
+                }
+                else if (potentialAnswer > endingTone && endingTone > startingTone)
+                {
+                    return answer;
+                }
+
+                var potentialSolution = HctColor.From(hue, chroma, potentialAnswer);
+                if (IsCloseToChroma(potentialSolution, chroma))
+                {
+                    return potentialAnswer;
+                }
+
+                double potentialDelta = Math.Abs(potentialSolution.Chroma - chroma);
+                double currentDelta = Math.Abs(closestToChroma.Chroma - chroma);
+                if (potentialDelta < currentDelta)
+                {
+                    closestToChroma = potentialSolution;
+                    answer = potentialAnswer;
+                }
+            }
+        }
+
+        return answer;
+    }
+
+    private static double MainTone(TonalPalette tonalPalette, double maxTone)
+    {
+        double initialTone = maxTone;
+        double endingTone = ForegroundToneCalculation.ForegroundTone(25.0, /* ratio= */ 7.0);
+        return FindDesiredChromaByTone(
+            tonalPalette.Hue, tonalPalette.Chroma, initialTone, endingTone);
+    }
+
+    private static double DimTone(TonalPalette tonalPalette, double maxTone)
+    {
+        double initialTone = Math.Min(MainTone(tonalPalette, maxTone) - 5.0, maxTone);
+        double endingTone = ForegroundToneCalculation.ForegroundTone(25.0, /* ratio= */ 4.5);
+        return FindDesiredChromaByTone(
+            tonalPalette.Hue, tonalPalette.Chroma, initialTone, endingTone);
+    }
+
+    private static double ContainerTone(TonalPalette tonalPalette, double maxTone)
+    {
+        double initialTone = Math.Min(DimTone(tonalPalette, maxTone) - 5.0, maxTone);
+        double endingTone = ForegroundToneCalculation.ForegroundTone(0.0, /* ratio= */ 7.0);
+        return FindDesiredChromaByTone(
+            tonalPalette.Hue, tonalPalette.Chroma, initialTone, endingTone);
+    }
+
     private static double FindBestToneForChroma(double hue, double chroma, double tone, bool byDecreasingTone)
     {
         double answer = tone;
