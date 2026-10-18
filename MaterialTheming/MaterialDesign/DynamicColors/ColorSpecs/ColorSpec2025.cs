@@ -612,7 +612,9 @@ internal class ColorSpec2025 : ColorSpec2021
             .WithTone(s =>
             {
                 if (s.Platform.IsWatch())
-                    return s.Variant == Variant.Neutral ? 90.0 : TMaxC(s.SecondaryPalette, 0, 90);
+                    return s.Variant == Variant.Neutral
+                        ? 90.0
+                        : MainTone(s.SecondaryPalette, 90);
                 if (s.Variant == Variant.Neutral)
                     return s.IsDark ? TMinC(s.SecondaryPalette, 0, 98) : TMaxC(s.SecondaryPalette);
                 if (s.Variant == Variant.Vibrant)
@@ -635,14 +637,28 @@ internal class ColorSpec2025 : ColorSpec2021
             .WithPalette(s => s.SecondaryPalette)
             .WithTone(s =>
             {
+                if (s.Platform.IsWatch())
+                    return s.Variant == Variant.Neutral
+                        ? 85
+                        : DimTone(s.SecondaryPalette, 90);
                 if (s.Variant == Variant.Neutral)
                     return 85.0;
                 return TMaxC(s.SecondaryPalette, 0, 90);
             })
             .WithIsBackground(true)
             .WithBackground(s => SurfaceContainerHigh)
-            .WithContrastCurve(s => GetContrastCurve(4.5))
-            .WithToneDeltaPair(s => new ToneDeltaPair(SecondaryDim, Secondary, 5.0, TonePolarity.Darker, ToneDeltaConstraint.Farther));
+            .WithContrastCurve(s =>
+            {
+                return s.Platform.IsWatch()
+                    ? new ContrastCurve(4.5, 4.5, 4.5, 4.5)
+                    : GetContrastCurve(4.5);
+            })
+            .WithToneDeltaPair(s =>
+            {
+                return s.Platform.IsWatch()
+                    ? null
+                    : new ToneDeltaPair(SecondaryDim, Secondary, 5.0, TonePolarity.Darker, ToneDeltaConstraint.Farther);
+            });
     }
 
     public override DynamicColor OnSecondary => CreateOnSecondary().Build();
@@ -672,11 +688,24 @@ internal class ColorSpec2025 : ColorSpec2021
                 return s.IsDark ? 25.0 : 90.0;
             })
             .WithIsBackground(true)
-            .WithBackground(s => s.Platform.IsPhone() ? (s.IsDark ? SurfaceBright : SurfaceDim) : null)
-            .WithContrastCurve(s => s.Platform.IsPhone() && s.ContrastLevel > 0 ? GetContrastCurve(1.5) : null)
-            .WithToneDeltaPair(s => s.Platform.IsWatch()
-                ? new ToneDeltaPair(SecondaryContainer, SecondaryDim, 10.0, TonePolarity.Darker, ToneDeltaConstraint.Farther)
-                : null);
+            .WithBackground(s =>
+            {
+                return s.Platform.IsPhone()
+                    ? s.IsDark ? SurfaceBright : SurfaceDim
+                    : SurfaceContainerHigh;
+            })
+            .WithToneDeltaPair(s =>
+            {
+                return s.Platform.IsWatch()
+                    ? new ToneDeltaPair(SecondaryContainer, SecondaryDim, 10.0, TonePolarity.Darker, ToneDeltaConstraint.Farther)
+                    : null;
+            })
+            .WithContrastCurve(s =>
+            {
+                return s.Platform.IsPhone()
+                    ? s.ContrastLevel > 0 ? GetContrastCurve(1.5) : null
+                    : new ContrastCurve(1, 1, 3, 4.5);
+            });
     }
 
     public override DynamicColor OnSecondaryContainer => CreateOnSecondaryContainer().Build();
@@ -686,7 +715,12 @@ internal class ColorSpec2025 : ColorSpec2021
             .WithName("on_secondary_container")
             .WithPalette(s => s.SecondaryPalette)
             .WithBackground(_ => SecondaryContainer)
-            .WithContrastCurve(s => s.Platform.IsPhone() ? GetContrastCurve(6) : GetContrastCurve(7));
+            .WithContrastCurve(s =>
+            {
+                return s.Platform.IsPhone()
+                    ? GetContrastCurve(6)
+                    : new ContrastCurve(3, 7, 7, 11);
+            });
     }
 
     // ----------------------------------------------------------------
