@@ -202,7 +202,7 @@ internal class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
             [Variant.Content];
 
         if (spec2026implementedVariants.Contains(variant))
-            return SpecVersion.Spec2026;
+            return desiredSpecVersion;
 
         if (spec2025implementedVariants.Contains(variant))
             return desiredSpecVersion == SpecVersion.Spec2026 ? SpecVersion.Spec2025 : desiredSpecVersion;

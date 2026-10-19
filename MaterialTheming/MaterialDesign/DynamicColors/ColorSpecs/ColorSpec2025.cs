@@ -1353,12 +1353,11 @@ internal class ColorSpec2025 : ColorSpec2021
             }
 
             // Awkward zone avoidance (except fixed dim colors)
-            if (color.IsBackground && !color.Name.EndsWith("_fixed_dim"))
+            if (scheme.Platform.IsPhone() && color.IsBackground && !color.Name.EndsWith("_fixed_dim"))
             {
-                if (selfTone >= 57)
-                    selfTone = double.Clamp(selfTone, 65, 100);
-                else
-                    selfTone = double.Clamp(selfTone, 0, 49);
+                selfTone = selfTone >= 57
+                    ? double.Clamp(selfTone, 65, 100)
+                    : double.Clamp(selfTone, 0, 49);
             }
 
             return selfTone;
@@ -1386,11 +1385,17 @@ internal class ColorSpec2025 : ColorSpec2021
             }
 
             // Awkward zone avoidance
-            if (color.IsBackground && !color.Name.EndsWith("_fixed_dim"))
+            if (scheme.Platform.IsPhone() && color.IsBackground && !color.Name.EndsWith("_fixed_dim"))
             {
                 answer = answer >= 57
                     ? double.Clamp(answer, 65, 100)
                     : double.Clamp(answer, 0, 49);
+            }
+            else if (scheme.Platform.IsWatch() && color.IsBackground && 50 <= answer && answer < 60)
+            {
+                answer = Contrast.RatioOfTones(49, bgTone) >= desiredRatio
+                    ? 49
+                    : 60;
             }
 
             DynamicColor? bg2 = color.SecondBackground?.Invoke(scheme);
@@ -1434,14 +1439,36 @@ internal class ColorSpec2025 : ColorSpec2021
 
     public override TonalPalette GetPrimaryPalette(Variant variant, HctColor sourceColorHct, bool isDark, Platform platform, double contrastLevel)
     {
-        return variant switch
+        if (variant is Variant.Neutral)
         {
-            Variant.Neutral => TonalPalette.FromHueAndChroma(sourceColorHct.Hue, platform.IsPhone() ? (HctColorCategorization.IsBlue(sourceColorHct.Hue) ? 12 : 8) : (HctColorCategorization.IsBlue(sourceColorHct.Hue) ? 16 : 12)),
-            Variant.TonalSpot => TonalPalette.FromHueAndChroma(sourceColorHct.Hue, platform.IsPhone() && isDark ? 26 : 32),
-            Variant.Expressive => TonalPalette.FromHueAndChroma(sourceColorHct.Hue, platform.IsPhone() ? (isDark ? 36 : 48) : 40),
-            Variant.Vibrant => TonalPalette.FromHueAndChroma(sourceColorHct.Hue, platform.IsPhone() ? 74 : 56),
-            _ => base.GetPrimaryPalette(variant, sourceColorHct, isDark, platform, contrastLevel)
-        };
+            var chroma = platform.IsPhone()
+                ? HctColorCategorization.IsBlue(sourceColorHct.Hue) ? 12 : 8
+                : IsWatchBlueHue(sourceColorHct) ? 16 : 12;
+            return TonalPalette.FromHueAndChroma(sourceColorHct.Hue, chroma);
+        }
+        if (variant is Variant.TonalSpot)
+        {
+            var chroma = platform.IsPhone() && isDark ? 26 : 32;
+            return TonalPalette.FromHueAndChroma(sourceColorHct.Hue, chroma);
+        }
+        if (variant is Variant.Expressive)
+        {
+            var chroma = platform.IsPhone()
+                ? isDark ? 36 : 48
+                : 40;
+            return TonalPalette.FromHueAndChroma(sourceColorHct.Hue, chroma);
+        }
+        if (variant is Variant.Vibrant)
+        {
+            var chroma = platform.IsPhone() ? 74 : 56;
+            return TonalPalette.FromHueAndChroma(sourceColorHct.Hue, chroma);
+        }
+        if (variant is Variant.Content && platform.IsWatch())
+        {
+            return TonalPalette.FromHct(sourceColorHct);
+        }
+
+        return base.GetPrimaryPalette(variant, sourceColorHct, isDark, platform, contrastLevel);
     }
 
     public override TonalPalette GetSecondaryPalette(Variant variant, HctColor sourceColorHct, bool isDark, Platform platform, double contrastLevel)
@@ -1591,7 +1618,7 @@ internal class ColorSpec2025 : ColorSpec2021
     private static double DimTone(TonalPalette tonalPalette, double maxTone)
     {
         double initialTone = Math.Min(MainTone(tonalPalette, maxTone) - 5.0, maxTone);
-        double endingTone = ForegroundToneCalculation.ForegroundTone(25.0, /* ratio= */ 4.5);
+        double endingTone = ForegroundToneCalculation.ForegroundTone(25.0, ratio: 4.5);
         return FindDesiredChromaByTone(
             tonalPalette.Hue, tonalPalette.Chroma, initialTone, endingTone);
     }
@@ -1599,7 +1626,7 @@ internal class ColorSpec2025 : ColorSpec2021
     private static double ContainerTone(TonalPalette tonalPalette, double maxTone)
     {
         double initialTone = Math.Min(DimTone(tonalPalette, maxTone) - 5.0, maxTone);
-        double endingTone = ForegroundToneCalculation.ForegroundTone(0.0, /* ratio= */ 7.0);
+        double endingTone = ForegroundToneCalculation.ForegroundTone(0.0, ratio: 7.0);
         return FindDesiredChromaByTone(
             tonalPalette.Hue, tonalPalette.Chroma, initialTone, endingTone);
     }
@@ -1660,6 +1687,10 @@ internal class ColorSpec2025 : ColorSpec2021
         };
     }
 
+    private static bool IsWatchBlueHue(HctColor sourceColorHct)
+    {
+        return 250 <= sourceColorHct.Hue && sourceColorHct.Hue <= 270;
+    }
     private static double GetExpressiveNeutralHue(HctColor sourceColorHct)
     {
         return DynamicScheme.GetRotatedHue(sourceColorHct,
