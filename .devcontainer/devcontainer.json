@@ -1,0 +1,18 @@
+{
+  "name": "MaterialTheming - Dotnet",
+  "image": "ubuntu:latest",
+    // More info: https://containers.dev/features.
+	"features": {
+		"ghcr.io/devcontainers/features/dotnet:2": {},
+		"ghcr.io/devcontainers/features/git:1": {}
+	},
+	"postCreateCommand": "dotnet restore",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-dotnettools.csdevkit",
+        "ms-dotnettools.vscode-dotnet-runtime"
+      ]
+    }
+  }
+}

@@ -65,15 +65,10 @@ jobs:
 
       - name: Build project
         run: mvn --batch-mode --no-transfer-progress package
-      
-      - name: Ensure Testcase output directory
-        run: |
-          mkdir -p "${{ env.OUTPUT_PATH }}"
-          shopt -s dotglob nullglob
-          rm -rf -- "${{ env.OUTPUT_PATH }}"/*
 
       - name: Run MyTest.java
         run: |
+          mkdir -p "${{ env.OUTPUT_PATH }}"
           java -cp target/classes MyTest "${{ env.OUTPUT_PATH }}"
   
       - uses: actions/upload-artifact@v7
@@ -124,6 +119,9 @@ jobs:
       - name: Create new branch
         if: steps.existing_branch.outputs.exists != 'true'
         run: git checkout -B ${{ env.PR_SOURCE_BRANCH_NAME }}
+
+      - name: Remove existing generated testcases
+        run: find "${{ env.TEST_THEME_DIR }}" -mindepth 2 -type f -name '*.cs' -delete
 
       - uses: actions/download-artifact@v8
         with:
