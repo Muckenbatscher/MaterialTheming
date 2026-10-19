@@ -868,14 +868,24 @@ internal class ColorSpec2025 : ColorSpec2021
             {
                 if (s.Platform.IsPhone())
                     return s.IsDark ? TMinC(s.ErrorPalette, 0, 98) : TMaxC(s.ErrorPalette);
-                return TMinC(s.ErrorPalette);
+
+                var startingTone = ForegroundToneCalculation.ForegroundTone(bgTone: 25, ratio: 7);
+                return FindDesiredChromaByTone(s.ErrorPalette.Hue, s.ErrorPalette.Chroma, startingTone, 100);
             })
             .WithIsBackground(true)
             .WithBackground(s => s.Platform.IsPhone() ? (s.IsDark ? SurfaceBright : SurfaceDim) : SurfaceContainerHigh)
-            .WithContrastCurve(s => s.Platform.IsPhone() ? GetContrastCurve(4.5) : GetContrastCurve(7))
-            .WithToneDeltaPair(s => s.Platform.IsPhone()
-                ? new ToneDeltaPair(ErrorContainer, Error, 5.0, TonePolarity.RelativeLighter, ToneDeltaConstraint.Farther)
-                : null);
+            .WithContrastCurve(s =>
+            {
+                return s.Platform.IsPhone()
+                    ? GetContrastCurve(4.5)
+                    : new ContrastCurve(3, 7, 7, 7);
+            })
+            .WithToneDeltaPair(s =>
+            {
+                return s.Platform.IsPhone()
+                    ? new ToneDeltaPair(ErrorContainer, Error, 5.0, TonePolarity.RelativeLighter, ToneDeltaConstraint.Farther)
+                    : null;
+            });
     }
 
     public override DynamicColor ErrorDim => CreateErrorDim().Build();
@@ -898,7 +908,12 @@ internal class ColorSpec2025 : ColorSpec2021
             .WithName("on_error")
             .WithPalette(s => s.ErrorPalette)
             .WithBackground(s => s.Platform.IsPhone() ? Error : ErrorDim)
-            .WithContrastCurve(s => s.Platform.IsPhone() ? GetContrastCurve(6) : GetContrastCurve(7));
+            .WithContrastCurve(s =>
+            {
+                return s.Platform.IsPhone()
+                    ? GetContrastCurve(6)
+                    : new ContrastCurve(4.5, 7, 11, 21);
+            });
     }
 
     public override DynamicColor ErrorContainer => CreateErrorContainer().Build();
@@ -914,11 +929,24 @@ internal class ColorSpec2025 : ColorSpec2021
                 return s.IsDark ? TMinC(s.ErrorPalette, 30, 93) : TMaxC(s.ErrorPalette, 0, 90);
             })
             .WithIsBackground(true)
-            .WithBackground(s => s.Platform.IsPhone() ? (s.IsDark ? SurfaceBright : SurfaceDim) : null)
-            .WithContrastCurve(s => s.Platform.IsPhone() && s.ContrastLevel > 0 ? GetContrastCurve(1.5) : null)
-            .WithToneDeltaPair(s => s.Platform.IsWatch()
-                ? new ToneDeltaPair(ErrorContainer, ErrorDim, 10.0, TonePolarity.Darker, ToneDeltaConstraint.Farther)
-                : null);
+            .WithBackground(s =>
+            {
+                return s.Platform.IsPhone()
+                    ? s.IsDark ? SurfaceBright : SurfaceDim
+                    : SurfaceContainerHigh;
+            })
+            .WithContrastCurve(s =>
+            {
+                return s.Platform.IsPhone()
+                    ? s.ContrastLevel > 0 ? GetContrastCurve(1.5) : null
+                    : new ContrastCurve(1, 1, 3, 4.5);
+            })
+            .WithToneDeltaPair(s =>
+            {
+                return s.Platform.IsWatch()
+                    ? new ToneDeltaPair(ErrorContainer, ErrorDim, 10.0, TonePolarity.Darker, ToneDeltaConstraint.Farther)
+                    : null;
+            });
     }
 
     public override DynamicColor OnErrorContainer => CreateOnErrorContainer().Build();
