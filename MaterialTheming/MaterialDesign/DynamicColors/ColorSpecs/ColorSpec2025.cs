@@ -1183,10 +1183,29 @@ internal class ColorSpec2025 : ColorSpec2021
         return DynamicColorBuilder.Create()
             .WithName("tertiary_fixed")
             .WithPalette(s => s.TertiaryPalette)
-            .WithTone(s => TertiaryContainer.GetTone(DynamicScheme.From(s, false, 0.0)))
+            .WithTone(s =>
+            {
+                if (s.Platform.IsWatch())
+                {
+                    var maxTone = s.Variant == Variant.TonalSpot ? 90 : 100;
+                    return MainTone(s.TertiaryPalette, maxTone);
+                }
+                var scheme = DynamicScheme.From(s, isDark: false, contrastLevel: 0.0);
+                return TertiaryContainer.GetTone(scheme);
+            })
             .WithIsBackground(true)
-            .WithBackground(s => s.Platform.IsPhone() ? (s.IsDark ? SurfaceBright : SurfaceDim) : null)
-            .WithContrastCurve(s => s.Platform.IsPhone() && s.ContrastLevel > 0 ? GetContrastCurve(1.5) : null);
+            .WithBackground(s =>
+            {
+                return s.Platform.IsPhone()
+                    ? s.IsDark ? SurfaceBright : SurfaceDim
+                    : SurfaceContainerHigh;
+            })
+            .WithContrastCurve(s =>
+            {
+                return s.Platform.IsPhone()
+                    ? s.ContrastLevel > 0 ? GetContrastCurve(1.5) : null
+                    : new ContrastCurve(7, 7, 7, 7);
+            });
     }
 
     public override DynamicColor TertiaryFixedDim => CreateTertiaryFixedDim().Build();
@@ -1195,9 +1214,24 @@ internal class ColorSpec2025 : ColorSpec2021
         return DynamicColorBuilder.Create()
             .WithName("tertiary_fixed_dim")
             .WithPalette(s => s.TertiaryPalette)
-            .WithTone(TertiaryFixed.GetTone)
+            .WithTone(s =>
+            {
+                if (s.Platform.IsWatch())
+                {
+                    var maxTone = s.Variant == Variant.TonalSpot ? 90 : 100;
+                    return DimTone(s.TertiaryPalette, maxTone);
+                }
+                return TertiaryFixed.GetTone(s);
+            })
             .WithIsBackground(true)
-            .WithToneDeltaPair(s => new ToneDeltaPair(TertiaryFixedDim, TertiaryFixed, 5.0, TonePolarity.Darker, ToneDeltaConstraint.Exact));
+            .WithBackground(s => s.Platform.IsWatch() ? SurfaceContainerHigh : null)
+            .WithContrastCurve(s => s.Platform.IsWatch() ? new ContrastCurve(4.5, 4.5, 4.5, 4.5) : null)
+            .WithToneDeltaPair(s =>
+            {
+                return s.Platform.IsWatch()
+                    ? null
+                    : new ToneDeltaPair(TertiaryFixedDim, TertiaryFixed, 5.0, TonePolarity.Darker, ToneDeltaConstraint.Exact);
+            });
     }
 
     public override DynamicColor OnTertiaryFixed => CreateOnTertiaryFixed().Build();
@@ -1207,7 +1241,13 @@ internal class ColorSpec2025 : ColorSpec2021
             .WithName("on_tertiary_fixed")
             .WithPalette(s => s.TertiaryPalette)
             .WithBackground(s => TertiaryFixedDim)
-            .WithContrastCurve(s => GetContrastCurve(7));
+            .WithSecondBackground(s => s.Platform.IsWatch() ? TertiaryFixed : null)
+            .WithContrastCurve(s =>
+            {
+                return s.Platform.IsWatch()
+                    ? new ContrastCurve(4.5, 7, 11, 21)
+                    : GetContrastCurve(7);
+            });
     }
 
     public override DynamicColor OnTertiaryFixedVariant => CreateOnTertiaryFixedVariant().Build();
@@ -1216,8 +1256,22 @@ internal class ColorSpec2025 : ColorSpec2021
         return DynamicColorBuilder.Create()
             .WithName("on_tertiary_fixed_variant")
             .WithPalette(s => s.TertiaryPalette)
+            .WithTone(s =>
+            {
+                if (s.Platform.IsWatch())
+                    return 30;
+
+                var func = ForegroundToneCalculation.GetInitialToneFromBackground(_ => TertiaryFixedDim);
+                return func(s);
+            })
             .WithBackground(s => TertiaryFixedDim)
-            .WithContrastCurve(s => GetContrastCurve(4.5));
+            .WithSecondBackground(s => s.Platform.IsWatch() ? TertiaryFixed : null)
+            .WithContrastCurve(s =>
+            {
+                return s.Platform.IsWatch()
+                    ? new ContrastCurve(3, 4.5, 7, 11)
+                    : GetContrastCurve(4.5);
+            });
     }
 
     // ----------------------------------------------------------------
