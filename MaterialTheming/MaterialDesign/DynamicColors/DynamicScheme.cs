@@ -44,7 +44,7 @@ internal class DynamicScheme
         ContrastLevel = contrastLevel;
         Platform = platform;
         ColorSpecVersion = specVersion;
-        _sourceColors = sourceColors.ToArray();
+        _sourceColors = [.. sourceColors];
 
         PrimaryPalette = primaryPalette;
         SecondaryPalette = secondaryPalette;
