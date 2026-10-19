@@ -458,7 +458,7 @@ internal class ColorSpec2025 : ColorSpec2021
                         return 90;
 
                     var maxTone = s.Variant == Variant.TonalSpot ? 90 : 100;
-                    MainTone(s.PrimaryPalette, maxTone);
+                    return MainTone(s.PrimaryPalette, maxTone);
                 }
                 if (s.Variant == Variant.Neutral)
                     return s.IsDark ? 80.0 : 40.0;
