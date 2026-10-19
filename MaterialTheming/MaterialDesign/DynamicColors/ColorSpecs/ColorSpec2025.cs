@@ -969,10 +969,33 @@ internal class ColorSpec2025 : ColorSpec2021
         return DynamicColorBuilder.Create()
             .WithName("primary_fixed")
             .WithPalette(s => s.PrimaryPalette)
-            .WithTone(s => PrimaryContainer.GetTone(DynamicScheme.From(s, false, 0.0)))
+            .WithTone(s =>
+            {
+                if (s.Platform.IsWatch())
+                {
+                    if (s.Variant == Variant.Neutral)
+                        return 90;
+
+                    var maxTone = s.Variant == Variant.TonalSpot ? 90 : 100;
+                    return MainTone(s.PrimaryPalette, maxTone);
+                }
+
+                var scheme = DynamicScheme.From(s, isDark: false, contrastLevel: 0.0);
+                return PrimaryContainer.GetTone(scheme);
+            })
             .WithIsBackground(true)
-            .WithBackground(s => s.Platform.IsPhone() ? (s.IsDark ? SurfaceBright : SurfaceDim) : null)
-            .WithContrastCurve(s => s.Platform.IsPhone() && s.ContrastLevel > 0 ? GetContrastCurve(1.5) : null);
+            .WithBackground(s =>
+            {
+                return s.Platform.IsPhone()
+                    ? s.IsDark ? SurfaceBright : SurfaceDim
+                    : SurfaceContainerHigh;
+            })
+            .WithContrastCurve(s =>
+            {
+                return s.Platform.IsPhone()
+                    ? s.ContrastLevel > 0 ? GetContrastCurve(1.5) : null
+                    : new ContrastCurve(7, 7, 7, 7);
+            });
     }
 
     public override DynamicColor PrimaryFixedDim => CreatePrimaryFixedDim().Build();
@@ -981,9 +1004,31 @@ internal class ColorSpec2025 : ColorSpec2021
         return DynamicColorBuilder.Create()
             .WithName("primary_fixed_dim")
             .WithPalette(s => s.PrimaryPalette)
-            .WithTone(PrimaryFixed.GetTone)
+            .WithTone(s =>
+            {
+                if (s.Platform.IsWatch())
+                {
+                    if (s.Variant == Variant.Neutral)
+                        return 85;
+                    var maxTone = s.Variant == Variant.TonalSpot ? 90 : 100;
+                    return DimTone(s.PrimaryPalette, maxTone);
+                }
+                return PrimaryFixed.GetTone(s);
+            })
             .WithIsBackground(true)
-            .WithToneDeltaPair(s => new ToneDeltaPair(PrimaryFixedDim, PrimaryFixed, 5.0, TonePolarity.Darker, ToneDeltaConstraint.Exact));
+            .WithBackground(s => s.Platform.IsWatch() ? SurfaceContainerHigh : null)
+            .WithContrastCurve(s =>
+            {
+                return s.Platform.IsWatch()
+                    ? new ContrastCurve(4.5, 4.5, 4.5, 4.5)
+                    : null;
+            })
+            .WithToneDeltaPair(s =>
+            {
+                return s.Platform.IsWatch()
+                    ? null
+                    : new ToneDeltaPair(PrimaryFixedDim, PrimaryFixed, 5.0, TonePolarity.Darker, ToneDeltaConstraint.Exact);
+            });
     }
 
     public override DynamicColor OnPrimaryFixed => CreateOnPrimaryFixed().Build();
@@ -993,7 +1038,13 @@ internal class ColorSpec2025 : ColorSpec2021
             .WithName("on_primary_fixed")
             .WithPalette(s => s.PrimaryPalette)
             .WithBackground(s => PrimaryFixedDim)
-            .WithContrastCurve(s => GetContrastCurve(7));
+            .WithSecondBackground(s => s.Platform.IsWatch() ? PrimaryFixed : null)
+            .WithContrastCurve(s =>
+            {
+                return s.Platform.IsWatch()
+                    ? new ContrastCurve(4.5, 7, 11, 21)
+                    : GetContrastCurve(7);
+            });
     }
 
     public override DynamicColor OnPrimaryFixedVariant => CreateOnPrimaryFixedVariant().Build();
@@ -1002,8 +1053,22 @@ internal class ColorSpec2025 : ColorSpec2021
         return DynamicColorBuilder.Create()
             .WithName("on_primary_fixed_variant")
             .WithPalette(s => s.PrimaryPalette)
+            .WithTone(s =>
+            {
+                if (s.Platform.IsWatch())
+                    return 30;
+
+                var func = ForegroundToneCalculation.GetInitialToneFromBackground(_ => PrimaryFixedDim);
+                return func(s);
+            })
             .WithBackground(s => PrimaryFixedDim)
-            .WithContrastCurve(s => GetContrastCurve(4.5));
+            .WithSecondBackground(s => s.Platform.IsWatch() ? PrimaryFixed : null)
+            .WithContrastCurve(s =>
+            {
+                return s.Platform.IsWatch()
+                    ? new ContrastCurve(3, 4.5, 7, 11)
+                    : GetContrastCurve(4.5);
+            });
     }
 
     // ----------------------------------------------------------------
