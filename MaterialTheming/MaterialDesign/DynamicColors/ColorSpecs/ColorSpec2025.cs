@@ -1657,14 +1657,32 @@ internal class ColorSpec2025 : ColorSpec2021
             [0, 3, 13, 23, 33, 43, 153, 273, 360],
             [12, 22, 32, 12, 22, 32, 22, 12]);
 
-        return variant switch
+        if (variant is Variant.Neutral)
         {
-            Variant.Neutral => TonalPalette.FromHueAndChroma(errorHue, platform.IsPhone() ? 50 : 40),
-            Variant.TonalSpot => TonalPalette.FromHueAndChroma(errorHue, platform.IsPhone() ? 60 : 48),
-            Variant.Expressive => TonalPalette.FromHueAndChroma(errorHue, platform.IsPhone() ? 64 : 48),
-            Variant.Vibrant => TonalPalette.FromHueAndChroma(errorHue, platform.IsPhone() ? 80 : 60),
-            _ => base.GetErrorPalette(variant, sourceColorHct, isDark, platform, contrastLevel)
-        };
+            var chroma = platform.IsPhone() ? 50 : 40;
+            return TonalPalette.FromHueAndChroma(errorHue, chroma);
+        }
+        if (variant is Variant.TonalSpot)
+        {
+            var chroma = platform.IsPhone() ? 60 : 48;
+            return TonalPalette.FromHueAndChroma(errorHue, chroma);
+        }
+        if (variant is Variant.Expressive)
+        {
+            var chroma = platform.IsPhone() ? 64 : 48;
+            return TonalPalette.FromHueAndChroma(errorHue, chroma);
+        }
+        if (variant is Variant.Vibrant)
+        {
+            var chroma = platform.IsPhone() ? 80 : 48;
+            return TonalPalette.FromHueAndChroma(errorHue, chroma);
+        }
+        if (variant is Variant.Content && platform.IsWatch())
+        {
+            var chroma = Math.Max(sourceColorHct.Chroma, 40);
+            return TonalPalette.FromHueAndChroma(errorHue, chroma);
+        }
+        return base.GetErrorPalette(variant, sourceColorHct, isDark, platform, contrastLevel);
     }
 
     // ----------------------------------------------------------------
