@@ -1513,7 +1513,7 @@ internal class ColorSpec2025 : ColorSpec2021
         if (variant is Variant.Content && platform.IsWatch())
         {
             double halfChroma = sourceColorHct.Chroma / 2;
-            var chroma = Math.Clamp(halfChroma, 16, 36);
+            var chroma = double.Clamp(halfChroma, 16, 36);
             return TonalPalette.FromHueAndChroma(sourceColorHct.Hue, chroma);
         }
 
@@ -1607,7 +1607,7 @@ internal class ColorSpec2025 : ColorSpec2021
         if (variant is Variant.Content && platform.IsWatch())
         {
             var thirdChroma = sourceColorHct.Chroma * 0.333;
-            var chroma = Math.Clamp(thirdChroma, 6, 20);
+            var chroma = double.Clamp(thirdChroma, 6, 20);
             return TonalPalette.FromHueAndChroma(sourceColorHct.Hue, chroma);
         }
 
