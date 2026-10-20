@@ -1488,9 +1488,9 @@ internal class ColorSpec2025 : ColorSpec2021
         {
             double[] hueBreakPoints = platform.IsWatch()
                 ? [0, 21, 51, 121, 151, 191, 271, 321, 360]
-                : [204, 175, 155, 150, 204, 260, 204, 204, 204];
+                : [0, 105, 140, 204, 253, 278, 300, 333, 360];
             double[] hueRotations = platform.IsWatch()
-                ? [0, 105, 140, 204, 253, 278, 300, 333, 360]
+                ? [204, 175, 155, 150, 204, 260, 204, 204, 204]
                 : [-160, 155, -100, 96, -96, -156, -165, -160];
             var hue = DynamicScheme.GetRotatedHue(sourceColorHct, hueBreakPoints, hueRotations);
             var chroma = platform.IsPhone()
@@ -1502,9 +1502,9 @@ internal class ColorSpec2025 : ColorSpec2021
         {
             double[] hueBreakPoints = platform.IsWatch()
                ? [0, 41, 61, 101, 131, 181, 251, 301, 360]
-               : [-14, 0, 355, 357, 0, 3, 10, 331, 331];
+               : [0, 38, 105, 140, 333, 360];
             double[] hueRotations = platform.IsWatch()
-                ? [0, 38, 105, 140, 333, 360]
+                ? [-14, 0, 355, 357, 0, 3, 10, 331, 331]
                 : [-14, 10, -14, 10, -14];
             var hue = DynamicScheme.GetRotatedHue(sourceColorHct, hueBreakPoints, hueRotations);
             var chroma = platform.IsPhone() ? 56 : 36;
@@ -1526,9 +1526,9 @@ internal class ColorSpec2025 : ColorSpec2021
         {
             double[] hueBreakpoints = platform.IsWatch()
                 ? [0, 41, 61, 101, 131, 181, 250, 270, 360]
-                : [25, 25, 26, 25, -39, 25, 28, 25, 25];
+                : [0, 38, 105, 161, 204, 278, 333, 360];
             double[] hueRotations = platform.IsWatch()
-                ? [0, 38, 105, 161, 204, 278, 333, 360]
+                ? [25, 25, 26, 25, -39, 25, 28, 25, 25]
                 : [-32, 26, 10, -39, 24, -15, -32];
             var hue = DynamicScheme.GetRotatedHue(sourceColorHct, hueBreakpoints, hueRotations);
             var chroma = platform.IsPhone() ? 20 : 36;
@@ -1618,7 +1618,8 @@ internal class ColorSpec2025 : ColorSpec2021
     {
         if (platform.IsWatch())
         {
-            Variant[] neutralPaletteVariants = [Variant.Neutral, Variant.TonalSpot, Variant.Expressive, Variant.Vibrant, Variant.Content];
+            Variant[] neutralPaletteVariants = 
+                [Variant.Neutral, Variant.TonalSpot, Variant.Expressive, Variant.Vibrant, Variant.Content];
             return neutralPaletteVariants.Contains(variant)
                 ? GetNeutralPalette(variant, sourceColorHct, isDark, platform, contrastLevel)
                 : base.GetNeutralVariantPalette(variant, sourceColorHct, isDark, platform, contrastLevel);
@@ -1637,7 +1638,8 @@ internal class ColorSpec2025 : ColorSpec2021
         if (variant is Variant.Expressive)
         {
             var hue = GetExpressiveNeutralHue(sourceColorHct, platform);
-            var chromaMultiplier = HctColorCategorization.IsYellow(GetExpressiveNeutralHue(sourceColorHct, platform)) ? 1.6 : 2.3;
+            var expressiveNeutralHue = GetExpressiveNeutralHue(sourceColorHct, platform);
+            var chromaMultiplier = HctColorCategorization.IsYellow(expressiveNeutralHue) ? 1.6 : 2.3;
             var chroma = GetExpressiveNeutralChroma(sourceColorHct, isDark, platform) * chromaMultiplier;
             return TonalPalette.FromHueAndChroma(hue, chroma);
         }
@@ -1848,17 +1850,18 @@ internal class ColorSpec2025 : ColorSpec2021
     {
         double[] hueBreakpoints = platform.IsWatch()
             ? [0, 41, 61, 101, 131, 181, 251, 301, 360]
-            : [-14, 0, 355, 357, 0, 3, 10, 331, 331];
+            : [0, 38, 105, 140, 333, 360];
         double[] hueRotations = platform.IsWatch()
-            ? [0, 0, 0, 0, 0, 0, 10, 0, 0]
+            ? [0-14, 0, 355, 357, 0, 3, 10, 331, 331]
             : [-14, 10, -14, 10, -14];
         return DynamicScheme.GetRotatedHue(sourceColorHct, hueBreakpoints, hueRotations);
     }
 
     private static double GetVibrantNeutralChroma(HctColor sourceColorHct, Platform platform)
     {
-        return platform.IsPhone()
-            ? 28
-            : IsWatchBlueHue(sourceColorHct) ? 28 : 20;
+        if (platform.IsPhone())
+            return 28;
+
+        return IsWatchBlueHue(sourceColorHct) ? 28 : 20;
     }
 }
