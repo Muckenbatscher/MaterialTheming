@@ -1522,22 +1522,62 @@ internal class ColorSpec2025 : ColorSpec2021
 
     public override TonalPalette GetTertiaryPalette(Variant variant, HctColor sourceColorHct, bool isDark, Platform platform, double contrastLevel)
     {
-        return variant switch
+        if (variant is Variant.Neutral)
         {
-            Variant.Neutral => TonalPalette.FromHueAndChroma(
-                DynamicScheme.GetRotatedHue(sourceColorHct, [0, 38, 105, 161, 204, 278, 333, 360], [-32, 26, 10, -39, 24, -15, -32]),
-                platform.IsPhone() ? 20 : 36),
-            Variant.TonalSpot => TonalPalette.FromHueAndChroma(
-                DynamicScheme.GetRotatedHue(sourceColorHct, [0, 20, 71, 161, 333, 360], [-40, 48, -32, 40, -32]),
-                platform.IsPhone() ? 28 : 32),
-            Variant.Expressive => TonalPalette.FromHueAndChroma(
-                DynamicScheme.GetRotatedHue(sourceColorHct, [0, 105, 140, 204, 253, 278, 300, 333, 360], [-165, 160, -105, 101, -101, -160, -170, -165]),
-                48),
-            Variant.Vibrant => TonalPalette.FromHueAndChroma(
-                DynamicScheme.GetRotatedHue(sourceColorHct, [0, 38, 71, 105, 140, 161, 253, 333, 360], [-72, 35, 24, -24, 62, 50, 62, -72]),
-                56),
-            _ => base.GetTertiaryPalette(variant, sourceColorHct, isDark, platform, contrastLevel)
-        };
+            double[] hueBreakpoints = platform.IsWatch()
+                ? [0, 41, 61, 101, 131, 181, 250, 270, 360]
+                : [25, 25, 26, 25, -39, 25, 28, 25, 25];
+            double[] hueRotations = platform.IsWatch()
+                ? [0, 38, 105, 161, 204, 278, 333, 360]
+                : [-32, 26, 10, -39, 24, -15, -32];
+            var hue = DynamicScheme.GetRotatedHue(sourceColorHct, hueBreakpoints, hueRotations);
+            var chroma = platform.IsPhone() ? 20 : 36;
+            return TonalPalette.FromHueAndChroma(hue, chroma);
+        }
+        if (variant is Variant.TonalSpot)
+        {
+            double[] hueBreakpoints = platform.IsWatch()
+                ? [0, 40, 101, 210, 301, 360]
+                : [0, 20, 71, 161, 333, 360];
+            double[] hueRotations = platform.IsWatch()
+                ? [-32, 32, -32, 32, -32, -32]
+                : [-40, 48, -32, 40, -32];
+            var hue = DynamicScheme.GetRotatedHue(sourceColorHct, hueBreakpoints, hueRotations);
+            var chroma = platform.IsPhone() ? 28 : 32;
+            return TonalPalette.FromHueAndChroma(hue, chroma);
+        }
+        if (variant is Variant.Expressive)
+        {
+            double[] hueBreakpoints = platform.IsWatch()
+                ? [0, 21, 51, 121, 151, 191, 271, 321, 360]
+                : [0, 105, 140, 204, 253, 278, 300, 333, 360];
+            double[] hueRotations = platform.IsWatch()
+                ? [200, 200, 160, 169, 200, 220, 200, 200, 200]
+                : [-165, 160, -105, 101, -101, -160, -170, -165];
+            var hue = DynamicScheme.GetRotatedHue(sourceColorHct, hueBreakpoints, hueRotations);
+            return TonalPalette.FromHueAndChroma(hue, chroma: 48);
+        }
+        if (variant is Variant.Vibrant)
+        {
+            double[] hueBreakpoints = platform.IsWatch()
+                ? [0, 41, 61, 101, 131, 181, 251, 301, 360]
+                : [0, 38, 71, 105, 140, 161, 253, 333, 360];
+            double[] hueRotations = platform.IsWatch()
+                ? [-72, 55, 45, 50, 55, 50, 62, 303, 303]
+                : [-72, 35, 24, -24, 62, 50, 62, -72];
+            var hue = DynamicScheme.GetRotatedHue(sourceColorHct, hueBreakpoints, hueRotations);
+            var chroma = platform.IsPhone() ? 56 : 48;
+            return TonalPalette.FromHueAndChroma(hue, chroma);
+        }
+        if (variant is Variant.Content && platform.IsWatch())
+        {
+            double[] hueBreakpoints = [0, 40, 101, 210, 301, 360];
+            double[] hueRotations = [-32, 32, -32, 32, -32, -32];
+            var hue = DynamicScheme.GetRotatedHue(sourceColorHct, hueBreakpoints, hueRotations);
+            return TonalPalette.FromHueAndChroma(hue, sourceColorHct.Chroma);
+        }
+
+        return base.GetTertiaryPalette(variant, sourceColorHct, isDark, platform, contrastLevel);
     }
 
     public override TonalPalette GetNeutralPalette(Variant variant, HctColor sourceColorHct, bool isDark, Platform platform, double contrastLevel)
