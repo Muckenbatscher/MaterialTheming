@@ -59,7 +59,7 @@ internal class ColorSpec2025 : ColorSpec2021
             .WithPalette(s => s.NeutralPalette)
             .WithTone(s =>
             {
-                if (s.IsDark)
+                if (s.IsDark || s.Platform.IsWatch())
                     return 4.0;
                 if (HctColorCategorization.IsYellow(s.NeutralPalette.Hue))
                     return 90.0;
@@ -308,13 +308,12 @@ internal class ColorSpec2025 : ColorSpec2021
             .WithBackground(backgroundFunc)
             .WithContrastCurve(s =>
             {
-                if (s.Platform.IsPhone())
-                {
-                    return s.IsDark
+                if (!s.Platform.IsPhone())
+                    return new ContrastCurve(4.5, 9, 11, 21);
+
+                return s.IsDark
                         ? GetContrastCurve(11)
                         : GetContrastCurve(9);
-                }
-                return new ContrastCurve(4.5, 9, 11, 21);
             });
     }
 
@@ -566,7 +565,7 @@ internal class ColorSpec2025 : ColorSpec2021
             {
                 return s.Platform.IsPhone()
                     ? s.ContrastLevel > 0 ? GetContrastCurve(1.5) : null
-                    : new ContrastCurve(1, 1, 1, 1);
+                    : new ContrastCurve(1, 1, 3, 4.5);
             })
             .WithToneDeltaPair(s => s.Platform.IsWatch()
                 ? new ToneDeltaPair(PrimaryContainer, PrimaryDim, 10.0, TonePolarity.Darker, ToneDeltaConstraint.Farther)
@@ -1460,7 +1459,7 @@ internal class ColorSpec2025 : ColorSpec2021
         }
         if (variant is Variant.Vibrant)
         {
-            var chroma = platform.IsPhone() ? 74 : 56;
+            var chroma = platform.IsPhone() ? 74 : 48;
             return TonalPalette.FromHueAndChroma(sourceColorHct.Hue, chroma);
         }
         if (variant is Variant.Content && platform.IsWatch())
@@ -1618,7 +1617,7 @@ internal class ColorSpec2025 : ColorSpec2021
     {
         if (platform.IsWatch())
         {
-            Variant[] neutralPaletteVariants = 
+            Variant[] neutralPaletteVariants =
                 [Variant.Neutral, Variant.TonalSpot, Variant.Expressive, Variant.Vibrant, Variant.Content];
             return neutralPaletteVariants.Contains(variant)
                 ? GetNeutralPalette(variant, sourceColorHct, isDark, platform, contrastLevel)
@@ -1852,7 +1851,7 @@ internal class ColorSpec2025 : ColorSpec2021
             ? [0, 41, 61, 101, 131, 181, 251, 301, 360]
             : [0, 38, 105, 140, 333, 360];
         double[] hueRotations = platform.IsWatch()
-            ? [0-14, 0, 355, 357, 0, 3, 10, 331, 331]
+            ? [0 - 14, 0, 355, 357, 0, 3, 10, 331, 331]
             : [-14, 10, -14, 10, -14];
         return DynamicScheme.GetRotatedHue(sourceColorHct, hueBreakpoints, hueRotations);
     }
