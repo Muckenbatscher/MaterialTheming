@@ -406,10 +406,20 @@ internal class ColorSpec2025 : ColorSpec2021
     public override DynamicColor OutlineVariant => CreateOutlineVariant().Build();
     private DynamicColorBuilder CreateOutlineVariant()
     {
+        DynamicColor backgroundFunc(DynamicScheme scheme)
+        {
+            if (scheme.Platform.IsPhone())
+                return scheme.IsDark ? SurfaceBright : SurfaceDim;
+            return SurfaceContainerHigh;
+        }
         return DynamicColorBuilder.Create()
             .WithName("outline_variant")
             .WithPalette(s => s.Platform.IsWatch() ? s.NeutralVariantPalette : s.NeutralPalette)
-            .WithTone(base.OutlineVariant.Tone)
+            .WithTone(s =>
+            {
+                var foregroundToneFunc = ForegroundToneCalculation.GetInitialToneFromBackground(backgroundFunc);
+                return foregroundToneFunc(s);
+            })
             .WithChromaMultiplier(s =>
             {
                 if (s.Platform.IsPhone())
@@ -423,7 +433,7 @@ internal class ColorSpec2025 : ColorSpec2021
                 }
                 return 1.0;
             })
-            .WithBackground(s => s.Platform.IsPhone() ? (s.IsDark ? SurfaceBright : SurfaceDim) : SurfaceContainerHigh)
+            .WithBackground(backgroundFunc)
             .WithContrastCurve(s =>
             {
                 return s.Platform.IsPhone()
