@@ -1513,7 +1513,7 @@ internal class ColorSpec2025 : ColorSpec2021
         if (variant is Variant.Content && platform.IsWatch())
         {
             double halfChroma = sourceColorHct.Chroma / 2;
-            var chroma = Math.Clamp(16, 36, halfChroma);
+            var chroma = Math.Clamp(halfChroma, 16, 36);
             return TonalPalette.FromHueAndChroma(sourceColorHct.Hue, chroma);
         }
 
@@ -1582,30 +1582,73 @@ internal class ColorSpec2025 : ColorSpec2021
 
     public override TonalPalette GetNeutralPalette(Variant variant, HctColor sourceColorHct, bool isDark, Platform platform, double contrastLevel)
     {
-        return variant switch
+        if (variant is Variant.Neutral)
         {
-            Variant.Neutral => TonalPalette.FromHueAndChroma(sourceColorHct.Hue, platform.IsPhone() ? 1.4 : 6),
-            Variant.TonalSpot => TonalPalette.FromHueAndChroma(sourceColorHct.Hue, platform.IsPhone() ? 5 : 10),
-            Variant.Expressive => TonalPalette.FromHueAndChroma(GetExpressiveNeutralHue(sourceColorHct), GetExpressiveNeutralChroma(sourceColorHct, isDark, platform)),
-            Variant.Vibrant => TonalPalette.FromHueAndChroma(GetVibrantNeutralHue(sourceColorHct), GetVibrantNeutralChroma(sourceColorHct, platform)),
-            _ => base.GetNeutralPalette(variant, sourceColorHct, isDark, platform, contrastLevel)
-        };
+            var chroma = platform.IsPhone() ? 1.4 : 6;
+            return TonalPalette.FromHueAndChroma(sourceColorHct.Hue, chroma);
+        }
+        if (variant is Variant.TonalSpot)
+        {
+            var chroma = platform.IsPhone() ? 5 : 10;
+            return TonalPalette.FromHueAndChroma(sourceColorHct.Hue, chroma);
+        }
+        if (variant is Variant.Expressive)
+        {
+            var hue = GetExpressiveNeutralHue(sourceColorHct, platform);
+            var chroma = GetExpressiveNeutralChroma(sourceColorHct, isDark, platform);
+            return TonalPalette.FromHueAndChroma(hue, chroma);
+        }
+        if (variant is Variant.Vibrant)
+        {
+            var hue = GetVibrantNeutralHue(sourceColorHct, platform);
+            var chroma = GetVibrantNeutralChroma(sourceColorHct, platform);
+            return TonalPalette.FromHueAndChroma(hue, chroma);
+        }
+        if (variant is Variant.Content && platform.IsWatch())
+        {
+            var thirdChroma = sourceColorHct.Chroma * 0.333;
+            var chroma = Math.Clamp(thirdChroma, 6, 20);
+            return TonalPalette.FromHueAndChroma(sourceColorHct.Hue, chroma);
+        }
+
+        return base.GetNeutralPalette(variant, sourceColorHct, isDark, platform, contrastLevel);
     }
 
     public override TonalPalette GetNeutralVariantPalette(Variant variant, HctColor sourceColorHct, bool isDark, Platform platform, double contrastLevel)
     {
-        return variant switch
+        if (platform.IsWatch())
         {
-            Variant.Neutral => TonalPalette.FromHueAndChroma(sourceColorHct.Hue, platform.IsPhone() ? 3.08 : 13.2),
-            Variant.TonalSpot => TonalPalette.FromHueAndChroma(sourceColorHct.Hue, platform.IsPhone() ? 8.5 : 17),
-            Variant.Expressive => TonalPalette.FromHueAndChroma(
-                GetExpressiveNeutralHue(sourceColorHct),
-                GetExpressiveNeutralChroma(sourceColorHct, isDark, platform) * (HctColorCategorization.IsYellow(GetExpressiveNeutralHue(sourceColorHct)) ? 1.6 : 2.3)),
-            Variant.Vibrant => TonalPalette.FromHueAndChroma(
-                GetVibrantNeutralHue(sourceColorHct),
-                GetVibrantNeutralChroma(sourceColorHct, platform) * 1.29),
-            _ => base.GetNeutralVariantPalette(variant, sourceColorHct, isDark, platform, contrastLevel)
-        };
+            Variant[] neutralPaletteVariants = [Variant.Neutral, Variant.TonalSpot, Variant.Expressive, Variant.Vibrant, Variant.Content];
+            return neutralPaletteVariants.Contains(variant)
+                ? GetNeutralPalette(variant, sourceColorHct, isDark, platform, contrastLevel)
+                : base.GetNeutralVariantPalette(variant, sourceColorHct, isDark, platform, contrastLevel);
+        }
+
+        if (variant is Variant.Neutral)
+        {
+            var chroma = platform.IsPhone() ? 3.08 : 13.2;
+            return TonalPalette.FromHueAndChroma(sourceColorHct.Hue, chroma);
+        }
+        if (variant is Variant.TonalSpot)
+        {
+            var chroma = platform.IsPhone() ? 8.5 : 17;
+            return TonalPalette.FromHueAndChroma(sourceColorHct.Hue, chroma);
+        }
+        if (variant is Variant.Expressive)
+        {
+            var hue = GetExpressiveNeutralHue(sourceColorHct, platform);
+            var chromaMultiplier = HctColorCategorization.IsYellow(GetExpressiveNeutralHue(sourceColorHct, platform)) ? 1.6 : 2.3;
+            var chroma = GetExpressiveNeutralChroma(sourceColorHct, isDark, platform) * chromaMultiplier;
+            return TonalPalette.FromHueAndChroma(hue, chroma);
+        }
+        if (variant is Variant.Vibrant)
+        {
+            var hue = GetVibrantNeutralHue(sourceColorHct, platform);
+            var chroma = GetVibrantNeutralChroma(sourceColorHct, platform) * 1.29;
+            return TonalPalette.FromHueAndChroma(hue, chroma);
+        }
+
+        return base.GetNeutralVariantPalette(variant, sourceColorHct, isDark, platform, contrastLevel);
     }
 
     public override TonalPalette? GetErrorPalette(Variant variant, HctColor sourceColorHct, bool isDark, Platform platform, double contrastLevel)
@@ -1764,33 +1807,40 @@ internal class ColorSpec2025 : ColorSpec2021
     {
         return 250 <= sourceColorHct.Hue && sourceColorHct.Hue <= 270;
     }
-    private static double GetExpressiveNeutralHue(HctColor sourceColorHct)
+    private static double GetExpressiveNeutralHue(HctColor sourceColorHct, Platform platform)
     {
-        return DynamicScheme.GetRotatedHue(sourceColorHct,
-            [0, 71, 124, 253, 278, 300, 360],
-            [10, 0, 10, 0, 10, 0]);
+        double[] hueBreakpoints = platform.IsWatch()
+            ? [0, 21, 51, 121, 151, 191, 271, 321, 360]
+            : [0, 71, 124, 253, 278, 300, 360];
+        double[] hueRotations = platform.IsWatch()
+            ? [0, 0, 0, 0, 0, 0, 10, 0, 0]
+            : [10, 0, 10, 0, 10, 0];
+        return DynamicScheme.GetRotatedHue(sourceColorHct, hueBreakpoints, hueRotations);
     }
 
     private static double GetExpressiveNeutralChroma(HctColor sourceColorHct, bool isDark, Platform platform)
     {
-        double neutralHue = GetExpressiveNeutralHue(sourceColorHct);
+        double neutralHue = GetExpressiveNeutralHue(sourceColorHct, platform);
         if (platform.IsPhone())
             return isDark ? (HctColorCategorization.IsYellow(neutralHue) ? 6 : 14) : 18;
         return 12;
     }
 
-    private static double GetVibrantNeutralHue(HctColor sourceColorHct)
+    private static double GetVibrantNeutralHue(HctColor sourceColorHct, Platform platform)
     {
-        return DynamicScheme.GetRotatedHue(sourceColorHct,
-            [0, 38, 105, 140, 333, 360],
-            [-14, 10, -14, 10, -14]);
+        double[] hueBreakpoints = platform.IsWatch()
+            ? [0, 41, 61, 101, 131, 181, 251, 301, 360]
+            : [-14, 0, 355, 357, 0, 3, 10, 331, 331];
+        double[] hueRotations = platform.IsWatch()
+            ? [0, 0, 0, 0, 0, 0, 10, 0, 0]
+            : [-14, 10, -14, 10, -14];
+        return DynamicScheme.GetRotatedHue(sourceColorHct, hueBreakpoints, hueRotations);
     }
 
     private static double GetVibrantNeutralChroma(HctColor sourceColorHct, Platform platform)
     {
-        double neutralHue = GetVibrantNeutralHue(sourceColorHct);
-        if (platform.IsPhone())
-            return 28;
-        return HctColorCategorization.IsBlue(neutralHue) ? 28 : 20;
+        return platform.IsPhone()
+            ? 28
+            : IsWatchBlueHue(sourceColorHct) ? 28 : 20;
     }
 }
