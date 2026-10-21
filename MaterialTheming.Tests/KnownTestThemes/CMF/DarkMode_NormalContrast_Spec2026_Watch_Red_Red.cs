@@ -1,0 +1,75 @@
+namespace MaterialTheming.Tests.KnownTestThemes.CMF;
+
+internal class DarkMode_NormalContrast_Spec2026_Watch_Red_Red : ITestThemeSecondSourceColor
+{
+    public string SourceColor => "#D2463D"; //Red
+    public string SecondSourceColor => "#D2463D"; //Red
+    public bool IsDark => true;
+    public Variant Variant => Variant.CMF;
+    public Platform Platform => Platform.Watch;
+    public double ContrastLevelValue => 0.0;
+    public SpecVersion SpecVersion => SpecVersion.Spec2026;
+
+    // Primary
+    public string Primary => "#F86256";
+    public string OnPrimary => "#320001";
+    public string PrimaryContainer => "#CF443B";
+    public string OnPrimaryContainer => "#FFFFFF";
+    // Secondary
+    public string Secondary => "#CE7E75";
+    public string OnSecondary => "#2F0303";
+    public string SecondaryContainer => "#561E1A";
+    public string OnSecondaryContainer => "#EF9A91";
+    // Tertiary
+    public string Tertiary => "#E47166";
+    public string OnTertiary => "#320001";
+    public string TertiaryContainer => "#BD534A";
+    public string OnTertiaryContainer => "#FFFFFF";
+    // Error
+    public string Error => "#FF6472";
+    public string OnError => "#3E000B";
+    public string ErrorContainer => "#880424";
+    public string OnErrorContainer => "#FFB7B9";
+    // Surface
+    public string Surface => "#1B0907";
+    public string SurfaceVariant => "#3F1B17";
+    public string OnSurface => "#FFDEDA";
+    public string OnSurfaceVariant => "#D79D96";
+    public string SurfaceDim => "#1B0907";
+    public string SurfaceBright => "#47211D";
+    public string SurfaceTint => "#F86256";
+    // Background
+    public string Background => "#1B0907";
+    public string OnBackground => "#FFFFFF";
+    // Outline
+    public string Outline => "#9C6862";
+    public string OutlineVariant => "#683C37";
+    // Shadow
+    public string Shadow => "#000000";
+    public string Scrim => "#000000";
+    // Inverse
+    public string InverseSurface => "#FFF8F7";
+    public string InverseOnSurface => "#6A4E4B";
+    public string InversePrimary => "#A3231F";
+    // Primary Fixed
+    public string PrimaryFixed => "#CF443B";
+    public string OnPrimaryFixed => "#FFFFFF";
+    public string PrimaryFixedDim => "#BD3730";
+    public string OnPrimaryFixedVariant => "#FFFBFF";
+    // Secondary Fixed
+    public string SecondaryFixed => "#FCA59B";
+    public string OnSecondaryFixed => "#44110E";
+    public string SecondaryFixedDim => "#EC988E";
+    public string OnSecondaryFixedVariant => "#6B2F29";
+    // Tertiary Fixed
+    public string TertiaryFixed => "#BD534A";
+    public string OnTertiaryFixed => "#FFFFFF";
+    public string TertiaryFixedDim => "#AD473F";
+    public string OnTertiaryFixedVariant => "#FFFBFF";
+    // Surface Container
+    public string SurfaceContainerLowest => "#000000";
+    public string SurfaceContainerLow => "#240C0A";
+    public string SurfaceContainer => "#2D110F";
+    public string SurfaceContainerHigh => "#351613";
+    public string SurfaceContainerHighest => "#3F1B17";
+}

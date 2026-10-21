@@ -21,6 +21,7 @@ internal class ThemeCreationService
         var mode = parameters.IsDark ? ThemeMode.Dark : ThemeMode.Light;
         return builder
             .WithMode(mode)
+            .WithPlatform(parameters.Platform)
             .WithContrastLevel(parameters.ContrastLevelValue)
             .WithVariant(parameters.Variant)
             .WithSpecVersion(parameters.SpecVersion)
