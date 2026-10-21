@@ -3,7 +3,10 @@
   "image": "ubuntu:latest",
     // More info: https://containers.dev/features.
 	"features": {
-		"ghcr.io/devcontainers/features/dotnet:2": {},
+		"ghcr.io/devcontainers/features/dotnet:2": {
+        "version": "10.0",
+        "additionalVersions": "8.0"
+    },
 		"ghcr.io/devcontainers/features/git:1": {}
 	},
 	"postCreateCommand": "dotnet restore",

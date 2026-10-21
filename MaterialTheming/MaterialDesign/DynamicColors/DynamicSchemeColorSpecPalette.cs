@@ -51,7 +51,17 @@ internal class DynamicSchemeColorSpecPalette : DynamicScheme
         bool isDark, Platform platform, double contrastLevel)
     {
         var spec = ColorSpecFactory.Create(specVersion);
-        var sourceColor = sourceColors.First();
+        var sourceColorsMaterialized = sourceColors.ToArray();
+
+        var hasMultipleSourceColors = sourceColorsMaterialized.Length > 1
+            && !sourceColorsMaterialized[0].Equals(sourceColorsMaterialized[1]);
+        if (variant == Variant.Content && hasMultipleSourceColors)
+        {
+            var secondSourceColor = sourceColorsMaterialized[1];
+            return TonalPalette.FromHueAndChroma(secondSourceColor.Hue, secondSourceColor.Chroma);
+        }
+
+        var sourceColor = sourceColorsMaterialized[0];
         return spec.GetTertiaryPalette(variant, sourceColor, isDark, platform, contrastLevel);
     }
     private static TonalPalette GetNeutralPalette(SpecVersion specVersion, Variant variant, IEnumerable<HctColor> sourceColors,

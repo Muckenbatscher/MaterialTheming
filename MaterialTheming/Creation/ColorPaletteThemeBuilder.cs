@@ -177,7 +177,7 @@ internal class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
     {
         var specVersionToUse = variant == Variant.CMF
             ? SpecVersion.Spec2026
-            : GetFallbackSpecVersionToUse(specVersion, variant);
+            : GetFallbackSpecVersionToUse(specVersion, variant, platform);
         var colorSpec = ColorSpecFactory.Create(specVersionToUse);
         bool isDark = mode == ThemeMode.Dark;
 
@@ -192,31 +192,25 @@ internal class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
         return CreateThemeColorFromScheme(dynamicScheme);
     }
 
-    private static SpecVersion GetFallbackSpecVersionToUse(SpecVersion desiredSpecVersion, Variant variant)
+    private static SpecVersion GetFallbackSpecVersionToUse(SpecVersion desiredSpecVersion, Variant variant, Platform platform)
     {
-        var specVersionToUs = desiredSpecVersion;
-
         IEnumerable<Variant> spec2026implementedVariants =
             [Variant.CMF];
         IEnumerable<Variant> spec2025implementedVariants =
             [Variant.TonalSpot, Variant.Neutral, Variant.Expressive, Variant.Vibrant];
+        IEnumerable<Variant> spec2025implementedVariantsForWatch =
+            [Variant.Content];
 
-        specVersionToUs = GetFallbackSpecVersion(specVersionToUs, variant, SpecVersion.Spec2026, spec2026implementedVariants, SpecVersion.Spec2025);
-        specVersionToUs = GetFallbackSpecVersion(specVersionToUs, variant, SpecVersion.Spec2025, spec2025implementedVariants, SpecVersion.Spec2021);
+        if (spec2026implementedVariants.Contains(variant))
+            return desiredSpecVersion;
 
-        return specVersionToUs;
-    }
-    private static SpecVersion GetFallbackSpecVersion(SpecVersion desiredSpecVersion, Variant variant,
-        SpecVersion validatingSpecVersion,
-        IEnumerable<Variant> validatingSpecImplementedVariants,
-        SpecVersion fallbackWhenNotImplementedSpecVersion)
-    {
-        var variantIsImplementedInSpec = validatingSpecImplementedVariants.Contains(variant);
-        var fallbackRequired = desiredSpecVersion == validatingSpecVersion && !variantIsImplementedInSpec;
+        if (spec2025implementedVariants.Contains(variant))
+            return desiredSpecVersion == SpecVersion.Spec2026 ? SpecVersion.Spec2025 : desiredSpecVersion;
 
-        return fallbackRequired
-            ? fallbackWhenNotImplementedSpecVersion
-            : desiredSpecVersion;
+        if (spec2025implementedVariantsForWatch.Contains(variant) && platform.IsWatch())
+            return desiredSpecVersion == SpecVersion.Spec2026 ? SpecVersion.Spec2025 : desiredSpecVersion;
+
+        return SpecVersion.Spec2021;
     }
 
     private static ThemeColors CreateThemeColorFromScheme(DynamicScheme scheme)
