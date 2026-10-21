@@ -1,15 +1,27 @@
 {
   "name": "MaterialTheming - Dotnet",
-  "image": "ubuntu:latest",
+  "image": "mcr.microsoft.com/devcontainers/base:resolute",
     // More info: https://containers.dev/features.
 	"features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "upgradePackages": true,
+      "installZsh": true,
+      "installOhMyZsh": true,
+      "configureZshAsDefaultShell": true
+    },
 		"ghcr.io/devcontainers/features/dotnet:2": {
         "version": "10.0",
         "additionalVersions": "8.0"
     },
-		"ghcr.io/devcontainers/features/git:1": {}
+		"ghcr.io/devcontainers/features/git:1": {},
+     "ghcr.io/devcontainers-extra/features/apt-packages:1": {
+        "packages": "vim"
+     },
+    "ghcr.io/iambipinpaul/devcontainer-features/oh-my-posh:1": {
+        "theme": "https://gist.githubusercontent.com/Muckenbatscher/a2e8c33c8f0524e23d537b6f522d8f7d/raw/2b2f6b8ba51499ac5a8095289f79be3f912996bc/rgb-bubbly.omp.json"
+    }
 	},
-	"postCreateCommand": "dotnet restore",
+  "postCreateCommand": "dotnet restore",
   "customizations": {
     "vscode": {
       "extensions": [
