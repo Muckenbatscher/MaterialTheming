@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace MaterialTheming.Tests.TestThemeTypeDiscovery.JsonSerialization;
+namespace MaterialTheming.Tests.TestThemeDiscovery.Json;
 
-internal record Outputs
+internal record OutputsSerialization
 {
     [JsonPropertyName("primary")]
     public required string Primary { get; set; }

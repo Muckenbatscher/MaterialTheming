@@ -1,6 +1,5 @@
 ﻿using MaterialTheming.Tests.ColorValidation;
-using MaterialTheming.Tests.KnownTestThemes;
-using MaterialTheming.Tests.TestThemeTypeDiscovery;
+using MaterialTheming.Tests.TestThemeDiscovery;
 
 namespace MaterialTheming.Tests;
 
@@ -9,9 +8,14 @@ public abstract class TestThemeTests
     public required TestContext TestContext { get; set; }
     protected abstract Variant ThemeVariant { get; }
 
-    private void TestDiscoveredThemes(ThemeMode mode, ContrastLevel contrastLevel, SpecVersion specVersion)
+    private void TestDiscoveredThemes(ThemeMode mode, Platform platform, ContrastLevel contrastLevel, SpecVersion specVersion)
     {
-        var permutation = new TestThemePermutation(ThemeVariant, mode, contrastLevel, specVersion);
+        var permutation = new TestThemePermutation(
+            Variant: ThemeVariant,
+            Platform: platform,
+            Mode: mode,
+            ContrastLevel: contrastLevel,
+            SpecVersion: specVersion);
         var testThemeProvider = TestThemeProvider.CreateForPermutation(permutation);
         var testThemes = testThemeProvider.GetTestThemes();
 
@@ -20,7 +24,7 @@ public abstract class TestThemeTests
         foreach (var theme in testThemes)
         {
             discoveredAny = true;
-            TestContext.WriteLine($"[{ThemeVariant}] Discovered: {theme.GetType().Name}");
+            TestContext.WriteLine($"[{ThemeVariant}] Discovered: {theme.Name}");
             var result = ThemeValidator.ValidateThemeColors(theme);
             resultCollection.AddResult(result);
         }
@@ -28,7 +32,7 @@ public abstract class TestThemeTests
         {
             var messageLines = new List<string>()
             {
-                $"No {nameof(ITestTheme)} implementations were found",
+                $"No {nameof(TestTheme)} implementations were found",
                 $"Variant={ThemeVariant}, Mode={mode}, ContrastLevel={contrastLevel}, specVersion={specVersion}"
             };
             Assert.Fail(string.Join(Environment.NewLine, messageLines));
@@ -41,97 +45,187 @@ public abstract class TestThemeTests
     }
 
     [TestMethod]
-    public virtual void LightMode_NormalContrast_Spec2021()
+    public virtual void LightMode_NormalContrast_Spec2021_Phone()
     {
-        TestDiscoveredThemes(ThemeMode.Light, ContrastLevel.Normal, SpecVersion.Spec2021);
+        TestDiscoveredThemes(ThemeMode.Light, Platform.Phone, ContrastLevel.Normal, SpecVersion.Spec2021);
     }
     [TestMethod]
-    public virtual void DarkMode_NormalContrast_Spec2021()
+    public virtual void LightMode_NormalContrast_Spec2021_Watch()
     {
-        TestDiscoveredThemes(ThemeMode.Dark, ContrastLevel.Normal, SpecVersion.Spec2021);
-    }
-
-    [TestMethod]
-    public virtual void LightMode_MediumContrast_Spec2021()
-    {
-        TestDiscoveredThemes(ThemeMode.Light, ContrastLevel.Medium, SpecVersion.Spec2021);
+        TestDiscoveredThemes(ThemeMode.Light, Platform.Watch, ContrastLevel.Normal, SpecVersion.Spec2021);
     }
     [TestMethod]
-    public virtual void DarkMode_MediumContrast_Spec2021()
+    public virtual void DarkMode_NormalContrast_Spec2021_Phone()
     {
-        TestDiscoveredThemes(ThemeMode.Dark, ContrastLevel.Medium, SpecVersion.Spec2021);
-    }
-
-    [TestMethod]
-    public virtual void LightMode_HighContrast_Spec2021()
-    {
-        TestDiscoveredThemes(ThemeMode.Light, ContrastLevel.High, SpecVersion.Spec2021);
+        TestDiscoveredThemes(ThemeMode.Dark, Platform.Phone, ContrastLevel.Normal, SpecVersion.Spec2021);
     }
     [TestMethod]
-    public virtual void DarkMode_HighContrast_Spec2021()
+    public virtual void DarkMode_NormalContrast_Spec2021_Watch()
     {
-        TestDiscoveredThemes(ThemeMode.Dark, ContrastLevel.High, SpecVersion.Spec2021);
+        TestDiscoveredThemes(ThemeMode.Dark, Platform.Watch, ContrastLevel.Normal, SpecVersion.Spec2021);
     }
 
     [TestMethod]
-    public virtual void LightMode_NormalContrast_Spec2025()
+    public virtual void LightMode_MediumContrast_Spec2021_Phone()
     {
-        TestDiscoveredThemes(ThemeMode.Light, ContrastLevel.Normal, SpecVersion.Spec2025);
+        TestDiscoveredThemes(ThemeMode.Light, Platform.Phone, ContrastLevel.Medium, SpecVersion.Spec2021);
     }
     [TestMethod]
-    public virtual void DarkMode_NormalContrast_Spec2025()
+    public virtual void LightMode_MediumContrast_Spec2021_Watch()
     {
-        TestDiscoveredThemes(ThemeMode.Dark, ContrastLevel.Normal, SpecVersion.Spec2025);
+        TestDiscoveredThemes(ThemeMode.Light, Platform.Watch, ContrastLevel.Medium, SpecVersion.Spec2021);
     }
     [TestMethod]
-    public virtual void LightMode_MediumContrast_Spec2025()
+    public virtual void DarkMode_MediumContrast_Spec2021_Phone()
     {
-        TestDiscoveredThemes(ThemeMode.Light, ContrastLevel.Medium, SpecVersion.Spec2025);
+        TestDiscoveredThemes(ThemeMode.Dark, Platform.Phone, ContrastLevel.Medium, SpecVersion.Spec2021);
     }
     [TestMethod]
-    public virtual void DarkMode_MediumContrast_Spec2025()
+    public virtual void DarkMode_MediumContrast_Spec2021_Watch()
     {
-        TestDiscoveredThemes(ThemeMode.Dark, ContrastLevel.Medium, SpecVersion.Spec2025);
-    }
-    [TestMethod]
-    public virtual void LightMode_HighContrast_Spec2025()
-    {
-        TestDiscoveredThemes(ThemeMode.Light, ContrastLevel.High, SpecVersion.Spec2025);
-    }
-    [TestMethod]
-    public virtual void DarkMode_HighContrast_Spec2025()
-    {
-        TestDiscoveredThemes(ThemeMode.Dark, ContrastLevel.High, SpecVersion.Spec2025);
+        TestDiscoveredThemes(ThemeMode.Dark, Platform.Watch, ContrastLevel.Medium, SpecVersion.Spec2021);
     }
 
     [TestMethod]
-    public virtual void LightMode_NormalContrast_Spec2026()
+    public virtual void LightMode_HighContrast_Spec2021_Phone()
     {
-        TestDiscoveredThemes(ThemeMode.Light, ContrastLevel.Normal, SpecVersion.Spec2026);
+        TestDiscoveredThemes(ThemeMode.Light, Platform.Phone, ContrastLevel.High, SpecVersion.Spec2021);
     }
     [TestMethod]
-    public virtual void DarkMode_NormalContrast_Spec2026()
+    public virtual void LightMode_HighContrast_Spec2021_Watch()
     {
-        TestDiscoveredThemes(ThemeMode.Dark, ContrastLevel.Normal, SpecVersion.Spec2026);
+        TestDiscoveredThemes(ThemeMode.Light, Platform.Watch, ContrastLevel.High, SpecVersion.Spec2021);
     }
     [TestMethod]
-    public virtual void LightMode_MediumContrast_Spec2026()
+    public virtual void DarkMode_HighContrast_Spec2021_Phone()
     {
-        TestDiscoveredThemes(ThemeMode.Light, ContrastLevel.Medium, SpecVersion.Spec2026);
+        TestDiscoveredThemes(ThemeMode.Dark, Platform.Phone, ContrastLevel.High, SpecVersion.Spec2021);
     }
     [TestMethod]
-    public virtual void DarkMode_MediumContrast_Spec2026()
+    public virtual void DarkMode_HighContrast_Spec2021_Watch()
     {
-        TestDiscoveredThemes(ThemeMode.Dark, ContrastLevel.Medium, SpecVersion.Spec2026);
+        TestDiscoveredThemes(ThemeMode.Dark, Platform.Watch, ContrastLevel.High, SpecVersion.Spec2021);
+    }
+
+    [TestMethod]
+    public virtual void LightMode_NormalContrast_Spec2025_Phone()
+    {
+        TestDiscoveredThemes(ThemeMode.Light, Platform.Phone, ContrastLevel.Normal, SpecVersion.Spec2025);
     }
     [TestMethod]
-    public virtual void LightMode_HighContrast_Spec2026()
+    public virtual void LightMode_NormalContrast_Spec2025_Watch()
     {
-        TestDiscoveredThemes(ThemeMode.Light, ContrastLevel.High, SpecVersion.Spec2026);
+        TestDiscoveredThemes(ThemeMode.Light, Platform.Watch, ContrastLevel.Normal, SpecVersion.Spec2025);
     }
     [TestMethod]
-    public virtual void DarkMode_HighContrast_Spec2026()
+    public virtual void DarkMode_NormalContrast_Spec2025_Phone()
     {
-        TestDiscoveredThemes(ThemeMode.Dark, ContrastLevel.High, SpecVersion.Spec2026);
+        TestDiscoveredThemes(ThemeMode.Dark, Platform.Phone, ContrastLevel.Normal, SpecVersion.Spec2025);
+    }
+    [TestMethod]
+    public virtual void DarkMode_NormalContrast_Spec2025_Watch()
+    {
+        TestDiscoveredThemes(ThemeMode.Dark, Platform.Watch, ContrastLevel.Normal, SpecVersion.Spec2025);
+    }
+    [TestMethod]
+    public virtual void LightMode_MediumContrast_Spec2025_Phone()
+    {
+        TestDiscoveredThemes(ThemeMode.Light, Platform.Phone, ContrastLevel.Medium, SpecVersion.Spec2025);
+    }
+    [TestMethod]
+    public virtual void LightMode_MediumContrast_Spec2025_Watch()
+    {
+        TestDiscoveredThemes(ThemeMode.Light, Platform.Watch, ContrastLevel.Medium, SpecVersion.Spec2025);
+    }
+    [TestMethod]
+    public virtual void DarkMode_MediumContrast_Spec2025_Phone()
+    {
+        TestDiscoveredThemes(ThemeMode.Dark, Platform.Phone, ContrastLevel.Medium, SpecVersion.Spec2025);
+    }
+    [TestMethod]
+    public virtual void DarkMode_MediumContrast_Spec2025_Watch()
+    {
+        TestDiscoveredThemes(ThemeMode.Dark, Platform.Watch, ContrastLevel.Medium, SpecVersion.Spec2025);
+    }
+    [TestMethod]
+    public virtual void LightMode_HighContrast_Spec2025_Phone()
+    {
+        TestDiscoveredThemes(ThemeMode.Light, Platform.Phone, ContrastLevel.High, SpecVersion.Spec2025);
+    }
+    [TestMethod]
+    public virtual void LightMode_HighContrast_Spec2025_Watch()
+    {
+        TestDiscoveredThemes(ThemeMode.Light, Platform.Watch, ContrastLevel.High, SpecVersion.Spec2025);
+    }
+    [TestMethod]
+    public virtual void DarkMode_HighContrast_Spec2025_Phone()
+    {
+        TestDiscoveredThemes(ThemeMode.Dark, Platform.Phone, ContrastLevel.High, SpecVersion.Spec2025);
+    }
+    [TestMethod]
+    public virtual void DarkMode_HighContrast_Spec2025_Watch()
+    {
+        TestDiscoveredThemes(ThemeMode.Dark, Platform.Watch, ContrastLevel.High, SpecVersion.Spec2025);
+    }
+
+    [TestMethod]
+    public virtual void LightMode_NormalContrast_Spec2026_Phone()
+    {
+        TestDiscoveredThemes(ThemeMode.Light, Platform.Phone, ContrastLevel.Normal, SpecVersion.Spec2026);
+    }
+    [TestMethod]
+    public virtual void LightMode_NormalContrast_Spec2026_Watch()
+    {
+        TestDiscoveredThemes(ThemeMode.Light, Platform.Watch, ContrastLevel.Normal, SpecVersion.Spec2026);
+    }
+    [TestMethod]
+    public virtual void DarkMode_NormalContrast_Spec2026_Phone()
+    {
+        TestDiscoveredThemes(ThemeMode.Dark, Platform.Phone, ContrastLevel.Normal, SpecVersion.Spec2026);
+    }
+    [TestMethod]
+    public virtual void DarkMode_NormalContrast_Spec2026_Watch()
+    {
+        TestDiscoveredThemes(ThemeMode.Dark, Platform.Watch, ContrastLevel.Normal, SpecVersion.Spec2026);
+    }
+    [TestMethod]
+    public virtual void LightMode_MediumContrast_Spec2026_Phone()
+    {
+        TestDiscoveredThemes(ThemeMode.Light, Platform.Phone, ContrastLevel.Medium, SpecVersion.Spec2026);
+    }
+    [TestMethod]
+    public virtual void LightMode_MediumContrast_Spec2026_Watch()
+    {
+        TestDiscoveredThemes(ThemeMode.Light, Platform.Watch, ContrastLevel.Medium, SpecVersion.Spec2026);
+    }
+    [TestMethod]
+    public virtual void DarkMode_MediumContrast_Spec2026_Phone()
+    {
+        TestDiscoveredThemes(ThemeMode.Dark, Platform.Phone, ContrastLevel.Medium, SpecVersion.Spec2026);
+    }
+    [TestMethod]
+    public virtual void DarkMode_MediumContrast_Spec2026_Watch()
+    {
+        TestDiscoveredThemes(ThemeMode.Dark, Platform.Watch, ContrastLevel.Medium, SpecVersion.Spec2026);
+    }
+    [TestMethod]
+    public virtual void LightMode_HighContrast_Spec2026_Phone()
+    {
+        TestDiscoveredThemes(ThemeMode.Light, Platform.Phone, ContrastLevel.High, SpecVersion.Spec2026);
+    }
+    [TestMethod]
+    public virtual void LightMode_HighContrast_Spec2026_Watch()
+    {
+        TestDiscoveredThemes(ThemeMode.Light, Platform.Watch, ContrastLevel.High, SpecVersion.Spec2026);
+    }
+    [TestMethod]
+    public virtual void DarkMode_HighContrast_Spec2026_Phone()
+    {
+        TestDiscoveredThemes(ThemeMode.Dark, Platform.Phone, ContrastLevel.High, SpecVersion.Spec2026);
+    }
+    [TestMethod]
+    public virtual void DarkMode_HighContrast_Spec2026_Watch()
+    {
+        TestDiscoveredThemes(ThemeMode.Dark, Platform.Watch, ContrastLevel.High, SpecVersion.Spec2026);
     }
 }

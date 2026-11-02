@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace MaterialTheming.Tests.TestThemeTypeDiscovery.JsonSerialization;
+namespace MaterialTheming.Tests.TestThemeDiscovery.Json;
 
-internal record Inputs
+internal record InputsSerialization
 {
     [JsonPropertyName("color")]
     public required string Color { get; set; }

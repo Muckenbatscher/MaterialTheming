@@ -1,10 +1,10 @@
-﻿using MaterialTheming.Tests.TestThemeTypeDiscovery.JsonSerialization;
+﻿using MaterialTheming.Tests.TestThemeDiscovery.Json;
 
 namespace MaterialTheming.Tests.ThemeCreation;
 
 internal static class FromOutputsExtension
 {
-    extension(Outputs outputs)
+    extension(OutputsSerialization outputs)
     {
         public ThemeColors CreateThemeColors()
         {
