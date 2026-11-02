@@ -55,7 +55,7 @@ internal class DynamicSchemeColorSpecPalette : DynamicScheme
 
         var hasMultipleSourceColors = sourceColorsMaterialized.Length > 1
             && !sourceColorsMaterialized[0].Equals(sourceColorsMaterialized[1]);
-        if (variant == Variant.Content && hasMultipleSourceColors)
+        if (variant == Variant.Content && platform == Platform.Watch && hasMultipleSourceColors)
         {
             var secondSourceColor = sourceColorsMaterialized[1];
             return TonalPalette.FromHueAndChroma(secondSourceColor.Hue, secondSourceColor.Chroma);
