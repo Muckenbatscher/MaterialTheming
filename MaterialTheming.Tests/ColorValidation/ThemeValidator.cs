@@ -1,22 +1,21 @@
 ﻿using MaterialTheming.Tests.ColorDifferenceCalculation;
-using MaterialTheming.Tests.KnownTestThemes;
-using MaterialTheming.Tests.ThemeCreation;
+using MaterialTheming.Tests.TestThemeDiscovery;
 
 namespace MaterialTheming.Tests.ColorValidation;
 
 internal class ThemeValidator
 {
-    public static ThemeValidationResult ValidateThemeColors(ITestTheme testTheme)
+    public static ThemeValidationResult ValidateThemeColors(TestTheme testTheme)
     {
-        var themeColors = ThemeCreationService.CreateThemeColors(testTheme);
-
+        var differences = ColorDifferenceService.GetColorDifferences(
+            testTheme.GeneratedThemeColors, testTheme.ExpectedThemeColors);
         return CreateFromColorDifferences(
-            testTheme.GetType(),
-            ColorDifferenceService.GetColorDifferences(themeColors, testTheme));
+            testTheme.Name,
+            differences);
     }
-    private static ThemeValidationResult CreateFromColorDifferences(Type testThemeType, IEnumerable<ColorDifference> colorDifferences)
+    private static ThemeValidationResult CreateFromColorDifferences(string themeName, IEnumerable<ColorDifference> colorDifferences)
     {
         var outOfSpecColorDifferences = ColorDifferenceValidationService.FilterToOutOfSpecColorDifferences(colorDifferences);
-        return new ThemeValidationResult(testThemeType, outOfSpecColorDifferences);
+        return new ThemeValidationResult(themeName, outOfSpecColorDifferences);
     }
 }

@@ -4,12 +4,13 @@ namespace MaterialTheming.Tests.ColorValidation;
 
 internal class ThemeValidationResult
 {
-    public ThemeValidationResult(Type testThemeType, IEnumerable<ColorDifference> outOfSpecColorDifferences)
+    public ThemeValidationResult(string testThemeName, IEnumerable<ColorDifference> outOfSpecColorDifferences)
     {
-        TestThemeType = testThemeType;
-        OutOfSpecColorDifferences = outOfSpecColorDifferences.ToList();
+        TestThemeName = testThemeName;
+        OutOfSpecColorDifferences = [.. outOfSpecColorDifferences];
     }
-    public Type TestThemeType { get; }
+
+    public string TestThemeName { get; }
     public ICollection<ColorDifference> OutOfSpecColorDifferences { get; }
     public bool IsValid => OutOfSpecColorDifferences.Count == 0;
 }

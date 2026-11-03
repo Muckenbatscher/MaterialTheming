@@ -187,7 +187,7 @@ internal class ColorPaletteThemeBuilder : IColorPaletteThemeBuilder
 
         DynamicScheme dynamicScheme = variant == Variant.CMF
             ? new DynamicSchemeCmf(isDark, contrastLevel, sourceColors, platform, specVersionToUse)
-            : new DynamicSchemeColorSpecPalette(variant, isDark, contrastLevel, sourceColor, platform, specVersionToUse);
+            : new DynamicSchemeColorSpecPalette(variant, isDark, contrastLevel, sourceColors, platform, specVersionToUse);
 
         return CreateThemeColorFromScheme(dynamicScheme);
     }
