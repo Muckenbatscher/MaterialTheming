@@ -59,21 +59,33 @@ jobs:
 
       - uses: actions/setup-java@v6.1.0
         with:
-          distribution: 'temurin'
+          distribution: temurin
           java-version: '25'
           cache: maven
 
       - name: Build project
-        run: mvn --batch-mode --no-transfer-progress package
-
-      - name: Run MyTest.java
+        id: java_build
         run: |
+          mvn --batch-mode --no-transfer-progress package
+          mvn --batch-mode --no-transfer-progress dependency:build-classpath -Dmdep.outputFile=target/runtime-classpath.txt
+          echo "runtime_class=$(cat target/runtime-classpath.txt)" >> $GITHUB_OUTPUT
+
+      - name: Generate JSON fixtures
+        run: |
+          output_dir="${RUNNER_TEMP}/mytest-output"
+          
           mkdir -p "${{ env.OUTPUT_PATH }}"
-          java -cp target/classes MyTest "${{ env.OUTPUT_PATH }}"
+          java -cp "target/classes:${{steps.java_build.outputs.runtime_class }}" MyTest "${{ env.OUTPUT_PATH }}"
+
+          generated_file="$(find "${{ env.OUTPUT_PATH }}" -type f -name '*.json' -print -quit)"
+          if [ -z "$generated_file" ]; then
+            echo "MyTest completed without generating any JSON files."
+            exit 1
+          fi
   
       - uses: actions/upload-artifact@v7
         with:
-          name: generated-testcase-cs-files 
+          name: generated-testcase-json-files 
           path: ${{ env.OUTPUT_PATH }}
           retention-days: 1 
   
@@ -87,7 +99,7 @@ jobs:
       contents: write
 
     env:
-      TEST_THEME_DIR: MaterialTheming.Tests/KnownTestThemes
+      TEST_THEME_DIR: MaterialTheming.Tests/GeneratedTestThemes
 
     outputs:
       has_changes: ${{ steps.check_diff.outputs.has_changes }}
@@ -125,7 +137,7 @@ jobs:
 
       - uses: actions/download-artifact@v8
         with:
-          name: generated-testcase-cs-files 
+          name: generated-testcase-json-files
           path: ${{ env.TEST_THEME_DIR }}
 
       - name: Update official commit hash the testcases are based on
