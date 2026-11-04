@@ -1,5 +1,5 @@
 ﻿<div class="relative" style="width: 300px;">
-    <MudTextField Label="Color Picker"
+    <MudTextField Label="@Label"
                   T="string"
                   Value="_colorString"
                   ValueChanged="OnTextValueChanged"
@@ -32,6 +32,9 @@
 </div>
 
 @code {
+    [Parameter]
+    public string Label { get; set; } = "Color Picker";
+
     [Parameter] 
     public MudColor ColorValue { get; set; } = "#594AE2";
 

@@ -1,11 +1,15 @@
 ﻿<MudGrid Spacing="4" Class="pa-4">
     <MudItem xs="12" md="6">
-        <MaterialColorPicker @bind-ColorValue="SelectedColor" />
+        <MaterialColorPicker 
+            Label="Source Color" 
+            @bind-ColorValue="SelectedColor" />
     </MudItem>
     <MudItem xs="12" md="6">
         @if (SelectedVariantIsSecondSourceEligible)
         {
-            <MaterialColorPicker @bind-ColorValue="SelectedSecondColor" />
+            <MaterialColorPicker 
+                Label="Second Source Color" 
+                @bind-ColorValue="SelectedSecondColor" />
         }
     </MudItem>
 
@@ -53,19 +57,19 @@
     [Parameter] 
     public EventCallback<ThemeCreationInputParameters> OnInputsChanged { get; set; }
 
-    private const string DotNetBrandColor = "#512BD4";
+    private const string DotnetBrandColor = "#512BD4";
 
     protected override void OnInitialized()
     {
-        SelectedColor = new MudColor(DotNetBrandColor);
-        SelectedSecondColor = new MudColor(DotNetBrandColor);
+        SelectedColor = new MudColor(DotnetBrandColor);
+        SelectedSecondColor = new MudColor(DotnetBrandColor);
     }
 
     private async Task NotifyInputsChanged()
     {
         var inputs = new ThemeCreationInputParameters()
         {
-            SourceColor = RgbColor.FromRgb(SelectedColor.R, SelectedColor.G, SelectedColor.B),
+            SourceColor = SelectedColor.ToRgbColor(),
             Variant = SelectedVariant,
             Mode = SelectedThemeMode,
             Contrast = SelectedContrast,
@@ -73,7 +77,7 @@
             Platform = SelectedPlatform
         };
         if (SelectedVariantIsSecondSourceEligible)
-            inputs.SecondSourceColor = RgbColor.FromRgb(SelectedSecondColor.R, SelectedSecondColor.G, SelectedSecondColor.B);
+            inputs.SecondSourceColor = SelectedSecondColor.ToRgbColor();
 
         await OnInputsChanged.InvokeAsync(inputs);
     }
@@ -86,7 +90,7 @@
             field = value;
             _ = NotifyInputsChanged();
         }
-    } = DotNetBrandColor;
+    } = DotnetBrandColor;
 
     private MudColor SelectedSecondColor
     {
@@ -96,7 +100,7 @@
             field = value;
             _ = NotifyInputsChanged();
         }
-    } = DotNetBrandColor;
+    } = DotnetBrandColor;
 
     private readonly List<MaterialTheming.Variant> _variants = 
     [
@@ -111,10 +115,6 @@
         MaterialTheming.Variant.Expressive,
         MaterialTheming.Variant.CMF,
     ];
-    private readonly List<MaterialTheming.Variant> _secondSourceEligibleVariants = 
-    [
-        MaterialTheming.Variant.CMF,
-    ];
     private MaterialTheming.Variant SelectedVariant
     {
         get;
@@ -125,7 +125,18 @@
         }
     } = MaterialTheming.Variant.TonalSpot;
 
-    private bool SelectedVariantIsSecondSourceEligible => _secondSourceEligibleVariants.Contains(SelectedVariant);
+    private bool SelectedVariantIsSecondSourceEligible
+    {
+        get
+        {
+            if (SelectedVariant is MaterialTheming.Variant.CMF)
+                return true;
+            if (SelectedVariant is MaterialTheming.Variant.Content && SelectedPlatform == Platform.Watch)
+                return true;
+
+            return false;
+        }
+    }
 
     private ThemeMode SelectedThemeMode
     {
