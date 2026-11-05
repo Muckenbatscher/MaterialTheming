@@ -1,40 +1,163 @@
-﻿@page "/"
+@page "/"
+@implements IDisposable
+@inject NavigationManager Navigation
 
 <PageTitle>Material Theming</PageTitle>
 
-<ThemeCreationInputs OnInputsChanged="OnThemeInputsChanged" />
+@if (_invalidQueryParameters.Count > 0)
+{
+    <MudAlert Severity="Severity.Warning" Class="ma-4">
+        Invalid URL parameter(s): @string.Join(", ", _invalidQueryParameters). Defaults were used.
+    </MudAlert>
+}
+
+<ThemeCreationInputs Inputs="themeInput" OnInputsChanged="OnThemeInputsChanged" />
 
 <ThemeDisplay Theme="_theme" />
 <MudThemeProvider Theme="@_mudTheme" IsDarkMode="_isDarkMode" />
 
 @code {
-    private const string DotNetBrandColor = "#512BD4";
-    private ThemeColors? _theme = ThemeBuilder.CreateFromSourceColor(DotNetBrandColor).Build();
+    private const string DotnetBrandColor = "#512BD4";
+    private ThemeColors? _theme;
     private MudTheme? _mudTheme;
     private bool _isDarkMode;
+    private List<string> _invalidQueryParameters = [];
 
+    private ThemeCreationInputParameters themeInput = CreateDefaultInputs();
 
-    private ThemeCreationInputParameters themeInput;
-
-    public MaterialThemeConfigurator()
+    protected override void OnInitialized()
     {
-        themeInput = new ThemeCreationInputParameters()
-        {
-            SourceColor = RgbColor.FromHtml("#512BD4"),
-            SecondSourceColor = RgbColor.FromHtml("#512BD4"),
-            Variant = MaterialTheming.Variant.TonalSpot,
-            Mode = ThemeMode.Light,
-            Contrast = ContrastLevel.Normal,
-            SpecVersion = SpecVersion.Spec2021,
-            Platform = Platform.Phone
-        };
+        Navigation.LocationChanged += OnLocationChanged;
+        themeInput = ReadInputsFromUrl(Navigation.Uri);
         GenerateTheme();
     }
-    private async Task OnThemeInputsChanged(ThemeCreationInputParameters args)
+
+    public void Dispose()
+    {
+        Navigation.LocationChanged -= OnLocationChanged;
+    }
+
+    private Task OnThemeInputsChanged(ThemeCreationInputParameters args)
     {
         themeInput = args;
+        _invalidQueryParameters = [];
         GenerateTheme();
+        var uri = Navigation.GetUriWithQueryParameters(new Dictionary<string, object?>
+        {
+            ["color"] = themeInput.SourceColor.ToHtml(),
+            ["secondColor"] = themeInput.SecondSourceColor?.ToHtml(),
+            ["variant"] = themeInput.Variant.ToString(),
+            ["mode"] = themeInput.Mode.ToString(),
+            ["contrast"] = themeInput.Contrast.ToString(),
+            ["specVersion"] = themeInput.SpecVersion.ToString(),
+            ["platform"] = themeInput.Platform.ToString()
+        });
+        if (uri != Navigation.Uri)
+            Navigation.NavigateTo(uri, replace: true);
+
+        return Task.CompletedTask;
     }
+
+    private void OnLocationChanged(object? sender, LocationChangedEventArgs args)
+    {
+        _ = InvokeAsync(() =>
+        {
+            themeInput = ReadInputsFromUrl(args.Location);
+            GenerateTheme();
+            StateHasChanged();
+        });
+    }
+
+    private ThemeCreationInputParameters ReadInputsFromUrl(string uri)
+    {
+        var query = ParseQuery(new Uri(uri).Query);
+        var defaults = CreateDefaultInputs();
+        _invalidQueryParameters = [];
+
+        return new ThemeCreationInputParameters
+        {
+            SourceColor = ReadColor("color", defaults.SourceColor),
+            SecondSourceColor = ReadOptionalColor("secondColor", defaults.SecondSourceColor),
+            Variant = ReadEnum("variant", defaults.Variant),
+            Mode = ReadEnum("mode", defaults.Mode),
+            Contrast = ReadEnum("contrast", defaults.Contrast),
+            SpecVersion = ReadEnum("specVersion", defaults.SpecVersion),
+            Platform = ReadEnum("platform", defaults.Platform)
+        };
+
+        RgbColor ReadColor(string name, RgbColor fallback)
+        {
+            if (!query.TryGetValue(name, out var value))
+                return fallback;
+            return TryParseColor(value.ToString(), out var color) ? color : Invalid(name, fallback);
+        }
+
+        RgbColor? ReadOptionalColor(string name, RgbColor? fallback)
+        {
+            if (!query.TryGetValue(name, out var value))
+                return fallback;
+            if (TryParseColor(value, out var color))
+                return color;
+            _invalidQueryParameters.Add(name);
+            return fallback;
+        }
+
+        T ReadEnum<T>(string name, T fallback) where T : struct, Enum
+        {
+            if (!query.TryGetValue(name, out var value))
+                return fallback;
+            if (Enum.TryParse<T>(value, ignoreCase: true, out var parsed) && Enum.IsDefined(parsed))
+                return parsed;
+            _invalidQueryParameters.Add(name);
+            return fallback;
+        }
+
+        RgbColor Invalid(string name, RgbColor fallback)
+        {
+            _invalidQueryParameters.Add(name);
+            return fallback;
+        }
+    }
+
+    private static Dictionary<string, string> ParseQuery(string queryString)
+    {
+        var query = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        foreach (var parameter in queryString.TrimStart('?').Split('&', StringSplitOptions.RemoveEmptyEntries))
+        {
+            var separator = parameter.IndexOf('=');
+            var key = separator < 0 ? parameter : parameter[..separator];
+            var value = separator < 0 ? string.Empty : parameter[(separator + 1)..];
+            query[Uri.UnescapeDataString(key.Replace('+', ' '))] =
+                Uri.UnescapeDataString(value.Replace('+', ' '));
+        }
+
+        return query;
+    }
+
+    private static bool TryParseColor(string value, out RgbColor color)
+    {
+        try
+        {
+            color = RgbColor.FromHtml(value);
+            return true;
+        }
+        catch (Exception)
+        {
+            color = RgbColor.Empty;
+            return false;
+        }
+    }
+
+    private static ThemeCreationInputParameters CreateDefaultInputs() => new()
+    {
+        SourceColor = RgbColor.FromHtml(DotnetBrandColor),
+        SecondSourceColor = RgbColor.FromHtml(DotnetBrandColor),
+        Variant = MaterialTheming.Variant.TonalSpot,
+        Mode = ThemeMode.Light,
+        Contrast = ContrastLevel.Normal,
+        SpecVersion = SpecVersion.Spec2021,
+        Platform = Platform.Phone
+    };
 
     private void GenerateTheme()
     {
