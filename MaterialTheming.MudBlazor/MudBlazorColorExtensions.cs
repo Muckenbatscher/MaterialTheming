@@ -3,10 +3,9 @@ using MudBlazor.Utilities;
 namespace MaterialTheming;
 
 /// <summary>
-/// Provides extension methods for converting between 
-/// <see cref="RgbColor"/>, <see cref="HctColor"/>, and <see cref="MudColor"/>.
+/// Provides conversions between <see cref="RgbColor"/> and <see cref="MudColor"/>.
 /// </summary>
-public static class MudBlazorColorExtensions
+public static class RgbColorMudBlazorExtensions
 {
     extension(RgbColor rgbColor)
     {
@@ -18,17 +17,56 @@ public static class MudBlazorColorExtensions
         {
             return new MudColor(r: rgbColor.Red, g: rgbColor.Green, b: rgbColor.Blue, a: byte.MaxValue);
         }
-    }
 
+        /// <summary>
+        /// Create a new instance of the <see cref="RgbColor"/> 
+        /// with the RGB values from an existing <see cref="MudColor"/>.
+        /// </summary>
+        /// <param name="color">The color with its red, green and blue channel values.</param>
+        /// <returns>
+        /// A <see cref="RgbColor"/> with the RGB values from the <see cref="MudColor"/>.
+        /// </returns>
+        public static RgbColor FromMudColor(MudColor color)
+        {
+            return color.ToRgbColor();
+        }
+    }
+}
+
+/// <summary>
+/// Provides conversions between <see cref="HctColor"/> and <see cref="MudColor"/>.
+/// </summary>
+public static class HctColorMudBlazorExtensions
+{
     extension(HctColor hctColor)
     {
         /// <summary>
         /// Converts the <see cref="HctColor"/> to a <see cref="MudColor"/>.
         /// </summary>
         /// <returns>A <see cref="MudColor"/> converted to RGB color space.</returns>
-        public MudColor ToMudColor() => hctColor.ToRgbColor().ToMudColor();
-    }
+        public MudColor ToMudColor()
+        {
+            return hctColor.ToRgbColor().ToMudColor();
+        }
 
+        /// <summary>
+        /// Create a new instance of the <see cref="HctColor"/> 
+        /// converted from RGB color space of an existing <see cref="MudColor"/>.
+        /// </summary>
+        /// <param name="color">The color with its red, green and blue channel values.</param>
+        /// <returns>A <see cref="HctColor"/> converted from RGB color space.</returns>
+        public static HctColor FromMudColor(MudColor color)
+        {
+            return color.ToHctColor();
+        }
+    }
+}
+
+/// <summary>
+/// Provides conversions from <see cref="MudColor"/> to <see cref="RgbColor"/> or <see cref="HctColor"/>.
+/// </summary>
+public static class MudColorExtensions
+{
     extension(MudColor color)
     {
         /// <summary>
