@@ -17,7 +17,6 @@
 <MudThemeProvider Theme="@_mudTheme" IsDarkMode="_isDarkMode" />
 
 @code {
-    private const string DotnetBrandColor = "#512BD4";
     private ThemeColors? _theme;
     private MudTheme? _mudTheme;
     private bool _isDarkMode;
@@ -77,7 +76,7 @@
         return new ThemeCreationInputParameters
         {
             SourceColor = ReadColor("color", defaults.SourceColor),
-            SecondSourceColor = ReadOptionalColor("secondColor", defaults.SecondSourceColor),
+            SecondSourceColor = ReadColor("secondColor", defaults.SecondSourceColor ?? defaults.SourceColor),
             Variant = ReadEnum("variant", defaults.Variant),
             Mode = ReadEnum("mode", defaults.Mode),
             Contrast = ReadEnum("contrast", defaults.Contrast),
@@ -89,31 +88,17 @@
         {
             if (!query.TryGetValue(name, out var value))
                 return fallback;
-            return TryParseColor(value.ToString(), out var color) ? color : Invalid(name, fallback);
-        }
-
-        RgbColor? ReadOptionalColor(string name, RgbColor? fallback)
-        {
-            if (!query.TryGetValue(name, out var value))
-                return fallback;
             if (TryParseColor(value, out var color))
                 return color;
             _invalidQueryParameters.Add(name);
             return fallback;
         }
-
         T ReadEnum<T>(string name, T fallback) where T : struct, Enum
         {
             if (!query.TryGetValue(name, out var value))
                 return fallback;
             if (Enum.TryParse<T>(value, ignoreCase: true, out var parsed) && Enum.IsDefined(parsed))
                 return parsed;
-            _invalidQueryParameters.Add(name);
-            return fallback;
-        }
-
-        RgbColor Invalid(string name, RgbColor fallback)
-        {
             _invalidQueryParameters.Add(name);
             return fallback;
         }
@@ -148,16 +133,20 @@
         }
     }
 
-    private static ThemeCreationInputParameters CreateDefaultInputs() => new()
+    private static ThemeCreationInputParameters CreateDefaultInputs()
     {
-        SourceColor = RgbColor.FromHtml(DotnetBrandColor),
-        SecondSourceColor = RgbColor.FromHtml(DotnetBrandColor),
-        Variant = MaterialTheming.Variant.TonalSpot,
-        Mode = ThemeMode.Light,
-        Contrast = ContrastLevel.Normal,
-        SpecVersion = SpecVersion.Spec2021,
-        Platform = Platform.Phone
-    };
+        const string dotnetBrandColor = "#512BD4";
+        return new()
+        {
+            SourceColor = RgbColor.FromHtml(dotnetBrandColor),
+            SecondSourceColor = RgbColor.FromHtml(dotnetBrandColor),
+            Variant = MaterialTheming.Variant.TonalSpot,
+            Mode = ThemeMode.Light,
+            Contrast = ContrastLevel.Normal,
+            SpecVersion = SpecVersion.Spec2021,
+            Platform = Platform.Phone
+        };
+    }
 
     private void GenerateTheme()
     {

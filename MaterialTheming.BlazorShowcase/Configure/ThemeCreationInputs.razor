@@ -65,8 +65,8 @@
     protected override void OnParametersSet()
     {
         _isApplyingInputs = true;
-        SelectedColor = new MudColor(Inputs.SourceColor.ToHtml());
-        SelectedSecondColor = new MudColor((Inputs.SecondSourceColor ?? Inputs.SourceColor).ToHtml());
+        SelectedColor = Inputs.SourceColor.ToMudColor();
+        SelectedSecondColor = (Inputs.SecondSourceColor ?? Inputs.SourceColor).ToMudColor();
         SelectedVariant = Inputs.Variant;
         SelectedThemeMode = Inputs.Mode;
         SelectedContrast = Inputs.Contrast;
