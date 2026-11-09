@@ -95,7 +95,6 @@
         await OnInputsChanged.InvokeAsync(inputs);
     }
 
-    private const string DotnetBrandColor = "#512BD4";
     private MudColor SelectedColor
     {
         get;
@@ -105,7 +104,7 @@
             if (!_isApplyingInputs)
                 _ = NotifyInputsChanged();
         }
-    } = DotnetBrandColor;
+    } = ThemeInputDefaults.SourceColor.ToMudColor();
 
     private MudColor SelectedSecondColor
     {
@@ -116,7 +115,7 @@
             if (!_isApplyingInputs)
                 _ = NotifyInputsChanged();
         }
-    } = DotnetBrandColor;
+    } = ThemeInputDefaults.SecondSourceColor.ToMudColor();
 
     private readonly List<MaterialTheming.Variant> _variants = 
     [
@@ -140,7 +139,7 @@
             if (!_isApplyingInputs)
                 _ = NotifyInputsChanged();
         }
-    } = MaterialTheming.Variant.TonalSpot;
+    } = ThemeInputDefaults.Variant;
 
     private bool SelectedVariantIsSecondSourceEligible
     {
@@ -164,7 +163,7 @@
             if (!_isApplyingInputs)
                 _ = NotifyInputsChanged();
         }
-    } = ThemeMode.Light;
+    } = ThemeInputDefaults.Mode;
 
     private ContrastLevel SelectedContrast
     {
@@ -175,7 +174,7 @@
             if (!_isApplyingInputs)
                 _ = NotifyInputsChanged();
         }
-    } = ContrastLevel.Normal;
+    } = ThemeInputDefaults.ContrastLevel;
 
     private SpecVersion SelectedSpecVersion
     {
@@ -186,7 +185,7 @@
             if (!_isApplyingInputs)
                 _ = NotifyInputsChanged();
         }
-    } = SpecVersion.Spec2021;
+    } = ThemeInputDefaults.SpecVersion;
     
     private Platform SelectedPlatform
     {
@@ -197,5 +196,5 @@
             if (!_isApplyingInputs)
                 _ = NotifyInputsChanged();
         }
-    } = Platform.Phone;
+    } = ThemeInputDefaults.Platform;
 }

@@ -135,16 +135,15 @@
 
     private static ThemeCreationInputParameters CreateDefaultInputs()
     {
-        const string dotnetBrandColor = "#512BD4";
         return new()
         {
-            SourceColor = RgbColor.FromHtml(dotnetBrandColor),
-            SecondSourceColor = RgbColor.FromHtml(dotnetBrandColor),
-            Variant = MaterialTheming.Variant.TonalSpot,
-            Mode = ThemeMode.Light,
-            Contrast = ContrastLevel.Normal,
-            SpecVersion = SpecVersion.Spec2021,
-            Platform = Platform.Phone
+            SourceColor = ThemeInputDefaults.SourceColor,
+            SecondSourceColor = ThemeInputDefaults.SecondSourceColor,
+            Variant = ThemeInputDefaults.Variant,
+            Mode = ThemeInputDefaults.Mode,
+            Contrast = ThemeInputDefaults.ContrastLevel,
+            SpecVersion = ThemeInputDefaults.SpecVersion,
+            Platform = ThemeInputDefaults.Platform
         };
     }
 
