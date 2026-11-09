@@ -17,6 +17,14 @@
 <MudThemeProvider Theme="@_mudTheme" IsDarkMode="_isDarkMode" />
 
 @code {
+    private const string SourceColorParamName = "color";
+    private const string SecondSourceColorParamName = "secondColor";
+    private const string VariantParamName = "variant";
+    private const string ModeParamName = "mode";
+    private const string ContrastParamName = "contrast";
+    private const string SpecVersionParamName = "specVersion";
+    private const string PlatformParamName = "platform";
+
     private ThemeColors? _theme;
     private MudTheme? _mudTheme;
     private bool _isDarkMode;
@@ -41,20 +49,25 @@
         themeInput = args;
         _invalidQueryParameters = [];
         GenerateTheme();
-        var uri = Navigation.GetUriWithQueryParameters(new Dictionary<string, object?>
-        {
-            ["color"] = themeInput.SourceColor.ToHtml(),
-            ["secondColor"] = themeInput.SecondSourceColor?.ToHtml(),
-            ["variant"] = themeInput.Variant.ToString(),
-            ["mode"] = themeInput.Mode.ToString(),
-            ["contrast"] = themeInput.Contrast.ToString(),
-            ["specVersion"] = themeInput.SpecVersion.ToString(),
-            ["platform"] = themeInput.Platform.ToString()
-        });
+        var queryParameters = GetQueryParameters();
+        var uri = Navigation.GetUriWithQueryParameters(queryParameters);
         if (uri != Navigation.Uri)
             Navigation.NavigateTo(uri, replace: true);
 
         return Task.CompletedTask;
+    }
+    private Dictionary<string, object?> GetQueryParameters()
+    {
+        return new Dictionary<string, object?>
+        {
+            [SourceColorParamName] = themeInput.SourceColor.ToHtml(),
+            [SecondSourceColorParamName] = themeInput.SecondSourceColor?.ToHtml(),
+            [VariantParamName] = themeInput.Variant.ToString(),
+            [ModeParamName] = themeInput.Mode.ToString(),
+            [ContrastParamName] = themeInput.Contrast.ToString(),
+            [SpecVersionParamName] = themeInput.SpecVersion.ToString(),
+            [PlatformParamName] = themeInput.Platform.ToString()
+        };
     }
 
     private void OnLocationChanged(object? sender, LocationChangedEventArgs args)
@@ -69,54 +82,52 @@
 
     private ThemeCreationInputParameters ReadInputsFromUrl(string uri)
     {
-        var query = ParseQuery(new Uri(uri).Query);
+        var query = HttpUtility.ParseQueryString(new Uri(uri).Query);
         var defaults = CreateDefaultInputs();
         _invalidQueryParameters = [];
 
         return new ThemeCreationInputParameters
         {
-            SourceColor = ReadColor("color", defaults.SourceColor),
-            SecondSourceColor = ReadColor("secondColor", defaults.SecondSourceColor ?? defaults.SourceColor),
-            Variant = ReadEnum("variant", defaults.Variant),
-            Mode = ReadEnum("mode", defaults.Mode),
-            Contrast = ReadEnum("contrast", defaults.Contrast),
-            SpecVersion = ReadEnum("specVersion", defaults.SpecVersion),
-            Platform = ReadEnum("platform", defaults.Platform)
+            SourceColor = ReadColor(SourceColorParamName, defaults.SourceColor),
+            SecondSourceColor = ReadColorOptional(SecondSourceColorParamName),
+            Variant = ReadEnum(VariantParamName, defaults.Variant),
+            Mode = ReadEnum(ModeParamName, defaults.Mode),
+            Contrast = ReadEnum(ContrastParamName, defaults.Contrast),
+            SpecVersion = ReadEnum(SpecVersionParamName, defaults.SpecVersion),
+            Platform = ReadEnum(PlatformParamName, defaults.Platform)
         };
 
         RgbColor ReadColor(string name, RgbColor fallback)
         {
-            if (!query.TryGetValue(name, out var value))
-                return fallback;
-            if (TryParseColor(value, out var color))
-                return color;
-            _invalidQueryParameters.Add(name);
-            return fallback;
+            var color = ReadColorOptional(name);
+            return color ?? fallback;
+        }
+        RgbColor? ReadColorOptional(string name)
+        {
+            var values = query.GetValues(name);
+            if (values is not { Length: > 0 })
+                return null;
+            var input = values[^1];
+            if (!TryParseColor(input, out var color))
+            {
+                _invalidQueryParameters.Add(name);
+                return null;
+            }
+            return color;
         }
         T ReadEnum<T>(string name, T fallback) where T : struct, Enum
         {
-            if (!query.TryGetValue(name, out var value))
+            var values = query.GetValues(name);
+            if (values is not { Length: > 0 })
                 return fallback;
-            if (Enum.TryParse<T>(value, ignoreCase: true, out var parsed) && Enum.IsDefined(parsed))
-                return parsed;
-            _invalidQueryParameters.Add(name);
-            return fallback;
+            var input = values[^1];
+            if (!Enum.TryParse<T>(input, ignoreCase: true, out var parsed) && Enum.IsDefined(parsed))
+            {
+                _invalidQueryParameters.Add(name);
+                return fallback;
+            }
+            return parsed;
         }
-    }
-
-    private static Dictionary<string, string> ParseQuery(string queryString)
-    {
-        var query = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-        foreach (var parameter in queryString.TrimStart('?').Split('&', StringSplitOptions.RemoveEmptyEntries))
-        {
-            var separator = parameter.IndexOf('=');
-            var key = separator < 0 ? parameter : parameter[..separator];
-            var value = separator < 0 ? string.Empty : parameter[(separator + 1)..];
-            query[Uri.UnescapeDataString(key.Replace('+', ' '))] =
-                Uri.UnescapeDataString(value.Replace('+', ' '));
-        }
-
-        return query;
     }
 
     private static bool TryParseColor(string value, out RgbColor color)

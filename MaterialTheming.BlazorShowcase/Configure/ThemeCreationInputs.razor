@@ -66,7 +66,8 @@
     {
         _isApplyingInputs = true;
         SelectedColor = Inputs.SourceColor.ToMudColor();
-        SelectedSecondColor = (Inputs.SecondSourceColor ?? Inputs.SourceColor).ToMudColor();
+        if (Inputs.SecondSourceColor is not null)
+            SelectedSecondColor = Inputs.SecondSourceColor.ToMudColor();
         SelectedVariant = Inputs.Variant;
         SelectedThemeMode = Inputs.Mode;
         SelectedContrast = Inputs.Contrast;
