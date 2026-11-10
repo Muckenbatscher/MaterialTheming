@@ -1,39 +1,161 @@
-﻿@page "/"
+@page "/"
+@implements IDisposable
+@inject NavigationManager Navigation
 
 <PageTitle>Material Theming</PageTitle>
 
-<ThemeCreationInputs OnInputsChanged="OnThemeInputsChanged" />
+@if (_invalidQueryParameters.Count > 0)
+{
+    <MudAlert Severity="Severity.Warning" Class="ma-4">
+        Invalid URL parameter(s): @string.Join(", ", _invalidQueryParameters). Defaults were used.
+    </MudAlert>
+}
+
+<ThemeCreationInputs Inputs="themeInput" OnInputsChanged="OnThemeInputsChanged" />
 
 <ThemeDisplay Theme="_theme" />
 <MudThemeProvider Theme="@_mudTheme" IsDarkMode="_isDarkMode" />
 
 @code {
-    private const string DotNetBrandColor = "#512BD4";
-    private ThemeColors? _theme = ThemeBuilder.CreateFromSourceColor(DotNetBrandColor).Build();
+    private const string SourceColorParamName = "color";
+    private const string SecondSourceColorParamName = "secondColor";
+    private const string VariantParamName = "variant";
+    private const string ModeParamName = "mode";
+    private const string ContrastParamName = "contrast";
+    private const string SpecVersionParamName = "specVersion";
+    private const string PlatformParamName = "platform";
+
+    private ThemeColors? _theme;
     private MudTheme? _mudTheme;
     private bool _isDarkMode;
+    private List<string> _invalidQueryParameters = [];
 
+    private ThemeCreationInputParameters themeInput = CreateDefaultInputs();
 
-    private ThemeCreationInputParameters themeInput;
-
-    public MaterialThemeConfigurator()
+    protected override void OnInitialized()
     {
-        themeInput = new ThemeCreationInputParameters()
-        {
-            SourceColor = RgbColor.FromHtml("#512BD4"),
-            SecondSourceColor = RgbColor.FromHtml("#512BD4"),
-            Variant = MaterialTheming.Variant.TonalSpot,
-            Mode = ThemeMode.Light,
-            Contrast = ContrastLevel.Normal,
-            SpecVersion = SpecVersion.Spec2021,
-            Platform = Platform.Phone
-        };
+        Navigation.LocationChanged += OnLocationChanged;
+        themeInput = ReadInputsFromUrl(Navigation.Uri);
         GenerateTheme();
     }
-    private async Task OnThemeInputsChanged(ThemeCreationInputParameters args)
+
+    public void Dispose()
+    {
+        Navigation.LocationChanged -= OnLocationChanged;
+    }
+
+    private Task OnThemeInputsChanged(ThemeCreationInputParameters args)
     {
         themeInput = args;
+        _invalidQueryParameters = [];
         GenerateTheme();
+        var queryParameters = GetQueryParameters();
+        var uri = Navigation.GetUriWithQueryParameters(queryParameters);
+        if (uri != Navigation.Uri)
+            Navigation.NavigateTo(uri, replace: true);
+
+        return Task.CompletedTask;
+    }
+    private Dictionary<string, object?> GetQueryParameters()
+    {
+        return new Dictionary<string, object?>
+        {
+            [SourceColorParamName] = themeInput.SourceColor.ToHtml(),
+            [SecondSourceColorParamName] = themeInput.SecondSourceColor?.ToHtml(),
+            [VariantParamName] = themeInput.Variant.ToString(),
+            [ModeParamName] = themeInput.Mode.ToString(),
+            [ContrastParamName] = themeInput.Contrast.ToString(),
+            [SpecVersionParamName] = themeInput.SpecVersion.ToString(),
+            [PlatformParamName] = themeInput.Platform.ToString()
+        };
+    }
+
+    private void OnLocationChanged(object? sender, LocationChangedEventArgs args)
+    {
+        _ = InvokeAsync(() =>
+        {
+            themeInput = ReadInputsFromUrl(args.Location);
+            GenerateTheme();
+            StateHasChanged();
+        });
+    }
+
+    private ThemeCreationInputParameters ReadInputsFromUrl(string uri)
+    {
+        var query = HttpUtility.ParseQueryString(new Uri(uri).Query);
+        var defaults = CreateDefaultInputs();
+        _invalidQueryParameters = [];
+
+        return new ThemeCreationInputParameters
+        {
+            SourceColor = ReadColor(SourceColorParamName, defaults.SourceColor),
+            SecondSourceColor = ReadColorOptional(SecondSourceColorParamName),
+            Variant = ReadEnum(VariantParamName, defaults.Variant),
+            Mode = ReadEnum(ModeParamName, defaults.Mode),
+            Contrast = ReadEnum(ContrastParamName, defaults.Contrast),
+            SpecVersion = ReadEnum(SpecVersionParamName, defaults.SpecVersion),
+            Platform = ReadEnum(PlatformParamName, defaults.Platform)
+        };
+
+        RgbColor ReadColor(string name, RgbColor fallback)
+        {
+            var color = ReadColorOptional(name);
+            return color ?? fallback;
+        }
+        RgbColor? ReadColorOptional(string name)
+        {
+            var values = query.GetValues(name);
+            if (values is not { Length: > 0 })
+                return null;
+            var input = values[^1];
+            if (!TryParseColor(input, out var color))
+            {
+                _invalidQueryParameters.Add(name);
+                return null;
+            }
+            return color;
+        }
+        T ReadEnum<T>(string name, T fallback) where T : struct, Enum
+        {
+            var values = query.GetValues(name);
+            if (values is not { Length: > 0 })
+                return fallback;
+            var input = values[^1];
+            if (!Enum.TryParse<T>(input, ignoreCase: true, out var parsed) && Enum.IsDefined(parsed))
+            {
+                _invalidQueryParameters.Add(name);
+                return fallback;
+            }
+            return parsed;
+        }
+    }
+
+    private static bool TryParseColor(string value, out RgbColor color)
+    {
+        try
+        {
+            color = RgbColor.FromHtml(value);
+            return true;
+        }
+        catch (Exception)
+        {
+            color = RgbColor.Empty;
+            return false;
+        }
+    }
+
+    private static ThemeCreationInputParameters CreateDefaultInputs()
+    {
+        return new()
+        {
+            SourceColor = ThemeInputDefaults.SourceColor,
+            SecondSourceColor = ThemeInputDefaults.SecondSourceColor,
+            Variant = ThemeInputDefaults.Variant,
+            Mode = ThemeInputDefaults.Mode,
+            Contrast = ThemeInputDefaults.ContrastLevel,
+            SpecVersion = ThemeInputDefaults.SpecVersion,
+            Platform = ThemeInputDefaults.Platform
+        };
     }
 
     private void GenerateTheme()

@@ -57,16 +57,30 @@
     [Parameter] 
     public EventCallback<ThemeCreationInputParameters> OnInputsChanged { get; set; }
 
-    private const string DotnetBrandColor = "#512BD4";
+    [Parameter, EditorRequired]
+    public ThemeCreationInputParameters Inputs { get; set; } = default!;
 
-    protected override void OnInitialized()
+    private bool _isApplyingInputs;
+
+    protected override void OnParametersSet()
     {
-        SelectedColor = new MudColor(DotnetBrandColor);
-        SelectedSecondColor = new MudColor(DotnetBrandColor);
+        _isApplyingInputs = true;
+        SelectedColor = Inputs.SourceColor.ToMudColor();
+        if (Inputs.SecondSourceColor is not null)
+            SelectedSecondColor = Inputs.SecondSourceColor.ToMudColor();
+        SelectedVariant = Inputs.Variant;
+        SelectedThemeMode = Inputs.Mode;
+        SelectedContrast = Inputs.Contrast;
+        SelectedSpecVersion = Inputs.SpecVersion;
+        SelectedPlatform = Inputs.Platform;
+        _isApplyingInputs = false;
     }
 
     private async Task NotifyInputsChanged()
     {
+        if (_isApplyingInputs)
+            return;
+
         var inputs = new ThemeCreationInputParameters()
         {
             SourceColor = SelectedColor.ToRgbColor(),
@@ -88,9 +102,10 @@
         set
         {
             field = value;
-            _ = NotifyInputsChanged();
+            if (!_isApplyingInputs)
+                _ = NotifyInputsChanged();
         }
-    } = DotnetBrandColor;
+    } = ThemeInputDefaults.SourceColor.ToMudColor();
 
     private MudColor SelectedSecondColor
     {
@@ -98,9 +113,10 @@
         set
         {
             field = value;
-            _ = NotifyInputsChanged();
+            if (!_isApplyingInputs)
+                _ = NotifyInputsChanged();
         }
-    } = DotnetBrandColor;
+    } = ThemeInputDefaults.SecondSourceColor.ToMudColor();
 
     private readonly List<MaterialTheming.Variant> _variants = 
     [
@@ -121,9 +137,10 @@
         set
         {
             field = value;
-            _ = NotifyInputsChanged();
+            if (!_isApplyingInputs)
+                _ = NotifyInputsChanged();
         }
-    } = MaterialTheming.Variant.TonalSpot;
+    } = ThemeInputDefaults.Variant;
 
     private bool SelectedVariantIsSecondSourceEligible
     {
@@ -144,9 +161,10 @@
         set
         {
             field = value;
-            _ = NotifyInputsChanged();
+            if (!_isApplyingInputs)
+                _ = NotifyInputsChanged();
         }
-    } = ThemeMode.Light;
+    } = ThemeInputDefaults.Mode;
 
     private ContrastLevel SelectedContrast
     {
@@ -154,9 +172,10 @@
         set
         {
             field = value;
-            _ = NotifyInputsChanged();
+            if (!_isApplyingInputs)
+                _ = NotifyInputsChanged();
         }
-    } = ContrastLevel.Normal;
+    } = ThemeInputDefaults.ContrastLevel;
 
     private SpecVersion SelectedSpecVersion
     {
@@ -164,9 +183,10 @@
         set
         {
             field = value;
-            _ = NotifyInputsChanged();
+            if (!_isApplyingInputs)
+                _ = NotifyInputsChanged();
         }
-    } = SpecVersion.Spec2021;
+    } = ThemeInputDefaults.SpecVersion;
     
     private Platform SelectedPlatform
     {
@@ -174,7 +194,8 @@
         set
         {
             field = value;
-            _ = NotifyInputsChanged();
+            if (!_isApplyingInputs)
+                _ = NotifyInputsChanged();
         }
-    } = Platform.Phone;
+    } = ThemeInputDefaults.Platform;
 }
