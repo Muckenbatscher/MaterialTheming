@@ -4,7 +4,7 @@ on:
   release:
     types:
       - published
-      
+
 env:
   PACKAGES_ARTIFACT: nuget-package-${{ github.event.release.tag_name }}
 
@@ -19,11 +19,11 @@ jobs:
       id: version
       with:
         version: ${{ github.event.release.tag_name }}
-        
+
   build-package:
     needs: version 
     runs-on: windows-latest
-    
+
     strategy:
       matrix:
         project: 
@@ -75,10 +75,10 @@ jobs:
       - version
       - build-package
     runs-on: ubuntu-latest
-    
+
     permissions:
       contents: write
-      
+
     env:
       PACKAGE_DIR: 'packages'
 
@@ -97,7 +97,7 @@ jobs:
     needs:
       - build-package
     runs-on: ubuntu-latest
-            
+
     permissions:
       packages: write
 
@@ -129,6 +129,9 @@ jobs:
     needs:
       - build-package
     runs-on: ubuntu-latest
+    
+    permissions:
+      id-token: write  # enable GitHub OIDC token issuance for this job
 
     env:
       PACKAGE_DIR: 'packages'
@@ -139,18 +142,22 @@ jobs:
       with:
         path: ${{ env.PACKAGE_DIR }}
 
+    - name: NuGet Trusted Publishing Login
+      uses: NuGet/login@v1
+      id: login
+      with:
+        user: ${{ secrets.NUGET_USER }}
+
     - uses: actions/setup-dotnet@v6
       with:
         dotnet-version: 10.0.x
 
     - name: Push all to NuGet.org
-      env:
-        API_KEY: ${{ secrets.MATERIAL_THEMING_NUGET_KEY }}
       run: |
         for f in ${{ env.PACKAGE_DIR }}/**/*.nupkg
         do
           echo "Pushing $f to NuGet.org source..."
           dotnet nuget push "$f" \
             --source "nuget.org" \
-            --api-key ${{ env.API_KEY }}
+            --api-key "${{ steps.login.outputs.NUGET_API_KEY }}"
         done
