@@ -6,7 +6,7 @@
   <ItemGroup>
     <PackageVersion Include="Microsoft.Bcl.HashCode" Version="6.0.0" />
     <PackageVersion Include="System.Text.Json" Version="10.0.14" />
-    <PackageVersion Include="PolySharp" Version="1.17.0" />
+    <PackageVersion Include="PolySharp" Version="1.17.1" />
   </ItemGroup>
   <!--MudBlazorShowcase-->
   <ItemGroup>
