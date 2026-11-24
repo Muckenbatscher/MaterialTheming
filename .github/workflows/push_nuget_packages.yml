@@ -10,7 +10,7 @@ env:
 
 jobs:
   version:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     outputs:
       version: ${{ steps.version.outputs.version }}
     steps:
@@ -39,8 +39,6 @@ jobs:
     steps:
     - uses: actions/checkout@v7
     - uses: actions/setup-dotnet@v6
-      with:
-        dotnet-version: 10.0.x
 
     - name: Restore project dependencies
       run: dotnet restore ${{ matrix.project.name }}/${{ matrix.project.name }}.csproj
@@ -74,7 +72,7 @@ jobs:
     needs: 
       - version
       - build-package
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
 
     permissions:
       contents: write
@@ -96,7 +94,7 @@ jobs:
   publish-github-package:
     needs:
       - build-package
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
 
     permissions:
       packages: write
@@ -111,8 +109,6 @@ jobs:
         path: ${{ env.PACKAGE_DIR }}
 
     - uses: actions/setup-dotnet@v6
-      with:
-        dotnet-version: 10.0.x
 
     - name: Push all to GitHub Packages
       run: |
@@ -128,7 +124,7 @@ jobs:
   publish-nuget-org-package:
     needs:
       - build-package
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     
     permissions:
       id-token: write  # enable GitHub OIDC token issuance for this job
@@ -149,8 +145,6 @@ jobs:
         user: ${{ secrets.NUGET_USER }}
 
     - uses: actions/setup-dotnet@v6
-      with:
-        dotnet-version: 10.0.x
 
     - name: Push all to NuGet.org
       run: |

@@ -18,13 +18,10 @@ env:
   
 jobs:
   deploy-to-github-pages:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@v7
-
       - uses: actions/setup-dotnet@v6
-        with:
-          dotnet-version: '10.0.x' 
           
       - name: Publish WebAssembly project
         run: dotnet publish ${{ env.project-name }} -c Release -o ${{ env.release-output }}

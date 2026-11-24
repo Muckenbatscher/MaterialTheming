@@ -70,6 +70,12 @@
 
     private async Task CopyColorToClipboard()
     {
-        await JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", _bgColor);
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", _bgColor);
+        }
+        catch (Exception)
+        {
+        }
     }
 }
