@@ -7,7 +7,7 @@ on:
     branches: [ "master" ]
     
 env:
-  PROJECT: MaterialTheming
+  LIBRARY_PROJECT: MaterialTheming
   TEST_PROJECT: MaterialTheming.Tests
 
 jobs:
@@ -36,13 +36,13 @@ jobs:
       uses: actions/setup-dotnet@v6
 
     - name: Restore
-      run: dotnet restore ${{ env.PROJECT }} -p:TargetFramework=${{ matrix.framework }}
+      run: dotnet restore ${{ env.LIBRARY_PROJECT }} -p:TargetFramework=${{ matrix.framework }}
     - name: Restore (Test project)
       if: matrix.framework != 'netstandard2.1'
       run: dotnet restore ${{ env.TEST_PROJECT }} -p:TargetFramework=${{ matrix.framework }}
 
     - name: Build
-      run: dotnet build ${{ env.PROJECT }} --no-restore --framework ${{ matrix.framework }}
+      run: dotnet build ${{ env.LIBRARY_PROJECT }} --no-restore --framework ${{ matrix.framework }}
     - name: Build (Test project)
       if: matrix.framework != 'netstandard2.1'
       run: dotnet build ${{ env.TEST_PROJECT }} --no-restore --framework ${{ matrix.framework }}
