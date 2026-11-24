@@ -39,8 +39,6 @@ jobs:
     steps:
     - uses: actions/checkout@v7
     - uses: actions/setup-dotnet@v6
-      with:
-        dotnet-version: 10.0.x
 
     - name: Restore project dependencies
       run: dotnet restore ${{ matrix.project.name }}/${{ matrix.project.name }}.csproj
@@ -111,8 +109,6 @@ jobs:
         path: ${{ env.PACKAGE_DIR }}
 
     - uses: actions/setup-dotnet@v6
-      with:
-        dotnet-version: 10.0.x
 
     - name: Push all to GitHub Packages
       run: |
@@ -149,8 +145,6 @@ jobs:
         user: ${{ secrets.NUGET_USER }}
 
     - uses: actions/setup-dotnet@v6
-      with:
-        dotnet-version: 10.0.x
 
     - name: Push all to NuGet.org
       run: |

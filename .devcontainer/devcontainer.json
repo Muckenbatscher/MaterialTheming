@@ -10,8 +10,8 @@
       "configureZshAsDefaultShell": true
     },
     "ghcr.io/devcontainers/features/dotnet:2": {
-      "version": "10.0",
-      "additionalVersions": "8.0"
+      "version": "11.0",
+      "additionalVersions": "10.0, 8.0"
     },
     "ghcr.io/devcontainers/features/git:1": {},
     "ghcr.io/devcontainers-extra/features/apt-packages:1": {
