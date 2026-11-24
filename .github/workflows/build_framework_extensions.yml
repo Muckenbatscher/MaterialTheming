@@ -1,0 +1,38 @@
+name: Build - MaterialTheming Framework extensions
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build-framework-extensions:
+    strategy:  
+      fail-fast: false
+      matrix:  
+        project:
+        - MaterialTheming.MudBlazor
+        - MaterialTheming.Winforms
+        - MaterialTheming.Wpf
+        os: 
+        - ubuntu-latest 
+        - windows-latest  
+        exclude:
+          - os: ubuntu-latest
+            project: MaterialTheming.Winforms
+          - os: ubuntu-latest
+            project: MaterialTheming.Wpf
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - uses: actions/checkout@v7
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v6
+
+    - name: Restore
+      run: dotnet restore ${{ matrix.project }}
+
+    - name: Build
+      run: dotnet build ${{ matrix.project }} --no-restore
