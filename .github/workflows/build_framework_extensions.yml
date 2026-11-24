@@ -16,12 +16,12 @@ jobs:
         - MaterialTheming.Winforms
         - MaterialTheming.Wpf
         os: 
-        - ubuntu-latest 
+        - ubuntu-26.04 
         - windows-latest  
         exclude:
-          - os: ubuntu-latest
+          - os: ubuntu-26.04
             project: MaterialTheming.Winforms
-          - os: ubuntu-latest
+          - os: ubuntu-26.04
             project: MaterialTheming.Wpf
 
     runs-on: ${{ matrix.os }}

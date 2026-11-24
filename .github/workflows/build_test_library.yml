@@ -22,10 +22,10 @@ jobs:
         - net10.0
         - net11.0
         os: 
-        - ubuntu-latest 
+        - ubuntu-26.04 
         - windows-latest  
         exclude:
-          - os: ubuntu-latest
+          - os: ubuntu-26.04
             framework: net48
 
     runs-on: ${{ matrix.os }}

@@ -11,7 +11,7 @@ env:
 
 jobs:
   determine-based-commit:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
 
     outputs:
       offical_commit: ${{ steps.offical_commit.outputs.sha }}
@@ -43,7 +43,7 @@ jobs:
           echo "sha=$COMMON_SHA" >> $GITHUB_OUTPUT
 
   build-java:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
 
     env:
       TEST_GEN_REPO_NAME: Muckenbatscher/material-color-utilities-testcases-generation
@@ -93,7 +93,7 @@ jobs:
     needs: 
       - determine-based-commit
       - build-java
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
 
     permissions:
       contents: write
@@ -175,7 +175,7 @@ jobs:
 
   generate-pr:
     needs: create-refs
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
 
     permissions:
       pull-requests: write

@@ -10,7 +10,7 @@ env:
 
 jobs:
   version:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     outputs:
       version: ${{ steps.version.outputs.version }}
     steps:
@@ -72,7 +72,7 @@ jobs:
     needs: 
       - version
       - build-package
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
 
     permissions:
       contents: write
@@ -94,7 +94,7 @@ jobs:
   publish-github-package:
     needs:
       - build-package
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
 
     permissions:
       packages: write
@@ -124,7 +124,7 @@ jobs:
   publish-nuget-org-package:
     needs:
       - build-package
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     
     permissions:
       id-token: write  # enable GitHub OIDC token issuance for this job

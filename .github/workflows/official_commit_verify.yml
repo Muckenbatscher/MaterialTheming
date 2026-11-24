@@ -6,7 +6,7 @@ on:
 
 jobs:
   verify-official-commit:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     env:
       GIT_REPO: "material-foundation/material-color-utilities"
       GIT_DIR_NAME: "material-color-utilities"
