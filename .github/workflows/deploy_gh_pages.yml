@@ -19,6 +19,11 @@ env:
 jobs:
   deploy-to-github-pages:
     runs-on: ubuntu-26.04
+      
+    environment:
+      name: github-pages-showcase
+      url: ${{ steps.deployment.outputs.page_url }}
+      
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-dotnet@v6
@@ -39,4 +44,5 @@ jobs:
           path: '${{ env.release-output }}/wwwroot'
 
       - uses: actions/deploy-pages@v5
+        id: deployment
 
